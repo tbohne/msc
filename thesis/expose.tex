@@ -1,0 +1,33 @@
+% class options:
+% - select either [german] or [english]
+% - select the type of thesis from:
+%   [bachelor, master, generic]
+%   (in case of generic, use \type{} to specify it)
+% - use option "alpha" for abbreviated citation (instead of numbers)
+% - option "draft" is available, too
+% - use options "utf8" or "latin1" to select inputencoding
+\documentclass[german, master, expose, latin1]{base/thesis_KBS}
+
+\usepackage{units}    % useful for settings units:              \unit[23]{m}
+\usepackage{nicefrac} % for setting fractions esp. within text: \nicefrac{km}{h}
+
+\usepackage{algorithm, algorithmic}  % for pseudo code (cf. documentation)
+\renewcommand{\algorithmiccomment}[1]{\qquad{\small // \textit{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Mein Titel}
+\author{Mein Name}
+\email{email@uni-osnabrueck.de}
+
+\generatetitle
+
+\section{Ziel der Arbeit}
+
+
+% DON'T set \bibliographystyle here -- use the documentclass option instead
+\bibliography{papers}
+
+\end{document}
