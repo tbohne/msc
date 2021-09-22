@@ -26,6 +26,41 @@
 
 \section{Goal}
 
+As the title suggests, the goal of the work is to develop a prototypical system for long-term autonomous plant monitoring with a mobile robot.\newline
+
+The first essential step towards long-term autonomy of a mobile robot is of course to ensure its power supply.
+For this purpose, there is an inductive charging station, which is located in a mobile container on the field site.
+Thus, the power supply is realized by an autonomous docking / undocking solution, which enables the robot to detect the container in a laser scan
+of its nearby surroundings, drive into it and dock to an inductive charging station. To know when to trigger this docking procedure, it is crucial 
+to have a process that monitors the battery level. Based on the dimensions of the particular field under consideration, it is not assured that one battery 
+charge will be sufficient to process every parcel.\newline
+
+When the power supply is established, the robot's actual task can be performed. This task consists of planning when to observe which parcel of the field,
+how to get there, and what sensors to use. Based on the growth state of the plants, different sensors are required to record the relevant data.
+Just as important as the planning itself, is the execution of the generated plan as well as monitoring the execution.
+Although the overall tour, the robot is going to drive through is generally always the same, there are certain stopping conditions 
+such as a low battery level or drastic weather changes that lead to a preemption of an active scanning tour and require the robot 
+to move back to its base, i.e. the mobile container. Afterwards, when the cause of the preemption is resolved, 
+the robot should continue its scanning task right from the point where it was preempted.\newline
+
+The plan, i.e. the decision of which parcel is to be processed next, is based on a list of criteria. The primary criterion is the growth stage of the plants.
+There is a list of particular features that are supposed to be detected based on the current growth state.
+At the moment, this information is communicated manually, but in the future it is planned to have that automated.
+It is well traceable in time when a certain feature is to be expected such that this process could be time-triggered.\newline
+
+Finally, the goal is to generate a complete picture of every parcel on the field, not randomly, but time targeted and based on weather conditions. 
+Especially when considering hyperspectral data, it is important that it is neither too sunny, nor too cloudy, ideally it should be grey and foggy with uniform illumination.
+Of course, it's not trivial to predict the weather.\newline
+
+Initially, a prototypical setup of a long-term autonomous plant monitoring scenario will be developed that can be tested and evaluated 
+in a physics simulation, i.e. Gazebo. Ultimately, there should be a long-term experiment (e.g. one day) in the real world with the actual hardware that
+underlines the relevance of the approaches discussed in this work for practical applications. Since there are arbitrary many technical barriers that 
+could prevent a practical success in a long-term test, the idea is to be at least able to show it in a sufficiently realistic physical simulation.\newline
+
+The nature of the work is going to be integrative and application-oriented, many modules that are needed to solve the task at hand are available in principle, 
+but it will be the goal of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome 
+solution that is capable of providing an example of a robust solution for practical applications.\newline
+
 \section{Scientific and/or technological background}
 
 \section{Approach}
