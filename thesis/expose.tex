@@ -38,6 +38,7 @@ charge will be sufficient to process every parcel.\newline
 When the power supply is established, the robot's actual task can be performed. This task consists of planning when to observe which parcel of the field,
 how to get there, and what sensors to use. Based on the growth state of the plants, different sensors are required to record the relevant data.
 Just as important as the planning itself, is the execution of the generated plan as well as monitoring the execution.
+So, in general this will be a task of plan-based robot control.
 Although the overall tour, the robot is going to drive through is generally always the same, there are certain stopping conditions 
 such as a low battery level or drastic weather changes that lead to a preemption of an active scanning tour and require the robot 
 to move back to its base, i.e. the mobile container. Afterwards, when the cause of the preemption is resolved, 
@@ -63,6 +64,17 @@ solution that is capable of providing an example of a robust solution for practi
 
 \section{Scientific and/or technological background}
 
+\textbf{Challenges}\newline
+
+Based on the growth state of the plants, the planning has to be adapted, which has to be evaluated in the simulation, because a long-term test that reflects
+seasonal changes would clearly be beyond the scope of this work. So, besides the need for a simulation in terms of potential hardware-related or other hurdles
+that prevent practical testing, we have another motivation for the simulation, which are seasonal changes that are needed in order to evaluate the different
+planning strategies. From a certain date, the plants are too high to drive above them and the scans have to be taken from a different spot, the whole strategy changes.
+When the plants are small enough, the scans are taken from above, when they become too big, that's no longer possible.
+That is a typical constraint in agricultural projects - the vegetation periods.
+In March, when this work is expected to end, the plants are going to be relatively small such that the robot can drive above them when taking
+scans, in the end of srping and summer that would no longer be possible and will be reflected in the simuation.
+
 \section{Approach}
 
 The plan is to start from the goal backwards with the question of what is required in order to end up with a long-term autonomous system that is
@@ -76,6 +88,7 @@ If possible, it would be good to include real weather data form the region of th
 
 \section{Work program}
 
+TBD.
 
 % DON'T set \bibliographystyle here -- use the documentclass option instead
 \bibliography{papers}
