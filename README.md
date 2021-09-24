@@ -1,2 +1,2 @@
 # msc
-Master's thesis at Osnabrueck University
+Master's thesis at Osnabrueck University / DFKI

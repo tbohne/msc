@@ -26,7 +26,7 @@
 
 \section{Goal}
 
-As the title suggests, the goal of the work is to develop a prototypical system for long-term autonomous plant monitoring with a mobile robot.\newline
+As the title suggests, the goal of the work is to develop / integrate a prototypical system for long-term autonomous plant monitoring with a mobile robot.\newline
 
 The first essential step towards long-term autonomy of a mobile robot is of course to ensure its power supply.
 For this purpose, there is an inductive charging station, which is located in a mobile container on the field site.
@@ -61,6 +61,27 @@ could prevent a practical success in a long-term test, the idea is to be at leas
 The nature of the work is going to be integrative and application-oriented, many modules that are needed to solve the task at hand are available in principle, 
 but it will be the goal of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome 
 solution that is capable of providing an example of a robust solution for practical applications.\newline
+
+\textbf{LTA}\newline
+
+The whole problem becomes interesting through the fact that not all scan positions can be processed in one battery cycle.
+We are going to define that one cycle suffices to process e.g. 40\% of the scan positions and the planner should maximize the planned scan stops under the
+constraint of not exceeding a safety buffer. Additionally, there is a monitoring process to keep track of potential failures.\newline
+
+\section{Assumptions of the work - what do I want to integrate?}
+
+Prototypical system that is able to work through a given plan (e.g. human provided), there is a plan executioner, so the robot drives through the field and records scans.\newline
+
+Potentially integrate watchdog module that observers the battery state and acts as a fail-safe. In general, the charge stops should be part of the plan,
+i.e. be considered at planning time. Thus, there has to be resource planning for the missions that includes to be back at the base station before the robot is out of battery.
+However, if it fails, there is the watchdog module that is able to react to wrong plans, i.e. the battery is low before expected and the robot has to return to its base.
+The module generally checks how far it is from the robot's current position to the base station, how much battery that would cost and how battery it still has.
+In summary, the module is running at execution time, it is not planning the charge stops beforehand, it just reacts to failure cases, in which the robot has to preempt
+the plan execution, drive back to its base and recharge. Therefore, in general it is planned to have both. The charge stops have to be considered at planning time,
+so charging stops are part of the plan. Moreover, there is monitoring at execution time that looks for potential problems in this regard.\newline
+
+Potentially integrate the docking solution for autonomous energy supply - could be really good and interesting if it works robustly.
+It's not a hard requirement, just a nice-to-have.\newline
 
 \section{Scientific and/or technological background}
 
