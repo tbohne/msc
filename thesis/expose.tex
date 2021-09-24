@@ -55,8 +55,10 @@ Of course, it's not trivial to predict the weather.\newline
 
 Initially, a prototypical setup of a long-term autonomous plant monitoring scenario will be developed that can be tested and evaluated 
 in a physics simulation, i.e. Gazebo. Ultimately, there should be a long-term experiment (e.g. one day) in the real world with the actual hardware that
-underlines the relevance of the approaches discussed in this work for practical applications. Since there are arbitrary many technical barriers that 
-could prevent a practical success in a long-term test, the idea is to be at least able to show it in a sufficiently realistic physical simulation.\newline
+underlines the relevance of the approaches discussed in this work for practical applications. Since a mobile robot is a very complex system, there are arbitrary many 
+technical barriers that could prevent a practical success in a long-term test (e.g. deep-discharge of the battery, ...), the idea is to be at least able to show 
+it in a sufficiently realistic physical simulation. Thus, the plan is to have a real-life experiment, but the work is not going to depend on it.
+The simulation kind of ensures that an experiment stand is available at each time.\newline
 
 The nature of the work is going to be integrative and application-oriented, many modules that are needed to solve the task at hand are available in principle, 
 but it will be the goal of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome 
@@ -67,6 +69,21 @@ solution that is capable of providing an example of a robust solution for practi
 The whole problem becomes interesting through the fact that not all scan positions can be processed in one battery cycle.
 We are going to define that one cycle suffices to process e.g. 40\% of the scan positions and the planner should maximize the planned scan stops under the
 constraint of not exceeding a safety buffer. Additionally, there is a monitoring process to keep track of potential failures.\newline
+
+An interesting question is how to actually define 'long-term'. [...] et al. do that as follows [...] The robot has a temporal radius of action that is based
+on things like its battery capacity, maintenance intervals etc. In general, all processes that require a number of such cycles are considered to be long-term processes.
+Accordingly, 'long-term' can only be defined as a function of the system in question. To give an example, there could be a system that has very short battery intervals,
+like a toy drone, based on the absolute time one would perhaps not consider a two hour experiment long-term, but if it includes several battery cycles, algorithmically
+it can be considered a long-term process. Therefore, 'long-term' is relative.\newline
+
+In the agricultural sector, there are processes that go on much longer than a battery cycle, i.e. vegetation periods.
+However, that is not the sort of long-term that is going to be considered in this work. Because long-term processes are already present at smaller scale.
+On the one hand, there is the mission level, i.e. one processing of a whole field. On the other hand, there are going to be several such field processings during one vegetation
+period. So, the seasonal cycle is not going to be considered in this work, but the mission level itself can already be considered long-term, because the robot is not
+going to process the whole field with one battery load. The mission has to be preempted and continued later. That's the interesting part, the plan has to be paused,
+the state has to be saved, and the scanning process has to be continued after the recharge. In the meantime, the environment could have changed, e.g. the weather conditions
+or the illumination that could be relevant for certain sensors of the robot. The second level that will be considered in this work, is that those missions are going
+to be repeated. I.e. it takes 3-4 battery cycles to scan the whole field, but we do that every 3 days. Thus, we have two different cycles that interlock.\newline
 
 \section{Assumptions of the work - what do I want to integrate?}
 
