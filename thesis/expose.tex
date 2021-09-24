@@ -85,6 +85,37 @@ the state has to be saved, and the scanning process has to be continued after th
 or the illumination that could be relevant for certain sensors of the robot. The second level that will be considered in this work, is that those missions are going
 to be repeated. I.e. it takes 3-4 battery cycles to scan the whole field, but we do that every 3 days. Thus, we have two different cycles that interlock.\newline
 
+\textbf{Things that can cause failure for long-term autonomous systems}\newline
+
+There are numerous potential problems for long-term autonomous systems that can cause failure and prevent the system from continuing its task.
+The following is a list of typical problems that are worth investigating.
+
+\begin{itemize}
+    \item battery failure / unexpected low battery
+    \item weather changes
+    \item obstacles in the way
+    \item hardware failure (e.g. sensors)
+    \item lost wifi (or whatever) connection
+    \item no GPS signal
+    \item certain dynamics (day / night) e.g. for sunlight-dependent sensors such as cameras
+    \item full memory (not able to save further scans) -> data management
+    \item to be continued...
+\end{itemize}
+
+The idea of the work will be to pick one to three of those aspects that are solvable and also somewhat interesting and relevant for practical scenarios.
+Those aspects should also be implemented in the simulation and solved purposefully.\newline
+One idea would be to block paths on the field in the simulation in a randomized fashion. The intent is to reproducibly make things that can go wrong actually go wrong.
+And the question is what to do then? An example would be that the plan says we have to follow a certain path, but this path is blocked for some reason, we don't really
+care about the nature of the obstacle here, that is not the point. It could just be a muddy path that the robot can't drive through. We assume a working obstacle detection
+that is able to detect a certain class of obstacles. The integrative approach is then to find a way of dealing with such obstacles.
+
+\section{Minimal example}
+
+There is a base station, a way to the field, and the field itself on which the robot has to record scans. The question is how to evaluate that?
+This is a classic problem in robotics, how can we scientifically argue that our approaches work? We will not be able to test it for a couple of years.
+To evaluate the approaches empirically, we need statistics and thus a huge number of samples. To be able to generate those, we need a simulation
+that is sufficiently meaningful, i.e. realistic.
+
 \section{Assumptions of the work - what do I want to integrate?}
 
 Prototypical system that is able to work through a given plan (e.g. human provided), there is a plan executioner, so the robot drives through the field and records scans.\newline
