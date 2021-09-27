@@ -59,8 +59,8 @@ which initiates a scanning procedure of the RIEGL sensor or an execution of the 
 
 A key aspect of the scenario is going to be that the robot is not able to drive through all parcels of the field, take scans, and return to its base with one battery charge.
 Instead, it has to stop in between because one battery charge is not going to suffice for one full mission. Additionally, there will be other conditions that cause
-the robot to return to its base and preempt the plan execution. Afterwards, when the battery is recharged or some other cause of preemption has been resolved, the
-robot has to continue the plan precisely from the point where it stopped.\newline
+the robot to return to its base and preempt the plan execution, e.g. drastic weather changes. Afterwards, when the battery is recharged or some other cause of preemption
+has been resolved, the robot has to continue the plan precisely from the point where it stopped.\newline
 
 // TODO: read literature (in particular the LTA survey) - really no such systems in literature?
 To the best of my knowledge, there is no fully integrated long-term autonomous solution in the literature that could be applied to the described scenario.
@@ -77,36 +77,6 @@ execution and continue with that state after the reason for the interruption has
 The idea is that the robot has to be able to pause and resume a given plan.\newline
 
 // TODO: read literature - is there a solution for something like that? is it hard? just execute partial (remaining) plan afterwards?\newline
-
-There is a base station (container), a way to the field, and the field itself on which the robot has to record scans. Based on certain conditions, the robot has to return
-to its base, e.g. low battery or drastic weather changes. The question is how to evaluate that?
-This is a classic problem in robotics, how can we scientifically argue that our approaches work? We will not be able to test it for a couple of years.
-To evaluate the approaches empirically, we need statistics and thus a huge number of samples. To be able to generate those, we need a simulation
-that is sufficiently meaningful, i.e. realistic.\newline
-
-The idea will be to build something that wasn't there before (to the best of my knowledge) with the intent to show that it is possible - generative approach to knowledge gain.
-This requires empiricism, you have to plausibly demonstrate that what was built works and is good in some way, not just simulation, but also define objective and then 
-show that it works (in simulation often self-fulfilling prophecy).\newline
-
-The initial goal will be to take the basic scenario we are already working on and extend it with an evaluation part. Then I generate obstacles and show that it no
-longer works and with the solution I develop, it works again. Of course, one has to develop a criterion - three classes of situations:
-\begin{enumerate}
-    \item Robot breaks down and is not able to do anything
-    \item Robot recognizes a problem, is not able to solve it, and calls a human operator
-    \item Robot recognizes a problem and is able to solve it by itself
-\end{enumerate}
-
-The goal could be to increase the number of situations in which the robot can solve such problems by itself, or at least recognize the problem and call for help.
-We need to be able to classify such situations. For example, we'd need to run a simulation and check every few minutes whether the robot got stuck.
-If this work is able to get the robot to recognize situations in which it is stuck and somehow enable it to call for help, e.g. by a push message to
-the phone of the human operator, that would be a progress. Moreover, if one could show that with the solution developed in this work, the number of failures
-could be reduced by X percent distributed over e.g. 30 percent of cases where the robot recognizes a problem and calls the operator for help and 20 percent in which
-it is even able to solve the problem by itself, that would really be interesting and relevant. We would have a performance criterion then that allows 
-an empirical analysis.\newline
-
-A first step would be to observe how it works without any solution I develop. So, how often does the robot get stuck in the simulation based on a certain failure
-case. That of course assumes a working simulation, which we have in principle (Langsenkamp or even the empty world at first). The Langsenkamp simulation should
-probably be increased, a larger excerpt has to be considered - just a question of the world.
 
 The first essential step towards long-term autonomy of a mobile robot is of course to ensure its power supply.
 For this purpose, there is an inductive charging station, which is located in a mobile container on the field site.
@@ -251,7 +221,36 @@ scans, in the end of srping and summer that would no longer be possible and will
 
 The plan is to start from the goal backwards with the question of what is required in order to end up with a long-term autonomous system that is
 able to perform those scans with changing environment conditions etc. in the simulation and ideally in practice on the real hardware.
-A physica simulation in Gazebo is created as part of the research project PORTAL and might be exteneded as part of this work, e.g. with weather conditions.
+A physica simulation in Gazebo is created as part of the research project PORTAL and might be exteneded as part of this work, e.g. with weather conditions.\newline
+
+The question is how to evaluate that? This is a classic problem in robotics, how can we scientifically argue that our approaches work? 
+We will not be able to test it for a couple of years.
+To evaluate the approaches empirically, we need statistics and thus a huge number of samples. To be able to generate those, we need a simulation
+that is sufficiently meaningful, i.e. realistic.\newline
+
+The idea will be to build something that wasn't there before (to the best of my knowledge) with the intent to show that it is possible - generative approach to knowledge gain.
+This requires empiricism, you have to plausibly demonstrate that what was built works and is good in some way, not just simulation, but also define objective and then 
+show that it works (in simulation often self-fulfilling prophecy).\newline
+
+The initial goal will be to take the basic scenario we are already working on and extend it with an evaluation part. Then I generate obstacles and show that it no
+longer works and with the solution I develop, it works again. Of course, one has to develop a criterion - three classes of situations:
+\begin{enumerate}
+    \item Robot breaks down and is not able to do anything
+    \item Robot recognizes a problem, is not able to solve it, and calls a human operator
+    \item Robot recognizes a problem and is able to solve it by itself
+\end{enumerate}
+
+The goal could be to increase the number of situations in which the robot can solve such problems by itself, or at least recognize the problem and call for help.
+We need to be able to classify such situations. For example, we'd need to run a simulation and check every few minutes whether the robot got stuck.
+If this work is able to get the robot to recognize situations in which it is stuck and somehow enable it to call for help, e.g. by a push message to
+the phone of the human operator, that would be a progress. Moreover, if one could show that with the solution developed in this work, the number of failures
+could be reduced by X percent distributed over e.g. 30 percent of cases where the robot recognizes a problem and calls the operator for help and 20 percent in which
+it is even able to solve the problem by itself, that would really be interesting and relevant. We would have a performance criterion then that allows 
+an empirical analysis.\newline
+
+A first step would be to observe how it works without any solution I develop. So, how often does the robot get stuck in the simulation based on a certain failure
+case. That of course assumes a working simulation, which we have in principle (Langsenkamp or even the empty world at first). The Langsenkamp simulation should
+probably be increased, a larger excerpt has to be considered - just a question of the world.
 
 \section{Expected scientific and/or technological contribution}
 
