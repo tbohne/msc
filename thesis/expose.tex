@@ -62,11 +62,21 @@ Instead, it has to stop in between because one battery charge is not going to su
 the robot to return to its base and preempt the plan execution. Afterwards, when the battery is recharged or some other cause of preemption has been resolved, the
 robot has to continue the plan precisely from the point where it stopped.\newline
 
-To the best of my knowledge, there is no such solution in the literature that could simply be applied to such a situation.
-One could solve it generally in two ways. First, at planning time by considering charging stops as crucial part of the plan. Of course, this approach
-is only able to tackle plannable stops and is not able to deal with unplanned situations. Therefore, we need a second approach at execution time.
-Here, the robot has a plan and realizes that it has to interrupt - what does it have to do with the plan now? The idea would be to be able to somehow
-pause a given plan. There is no such solution in the literature.\newline
+// TODO: read literature (in particular the LTA survey) - really no such systems in literature?
+To the best of my knowledge, there is no fully integrated long-term autonomous solution in the literature that could be applied to the described scenario.
+
+\section{Pause and Resume Plan Execution}
+
+As stated before, a key aspect of the scenario is going to be that the robot is not able to complete its missions without preempting the plan execution.
+Either due to insufficient battery capacity or other unmanageable conditions that force the robot to interrupt its task.
+There are generally two relevant perspectives. First, such stops have to be considered at planning time by considering charge stops as crucial part of the plan.
+Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations. 
+Therefore, a second perspective comes into play - the execution time. Here, the robot is executing a given plan and realizes that it has to interrupt the execution
+due to some unexpected condition. In such a case, the plan execution has to be interrupted and the robot needs to be able to somehow save the current state of the plan
+execution and continue with that state after the reason for the interruption has been resolved.
+The idea is that the robot has to be able to pause and resume a given plan.\newline
+
+// TODO: read literature - is there a solution for something like that? is it hard? just execute partial (remaining) plan afterwards?\newline
 
 There is a base station (container), a way to the field, and the field itself on which the robot has to record scans. Based on certain conditions, the robot has to return
 to its base, e.g. low battery or drastic weather changes. The question is how to evaluate that?
