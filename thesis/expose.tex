@@ -85,25 +85,24 @@ due to some unexpected condition. In such a case, the plan execution has to be i
 execution and continue with that state after the reason for the interruption has been resolved.
 The idea is that the robot has to be able to pause and resume a given plan.\newline
 
-// TODO: read literature - is there a solution for something like that? is it hard? just execute partial (remaining) plan afterwards?\newline
+// TODO: read literature - is there a solution for something like that? is it hard? just execute partial (remaining) plan afterwards?
 
-The nature of the work is going to be integrative and application-oriented, many modules that are needed to solve the task at hand are available in principle, 
-but it will be the goal of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome 
-solution that is capable of providing an example of a robust solution for practical applications.\newline
+\section{Plan Execution and Monitoring}
 
-\textbf{Plan execution and monitoring}\newline
+// TODO: is this going to be a focus of my work?\newline
 
 Just as important as the planning itself, is the execution of the generated plan as well as monitoring the execution.
-Plan execution and monitoring would definitely be a direction that my work could go to.
-Execute a plan and realize that something is not working as intended. The battery watchdog that is potentially going to be integrated is already a kind of monitoring
-tool, because it is able to recognize situations in which the batterly runs low although no charging stop is part of the plan at that time.
-However, an online monitoring which is able to constantly or time-triggered detect deviations of planning parameters and is able to trigger the replanning procedure
-if necessary would be very interesting.\newline
-There are enough planners out there, what would be interesting is domain modeling, the selection of a planner, and the problem description.\newline
+The idea is that the robot executes the plan and is somehow able to realize that something is not working as intended. 
+The battery watchdog that is potentially going to be integrated is already a kind of monitoring tool, because it is able to recognize situations 
+in which the batterly runs low although no charging stop is part of the plan at that time. However, an online monitoring which is able to constantly or time-triggered 
+detect deviations of planning parameters and is able to trigger the replanning procedure if necessary would be very interesting.\newline
 
-It would be really cool to develop a good plan-execution-monitoring node that is for example able to online adapt its planning domain etc.\newline
+// TODO: that would assume that there is a planning procedure - there isn't at the moment, right?\newline
+// TODO: of course I could just assume that there is one and just say "here I would replan"\newline
 
-\textbf{LTA}\newline
+It would be really cool to develop a good plan-execution-monitoring node that is for example able to online adapt its planning domain etc.
+
+\section{LTA}
 
 The whole problem becomes interesting through the fact that not all scan positions can be processed in one battery cycle.
 We are going to define that one cycle suffices to process e.g. 40\% of the scan positions and the planner should maximize the planned scan stops under the
@@ -210,6 +209,10 @@ scans, in the end of srping and summer that would no longer be possible and will
 The plan is to start from the goal backwards with the question of what is required in order to end up with a long-term autonomous system that is
 able to perform those scans with changing environment conditions etc. in the simulation and ideally in practice on the real hardware.
 A physica simulation in Gazebo is created as part of the research project PORTAL and might be exteneded as part of this work, e.g. with weather conditions.\newline
+
+The nature of the work is going to be integrative and application-oriented, many modules that are needed to solve the task at hand are available in principle, 
+but it will be the goal of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome 
+solution that is capable of providing an example of a robust solution for practical applications.\newline
 
 The question is how to evaluate that? This is a classic problem in robotics, how can we scientifically argue that our approaches work? 
 We will not be able to test it for a couple of years.
