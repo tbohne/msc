@@ -32,17 +32,23 @@ Moreover, hurdles that can stand in the way of long-term autonomy of such a syst
 Long-term autonomy, as robotics in general, is an integration problem. Many technologies have to be integrated in order to build a working system, and compared to
 other disciplines of artificial intelligence, it is not trivial to evaluate such a system and conclude, for example, that it has improved the status quo by a certain percentage.
 Nevertheless, one should aim for results that are meaningful based on scientific standards. The keyword, under which such attempts are summarized is scientific robotics,
-and the goal of this work will be to evaluate the considered robotic system based on such standards.
+and the goal of this work will be to evaluate the considered robotic system based on such standards.\newline
 
-// TODO: real world test is also a goal
+To demonstrate, test and evaluate the system, there will be a physics simulation. Ultimately, there should also be a long-term test (e.g. one day) in the field with the
+actual hardware that underlines the relevance of the approaches discussed in this work for practical applications.
+However, since a mobile robot is a very complex system, there are arbitrary many technical barriers that could prevent such a long-term test in the real world.
+The idea is therefore to be at least able to demonstrate the system in a sufficiently realistic simulation without depending on the success of such a real-world experiment.
+In addition to serving as a backup for possible failures in real-world tests, a simulation naturally creates an environment that allows reproducible situations and thus
+permits empirical investigation, which is a prerequisite for scientific evaluation.
 
 \section{Prototypical System - Long-Term Autonomous Plant Monitoring Scenario}
 
 The particular long-term scenario that is going to be considered in this work takes place in an agricultural context.
 The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans of the plants on a field in order to monitor their growth progression and 
 to detect certain features based on the growth state. Therefore, the robot has to be able to process the whole field continually without the need for human supervision,
-including the requirement for repeated charge stops. For this purpose, there is a supporting infrastructure in the form of a container with an inductive charging station on site.
-Since the focus of the work is not going to be the scanning part, but to establish long-term autonomy, the actual detection of features etc. will be disregarded.\newline
+including the requirement for repeated charge stops. For this purpose, there is a supporting infrastructure in the form of a container with an inductive charging station on site
+establishing the power supply. Since the focus of the work is not going to be the scanning part, but to establish long-term autonomy, 
+the actual detection of features etc. will be disregarded.\newline
 
 The robotic system of consideration is going to be the AROX\footnote{Autonomous robotic experimentation platform} that is assumed to be able to autonomously drive to specified
 coordinates if there exists a free path towards the goal position. The initial scenario will be modeled as a physics simulation in Gazebo\footnote{Open-source 3D robotics simulator} 
@@ -69,9 +75,11 @@ To the best of my knowledge, there is no fully integrated long-term autonomous s
 \section{Pause and Resume Plan Execution}
 
 As stated before, a key aspect of the scenario is going to be that the robot is not able to complete its missions without preempting the plan execution.
-Either due to insufficient battery capacity or other unmanageable conditions that force the robot to interrupt its task.
+Either due to insufficient battery capacity or other unmanageable conditions such as drastic weather changes that force the robot to interrupt its task.
+So although the overall route may always be the same for the same field, there are certain stopping conditions that cause the robot to interrupt its 
+active scanning tour and drive back to its base, i.e. the mobile container.
 There are generally two relevant perspectives. First, such stops have to be considered at planning time by considering charge stops as crucial part of the plan.
-Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations. 
+Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
 Therefore, a second perspective comes into play - the execution time. Here, the robot is executing a given plan and realizes that it has to interrupt the execution
 due to some unexpected condition. In such a case, the plan execution has to be interrupted and the robot needs to be able to somehow save the current state of the plan
 execution and continue with that state after the reason for the interruption has been resolved.
@@ -79,37 +87,13 @@ The idea is that the robot has to be able to pause and resume a given plan.\newl
 
 // TODO: read literature - is there a solution for something like that? is it hard? just execute partial (remaining) plan afterwards?\newline
 
-When the power supply is established, the robot's actual task can be performed. This task consists of planning when to observe which parcel of the field,
-how to get there, and what sensors to use. Based on the growth state of the plants, different sensors are required to record the relevant data.
-Just as important as the planning itself, is the execution of the generated plan as well as monitoring the execution.
-So, in general this will be a task of plan-based robot control.
-Although the overall tour, the robot is going to drive through is generally always the same, there are certain stopping conditions 
-such as a low battery level or drastic weather changes that lead to a preemption of an active scanning tour and require the robot 
-to move back to its base, i.e. the mobile container. Afterwards, when the cause of the preemption is resolved, 
-the robot should continue its scanning task right from the point where it was preempted.\newline
-
-The plan, i.e. the decision of which parcel is to be processed next, is based on a list of criteria. The primary criterion is the growth stage of the plants.
-There is a list of particular features that are supposed to be detected based on the current growth state.
-At the moment, this information is communicated manually, but in the future it is planned to have that automated.
-It is well traceable in time when a certain feature is to be expected such that this process could be time-triggered.\newline
-
-Finally, the goal is to generate a complete picture of every parcel on the field, not randomly, but time targeted and based on weather conditions. 
-Especially when considering hyperspectral data, it is important that it is neither too sunny, nor too cloudy, ideally it should be grey and foggy with uniform illumination.
-Of course, it's not trivial to predict the weather.\newline
-
-Initially, a prototypical setup of a long-term autonomous plant monitoring scenario will be developed that can be tested and evaluated 
-in a physics simulation, i.e. Gazebo. Ultimately, there should be a long-term experiment (e.g. one day) in the real world with the actual hardware that
-underlines the relevance of the approaches discussed in this work for practical applications. Since a mobile robot is a very complex system, there are arbitrary many 
-technical barriers that could prevent a practical success in a long-term test (e.g. deep-discharge of the battery, ...), the idea is to be at least able to show 
-it in a sufficiently realistic physical simulation. Thus, the plan is to have a real-life experiment, but the work is not going to depend on it.
-The simulation kind of ensures that an experiment stand is available at each time.\newline
-
 The nature of the work is going to be integrative and application-oriented, many modules that are needed to solve the task at hand are available in principle, 
 but it will be the goal of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome 
 solution that is capable of providing an example of a robust solution for practical applications.\newline
 
 \textbf{Plan execution and monitoring}\newline
 
+Just as important as the planning itself, is the execution of the generated plan as well as monitoring the execution.
 Plan execution and monitoring would definitely be a direction that my work could go to.
 Execute a plan and realize that something is not working as intended. The battery watchdog that is potentially going to be integrated is already a kind of monitoring
 tool, because it is able to recognize situations in which the batterly runs low although no charging stop is part of the plan at that time.
@@ -171,6 +155,11 @@ It is important to come up with definitions of such failure situations or classe
 \section{Assumptions of the work - what do I want to integrate?}
 
 Prototypical system that is able to work through a given plan (e.g. human provided), there is a plan executioner, so the robot drives through the field and records scans.\newline
+
+// TODO: Do I want to assume perfect conditions for my work?
+The robot's mission to process the field should not start at random times, but based on certain criteria, e.g. weather conditions.
+Especially when considering hyperspectral data, it is important that it is neither too sunny, nor too cloudy, ideally it should be grey and
+foggy with uniform illumination. Of course, it's not trivial to predict the weather.\newline
 
 In general, an integrative work benefits from many integrated solutions. Nevertheless, it should be doable and robust.\newline
 
