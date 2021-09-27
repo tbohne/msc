@@ -57,7 +57,8 @@ For the basic prototypical system, it is simply assumed that the plans are gener
 The first type of action is \textsc{drive\_to(x, y)}, which leads the robot to drive to the specified coordinates (if possible). The second type of action is \textsc{scan},
 which initiates a scanning procedure of the RIEGL sensor or an execution of the dummy node, respectively.\newline
 
-A key aspect of the scenario is going to be that the robot is not able to drive through all parcels of the field, take scans, and return to its base with one battery charge.
+Based on the dimensions of the particular field under consideration, it is not assured that one battery charge will be sufficient to process the whole field.
+Thus, a key aspect of the scenario is going to be that the robot is not able to drive through all parcels of the field, take scans, and return to its base with one battery charge.
 Instead, it has to stop in between because one battery charge is not going to suffice for one full mission. Additionally, there will be other conditions that cause
 the robot to return to its base and preempt the plan execution, e.g. drastic weather changes. Afterwards, when the battery is recharged or some other cause of preemption
 has been resolved, the robot has to continue the plan precisely from the point where it stopped.\newline
@@ -77,13 +78,6 @@ execution and continue with that state after the reason for the interruption has
 The idea is that the robot has to be able to pause and resume a given plan.\newline
 
 // TODO: read literature - is there a solution for something like that? is it hard? just execute partial (remaining) plan afterwards?\newline
-
-The first essential step towards long-term autonomy of a mobile robot is of course to ensure its power supply.
-For this purpose, there is an inductive charging station, which is located in a mobile container on the field site.
-Thus, the power supply is realized by an autonomous docking / undocking solution, which enables the robot to detect the container in a laser scan
-of its nearby surroundings, drive into it and dock to an inductive charging station. To know when to trigger this docking procedure, it is crucial 
-to have a process that monitors the battery level. Based on the dimensions of the particular field under consideration, it is not assured that one battery 
-charge will be sufficient to process every parcel.\newline
 
 When the power supply is established, the robot's actual task can be performed. This task consists of planning when to observe which parcel of the field,
 how to get there, and what sensors to use. Based on the growth state of the plants, different sensors are required to record the relevant data.
@@ -189,7 +183,12 @@ the plan execution, drive back to its base and recharge. Therefore, in general i
 so charging stops are part of the plan. Moreover, there is monitoring at execution time that looks for potential problems in this regard.\newline
 
 Potentially integrate the docking solution for autonomous energy supply - could be really good and interesting if it works robustly.
-Of course, energy supply is an important question for autonomous systems. It's not a hard requirement, just a nice-to-have.\newline
+Of course, energy supply is an important question for autonomous systems. It's not a hard requirement, just a nice-to-have.
+The first essential step towards long-term autonomy of a mobile robot is of course to ensure its power supply.
+For this purpose, there is an inductive charging station, which is located in a mobile container on the field site.
+Thus, the power supply is realized by an autonomous docking / undocking solution, which enables the robot to detect the container in a laser scan
+of its nearby surroundings, drive into it and dock to an inductive charging station.
+To know when to trigger this docking procedure, it is crucial to have a process that monitors the battery level.\newline
 
 Autonomy does not mean that everything has to be done by the robot itself. If it is able to dock to the inductive charging station and recharges its battery,
 it would be very impressive, but it's also valid to assume that it just has to drive to certain coordinates and call for a human or other robot that charges it,
