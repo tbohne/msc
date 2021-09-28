@@ -217,26 +217,29 @@ To know when to trigger this docking procedure, it is crucial to have a process 
 
 \section{Approach}
 
-The plan is to start from the goal backwards with the question of what is required in order to end up with a long-term autonomous system that is
+The plan is to approach the problem from the goal backwards with the question of what is required in order to end up with a long-term autonomous system that is
 able to fulfill the requirements of the described scenario in the simulation and ideally in practice on the real hardware.
 A physics simulation in Gazebo is created as part of the research project PORTAL\footnote{https://www.dfki.de/web/forschung/projekte-publikationen/projekte-uebersicht/projekt/portal/}
-and might be extended as part of this work. The idea is going to be to develop an architecture for a long-term autonomy setup, to provide lists of potential problems
-that can stand in its way and to detect those and ideally provide solutions or workarounds for some of them. In the end, there should be a working system that solves
-some of the problems of long-term autonomy in the described scenario. The nature of the work is going to be integrative and application-oriented, the modules that are 
-needed to set up the initial scenario are available in principle, but it will be the goal of this work to identify those, evaluate them empirically for their particular
-part of the task and integrate them in a wholesome solution that is capable of providing an example of a robust solution for practical applications.\newline
+and might be extended as part of this work. The idea is going to be to develop an architecture for a long-term autonomy setup, to provide a list of potential problems
+that can stand in its way, to develop methods to detect those and ideally to provide solutions or workarounds for some of them.
+In the end, there should be a working system that solves some of the problems of long-term autonomy in the described scenario.
+The nature of the work is going to be integrative and application-oriented, the modules that are needed to set up the initial scenario are available in principle, 
+but it will be part of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome solution
+that is capable of providing an example of a robust solution for practical applications.\newline
 
-The question is how to evaluate that? This is a classic problem in robotics, how can we scientifically argue that our approaches work?
-We will not be able to test it for a couple of years. To evaluate the approaches empirically, we need statistics and thus a huge number of samples.
-To be able to generate those, we need a simulation that is sufficiently meaningful, i.e. realistic.\newline
+Since it is beyond the scope of this work to test the developed system for long time periods in practice, there is a need for other ways of evaluation.
+This is a classic problem in robotics, how can one scientifically argue that the developed approaches work?
+There is going to be a sufficiently meaningful, i.e. realistic, simulation that allows an empirical analysis based on a huge number of samples.\newline
 
-The initial goal will be to implement the basic scenario, i.e. to setup a robustly running simulation of the basic scenario.
+The initial task will be to implement the basic scenario, i.e. to setup a robustly running simulation of the basic scenario.
 Afterwards, it is going to be extended with an evaluation part. Some of the potential barriers described in section \ref{} are going to be generated
-in the simulation and it will be shown that it no longer works. Then the goal is to develop solutions that are able to resolve the problems, such that it works again.
+in the simulation and it will be shown that the system no longer works, i.e. that these barriers are in fact able to cause failure.
+Then the goal is to develop solutions that are able to resolve these problems, such that it works again.
+One essential goal will be to increase the number of situations in which the robot can resolve such situations by itself. Moreover, it would be very helpful 
+for practical applications to at least be able to recognize such problems and call for the help of a human operator. 
+The robot therefore needs to be able to detect and classify such situations. To develop methods for precisely these two points will be part of the work.
 
-
-The goal could be to increase the number of situations in which the robot can solve such problems by itself, or at least recognize the problem and call for help.
-We need to be able to classify such situations. For example, we'd need to run a simulation and check every few minutes whether the robot got stuck.
+For example, we'd need to run a simulation and check every few minutes whether the robot got stuck.
 If this work is able to get the robot to recognize situations in which it is stuck and somehow enable it to call for help, e.g. by a push message to
 the phone of the human operator, that would be a progress. Moreover, if one could show that with the solution developed in this work, the number of failures
 could be reduced by X percent distributed over e.g. 30 percent of cases where the robot recognizes a problem and calls the operator for help and 20 percent in which
