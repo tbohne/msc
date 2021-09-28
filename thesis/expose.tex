@@ -102,52 +102,53 @@ detect deviations of planning parameters and is able to trigger the replanning p
 
 It would be really cool to develop a good plan-execution-monitoring node that is for example able to online adapt its planning domain etc.
 
-\section{LTA}
+\section{Long-Term Autonomy}
 
-The whole problem becomes interesting through the fact that not all scan positions can be processed in one battery cycle.
-We are going to define that one cycle suffices to process e.g. 40\% of the scan positions and the planner should maximize the planned scan stops under the
-constraint of not exceeding a safety buffer. Additionally, there is a monitoring process to keep track of potential failures.\newline
-
-An interesting question is how to actually define 'long-term'. [...] et al. do that as follows [...] The robot has a temporal radius of action that is based
+The considered scenario becomes long-term through the fact that not all scan positions can be processed in one battery cycle.
+One battery cycle will be defined as sufficing to process a certain percentage of the scan positions and the planner should maximize the planned scan stops under the
+constraint of not exceeding a safety buffer. \newline
+An interesting question is how to actually define ``long-term''. [...] et al. do that as follows [...] The robot has a temporal radius of action that is based
 on things like its battery capacity, maintenance intervals etc. In general, all processes that require a number of such cycles are considered to be long-term processes.
-Accordingly, 'long-term' can only be defined as a function of the system in question. To give an example, there could be a system that has very short battery intervals,
+Accordingly, ``long-term'' can only be defined as a function of the system in question. To give an example, there could be a system that has very short battery intervals,
 like a toy drone, based on the absolute time one would perhaps not consider a two hour experiment long-term, but if it includes several battery cycles, algorithmically
-it can be considered a long-term process. Therefore, 'long-term' is relative.\newline
+it can be considered a long-term process. Therefore, ``long-term'' is relative.
 
-In the agricultural sector, there are processes that go on much longer than a battery cycle, i.e. vegetation periods.
-However, that is not the sort of long-term that is going to be considered in this work. Because long-term processes are already present at smaller scale.
-On the one hand, there is the mission level, i.e. one processing of a whole field. On the other hand, there are going to be several such field processings during one vegetation
-period. So, the seasonal cycle is not going to be considered in this work, but the mission level itself can already be considered long-term, because the robot is not
-going to process the whole field with one battery load. The mission has to be preempted and continued later. That's the interesting part, the plan has to be paused,
+In the agricultural sector, there are processes that last much longer than a battery cycle, i.e. vegetation periods.
+However, the seasonal cycle is not the sort of long-term that is going to be considered in this work. Because long-term processes are already present at much smaller scale.
+On the one hand, there is the mission level, i.e. one processing of a whole field. One such mission can already be considered long-term, because the robot is not 
+going to process the whole field with one battery load. The mission has to be preempted and continued later. That is the interesting part, the plan has to be paused,
 the state has to be saved, and the scanning process has to be continued after the recharge. In the meantime, the environment could have changed, e.g. the weather conditions
-or the illumination that could be relevant for certain sensors of the robot. The second level that will be considered in this work, is that those missions are going
-to be repeated. I.e. it takes 3-4 battery cycles to scan the whole field, but we do that every 3 days. Thus, we have two different cycles that interlock.\newline
+or the illumination that could be relevant for certain sensors of the robot. On the other hand, there are going to be several such field processings during one vegetation
+period, which makes it a long-term process of repeated missions. Therefore, it takes a number of battery cycles to process the whole field, and that mission is going to be
+repeated every few days. Thus, there are two different long-term cycles that interlock.
 
 Generally, there is not that much literature considering long-term autonomy, because it is not that easy to evaluate scientifically.\newline
 
-\textbf{Things that can cause failure for long-term autonomous systems}\newline
+\pagebreak
+
+\textbf{Barriers for Long-Term Autonomous Systems}\newline
 
 There are numerous potential problems for long-term autonomous systems that can cause failure and prevent the system from continuing its task.
-The following is a list of typical problems that are worth investigating.
-
+Without claiming to be exhaustive, the following is a list of potential problems that, from a practical perspective, can prevent the smooth functioning
+of long-term autonomous systems and are thus worthy of consideration:
 \begin{itemize}
     \item battery failure / unexpected low battery
-    \item weather changes
-    \item obstacles in the way
-    \item hardware failure (e.g. sensors)
-    \item lost wifi (or whatever) connection
-    \item no GPS signal
+    \item drastic weather changes
+    \item obstacles on the planned path
+    \item hardware issues (e.g. sensor failure)
+    \item lost connection (e.g. wifi) // TODO: what kind connections do we assume?
+    \item lack of GPS signal
     \item certain dynamics (day / night) e.g. for sunlight-dependent sensors such as cameras
     \item full memory (not able to save further scans) -> data management
     \item to be continued...
 \end{itemize}
 
-The idea of the work will be to pick one to three of those aspects that are realistically solvable in the scope of the work and also somewhat interesting and 
-relevant for practical scenarios. Those aspects should also be implemented in the simulation and solved purposefully.\newline
+The idea of the work will be to pick one to three of these aspects that are realistically solvable in the scope of the work and also somewhat interesting and 
+relevant for practical scenarios. Those aspects should also be implemented in the simulation and solved purposefully.
 One idea would be to block paths on the field in the simulation in a randomized fashion. The intent is to reproducibly make things that can go wrong actually go wrong.
 And the question is what to do then? An example would be that the plan says we have to follow a certain path, but this path is blocked for some reason, we don't really
 care about the nature of the obstacle here, that is not the point. It could just be a muddy path that the robot can't drive through. We assume a working obstacle detection
-that is able to detect a certain class of obstacles. The integrative approach is then to find a way of dealing with such obstacles.\newline
+that is able to detect a certain class of obstacles. The integrative approach is then to find a way of dealing with such obstacles.
 
 It is important to come up with definitions of such failure situations or classes (types) of such situations and how many there are very early in the work.
 
@@ -169,6 +170,7 @@ The module generally checks how far it is from the robot's current position to t
 In summary, the module is running at execution time, it is not planning the charge stops beforehand, it just reacts to failure cases, in which the robot has to preempt
 the plan execution, drive back to its base and recharge. Therefore, in general it is planned to have both. The charge stops have to be considered at planning time,
 so charging stops are part of the plan. Moreover, there is monitoring at execution time that looks for potential problems in this regard.\newline
+[Additionally, there is a monitoring process to keep track of potential failures.]\newline
 
 Potentially integrate the docking solution for autonomous energy supply - could be really good and interesting if it works robustly.
 Of course, energy supply is an important question for autonomous systems. It's not a hard requirement, just a nice-to-have.
