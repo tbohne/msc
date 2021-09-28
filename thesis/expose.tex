@@ -70,7 +70,20 @@ the robot to return to its base and preempt the plan execution, e.g. drastic wea
 has been resolved, the robot has to continue the plan precisely from the point where it stopped.\newline
 
 // TODO: read literature (in particular the LTA survey) - really no such systems in literature?
-To the best of my knowledge, there is no fully integrated long-term autonomous solution in the literature that could be applied to the described scenario.
+To the best of my knowledge, there is no fully integrated long-term autonomous solution in the literature that could be applied to the described scenario.\newline
+
+\textbf{Challenges}\newline
+
+// TODO: is that going to be part of the work?\newline
+
+Based on the growth state of the plants, the planning has to be adapted, which has to be evaluated in the simulation, because a long-term test that reflects
+seasonal changes would clearly be beyond the scope of this work. So, besides the need for a simulation in terms of potential hardware-related or other hurdles
+that prevent practical testing, we have another motivation for the simulation, which are seasonal changes that are needed in order to evaluate the different
+planning strategies. From a certain date, the plants are too high to drive above them and the scans have to be taken from a different spot, the whole strategy changes.
+When the plants are small enough, the scans are taken from above, when they become too big, that's no longer possible.
+That is a typical constraint in agricultural projects - the vegetation periods.
+In March, when this work is expected to end, the plants are going to be relatively small such that the robot can drive above them when taking
+scans, in the end of spring and summer that would no longer be possible and will be reflected in the simulation.
 
 \section{Pause and Resume Plan Execution}
 
@@ -150,7 +163,15 @@ And the question is what to do then? An example would be that the plan says we h
 care about the nature of the obstacle here, that is not the point. It could just be a muddy path that the robot can't drive through. We assume a working obstacle detection
 that is able to detect a certain class of obstacles. The integrative approach is then to find a way of dealing with such obstacles.
 
-It is important to come up with definitions of such failure situations or classes (types) of such situations and how many there are very early in the work.
+Generally, these potential barriers for long-term autonomy can be classified into three categories with increasing impact for the system:
+\begin{enumerate}
+    \item Robot recognizes a problem and is able to solve it by itself
+    \item Robot recognizes a problem, is not able to solve it, and calls a human operator for help
+    \item Robot breaks down and is not able to do anything
+\end{enumerate}
+
+In the basic scenario, any potential issue of the list will be classified as type $3$. Part of the goal of this work will be to be able to shift some of the
+issues to another category, i.e. to be able to resolve them entirely, or at least be able to detect them and call for help.
 
 \section{Assumptions of the Work}
 
@@ -192,46 +213,27 @@ To know when to trigger this docking procedure, it is crucial to have a process 
 
 \section{Scientific and/or technological background}
 
-\textbf{Challenges}\newline
-
-Based on the growth state of the plants, the planning has to be adapted, which has to be evaluated in the simulation, because a long-term test that reflects
-seasonal changes would clearly be beyond the scope of this work. So, besides the need for a simulation in terms of potential hardware-related or other hurdles
-that prevent practical testing, we have another motivation for the simulation, which are seasonal changes that are needed in order to evaluate the different
-planning strategies. From a certain date, the plants are too high to drive above them and the scans have to be taken from a different spot, the whole strategy changes.
-When the plants are small enough, the scans are taken from above, when they become too big, that's no longer possible.
-That is a typical constraint in agricultural projects - the vegetation periods.
-In March, when this work is expected to end, the plants are going to be relatively small such that the robot can drive above them when taking
-scans, in the end of srping and summer that would no longer be possible and will be reflected in the simuation.
+// TODO: read literature and describe bg
 
 \section{Approach}
 
-The idea is going to be to develop an architecture for a long-term autonomy setup, to provide lists of problems that can stand in its way and to provide solutions
-and workarounds or at least the detection of some of them. The idea is to have a system that works in the end and that solves some problems.\newline
-
 The plan is to start from the goal backwards with the question of what is required in order to end up with a long-term autonomous system that is
-able to perform those scans with changing environment conditions etc. in the simulation and ideally in practice on the real hardware.
-A physica simulation in Gazebo is created as part of the research project PORTAL and might be exteneded as part of this work, e.g. with weather conditions.\newline
+able to fulfill the requirements of the described scenario in the simulation and ideally in practice on the real hardware.
+A physics simulation in Gazebo is created as part of the research project PORTAL\footnote{https://www.dfki.de/web/forschung/projekte-publikationen/projekte-uebersicht/projekt/portal/}
+and might be extended as part of this work. The idea is going to be to develop an architecture for a long-term autonomy setup, to provide lists of potential problems
+that can stand in its way and to detect those and ideally provide solutions or workarounds for some of them. In the end, there should be a working system that solves
+some of the problems of long-term autonomy in the described scenario. The nature of the work is going to be integrative and application-oriented, the modules that are 
+needed to set up the initial scenario are available in principle, but it will be the goal of this work to identify those, evaluate them empirically for their particular
+part of the task and integrate them in a wholesome solution that is capable of providing an example of a robust solution for practical applications.\newline
 
-The nature of the work is going to be integrative and application-oriented, many modules that are needed to solve the task at hand are available in principle, 
-but it will be the goal of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome 
-solution that is capable of providing an example of a robust solution for practical applications.\newline
+The question is how to evaluate that? This is a classic problem in robotics, how can we scientifically argue that our approaches work?
+We will not be able to test it for a couple of years. To evaluate the approaches empirically, we need statistics and thus a huge number of samples.
+To be able to generate those, we need a simulation that is sufficiently meaningful, i.e. realistic.\newline
 
-The question is how to evaluate that? This is a classic problem in robotics, how can we scientifically argue that our approaches work? 
-We will not be able to test it for a couple of years.
-To evaluate the approaches empirically, we need statistics and thus a huge number of samples. To be able to generate those, we need a simulation
-that is sufficiently meaningful, i.e. realistic.\newline
+The initial goal will be to implement the basic scenario, i.e. to setup a robustly running simulation of the basic scenario.
+Afterwards, it is going to be extended with an evaluation part. Some of the potential barriers described in section \ref{} are going to be generated
+in the simulation and it will be shown that it no longer works. Then the goal is to develop solutions that are able to resolve the problems, such that it works again.
 
-The idea will be to build something that wasn't there before (to the best of my knowledge) with the intent to show that it is possible - generative approach to knowledge gain.
-This requires empiricism, you have to plausibly demonstrate that what was built works and is good in some way, not just simulation, but also define objective and then 
-show that it works (in simulation often self-fulfilling prophecy).\newline
-
-The initial goal will be to take the basic scenario we are already working on and extend it with an evaluation part. Then I generate obstacles and show that it no
-longer works and with the solution I develop, it works again. Of course, one has to develop a criterion - three classes of situations:
-\begin{enumerate}
-    \item Robot breaks down and is not able to do anything
-    \item Robot recognizes a problem, is not able to solve it, and calls a human operator
-    \item Robot recognizes a problem and is able to solve it by itself
-\end{enumerate}
 
 The goal could be to increase the number of situations in which the robot can solve such problems by itself, or at least recognize the problem and call for help.
 We need to be able to classify such situations. For example, we'd need to run a simulation and check every few minutes whether the robot got stuck.
@@ -246,6 +248,10 @@ case. That of course assumes a working simulation, which we have in principle (L
 probably be increased, a larger excerpt has to be considered - just a question of the world.
 
 \section{Expected scientific and/or technological contribution}
+
+The idea will be to build something that wasn't there before (to the best of my knowledge) with the intent to show that it is possible - generative approach to knowledge gain.
+This requires empiricism, you have to plausibly demonstrate that what was built works and is good in some way, not just simulation, but also define objective and then 
+show that it works (in simulation often self-fulfilling prophecy).\newline
 
 The idea of the long-term test is that the robot has to drive back to its charging station at least two times, otherwise it would be vacuous.
 If possible, it would be good to include real weather data form the region of the test field.\newline
