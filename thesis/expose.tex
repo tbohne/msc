@@ -70,7 +70,8 @@ The first type of action is \textsc{drive\_to(x, y)}, which leads the robot to d
 which initiates a scanning procedure of the RIEGL sensor or an execution of the dummy node, respectively.\newline
 
 Based on the dimensions of the particular field under consideration, it is not assured that one battery charge will be sufficient to process the whole field.
-Thus, a key aspect of the scenario is going to be that the robot is not able to drive through all parcels of the field, take scans, and return to its base with one battery charge.
+The robot has to drive back to its charging station at least two times, otherwise it would be vacuous. Thus, a key aspect of the scenario is going to be that the robot
+is not able to drive through all parcels of the field, take scans, and return to its base with one battery charge.
 Instead, it has to stop in between because one battery charge is not going to suffice for one full mission. Additionally, there will be other conditions that cause
 the robot to return to its base and preempt the plan execution, e.g. drastic weather changes. Afterwards, when the battery is recharged or some other cause of preemption
 has been resolved, the robot has to continue the plan precisely from the point where it stopped.\newline
@@ -239,24 +240,22 @@ in the simulation and it will be shown that the system no longer works under cer
 A first step would therefore be to observe how it works without any further handling of such solutions. So, how often does the robot get stuck in the simulation 
 based on a certain failure case. Then the goal is to develop solutions that are able to resolve these problems, such that it works again.
 
+\pagebreak
+
 \section{Expected scientific and/or technological contribution}
 
-The idea will be to build something that wasn't there before (to the best of my knowledge) with the intent to show that it is possible - generative approach to knowledge gain.
-This requires empiricism, you have to plausibly demonstrate that what was built works and is good in some way, not just simulation, but also define objective and then 
-show that it works (in simulation often self-fulfilling prophecy).\newline
+// TODO: check 'future works should investigate' sections in the literature\newline
 
-The idea of the long-term test is that the robot has to drive back to its charging station at least two times, otherwise it would be vacuous.
-If possible, it would be good to include real weather data form the region of the test field.\newline
-
-There are many problems / situations that can stand in the way of long-term autonomous mobile robots. In this work, a few of them are identified,
-implemented in a simulation, systematicaly evaluated and solved to a degree. Basically reduce the barriers towards long-term autonomy of a mobile field
-monitoring robot.\newline
-
+The idea of the work is to plausibly demonstrate that a long-term autonomous mobile robot in a field monitoring context is achievable under certain assumptions.
+Furthermore, important aspects that can prevent such a system from working properly will be identified, implemented in a simulation, systematically evaluated,
+and methods will be proposed that are able to partially resolve or at least detect such barriers in order to enable the robot to communicate them to a human operator.
 If this work is able to get the robot to recognize situations in which it is stuck and somehow enable it to call for help, e.g. by a push message to
-the phone of the human operator, that would be a progress. Moreover, if one could show that with the solution developed in this work, the number of failures
-could be reduced by X percent distributed over e.g. 30 percent of cases where the robot recognizes a problem and calls the operator for help and 20 percent in which
-it is even able to solve the problem by itself, that would really be interesting and relevant. We would have a performance criterion then that allows 
-an empirical analysis.
+the phone of the human operator, that would be a real progress. Moreover, if one could show that with the solutions developed in this work, the number of failures
+could be reduced by a certain percentage distributed over a fraction of cases where the robot recognizes a problem and calls the operator for help and a fraction
+in which it is even able to solve the problem by itself, that would really be interesting and relevant. We would have a performance criterion then that allows 
+an empirical analysis. Based on that performance criterion, it will be shown whether the proposed methods are in fact able to improve the robustness of the system.
+
+In summary, the work attempts to reduce the barriers towards long-term autonomy of a mobile field monitoring robot.
 
 \section{Work program}
 
