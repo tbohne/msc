@@ -31,15 +31,21 @@ in order to show that long-term autonomy in such a scenario is achievable under 
 Moreover, hurdles that can stand in the way of long-term autonomy of such a system are identified and partially resolved.
 Long-term autonomy, as robotics in general, is an integration problem. Many technologies have to be integrated in order to build a working system, and compared to
 other disciplines of artificial intelligence, it is not trivial to evaluate such a system and conclude, for example, that it has improved the status quo by a certain percentage.
-Nevertheless, one should aim for results that are meaningful based on scientific standards. The keyword, under which such attempts are summarized is scientific robotics,
-and the goal of this work will be to evaluate the considered robotic system based on such standards.\newline
+Nevertheless, one should aim for results that are meaningful based on scientific standards. This is a classic problem in robotics, how can one scientifically argue that the developed
+approaches work? The keyword, under which such attempts are summarized is scientific robotics, and the goal of this work will be to evaluate the considered robotic 
+system based on such standards.\newline
 
-To demonstrate, test and evaluate the system, there will be a physics simulation. Ultimately, there should also be a long-term test (e.g. one day) in the field with the
-actual hardware that underlines the relevance of the approaches discussed in this work for practical applications.
-However, since a mobile robot is a very complex system, there are arbitrary many technical barriers that could prevent such a long-term test in the real world.
-The idea is therefore to be at least able to demonstrate the system in a sufficiently realistic simulation without depending on the success of such a real-world experiment.
-In addition to serving as a backup for possible failures in real-world tests, a simulation naturally creates an environment that allows reproducible situations and thus
-permits empirical investigation, which is a prerequisite for scientific evaluation.
+One essential goal will be to increase the number of situations in which the robot is able to resolve the mentioned hurdles by itself.
+Moreover, it would be very helpful for practical applications to at least be able to recognize such problems and call for the help of a human operator.
+The robot therefore needs to be able to detect and classify such situations. To develop methods for precisely these two points will be part of the work.\newline
+
+Since it is beyond the scope of this work to test the developed system for long time periods in practice, there is a need for other ways of evaluation.
+To demonstrate, test and evaluate the system, there will be a sufficiently meaningful, i.e. realistic, physics simulation that allows an empirical analysis based 
+on a huge number of samples. Ultimately, there should also be a long-term test (e.g. one day) in the field with the actual hardware that underlines the relevance of 
+the approaches discussed in this work for practical applications. However, since a mobile robot is a very complex system, there are arbitrary many technical barriers 
+that could prevent such a long-term test in the real world. The idea is therefore to be at least able to demonstrate the system in a sufficiently realistic simulation 
+without depending on the success of such a real-world experiment. In addition to serving as a backup for possible failures in real-world tests, a simulation naturally 
+creates an environment that allows reproducible situations and thus permits empirical investigation, which is a prerequisite for scientific evaluation.
 
 \section{Prototypical System - Long-Term Autonomous Plant Monitoring Scenario}
 
@@ -225,30 +231,13 @@ that can stand in its way, to develop methods to detect those and ideally to pro
 In the end, there should be a working system that solves some of the problems of long-term autonomy in the described scenario.
 The nature of the work is going to be integrative and application-oriented, the modules that are needed to set up the initial scenario are available in principle, 
 but it will be part of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome solution
-that is capable of providing an example of a robust solution for practical applications.\newline
-
-Since it is beyond the scope of this work to test the developed system for long time periods in practice, there is a need for other ways of evaluation.
-This is a classic problem in robotics, how can one scientifically argue that the developed approaches work?
-There is going to be a sufficiently meaningful, i.e. realistic, simulation that allows an empirical analysis based on a huge number of samples.\newline
+that is capable of providing an example of a robust solution for practical applications.
 
 The initial task will be to implement the basic scenario, i.e. to setup a robustly running simulation of the basic scenario.
 Afterwards, it is going to be extended with an evaluation part. Some of the potential barriers described in section \ref{} are going to be generated
-in the simulation and it will be shown that the system no longer works, i.e. that these barriers are in fact able to cause failure.
-Then the goal is to develop solutions that are able to resolve these problems, such that it works again.
-One essential goal will be to increase the number of situations in which the robot can resolve such situations by itself. Moreover, it would be very helpful 
-for practical applications to at least be able to recognize such problems and call for the help of a human operator. 
-The robot therefore needs to be able to detect and classify such situations. To develop methods for precisely these two points will be part of the work.
-
-For example, we'd need to run a simulation and check every few minutes whether the robot got stuck.
-If this work is able to get the robot to recognize situations in which it is stuck and somehow enable it to call for help, e.g. by a push message to
-the phone of the human operator, that would be a progress. Moreover, if one could show that with the solution developed in this work, the number of failures
-could be reduced by X percent distributed over e.g. 30 percent of cases where the robot recognizes a problem and calls the operator for help and 20 percent in which
-it is even able to solve the problem by itself, that would really be interesting and relevant. We would have a performance criterion then that allows 
-an empirical analysis.\newline
-
-A first step would be to observe how it works without any solution I develop. So, how often does the robot get stuck in the simulation based on a certain failure
-case. That of course assumes a working simulation, which we have in principle (Langsenkamp or even the empty world at first). The Langsenkamp simulation should
-probably be increased, a larger excerpt has to be considered - just a question of the world.
+in the simulation and it will be shown that the system no longer works under certain conditions, i.e. that these barriers are in fact able to cause failure.
+A first step would therefore be to observe how it works without any further handling of such solutions. So, how often does the robot get stuck in the simulation 
+based on a certain failure case. Then the goal is to develop solutions that are able to resolve these problems, such that it works again.
 
 \section{Expected scientific and/or technological contribution}
 
@@ -261,7 +250,13 @@ If possible, it would be good to include real weather data form the region of th
 
 There are many problems / situations that can stand in the way of long-term autonomous mobile robots. In this work, a few of them are identified,
 implemented in a simulation, systematicaly evaluated and solved to a degree. Basically reduce the barriers towards long-term autonomy of a mobile field
-monitoring robot.
+monitoring robot.\newline
+
+If this work is able to get the robot to recognize situations in which it is stuck and somehow enable it to call for help, e.g. by a push message to
+the phone of the human operator, that would be a progress. Moreover, if one could show that with the solution developed in this work, the number of failures
+could be reduced by X percent distributed over e.g. 30 percent of cases where the robot recognizes a problem and calls the operator for help and 20 percent in which
+it is even able to solve the problem by itself, that would really be interesting and relevant. We would have a performance criterion then that allows 
+an empirical analysis.
 
 \section{Work program}
 
