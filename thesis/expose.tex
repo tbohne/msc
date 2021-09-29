@@ -33,8 +33,6 @@ Accordingly, a major goal of the work is to increase the number of situations in
 However, the mere recognition of problematic situations is already a decisive advantage from a practical perspective, because then the robot is able 
 to communicate the problem and call for help, e.g. of a human operator, instead of just stop working.
 
-\pagebreak
-
 \subsection{Prototypical System - Long-Term Autonomous Plant Monitoring}
 
 The particular long-term scenario that is going to be considered in this work takes place in an agricultural context.
@@ -64,10 +62,8 @@ This is one of the interesting aspects of the scenario, the mission must be paus
 In the meantime, the environment might have changed, e.g. weather conditions or illumination, which might be relevant for certain sensors of the robot. 
 On the other hand, there are going to be several such field processings during one vegetation period, which makes it a long-term process of repeated missions.
 Therefore, it takes a number of charge cycles to process the entire field, and that mission is going to be repeated every few days,
-which means that there are two different long-term cycles that are intertwined.
-
-\pagebreak
-
+which means that there are two different long-term cycles that are intertwined.\newline
+Having clarified what long-term autonomy means in this work, we now turn to potential problems that stand in its way.
 There are numerous potential problems for long-term autonomous systems that can cause failure and prevent the system from continuing its task.
 Without claiming to be exhaustive, the following is a list of potential problems that, from a practical perspective, can prevent the smooth functioning
 of long-term autonomous systems and are thus worthy of consideration:
@@ -83,22 +79,17 @@ of long-term autonomous systems and are thus worthy of consideration:
     \item to be continued...
 \end{itemize}
 
-The idea of the work will be to pick one to three of these aspects that are realistically solvable in the scope of the work and also somewhat interesting and 
-relevant for practical scenarios. Those aspects should also be implemented in the simulation and solved purposefully.
-One idea would be to block paths on the field in the simulation in a randomized fashion. The intent is to reproducibly make things that can go wrong actually go wrong.
-And the question is what to do then? An example would be that the plan says we have to follow a certain path, but this path is blocked for some reason, we don't really
-care about the nature of the obstacle here, that is not the point. It could just be a muddy path that the robot can't drive through. We assume a working obstacle detection
-that is able to detect a certain class of obstacles. The integrative approach is then to find a way of dealing with such obstacles.
-
+The idea of the work will be to pick a subset of these issues that is realistically solvable in the scope of the work.
 Generally, these potential barriers for long-term autonomy can be classified into three categories with increasing impact for the system:
 \begin{enumerate}
-    \item Robot recognizes a problem and is able to solve it by itself
-    \item Robot recognizes a problem, is not able to solve it, and calls a human operator for help
-    \item Robot breaks down and is not able to do anything
+    \item The robot recognizes a problem and is able to solve it by itself.
+    \item The robot recognizes a problem, is unable to solve it, and calls a human operator for help.
+    \item The robot has a malfunction / problem, but does not recognize it and is therefore unable to solve or communicate it.
 \end{enumerate}
 
-In the basic scenario, any potential issue of the list will be classified as type $3$. Part of the goal of this work will be to be able to shift some of the
-issues to another category, i.e. to be able to resolve them entirely, or at least be able to detect them and call for help.
+In the baseline scenario, after a running prototype of an integrated solution has been developed, each potential issue in the above list will be classified as type $(3)$.
+Part of the goal of this work will be to shift the selected subset of problems to another category, i.e., to solve them completely, 
+or at least to enable the robot to recognize them and ask for help.
 
 \section{Pause and Resume Plan Execution}
 
@@ -202,19 +193,25 @@ that can stand in its way, to develop methods to detect those and ideally to pro
 In the end, there should be a working system that solves some of the problems of long-term autonomy in the described scenario.
 The nature of the work is going to be integrative and application-oriented, the modules that are needed to set up the initial scenario are available in principle, 
 but it will be part of this work to identify those, evaluate them empirically for their particular part of the task and integrate them in a wholesome solution
-that is capable of providing an example of a robust solution for practical applications.
+that is capable of providing an example of a robust solution for practical applications.\newline
 
 The initial task will be to implement the basic scenario, i.e. to setup a robustly running simulation of the basic scenario.
 Afterwards, it is going to be extended with an evaluation part. Some of the potential barriers described in section \ref{} are going to be generated
 in the simulation and it will be shown that the system no longer works under certain conditions, i.e. that these barriers are in fact able to cause failure.
 A first step would therefore be to observe how it works without any further handling of such solutions. So, how often does the robot get stuck in the simulation 
-based on a certain failure case. Then the goal is to develop solutions that are able to resolve these problems, such that it works again.
+based on a certain failure case. Then the goal is to develop solutions that are able to resolve these problems, such that it works again.\newline
+
+One idea would be to block paths on the field in the simulation in a randomized fashion. The intent is to reproducibly make things that can go wrong actually go wrong.
+And the question is what to do then? An example would be that the plan says we have to follow a certain path, but this path is blocked for some reason, we don't really
+care about the nature of the obstacle here, that is not the point. It could just be a muddy path that the robot can't drive through. We assume a working obstacle detection
+that is able to detect a certain class of obstacles. The integrative approach is then to find a way of dealing with such obstacles.
+The selected issues should be implemented as part of a simulation and tackled purposefully.\newline
 
 Long-term autonomy, as robotics in general, is an integration problem. Many technologies have to be integrated in order to build a working system, and compared to
 other disciplines of artificial intelligence, it is not trivial to evaluate the system and conclude, for example, that it has improved the status quo by a certain percentage.
 Nevertheless, it is crucial to provide results that are meaningful based on scientific standards. This is a classic problem in robotics, 
 how can one scientifically argue that a developed approach works? The keyword, under which such attempts are summarized is scientific robotics, 
-and the goal of this work will be to evaluate the developed robotic system based on such standards.
+and the goal of this work will be to evaluate the developed robotic system based on such standards.\newline
 
 Since it is beyond the scope of this work to test the developed system for long time periods in practice, there is a need for other ways of evaluation.
 To demonstrate, test and evaluate the system, there will be a sufficiently meaningful, i.e. realistic, physics simulation that allows an empirical analysis based 
