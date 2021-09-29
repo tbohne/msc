@@ -43,6 +43,7 @@ establishing the power supply. Since the focus of the work is not going to be th
 the actual detection of features etc. will be disregarded.
 
 \subsection{Barriers for Long-Term Autonomous Systems}
+\label{sec:barriers_for_lta}
 
 A crucial question is how to actually define ``long-term''. As Hawes et al. remark, ``long-term'' has no strict definition and can have various meanings depending
 on the context, e.g. NASA's rover \textit{Opportunity} has been exploring the surface of Mars autonomously for years and autonomous wave gliders are able to monitor
@@ -91,20 +92,18 @@ In the baseline scenario, after a running prototype of an integrated solution ha
 Part of the goal of this work will be to shift the selected subset of problems to another category, i.e., to solve them completely, 
 or at least to enable the robot to recognize them and ask for help.
 
-\section{Pause and Resume Plan Execution}
+\subsection{Pause and Resume Plan Execution}
 
-As stated before, a key aspect of the scenario is going to be that the robot is not able to complete its missions without preempting the plan execution.
-Either due to insufficient battery capacity or other unmanageable conditions such as drastic weather changes that force the robot to interrupt its task.
-So although the overall route may always be the same for the same field, there are certain stopping conditions that cause the robot to interrupt its 
-active scanning tour and drive back to its base, i.e. the mobile container.
+A key aspect of being able to handle some of the potential issues introduced in section \ref{sec:barriers_for_lta} is going to be that the robot will not be able to
+complete its missions without preempting the plan execution from time to time. Either due to insufficient battery capacity or other unmanageable conditions such as 
+drastic weather changes that force the robot to interrupt its task. Although the overall route may always be the same for the same field, there are certain stopping
+conditions that cause the robot to interrupt its active scanning tour and drive back to its base, i.e. the mobile container.
 There are generally two relevant perspectives. First, such stops have to be considered at planning time by considering charge stops as crucial part of the plan.
 Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
-Therefore, a second perspective comes into play - the execution time. Here, the robot is executing a given plan and realizes that it has to interrupt the execution
-due to some unexpected condition. In such a case, the plan execution has to be interrupted and the robot needs to be able to somehow save the current state of the plan
-execution and continue with that state after the reason for the interruption has been resolved.
-The idea is that the robot has to be able to pause and resume a given plan.\newline
-
-// TODO: read literature - is there a solution for something like that? is it hard? just execute partial (remaining) plan afterwards?
+Therefore, a second perspective comes into play that will be particularly relevant in this work - the execution time. Here, the robot is executing a given plan and
+realizes that it has to interrupt the execution due to some unexpected condition. In such a case, the plan execution has to be interrupted and the robot needs to be 
+able to somehow save the current state of the plan execution and continue precisely with that state after the reason for the interruption has been resolved.
+Consequently, the idea is that the robot has to be able to pause and resume a given plan.
 
 \section{Plan Execution and Monitoring}
 
