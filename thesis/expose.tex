@@ -92,7 +92,7 @@ In the baseline scenario, after a running prototype of an integrated solution ha
 Part of the goal of this work will be to shift the selected subset of problems to another category, i.e., to solve them completely, 
 or at least to enable the robot to recognize them and ask for help.
 
-\subsection{Pause and Resume Plan Execution}
+\subsection{Plan Execution and Monitoring}
 
 A key aspect of being able to handle some of the potential issues introduced in section \ref{sec:barriers_for_lta} is going to be that the robot will not be able to
 complete its missions without preempting the plan execution from time to time. Either due to insufficient battery capacity or other unmanageable conditions such as 
@@ -100,25 +100,14 @@ drastic weather changes that force the robot to interrupt its task. Although the
 conditions that cause the robot to interrupt its active scanning tour and drive back to its base, i.e. the mobile container.
 There are generally two relevant perspectives. First, such stops have to be considered at planning time by considering charge stops as crucial part of the plan.
 Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
-Therefore, a second perspective comes into play that will be particularly relevant in this work - the execution time. Here, the robot is executing a given plan and
-realizes that it has to interrupt the execution due to some unexpected condition. In such a case, the plan execution has to be interrupted and the robot needs to be 
-able to somehow save the current state of the plan execution and continue precisely with that state after the reason for the interruption has been resolved.
-Consequently, the idea is that the robot has to be able to pause and resume a given plan.
-
-\section{Plan Execution and Monitoring}
-
-// TODO: is this going to be a focus of my work?\newline
-
+Therefore, a second perspective comes into play that will be particularly relevant in this work - the execution time.
 Just as important as the planning itself, is the execution of the generated plan as well as monitoring the execution.
-The idea is that the robot executes the plan and is somehow able to realize that something is not working as intended. 
-The battery watchdog that is potentially going to be integrated is already a kind of monitoring tool, because it is able to recognize situations 
-in which the batterly runs low although no charging stop is part of the plan at that time. However, an online monitoring which is able to constantly or time-triggered 
-detect deviations of planning parameters and is able to trigger the replanning procedure if necessary would be very interesting.\newline
-
-// TODO: that would assume that there is a planning procedure - there isn't at the moment, right?\newline
-// TODO: of course I could just assume that there is one and just say "here I would replan"\newline
-
-It would be really cool to develop a good plan-execution-monitoring node that is for example able to online adapt its planning domain etc.
+The idea is that the robot executes a given plan and is somehow able to realize that it has to interrupt the execution due to some unexpected condition.
+In such a case, the robot needs to be able to save the current state of the plan execution and continue precisely with that state after the reason 
+for the interruption has been resolved. Consequently, the robot has to be able to pause and resume the execution of a given plan.\newline
+In addition to a monitoring system capable of detecting a subset of the issues identified in section \ref{sec:barriers_for_lta},
+an online monitoring capable of detecting deviations of planning parameters on a continuous or timed basis and triggering replanning if necessary would
+be very valuable for practical applications.
 
 \section{Assumptions of the Work}
 
@@ -169,6 +158,9 @@ robot has to return to its base. The module generally checks how far it is from 
 how battery it still has. In summary, the module is running at execution time, it is not planning the charge stops beforehand, it just reacts to failure cases, in which 
 the robot has to preempt the plan execution, drive back to its base and recharge. Therefore, in general it is planned to have both. The charge stops have to be considered 
 at planning time, so charging stops are part of the plan. Moreover, there is a monitoring process at execution time that looks for potential problems in this regard.\newline
+
+The battery watchdog that is potentially going to be integrated is already a kind of monitoring tool, because it is able to recognize situations 
+in which the batterly runs low although no charging stop is part of the plan at that time.\newline
 
 \textbf{Autonomous Energy Supply}\newline
 
