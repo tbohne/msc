@@ -42,68 +42,26 @@ The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans of t
 to detect certain features based on the growth state. Therefore, the robot has to be able to process the whole field continually without the need for human supervision,
 including the requirement for repeated charge stops. For this purpose, there is a supporting infrastructure in the form of a container with an inductive charging station on site
 establishing the power supply. Since the focus of the work is not going to be the scanning part, but to establish long-term autonomy, 
-the actual detection of features etc. will be disregarded.\newline
+the actual detection of features etc. will be disregarded.
 
+\subsection{Barriers for Long-Term Autonomous Systems}
 
-
-\textbf{Challenges}\newline
-
-// TODO: is that going to be part of the work?\newline
-
-Based on the growth state of the plants, the planning has to be adapted, which has to be evaluated in the simulation, because a long-term test that reflects
-seasonal changes would clearly be beyond the scope of this work. So, besides the need for a simulation in terms of potential hardware-related or other hurdles
-that prevent practical testing, we have another motivation for the simulation, which are seasonal changes that are needed in order to evaluate the different
-planning strategies. From a certain date, the plants are too high to drive above them and the scans have to be taken from a different spot, the whole strategy changes.
-When the plants are small enough, the scans are taken from above, when they become too big, that's no longer possible.
-That is a typical constraint in agricultural projects - the vegetation periods.
-In March, when this work is expected to end, the plants are going to be relatively small such that the robot can drive above them when taking
-scans, in the end of spring and summer that would no longer be possible and will be reflected in the simulation.
-
-\section{Pause and Resume Plan Execution}
-
-As stated before, a key aspect of the scenario is going to be that the robot is not able to complete its missions without preempting the plan execution.
-Either due to insufficient battery capacity or other unmanageable conditions such as drastic weather changes that force the robot to interrupt its task.
-So although the overall route may always be the same for the same field, there are certain stopping conditions that cause the robot to interrupt its 
-active scanning tour and drive back to its base, i.e. the mobile container.
-There are generally two relevant perspectives. First, such stops have to be considered at planning time by considering charge stops as crucial part of the plan.
-Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
-Therefore, a second perspective comes into play - the execution time. Here, the robot is executing a given plan and realizes that it has to interrupt the execution
-due to some unexpected condition. In such a case, the plan execution has to be interrupted and the robot needs to be able to somehow save the current state of the plan
-execution and continue with that state after the reason for the interruption has been resolved.
-The idea is that the robot has to be able to pause and resume a given plan.\newline
-
-// TODO: read literature - is there a solution for something like that? is it hard? just execute partial (remaining) plan afterwards?
-
-\section{Plan Execution and Monitoring}
-
-// TODO: is this going to be a focus of my work?\newline
-
-Just as important as the planning itself, is the execution of the generated plan as well as monitoring the execution.
-The idea is that the robot executes the plan and is somehow able to realize that something is not working as intended. 
-The battery watchdog that is potentially going to be integrated is already a kind of monitoring tool, because it is able to recognize situations 
-in which the batterly runs low although no charging stop is part of the plan at that time. However, an online monitoring which is able to constantly or time-triggered 
-detect deviations of planning parameters and is able to trigger the replanning procedure if necessary would be very interesting.\newline
-
-// TODO: that would assume that there is a planning procedure - there isn't at the moment, right?\newline
-// TODO: of course I could just assume that there is one and just say "here I would replan"\newline
-
-It would be really cool to develop a good plan-execution-monitoring node that is for example able to online adapt its planning domain etc.
-
-\section{Long-Term Autonomy}
-
-The considered scenario becomes long-term through the fact that not all scan positions can be processed in one battery cycle.
-One battery cycle will be defined as sufficing to process a certain percentage of the scan positions and the planner should maximize the planned scan stops under the
-constraint of not exceeding a safety buffer. \newline
-An interesting question is how to actually define ``long-term''. [...] et al. do that as follows [...] The robot has a temporal radius of action that is based
-on things like its battery capacity, maintenance intervals etc. In general, all processes that require a number of such cycles are considered to be long-term processes.
-Accordingly, ``long-term'' can only be defined as a function of the system in question. To give an example, there could be a system that has very short battery intervals,
-like a toy drone, based on the absolute time one would perhaps not consider a two hour experiment long-term, but if it includes several battery cycles, algorithmically
-it can be considered a long-term process. Therefore, ``long-term'' is relative.
+A crucial question is how to actually define ``long-term''. As Hawes et al. remark, ``long-term'' has no strict definition and can have various meanings depending
+on the context, e.g. NASA's rover \textit{Opportunity} has been exploring the surface of Mars autonomously for years and autonomous wave gliders are able to monitor
+ocean sections for months. \cite{Hawes:2017} Furthermore, there are mobile service robots used for extended periods of time in everyday, indoor environments such as hospitals 
+as considered in the STRANDS project.
+In this work, in contrast, long-term is going to be defined in terms of the robot's temporal radius of action that is mainly based on its battery capacity, i.e. charge cycle,
+but may also include aspects like maintenance intervals etc. In general, all processes that require a number of such cycles are considered long-term processes.
+Accordingly, ``long-term'' can only be defined depending on the system in question. To give an example: There might be a system with very limited battery capacity, 
+such as a toy drone. Based on absolute time, a two-hour experiment might not be considered long-term, but if it involves multiple charging cycles, it can be 
+algorithmically considered a long-term process. Consequently, ``long-term'' is relative.\newline
 
 In the agricultural sector, there are processes that last much longer than a battery cycle, i.e. vegetation periods.
 However, the seasonal cycle is not the sort of long-term that is going to be considered in this work. Because long-term processes are already present at much smaller scale.
 On the one hand, there is the mission level, i.e. one processing of a whole field. One such mission can already be considered long-term, because the robot is not 
-going to process the whole field with one battery load. The mission has to be preempted and continued later. That is the interesting part, the plan has to be paused,
+going to process the whole field with one battery load. One battery cycle will be defined as sufficing to process a certain percentage of the scan positions and 
+the planner should maximize the planned scan stops under the constraint of not exceeding a safety buffer.
+The mission has to be preempted and continued later. That is the interesting part, the plan has to be paused,
 the state has to be saved, and the scanning process has to be continued after the recharge. In the meantime, the environment could have changed, e.g. the weather conditions
 or the illumination that could be relevant for certain sensors of the robot. On the other hand, there are going to be several such field processings during one vegetation
 period, which makes it a long-term process of repeated missions. Therefore, it takes a number of battery cycles to process the whole field, and that mission is going to be
@@ -112,8 +70,6 @@ repeated every few days. Thus, there are two different long-term cycles that int
 Generally, there is not that much literature considering long-term autonomy, because it is not that easy to evaluate scientifically.\newline
 
 \pagebreak
-
-\textbf{Barriers for Long-Term Autonomous Systems}\newline
 
 There are numerous potential problems for long-term autonomous systems that can cause failure and prevent the system from continuing its task.
 Without claiming to be exhaustive, the following is a list of potential problems that, from a practical perspective, can prevent the smooth functioning
@@ -146,6 +102,36 @@ Generally, these potential barriers for long-term autonomy can be classified int
 
 In the basic scenario, any potential issue of the list will be classified as type $3$. Part of the goal of this work will be to be able to shift some of the
 issues to another category, i.e. to be able to resolve them entirely, or at least be able to detect them and call for help.
+
+\section{Pause and Resume Plan Execution}
+
+As stated before, a key aspect of the scenario is going to be that the robot is not able to complete its missions without preempting the plan execution.
+Either due to insufficient battery capacity or other unmanageable conditions such as drastic weather changes that force the robot to interrupt its task.
+So although the overall route may always be the same for the same field, there are certain stopping conditions that cause the robot to interrupt its 
+active scanning tour and drive back to its base, i.e. the mobile container.
+There are generally two relevant perspectives. First, such stops have to be considered at planning time by considering charge stops as crucial part of the plan.
+Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
+Therefore, a second perspective comes into play - the execution time. Here, the robot is executing a given plan and realizes that it has to interrupt the execution
+due to some unexpected condition. In such a case, the plan execution has to be interrupted and the robot needs to be able to somehow save the current state of the plan
+execution and continue with that state after the reason for the interruption has been resolved.
+The idea is that the robot has to be able to pause and resume a given plan.\newline
+
+// TODO: read literature - is there a solution for something like that? is it hard? just execute partial (remaining) plan afterwards?
+
+\section{Plan Execution and Monitoring}
+
+// TODO: is this going to be a focus of my work?\newline
+
+Just as important as the planning itself, is the execution of the generated plan as well as monitoring the execution.
+The idea is that the robot executes the plan and is somehow able to realize that something is not working as intended. 
+The battery watchdog that is potentially going to be integrated is already a kind of monitoring tool, because it is able to recognize situations 
+in which the batterly runs low although no charging stop is part of the plan at that time. However, an online monitoring which is able to constantly or time-triggered 
+detect deviations of planning parameters and is able to trigger the replanning procedure if necessary would be very interesting.\newline
+
+// TODO: that would assume that there is a planning procedure - there isn't at the moment, right?\newline
+// TODO: of course I could just assume that there is one and just say "here I would replan"\newline
+
+It would be really cool to develop a good plan-execution-monitoring node that is for example able to online adapt its planning domain etc.
 
 \section{Assumptions of the Work}
 
