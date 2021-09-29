@@ -55,19 +55,16 @@ but may also include aspects like maintenance intervals etc. In general, all pro
 Accordingly, ``long-term'' can only be defined depending on the system in question. To give an example: There might be a system with very limited battery capacity, 
 such as a toy drone. Based on absolute time, a two-hour experiment might not be considered long-term, but if it involves multiple charging cycles, it can be 
 algorithmically considered a long-term process. Consequently, ``long-term'' is relative.\newline
-
-In the agricultural sector, there are processes that last much longer than a battery cycle, i.e. vegetation periods.
-However, the seasonal cycle is not the sort of long-term that is going to be considered in this work. Because long-term processes are already present at much smaller scale.
-On the one hand, there is the mission level, i.e. one processing of a whole field. One such mission can already be considered long-term, because the robot is not 
-going to process the whole field with one battery load. One battery cycle will be defined as sufficing to process a certain percentage of the scan positions and 
-the planner should maximize the planned scan stops under the constraint of not exceeding a safety buffer.
-The mission has to be preempted and continued later. That is the interesting part, the plan has to be paused,
-the state has to be saved, and the scanning process has to be continued after the recharge. In the meantime, the environment could have changed, e.g. the weather conditions
-or the illumination that could be relevant for certain sensors of the robot. On the other hand, there are going to be several such field processings during one vegetation
-period, which makes it a long-term process of repeated missions. Therefore, it takes a number of battery cycles to process the whole field, and that mission is going to be
-repeated every few days. Thus, there are two different long-term cycles that interlock.
-
-Generally, there is not that much literature considering long-term autonomy, because it is not that easy to evaluate scientifically.\newline
+In the agricultural sector, there are processes that last much longer than a charge cycle, e.g. vegetation periods.
+However, the seasonal cycle is not the sort of long-term process that will be considered in this work, as long-term processes already exist on a much smaller scale.
+On the one hand, there is the mission level, i.e. one processing of an entire field. Such a mission can already be considered long-term, since the robot is not 
+going to be able to process the entire field with one battery charge. One battery cycle will be defined as sufficient to process a certain percentage of the scan
+positions, and the planner should maximize the planned scan stops under the constraint that a safety buffer is not undercut.
+This is one of the interesting aspects of the scenario, the mission must be paused, the state must be saved, and the mission must be continued after recharging.
+In the meantime, the environment might have changed, e.g. weather conditions or illumination, which might be relevant for certain sensors of the robot. 
+On the other hand, there are going to be several such field processings during one vegetation period, which makes it a long-term process of repeated missions.
+Therefore, it takes a number of charge cycles to process the entire field, and that mission is going to be repeated every few days,
+which means that there are two different long-term cycles that are intertwined.
 
 \pagebreak
 
