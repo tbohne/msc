@@ -110,32 +110,31 @@ In addition to a monitoring system capable of detecting a subset of the issues i
 an online monitoring capable of detecting deviations of planning parameters on a continuous or timed basis and triggering replanning if necessary would
 be very valuable for practical applications.
 
-\section{Potentially Integrated Solutions}
+\subsection{Potentially Integrated Solutions}
 
 In general, an integrative work benefits from many integrated solutions. Nevertheless, it should be doable in the scope of the work and robust.
-Thus, there is a tradeoff between integrating as much as possible and therefore increasing the functionality and to stay doable and realistic and to not depend on too much.
-Essentially a tradeoff between feasibility and ambition.\newline
+Thus, there is a tradeoff between integrating as much as possible and therefore increasing the functionality and to stay doable and realistic and 
+to not depend on too much. Essentially a tradeoff between feasibility and ambition.
 
-\textbf{Battery Monitoring - Watchdog-Module}\newline
+\subsubsection{Battery Monitoring - Watchdog-Module}
 
 One solution that could be worth integrating is a watchdog module that observers the battery state and acts as a fail-safe. In general, the charge stops should
 be part of the plan, i.e. be considered at planning time. Thus, there has to be resource planning for the missions that includes to be back at the base station before
 the robot is out of battery. However, if it fails, there is the watchdog module that is able to react to wrong plans, i.e. the battery is low before expected and the 
 robot has to return to its base. The module generally checks how far it is from the robot's current position to the base station, how much battery that would cost and
-how battery it still has. In summary, the module is running at execution time, it is not planning the charge stops beforehand, it just reacts to failure cases, in which 
+how much battery it still has. In summary, the module is running at execution time, it is not planning the charge stops beforehand, it just reacts to failure cases, in which 
 the robot has to preempt the plan execution, drive back to its base and recharge. Therefore, in general it is planned to have both. The charge stops have to be considered 
-at planning time, so charging stops are part of the plan. Moreover, there is a monitoring process at execution time that looks for potential problems in this regard.\newline
-
+at planning time, so charging stops are part of the plan. Moreover, there is a monitoring process at execution time that looks for potential problems in this regard.
 The battery watchdog that is potentially going to be integrated is already a kind of monitoring tool, because it is able to recognize situations 
-in which the batterly runs low although no charging stop is part of the plan at that time.\newline
+in which the battery runs low although no charging stop is part of the plan at that time.
 
-\textbf{Autonomous Energy Supply}\newline
+\subsubsection{Autonomous Energy Supply}
 
 The first essential step towards long-term autonomy of an autonomous mobile robot is of course to ensure its power supply.
 For this purpose, there is an inductive charging station, which is located in a mobile container on the field site.
 Thus, the power supply could be realized by the integration of an autonomous docking / undocking solution, which enables the robot to detect
 the container in a laser scan of its nearby surroundings, drive into it and dock to an inductive charging station.
-To know when to trigger this docking procedure, it is crucial to have a process that monitors the battery level.\newline
+To know when to trigger this docking procedure, it is crucial to have a process that monitors the battery level.
 
 \section{Scientific and/or technological background}
 
