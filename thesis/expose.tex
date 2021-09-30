@@ -80,7 +80,6 @@ of long-term autonomous systems and are thus worthy of investigation:
     \item certain dynamics (day / night) e.g. for sunlight-dependent sensors such as cameras
     \item full memory (not able to save further scans) \textrightarrow data management
 \end{itemize}
-
 The idea of the work will be to pick a subset of these issues that is realistically solvable in the scope of the work.
 Generally, these potential barriers for long-term autonomy can be classified into three categories with increasing impact for the system:
 \begin{enumerate}
@@ -88,10 +87,9 @@ Generally, these potential barriers for long-term autonomy can be classified int
     \item The robot recognizes a problem, is unable to solve it, and calls a human operator for help.
     \item The robot has a malfunction / problem, but does not recognize it and is therefore unable to solve or communicate it.
 \end{enumerate}
-
 In the baseline scenario, after a running prototype of an integrated solution has been developed, each potential issue in the above list will be classified as type $(3)$.
 Part of the goal of this work will be to shift the selected subset of problems to another category, i.e., to solve them completely, 
-or at least to enable the robot to recognize them and ask for help.
+or at least to enable the robot to recognize them and request help.
 
 \subsection{Plan Execution and Monitoring}
 
@@ -112,29 +110,28 @@ be very valuable for practical applications.
 
 \subsection{Potentially Integrated Solutions}
 
-In general, an integrative work benefits from many integrated solutions. Nevertheless, it should be doable in the scope of the work and robust.
-Thus, there is a tradeoff between integrating as much as possible and therefore increasing the functionality and to stay doable and realistic and 
-to not depend on too much. Essentially a tradeoff between feasibility and ambition.
+In general, an integrative work benefits from many integrated solutions. Nevertheless, it should be viable in the scope of the work and robust.
+Thus, there is a tradeoff between integrating as much as possible, thereby increasing the functionality, and staying feasible and realistic.
+Essentially a tradeoff between feasibility and ambition.
 
-\subsubsection{Battery Monitoring - Watchdog-Module}
+\subsubsection{Battery Monitoring}
+\label{sec:battery_monitoring}
 
 One solution that could be worth integrating is a watchdog module that observers the battery state and acts as a fail-safe. In general, the charge stops should
 be part of the plan, i.e. be considered at planning time. Thus, there has to be resource planning for the missions that includes to be back at the base station before
-the robot is out of battery. However, if it fails, there is the watchdog module that is able to react to wrong plans, i.e. the battery is low before expected and the 
-robot has to return to its base. The module generally checks how far it is from the robot's current position to the base station, how much battery that would cost and
-how much battery it still has. In summary, the module is running at execution time, it is not planning the charge stops beforehand, it just reacts to failure cases, in which 
-the robot has to preempt the plan execution, drive back to its base and recharge. Therefore, in general it is planned to have both. The charge stops have to be considered 
-at planning time, so charging stops are part of the plan. Moreover, there is a monitoring process at execution time that looks for potential problems in this regard.
-The battery watchdog that is potentially going to be integrated is already a kind of monitoring tool, because it is able to recognize situations 
-in which the battery runs low although no charging stop is part of the plan at that time.
+the robot runs out of battery. However, if it fails, there could be a monitoring process at execution time that is able to react to wrong plans, i.e. the battery is
+low before expected and the robot has to return to its base. The module generally checks how far it is from the robot's current position to the base station, how much
+battery that would cost and how much battery it still has. In summary, the module is running at execution time, it is not planning the charge stops beforehand,
+it just reacts to failure cases, in which the robot has to preempt the plan execution, drive back to its base and recharge.
+Such a battery watchdog is an example for monitoring tools relevant for dealing with the challenges mentioned in section \ref{sec:challenges_for_lta}.
 
 \subsubsection{Autonomous Energy Supply}
 
-The first essential step towards long-term autonomy of an autonomous mobile robot is of course to ensure its power supply.
+The first essential step towards long-term autonomy of a mobile robot is of course to ensure its power supply.
 For this purpose, there is an inductive charging station, which is located in a mobile container on the field site.
 Thus, the power supply could be realized by the integration of an autonomous docking / undocking solution, which enables the robot to detect
-the container in a laser scan of its nearby surroundings, drive into it and dock to an inductive charging station.
-To know when to trigger this docking procedure, it is crucial to have a process that monitors the battery level.
+the container in a laser scan of its nearby surroundings, drive into it and dock to the inductive charging station.
+To know when to trigger this docking procedure, it is crucial to have a process that monitors the battery level, e.g. the one from section \ref{sec:battery_monitoring}.
 
 \section{Scientific and/or technological background}
 
