@@ -42,12 +42,12 @@ The particular long-term scenario that is going to be considered in this work ta
 The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans of the plants on a field in order to monitor their growth progression and 
 to detect certain features based on the growth stage. Therefore, the robot has to be able to process the entire field continually without the need for human supervision,
 including the requirement for repeated charge stops. For this purpose, there is a supporting infrastructure in the form of a container with an inductive charging station on site
-establishing the power supply. Since the focus of the work is not going to be the scanning part, but to establish long-term autonomy, 
-the actual detection of features etc. will be disregarded.
+establishing the power supply. Since the focus of the work is not going to be the scanning part, but to establish robust long-term autonomy, the actual detection of features 
+etc. will be disregarded.
 A crucial question is how to actually define ``long-term''. As Hawes et al. remark, ``long-term'' has no strict definition and can have various meanings depending
 on the context, e.g. NASA's rover \textit{Opportunity} has been exploring the surface of Mars autonomously for years and autonomous wave gliders are able to monitor
-ocean sections for months. \cite{Hawes:2017} Furthermore, there are mobile service robots used for extended periods of time in everyday, indoor environments like hospitals 
-as examined in the STRANDS project.
+ocean sections for months. Furthermore, there are mobile service robots used for extended periods of time in everyday, indoor environments like hospitals 
+as examined in the STRANDS project. \cite{Hawes:2017}
 In this work, in contrast, long-term is going to be defined in terms of the robot's temporal radius of action that is mainly based on its battery capacity, i.e. charge cycle,
 but may also include aspects like maintenance intervals etc. In general, all processes that require a number of such cycles are considered long-term processes.
 Accordingly, ``long-term'' can only be defined depending on the system in question. To give an example: There are systems with very limited battery capacity, 
@@ -69,29 +69,29 @@ which means that there are two different long-term cycles that are intertwined.\
 \label{sec:challenges_for_lta}
 
 Having clarified what long-term autonomy means for this work, we now turn to potential problems that stand in its way.
-There are numerous potential problems for long-term autonomous systems that can cause failure and prevent the system from continuing its task.
-Without claiming to be exhaustive, the following is a list of potential problems that, from a practical perspective, can prevent the smooth functioning
-of long-term autonomous systems and are thus worthy of investigation:
+There are numerous potential hinderances for long-term autonomous systems that can cause failure and prevent the system from continuing its task.
+Without claiming to be exhaustive, the following is a list of potential problems in an agricultural field monitoring context that, from a practical perspective,
+can prevent the smooth functioning of long-term autonomous systems and are thus worthy of investigation:
 \begin{itemize}
     \item battery failure / unexpected low battery
     \item drastic weather changes
     \item obstacles on the planned path
     \item hardware issues (e.g. sensor failure)
-    \item lost connection (e.g. wifi) // TODO: what kind connections do we assume?
+    \item lost connection (e.g. WiFi)
     \item lack of GPS signal
-    \item certain dynamics (day / night) e.g. for sunlight-dependent sensors such as cameras
-    \item full memory (not able to save further scans) \textrightarrow data management
+    \item certain dynamics (day / night, e.g. for sunlight-dependent sensors such as cameras)
+    \item full memory (not able to save further scans \textrightarrow data management)
 \end{itemize}
-The idea of the work will be to pick a subset of these issues that is realistically solvable in the scope of the work.
+The idea of the work will be to tackle a subset of these issues that is realistically solvable in the scope of the work.
 Generally, these potential barriers for long-term autonomy can be classified into three categories with increasing impact for the system:
 \begin{enumerate}
     \item The robot recognizes a problem and is able to solve it by itself.
     \item The robot recognizes a problem, is unable to solve it, and calls a human operator for help.
     \item The robot has a malfunction / problem, but does not recognize it and is therefore unable to solve or communicate it.
 \end{enumerate}
-In the baseline scenario, after a running prototype of an integrated solution has been developed, each potential issue in the above list will be classified as type $(3)$.
+In the baseline scenario, i.e. a running prototype of an integrated solution, each potential issue in the above list will be classified as type $(3)$.
 Part of the goal of this work will be to shift the selected subset of problems to another category, i.e., to solve them completely, 
-or at least to enable the robot to recognize them and request help.
+or at least to enable the robot to recognize them with execution monitoring approaches and request help.
 
 \subsection{Plan Execution and Monitoring}
 
