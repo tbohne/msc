@@ -103,12 +103,10 @@ There are generally two relevant perspectives. First, such stops have to be cons
 Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
 Therefore, a second perspective comes into play that will be particularly relevant in this work - the execution time.
 Just as important as the planning itself, is the execution of the generated plan as well as monitoring the execution.
-The idea is that the robot executes a given plan and is somehow able to realize that it has to interrupt the execution due to some unexpected condition.
+The idea is that the robot executes a given plan and is somehow capable of realizing that it has to interrupt the execution due to some unexpected condition.
 In such a case, the robot needs to be able to save the current state of the plan execution and continue precisely with that state after the reason 
-for the interruption has been resolved. Consequently, the robot has to be able to pause and resume the execution of a given plan.\newline
-In addition to a monitoring system capable of detecting a subset of the issues identified in section \ref{sec:challenges_for_lta},
-an online monitoring capable of detecting deviations of planning parameters on a continuous or timed basis and triggering replanning if necessary would
-be very valuable for practical applications.
+for the interruption has been resolved. Consequently, the robot has to be prepared to pause and resume the execution of a given plan, which is far from 
+trivially solvable, since the original plan may no longer be applicable for various reasons.
 
 \subsection{Potentially Integrated Solutions}
 
