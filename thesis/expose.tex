@@ -158,33 +158,31 @@ as well as the design of ``human-in-the-loop'' systems capable of utilizing the 
 
 \section{Approach}
 
-The idea is to start with the basic long-term autonomy setup described in section \ref{sec:scientific_bg}, provide a list of potential problems that may 
+The idea is to start with the basic long-term autonomy setup described in section \ref{sec:scientific_bg}, provide a list of potential problems that 
 stand in its way, and develop execution monitoring methods to detect a subset of these issues with the aim of increasing the robustness of such a system in a simulation
-and ideally in practice on the real hardware.
-Since detection is a necessary condition for overcoming these barriers, the focus will be on detection, and an initial solution adopted for all of them
-is to request help from a human operator. In the end, there should be a working system that solves some of the problems of long-term autonomy in scenarios 
-similar to the one described in section \ref{sec:prototypical_system}.
-The nature of the work is going to be integrative and application-oriented, the modules that are needed to set up the initial prototype are available in principle,
-but it will be part of this work to integrate and extend them in order to end up with a holistic and robust solution.
-After the basic scenario is running in the simulation, it is going to be extended with an evaluation part. A subset of the potential barriers described in section 
+and ideally in practice on the real hardware. Since detection is a necessary condition for overcoming these barriers, the focus will be on detection, and an initial solution
+adopted for all of them is to request help from a human operator. In the end, there should be a working system that addresses some of the problems of long-term autonomy 
+in scenarios similar to the one described in section \ref{sec:prototypical_system}. The nature of the work is going to be integrative and application-oriented. The modules 
+needed to set up the initial prototype are available in principle, but it will be part of this work to integrate and extend them in order to end up with a holistic and robust
+solution. After the basic scenario works in the simulation, it is going to be extended with an evaluation part. A subset of the potential barriers described in section 
 \ref{sec:challenges_for_lta} is going to be implemented and it will be shown that the system no longer works under certain conditions, i.e. that these
-barriers are in fact able to cause failure of long-term autonomous systems. A first step would therefore be to observe how the system performs without any further handling 
-of such problematic situations, i.e. how often the robot gets stuck in the simulation based on a certain problem case. Afterwards, the goal is to develop monitoring methods 
-that are able to recognize these problems, such that they can be resolved. To give an example, one particular idea could be to block paths on the field in the simulation 
-in a randomized fashion with the intent to reproducibly make things that can go wrong actually go wrong. The type of the obstacles is incidental to this work, 
-e.g. a muddy path that the robot is not able to drive through. It is obvious that the robot must be enabled to detect such problems, in this case by some kind of obstacle detection.
-Subsequent to the detection, the problem can be resolved, either by incorporating solutions from the literature or by finding new solutions.
-Since the focus of this work is on execution monitoring, i.e. detection, the trivial solution is implemented first, which is to call the human operator, who then takes
+barriers are indeed able to cause failure of long-term autonomous systems. Consequently, a first step is to observe how the system performs without any further 
+treatment of such problematic situations, i.e. how often the robot gets stuck in the simulation based on a specific problem case.
+Subsequently, the goal is to develop monitoring methods capable of recognizing these problems such that they can be resolved.
+To give an example, a particular idea could be to block paths on the field in the simulation in a randomized fashion with the intent of reproducibly making things that 
+can go wrong actually go wrong. The type of the obstacles is incidental to this work, e.g. a muddy path that the robot is not able to drive through. 
+It is obvious that the robot must be enabled to detect such problems, in this case by some kind of obstacle detection.
+Once detected, the problem can be resolved by either incorporating solutions from the literature or finding new solutions.
+Since the focus of this work is on execution monitoring, i.e. detection, the trivial solution is implemented first, which is to call the human operator who then takes
 care of the problem.\newline
 As should be clear by now, long-term autonomy, as robotics in general, is an integration problem. Many technologies have to be integrated in order to build a working system, 
 and compared to other disciplines of artificial intelligence, it is not trivial to evaluate the system and conclude, for example, that it has improved the status quo by a 
-certain percentage. Nevertheless, it is crucial to provide results that are meaningful based on scientific standards. This is a classic problem in robotics, 
-how can one scientifically argue that a developed approach works? The keyword under which such attempts are summarized is scientific robotics, 
-and a goal of this work will be to evaluate the developed system based on these standards.
-Since it is beyond the scope of this work to test the developed system for long time periods in practice, there is a need for other ways of evaluation.
-This is where the described evaluation approach in the simulation comes into play. In order to demonstrate, test, and evaluate the system, there will be a sufficiently meaningful, 
+certain percentage. Nevertheless, it is crucial to provide results that are meaningful based on scientific standards. 
+The keyword under which such attempts are summarized is scientific robotics, and a goal of this work will be to evaluate the developed system based on these standards.
+Since it is beyond the scope of this work to test the developed system for extended time periods in practice, there is a need for other ways of evaluation.
+This is where the described evaluation approach in the simulation comes into play. In order to demonstrate, test and evaluate the system, there will be a sufficiently meaningful, 
 i.e. realistic, physics simulation that allows an empirical analysis based on a huge number of samples. As mentioned, the starting point will be the simulation from the 
-PORTAL project that will be extended as part of this work. Ultimately, there should also be a long-term test (e.g. one day) in the field with the actual hardware that 
+PORTAL project that is going to be extended as part of this work. Ultimately, there should also be a long-term test (e.g. one day) in the field with the real hardware that 
 underlines the relevance of the approaches discussed in this work for practical applications. However, since a mobile robot is a very complex system, there are arbitrary 
 many technical barriers that could prevent such a long-term test in the real world. The idea is therefore to be at least able to demonstrate the system in a sufficiently 
 realistic simulation without depending on the success of such a real-world experiment. In addition to serving as a backup for possible failures in real-world tests, 
