@@ -10,6 +10,10 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 
 - [arox_docker](https://git.ni.dfki.de/arox/arox_docker): dockerization of the AROX system
     - branch: `noetic`
+    - compatible branches within docker container:
+        - [arox_navigation_flex](https://git.ni.dfki.de/arox/arox_core/arox_navigation_flex): `low_yaw_goal_tolerance`
+        - [arox_launch](https://git.ni.dfki.de/arox/arox_core/arox_launch): `feature_gazebo_plugins`
+        - [arox_indoor_navi](https://git.ni.dfki.de/arox/arox_core/arox_indoor_navi): `feature_less_self_scan`
 - [arox_description](https://git.ni.dfki.de/arox/arox_core/arox_description): ROS launch files and URDF model for the AROX system
     - branch: `feature_sim_spawn`
 - [container_description](https://git.ni.dfki.de/arox/container_description): ROS launch files and URDF model for the mobile container (charge station)
