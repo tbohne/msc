@@ -27,7 +27,7 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 - spawn container: `roslaunch container_description spawn.launch`
 - spawn AROX: `roslaunch arox_description spawn.launch`
 - run AROX controllers: `roslaunch arox_description run_controllers.launch`
-- run docker container: `aroxstartdocker` (alias)
+- run docker container named 'arox_msc': `aroxstartdocker arox_msc` (alias)
     - launch outdoor simulation: `roslaunch arox_launch arox_sim_outdoor.launch`
 
 ## Control AROX
