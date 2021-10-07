@@ -15,7 +15,7 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
         - [arox_launch](https://git.ni.dfki.de/arox/arox_core/arox_launch): `feature_gazebo_plugins`
         - [arox_indoor_navi](https://git.ni.dfki.de/arox/arox_core/arox_indoor_navi): `feature_less_self_scan`
 - [arox_description](https://git.ni.dfki.de/arox/arox_core/arox_description): ROS launch files and URDF model for the AROX system
-    - branch: `feature_sim_spawn`
+    - branch: `feature_noetic`
 - [container_description](https://git.ni.dfki.de/arox/container_description): ROS launch files and URDF model for the mobile container (charge station)
     - branch: `feature_simple_collisions`
 - [innok_heros_description](https://git.ni.dfki.de/arox/innok_heros/innok_heros_description): URDF description for Innok Heros robot
