@@ -41,7 +41,7 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 ## Visualize Sensor Data
 
 - [rViz](https://wiki.ros.org/rviz)
-    - fixed frame: `base_link`
+    - fixed frame: `map`
     - add sensors by topic, e.g. `/velodyne_point` to visualize the point cloud recorded by the Velodyne 3D-Lidar sensor
 
 ## Open Container
