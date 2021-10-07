@@ -1,4 +1,4 @@
-# Master's thesis at Osnabrueck University / DFKI
+# Master's Thesis at Osnabrueck University / DFKI
 
 **Execution Monitoring for Long-Term Autonomous Plant Observation with a Mobile Robot**
 
@@ -6,7 +6,7 @@
 
 Plan to interleave the reading / thinking / programming / experimenting and the writing.
 
-## Dependencies for baseline simulation
+## Dependencies for Baseline Simulation
 
 - [arox_docker](https://git.ni.dfki.de/arox/arox_docker): dockerization of the AROX system
     - branch: `noetic`
@@ -20,3 +20,26 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
     - branch: `master`
 - [velodyne_simulator](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/): URDF and gazebo plugin to provide simulated data from Velodyne laser scanners
     - branch: `master`
+
+## Usage
+
+- run simulation (with GUI): `roslaunch arox_description launch_arox_sim.launch gui:=true`
+- spawn container: `roslaunch container_description spawn.launch`
+- spawn AROX: `roslaunch arox_description spawn.launch`
+- run AROX controllers: `roslaunch arox_description run_controllers.launch`
+- run docker container: `aroxstartdocker` (alias)
+    - launch outdoor simulation: `roslaunch arox_launch arox_sim_outdoor.launch`
+
+## Control AROX
+
+- launch keyboard control: `rosrun teleop_twist_keyboard teleop_twist_keyboard.py`
+
+## Visualize Sensor Data
+
+- [rViz](https://wiki.ros.org/rviz)
+    - fixed frame: `base_link`
+    - add sensors by topic, e.g. `/velodyne_point` to visualize the point cloud recorded by the Velodyne 3D-Lidar sensor
+
+## Open Container
+
+- `rostopic pub -1 /container/rampA_position_controller/command std_msgs/Float64 "data: 2.0"`
