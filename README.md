@@ -43,6 +43,7 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 - [rViz](https://wiki.ros.org/rviz)
     - fixed frame: `map`
     - add sensors by topic, e.g. `/velodyne_point` to visualize the point cloud recorded by the Velodyne 3D-Lidar sensor
+    - or open the provided config `msc_conf.rviz`
 
 ## Open Container
 
