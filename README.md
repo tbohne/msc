@@ -24,6 +24,8 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
     - branch: `master`
 - [velodyne_simulator](https://bitbucket.org/DataspeedInc/velodyne_simulator/src/master/): URDF and gazebo plugin to provide simulated data from Velodyne laser scanners
     - branch: `master`
+- [gazebo_langsenkamp](https://git.ni.dfki.de/zla/gazebo_langsenkamp): Langsenkamp world (test field)
+    - branch: `master`
 
 ## Usage
 
@@ -33,6 +35,12 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 - run AROX controllers: `roslaunch arox_description run_controllers.launch`
 - run docker container named 'arox_msc': `aroxstartdocker arox_msc` (alias)
     - launch outdoor simulation: `roslaunch arox_launch arox_sim_outdoor.launch`
+
+## Plan Executor (within docker container)
+
+- access exploration GUI: `http://localhost/exploration_gui/`
+- run AROX engine: `rosrun arox_engine arox_engine.py`
+- run AROX planner: `rosrun arox_planning arox_planner.py`
 
 ## Control AROX
 
