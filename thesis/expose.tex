@@ -38,13 +38,13 @@ approaches that enable the robot to detect unexpected problematic situations tha
 \subsection{Prototypical System: Long-Term Autonomous Plant Observation}
 \label{sec:prototypical_system}
 
-The particular long-term scenario that is going to be considered in this work takes place in an agricultural context.
+The particular scenario that is going to be considered in this work takes place in an agricultural context.
 The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans of the plants on a field in order to monitor their growth progression and 
 to detect certain features based on the growth stage. Correspondingly, the robot has to be able to process the entire field continually without the need for human supervision,
 including the requirement for repeated charge stops. For this purpose, there is supporting infrastructure in the form of a container with an inductive charging station on site
 establishing the power supply. Since the focus of the work is not going to be the scanning task, but to establish robust long-term autonomy, the actual detection of features 
 etc. will be disregarded.
-A crucial question is how to actually define ``long-term''. As Hawes et al. remark, ``long-term'' has no strict definition and can have various meanings depending
+A crucial question is how to actually define ``long-term''. As Hawes et al. remark, it has no strict definition and can have various meanings depending
 on the context, e.g. NASA's rover \textit{Opportunity} has been exploring the surface of Mars autonomously for years and autonomous wave gliders are able to monitor
 ocean sections for months. Furthermore, there are mobile service robots used for extended periods of time in everyday, indoor environments like hospitals 
 as examined in the STRANDS project. \cite{Hawes:2017}
@@ -54,7 +54,7 @@ Accordingly, ``long-term'' can only be defined depending on the system in questi
 such as toy drones. Based on absolute time, a two-hour experiment might not be regarded as being long-term, but if it involves multiple charging cycles, it can be 
 algorithmically considered a long-term process. Consequently, ``long-term'' is relative.\newline
 In the agricultural sector, there are processes that last much longer than a charge cycle, e.g. vegetation periods.
-However, the seasonal cycle is not the sort of long-term process that will be investigated in this work, as long-term processes already exist on a much smaller scale.
+However, the seasonal cycle is not the sort of long-term process that will be investigated in this work, as such processes already exist on a much smaller scale.
 On the one hand, there is the mission level, i.e. one processing of an entire field. 
 Such a mission can already be regarded as long-term, since based on the dimensions of the particular field under consideration, it is not guaranteed that one
 battery charge will be sufficient to process the entire field. Instead, one battery cycle will be defined as sufficient to process a certain fraction of the scan
