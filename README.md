@@ -33,7 +33,7 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 ## Usage
 
 - run simulation (with GUI): `roslaunch arox_description launch_arox_sim.launch gui:=true`
-- spawn container: `roslaunch container_description spawn.launch`
+- optional: [spawn container: `roslaunch container_description spawn.launch`]
 - spawn AROX: `roslaunch arox_description spawn.launch`
 - run AROX controllers: `roslaunch arox_description run_controllers.launch`
 - run docker container named 'arox_msc': `aroxstartdocker arox_msc` (alias)
@@ -43,7 +43,16 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 
 - access exploration GUI: `http://localhost/exploration_gui/`
 - run AROX engine: `rosrun arox_engine arox_engine.py`
+    - state machine - operational model of AROX
 - run AROX planner: `rosrun arox_planning arox_planner.py`
+    - executes handcrafted plan
+- run battery model (energy consumption): `rosrun arox_engine arox_battery.py`
+    - configurable via `rosrun rqt_reconfigure rqt_reconfigure`
+
+## Useful Topics to Monitor
+
+- state of mission: `rostopic echo /arox/ongoing_operation`
+- battery charge level: `rostopic echo /arox/battery_param`
 
 ## Control AROX
 
