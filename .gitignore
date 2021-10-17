@@ -1,6 +1,7 @@
 *.aux
 *.out
 *.log
-*/thesis/*.pdf
 *.bbl
 *.blg
+*.toc
+thesis.pdf
