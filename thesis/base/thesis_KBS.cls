@@ -172,9 +172,9 @@
 % Compatible with both hyperref and backref.
 %\RequirePackage[sort]{cite}
 
-% Option "openright" läßt jedes Kapitel auf einer ungeraden Seite starten;
-% Problem: ggf. eingefügte Leerseiten haben noch Kopf- und Fußzeilen!!!
-% => Lösung:
+% Option "openright" lï¿½ï¿½t jedes Kapitel auf einer ungeraden Seite starten;
+% Problem: ggf. eingefï¿½gte Leerseiten haben noch Kopf- und Fuï¿½zeilen!!!
+% => Lï¿½sung:
 %
 %\makeatletter % nicht notwendig in CLS-Datei
   \def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
@@ -220,7 +220,7 @@
   \renewcommand{\makelabel}[1]{{#1##1\hfill}}}}
   {\end{list}}%
 %%%%%%%
-% liste + "Doppelpunkt" (notwendig, damit Doppenpunkt außerhalb des Stilparameters #1)
+% liste + "Doppelpunkt" (notwendig, damit Doppenpunkt auï¿½erhalb des Stilparameters #1)
 \newenvironment{listeDP}[2][\rm]{\begin{list}{}{\settowidth{\labelwidth}{{#1#2}:}
   \setlength{\leftmargin}{\labelwidth}\addtolength{\leftmargin}{\labelsep}
   \addtolength{\leftmargin}{3ex}%
@@ -314,7 +314,7 @@
                  
                  \vspace{4mm}
                  
-                 zur Erlangung des Doktorgrades (Dr.~rer.~nat.)\\ des Fachbereichs Mathematik/Informatik\\ der Universität Osnabrück
+                 zur Erlangung des Doktorgrades (Dr.~rer.~nat.)\\ des Fachbereichs Mathematik/Informatik\\ der Universitï¿½t Osnabrï¿½ck
                  
                  \vspace{12mm}
                  vorgelegt von
@@ -357,7 +357,7 @@
                  \vfill
 
                  \begin{tabular}{ll}
-zusam                   \large
+                   \large
                    \ifthenelse{\value{sprache} = 1}{Erstgutachter:}{First supervisor:}
                    & \large \@firstSupervisor\\
                    \large
