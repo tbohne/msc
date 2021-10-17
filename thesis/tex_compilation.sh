@@ -1,5 +1,5 @@
 #!/bin/bash
-pdflatex expose.tex
-bibtex expose.aux
-pdflatex expose.tex
-pdflatex expose.tex
+pdflatex thesis.tex
+bibtex thesis.aux
+pdflatex thesis.tex
+pdflatex thesis.tex
