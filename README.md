@@ -11,15 +11,15 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 - [arox_docker](https://git.ni.dfki.de/arox/arox_docker): dockerization of the AROX system
     - branch: `noetic`
     - compatible branches within docker container:
-        - [arox_navigation_flex](https://git.ni.dfki.de/arox/arox_core/arox_navigation_flex): `low_yaw_goal_tolerance`
+        - [arox_navigation_flex](https://git.ni.dfki.de/arox/arox_core/arox_navigation_flex): `feature_msc_setup_tim`
         - [arox_launch](https://git.ni.dfki.de/arox/arox_core/arox_launch): `feature_msc_setup_tim`
         - [arox_indoor_navi](https://git.ni.dfki.de/arox/arox_core/arox_indoor_navi): `feature_less_self_scan`
         - [arox_engine](https://git.ni.dfki.de/arox/arox_core/arox_engine): `feature_arox_battery`
         - [arox_planning](https://git.ni.dfki.de/arox/arox_core/arox_planning): `feature_lta_plan`
         - [arox_performance_parameters ](https://git.ni.dfki.de/arox/arox_core/arox_performance_parameters): `feature_performace_parameters`
-        - [map_langsenkamp](https://git.ni.dfki.de/zla/map_langsenkamp): `feature_new_map`
+        - [map_langsenkamp](https://git.ni.dfki.de/zla/map_langsenkamp): `feature_lta_map`
 - [arox_description](https://git.ni.dfki.de/arox/arox_core/arox_description): ROS launch files and URDF model for the AROX system
-    - branch: `feature_msc_setup_tim`
+    - branch: `feature_lta_spawn`
 - [container_description](https://git.ni.dfki.de/arox/container_description): ROS launch files and URDF model for the mobile container (charge station)
     - branch: `feature_simple_collisions`
 - [innok_heros_description](https://git.ni.dfki.de/arox/innok_heros/innok_heros_description): URDF description for Innok Heros robot
