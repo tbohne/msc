@@ -31,6 +31,14 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 - [gazebo_langsenkamp](https://git.ni.dfki.de/zla/gazebo_langsenkamp): Langsenkamp world (test field)
     - branch: `feature_msc_setup_tim`
 
+## Gazebo Models
+
+[Models](https://cloud.dfki.de/owncloud/index.php/s/TBCzjPfZbzEpMfa) to be placed in `/.gazebo/models/`:
+- charger_ground_patch
+- Corn
+- langsenkamp_simulation
+- Pillar_1
+
 ## Usage
 
 - run simulation (with GUI): `roslaunch arox_description launch_arox_sim.launch gui:=true`
