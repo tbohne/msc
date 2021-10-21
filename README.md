@@ -58,6 +58,11 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 - run battery model (energy consumption): `rosrun arox_engine arox_battery.py`
     - configurable via `rosrun rqt_reconfigure rqt_reconfigure`
 
+## Settings for AROX Battery (non-defaults)
+
+- `discharge_rate`: 0.1
+- `battery_charging_level`: 100
+
 ## Useful Topics to Monitor
 
 - state of mission: `rostopic echo /arox/ongoing_operation`
