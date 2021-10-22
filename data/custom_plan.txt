@@ -125,8 +125,8 @@ p.actions.append(a)
 a = arox_action()
 a.name = "drive_to"
 a.str_args.append("wgs84")
-a.flt_args.append(52.320670642480529)
-a.flt_args.append(8.153350945624497)
+a.flt_args.append(52.320668193394333)
+a.flt_args.append(8.153359501925676)
 a.flt_args.append(0)
 a.task = "null"
 p.actions.append(a)
