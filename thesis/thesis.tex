@@ -142,7 +142,17 @@ Thus, a key aspect of the scenario is going to be that the mission must be pause
 In the meantime, the environment may have changed, e.g. weather conditions or illumination, which is relevant for certain sensors of the robot.
 On the other hand, there are going to be several such field processings during one vegetation period, which makes it a long-term process of repeated missions.
 Hence, it takes a number of charge cycles to process the entire field, and that mission is going to be repeated every few days,
-which means that there are two different long-term cycles that are intertwined.\newline
+which means that there are two different long-term cycles that are intertwined.
+These two cycles basically represent a lower bound for the length of long-term autonomous episodes in the scenario under
+consideration. Likewise, in contrast to the above examples of Mars rovers and autonomous wave gliders, which are long-term
+processes of arbitrary length, it is useful to think about natural upper bounds on the length of such episodes in agricultural
+applications. Such a natural upper bound could be a time after which a human operator will inspect the robot anyway,
+which in agriculture is certainly the case sooner than after a few months, e.g. during maintenance sessions 
+when sensors such as cameras and laser scanners are cleaned, tire pressures are checked, etc.
+After such a maintenance session, the new episode begins. 
+Based on these bounds, it makes sense that the robot does not send every minor problem it recognizes directly to the operator,
+but keeps a list of minor issues that do not require immediate action, but should be resolved during the next maintenance
+appointment.
 
 \section{Scientific and Technological Background}
 \label{sec:scientific_bg}
