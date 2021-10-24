@@ -152,7 +152,44 @@ when sensors such as cameras and laser scanners are cleaned, tire pressures are 
 After such a maintenance session, the new episode begins. 
 Based on these bounds, it makes sense that the robot does not send every minor problem it recognizes directly to the operator,
 but keeps a list of minor issues that do not require immediate action, but should be resolved during the next maintenance
-appointment.
+appointment.\newline
+
+///TODO: REFINE::::\newline
+
+Now that it has been sufficiently clarified how \textit{long-term} and \textit{mobile} are to be understood in the context of this work, 
+a precise definition of what is meant by the remaining attribute \textit{autonomous} follows.\newline
+
+Like the concept \textit{long-term}, \textit{autonomous} is not sharply defined in the literature and can have different meaningful connotations depending on the application.\newline
+
+Autonomy in the context of application-oriented robots usually has the goal of achieving a higher degree of automation at these applications,
+i.e. using technical means so that a process runs completely or partially without involvement / supervision of human operators. \cite{Hertzberg:2015}
+TODO: Aus Buch zitieren\newline
+
+Completely or partially already indicates that autonomy is not a binary attribute, but refers to a spectrum of different degrees of autonomy, 
+ranging from teleoperation at the lower end over shared control and control trading up to full autonomy at the upper end. \cite{Hertzberg:2015}
+ToDO: Aus Buch zitieren\newline
+
+The following figure illustrates the concepts as defined in \cite{Hertzberg:2015} with some examples:
+\begin{figure}[H]
+    \includegraphics[width=0.95\textwidth]{pics/autonomy_spectrum.png}
+    \caption{\textsc{Autonomy Spectrum}}
+    \label{fig:autonomy_spectrum}
+\end{figure}
+
+A decisive difference between autonomous robots as considered in this work and typical stationary industrial robots is that autonomous robots operate in 
+environments that are structurally or in detail a priori unknown or imprecisely known, so-called automation-averse environments, whereas industrial robots 
+are designed by their sensing and control software to function in controlled, known environments.
+According to this, autonomous robots fundamentally expand the range of applications in the direction of dynamic, partially unknown, and partially unobservable environments.\newline
+
+Accordingly, autonomy does not necessarily mean that there is no connection to a human operator at all.\newline
+
+The concept of \textit{traded control} is particularly relevant for space travel, because occasionally you want to be able to tell the robot something at a high level
+of abstraction. TODO: NASA-Paper zitieren..\newline
+
+In the scenario considered in this paper, however, it is actually the latter variant, i.e. during a long-term autonomy cycle as defined above, the robot should only 
+come into contact with the human operator when it detects an error.\newline
+
+///
 
 \section{Scientific and Technological Background}
 \label{sec:scientific_bg}
