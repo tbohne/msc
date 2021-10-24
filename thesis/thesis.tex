@@ -204,6 +204,13 @@ Generally, the potential barriers for long-term autonomy can be classified into 
 In the baseline scenario, i.e. a running prototype of an integrated solution, each potential issue in the above list will be classified as type $(3)$.
 Part of the goal of this work is to shift the problems of the selected subset to another category, i.e. to solve them completely, 
 or at least to enable the robot to recognize them with execution monitoring approaches and request help.
+However, it is also part of the truth that not all possible external influences are solvable, i.e. a robot will not be able to solve all
+conceivable problems itself. Long-term autonomy has its limits, and there are simply unpredictable situations that a mobile robot cannot be expected to handle,
+e.g. if its battery bursts into flames, or it is knocked over by something. In such a case, the only way to do damage control is to try to shut down the 
+robot in a controlled manner (e.g. with data backup) and, if possible, communicate the problem.
+Of course, one could assign probabilities to specific incidents, which vary depending on the information available. 
+For example, if the robot detects that the battery is showing unusual discharge behavior, such information could be taken into account and 
+reported to the operator. Nevertheless, it's not feasible to cover everything that can happen, and long-term autonomy is subject to certain limits.
 
 \chapter{Plan Execution and Monitoring}
 
