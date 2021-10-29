@@ -14,6 +14,11 @@
 \usepackage{algorithm, algorithmic}  % for pseudo code (cf. documentation)
 \renewcommand{\algorithmiccomment}[1]{\qquad{\small // \textit{#1}}}
 
+% for code keywords within the text
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -249,16 +254,30 @@ In such a case, the robot needs to be able to save the current state of the plan
 for the interruption has been resolved. Consequently, the robot has to be prepared to pause and resume the execution of a given plan, which is far from 
 trivial, since the original plan may no longer be applicable for various reasons.
 
-\section{High-Level State Machine - Architecture}
+\section{High-Level State Machine Architecture}
 
 The plan execution as well as the monitoring of the robot's operation are modeled as a high-level hierarchical state machine, whose architecture is shown
 in figure \ref{fig:high_level_smach}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/high_level_smach.jpg}
-    \caption{\textsc{Architecture of the High-Level State Machine}}
+    \caption{\textsc{Architecture of the Hierarchical State Machine}}
     \label{fig:high_level_smach}
 \end{figure}
+As depicted in figure \ref{fig:high_level_smach}, the robot starts in the state \code{normal\_operation} in the high-level hierarchical state machine, 
+which is represented by an embedded state machine called \code{OperationStateMachine}. During the state \code{normal\_operation}, i.e. in the nested state machine
+\code{OperationStateMachine}, the robot can be either in the state \code{idle}, in which it is waiting for a plan, or in \code{execute\_plan}, in which it is executing a given plan.
+\code{OperationStateMachine} has three possible outcomes - \code{contingency}, \code{catastrophe}, and \code{shutdown}.
+It starts in the \code{idle} state and remains there as long as no plan is provided via a ROS service.
+There are two options for the robot to leave the state. The first is via a message on a ROS topic indicating that the end of the current long-term episode
+has been reached, resulting in an overall outcome of \code{shutdown} for \code{OperationStateMachine}. The second is to receive a plan that results in a state
+transition to \code{execute\_plan}. There are four possible outcomes here, two of which result in state transitions and two of which cause \code{OperationStateMachine} 
+to return to the parent state machine. The first possible outcome is \code{action\_complete}, which indicates that an action of the currently processed plan was 
+completed successfully and causes the same state (\code{execute\_plan}) to be executed again with the reduced plan, i.e. the rest of the plan is executed.
+The next possible outcome is \code{plan\_complete}, which means that the entire plan has been successfully processed and causes a transition back to the \code{idle} state.
+These were the possible outcomes that cause a transition to another state. Now there are the two remaining outcomes that cause a return to the parent state machine. 
+First, \code{soft\_failure}, which means that something went wrong, e.g. an action was not performed successfully, but the robot should be able to handle the problem. 
+Finally, there is the potential outcome \code{hard\_failure}, which represents situations where the robot is unable to solve the problem itself.
 
 \chapter{Integrated Solutions}
 
