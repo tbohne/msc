@@ -249,6 +249,17 @@ In such a case, the robot needs to be able to save the current state of the plan
 for the interruption has been resolved. Consequently, the robot has to be prepared to pause and resume the execution of a given plan, which is far from 
 trivial, since the original plan may no longer be applicable for various reasons.
 
+\section{High-Level State Machine - Architecture}
+
+The plan execution as well as the monitoring of the robot's operation are modeled as a high-level hierarchical state machine, whose architecture is shown
+in figure \ref{fig:high_level_smach}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{pics/high_level_smach.jpg}
+    \caption{\textsc{Architecture of the High-Level State Machine}}
+    \label{fig:high_level_smach}
+\end{figure}
+
 \chapter{Integrated Solutions}
 
 In general, an integrative work benefits from many integrated solutions. Nevertheless, it should be viable in the scope of the work and robust.
