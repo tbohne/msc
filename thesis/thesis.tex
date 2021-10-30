@@ -256,51 +256,60 @@ trivial, since the original plan may no longer be applicable for various reasons
 
 \section{High-Level State Machine Architecture}
 
-The plan execution as well as the monitoring of the robot's operation are modeled as a high-level hierarchical state machine, whose architecture is shown
+Plan execution as well as robot operation monitoring are modeled as a high-level hierarchical state machine, whose architecture is shown
 in figure \ref{fig:high_level_smach}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/high_level_smach.jpg}
+    \includegraphics[width=0.65\textwidth]{pics/SMACH_complete.png}
     \caption{\textsc{Architecture of the Hierarchical State Machine}}
     \label{fig:high_level_smach}
 \end{figure}
-As depicted in figure \ref{fig:high_level_smach}, the robot starts in the state \code{normal\_operation} in the high-level hierarchical state machine, 
-which is represented by an embedded state machine called \code{OperationStateMachine}. During the state \code{normal\_operation}, i.e. in the nested state machine
-\code{OperationStateMachine}, the robot can be either in the state \code{idle}, in which it is waiting for a plan, or in \code{execute\_plan}, in which it is executing a given plan.
-\code{OperationStateMachine} has three possible outcomes - \code{contingency}, \code{catastrophe}, and \code{shutdown}.
-It starts in the \code{idle} state and remains there as long as no plan is provided via a ROS service.
+\noindent
+As depicted in figure \ref{fig:high_level_smach}, the robot starts in the state \code{NORMAL\_OPERATION} in the high-level hierarchical state machine \code{EXECUTION\_MONITORING}.
+\code{NORMAL\_OPERATION} is represented by an embedded state machine with the same name that is visualized in figure \ref{fig:low_level_smach}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{pics/SMACH_low_level.png}
+    \caption{\textsc{Architecture of the Embedded State Machine}}
+    \label{fig:low_level_smach}
+\end{figure}
+\noindent
+During the state \code{NORMAL\_OPERATION}, i.e. in the nested state machine, the robot can be either in the state \code{IDLE}, in which it is waiting for a plan, 
+or in \code{EXECUTE\_PLAN}, in which it is executing a given plan. The embedded state machine \code{NORMAL\_OPERATION} has three possible outcomes - \code{end\_of\_episode},
+\code{minor\_complication}, and \code{critical\_complication}. It starts in the \code{IDLE} state and remains there as long as no plan is provided via a ROS service.
 There are two options for the robot to leave the state. The first is via a message on a ROS topic indicating that the end of the current long-term episode
-has been reached, resulting in an overall outcome of \code{shutdown} for \code{OperationStateMachine}. The second is to receive a plan that results in a state
-transition to \code{execute\_plan}. There are four possible outcomes here, two of which result in state transitions and two of which cause \code{OperationStateMachine} 
-to return to the parent state machine. The first possible outcome is \code{action\_complete}, which indicates that an action of the currently processed plan was 
-completed successfully and causes the same state (\code{execute\_plan}) to be executed again with the reduced plan, i.e. the rest of the plan is executed.
-The next possible outcome is \code{plan\_complete}, which means that the entire plan has been successfully processed and causes a transition back to the \code{idle} state.
+has been reached, resulting in an overall outcome of \code{end\_of\_episode} for \code{NORMAL\_OPERATION}. The second is to receive a plan that results in a state
+transition to \code{EXECUTE\_PLAN}. There are four possible outcomes here, two of which result in state transitions and two of which cause \code{NORMAL\_OPERATION} 
+to return to the parent state machine. The first possible outcome is \code{action\_completed}, which indicates that an action of the currently processed plan was 
+completed successfully and causes the same state (\code{EXECUTE\_PLAN}) to be executed again with the reduced plan, i.e. the rest of the plan is executed.
+The next possible outcome is \code{plan\_completed}, which means that the entire plan has been successfully processed and causes a transition back to the \code{IDLE} state.
 These were the possible outcomes that cause a transition to another state. Now there are the two remaining outcomes that cause a return to the parent state machine. 
 First, \code{soft\_failure}, which means that something went wrong, e.g. an action was not performed successfully, but the robot should be able to handle the problem. 
 Finally, there is the potential outcome \code{hard\_failure}, which represents situations where the robot is unable to solve the problem itself.
-Now that we have seen what happens in \code{normal\_operation}, we come back to the parent state machine. 
-As mentioned, when \code{OperationStateMachine} returns \code{shutdown}, the parent state machine transitions to the \code{shutdown} state and the 
-robot's work for that long-term episode is complete. Essentially, in a long-term episode in the considered scenario, the robot should stay in \code{normal\_operation} as 
+Now that we have seen what happens in \code{NORMAL\_OPERATION}, we come back to the parent state machine depicted in figure \ref{fig:high_level_smach}.
+As mentioned, when \code{NORMAL\_OPERATION} returns \code{end\_of\_episode}, the parent state machine transitions to the \code{SHUTDOWN} state and the 
+robot's work for that long-term episode is complete, which means that the robot performs data management and then the system is deactivated.
+Essentially, in a long-term episode in the considered scenario, the robot should stay in \code{NORMAL\_OPERATION} as 
 long as the episode is running or an error / problem has occurred, either an error that it is able to deal with itself or even a more severe problem that requires the 
-intervention of a human operator. Accordingly, if \code{normal\_operation}, i.e. \code{OperationStateMachine} has the outcome \code{soft\_failure}, the robot enters the
-state \code{contingency}, which means that it has detected a minor problem, e.g. a sensor failure, but its ability to act is preserved, it is for example able to drive back 
-to the base in safety mode. However, if \code{normal\_operation} returns \code{hard\_failure}, there is a critical problem that is unsolvable for the robot, perhaps even
-for the operator, and the robot transitions to \code{catastrophe}. If it is still possible, the robot saves the current state of the plan execution, sends an emergency signal,
-e.g. communicates the problem to the operator, and shuts down, i.e. transitions to \code{shutdown}.
+intervention of a human operator. Accordingly, if \code{NORMAL\_OPERATION}, i.e. the embedded state machine has the outcome \code{minor\_complication}, the robot enters the
+state \code{CONTINGENCY}, which means that it has detected a minor problem, e.g. a sensor failure, but its ability to act is preserved, it is for example able to drive back 
+to the base in safety mode. However, if \code{NORMAL\_OPERATION} returns \code{critical\_complication}, there is a critical problem that is unsolvable for the robot, perhaps even
+for the operator, and the robot transitions to \code{CATASTROPHE}. If it is still possible, the robot saves the current state of the plan execution, sends an emergency signal,
+e.g. communicates the problem to the operator, and shuts down, i.e. transitions to \code{SHUTDOWN}.
 There are, of course, situations in which the robot can no longer do anything, such as when the battery is completely discharged.
 In principle, such cases also fall under the category of catastrophe, but since monitoring then no longer works, there is nothing left to do there.
-Besides, there are two more transitions: From \code{contingency} back to \code{normal\_operation}, after a minor problem is resolved by the robot, it can continue
-its normal operation. Additionally, it is possible that something goes wrong during \code{contingency} or that the problem actually cannot be solved by the robot,
-such that it transitions to \code{catastrophe}.\newline
-The general difference between the \code{contingency} and \code{catastrophe} states is the robot's ability to act. 
+Besides, there are two more transitions: From \code{CONTINGENCY} back to \code{NORMAL\_OPERATION}, after a minor problem is resolved by the robot, it can continue
+its normal operation. Additionally, it is possible that something goes wrong during \code{CONTINGENCY} or that the problem actually cannot be solved by the robot,
+such that it transitions to \code{CATASTROPHE}.\newline
+The general difference between the \code{CONTINGENCY} and \code{CATASTROPHE} states is the robot's ability to act. 
 In a catastrophe case, it is no longer really capable of acting in the sense of driving back to its base, managing the problem itself, etc. 
 An example for a catastrophic case would be that the robot falls over. It is then unable to recover, but it is of course still able to communicate the problem
 and save the state, in full possession of its ``mental'' powers, so to speak. Whereas a lightning strike, as an extreme example, could cause the robot to have a 
-complete breakdown and nothing to work at all. The boundaries there are not quite sharp, there are many edge cases.\newline
+complete breakdown and nothing to work at all. The boundaries there are not quite sharp, there are many edge cases.
 The following somewhat more mundane example, considering the robot's battery, will illustrate the concepts.
-In \code{normal\_operation}, the battery discharges according to the plan. There may be some fluctuations due to temperature, for example, but it works roughly as expected.
-It would transition to the state \code{contingency} when it detects that the battery is already too low to complete the plan, but it is still able to recover,
-i.e. drive back to its base, recharge, and continue the plan execution. However, it would proceed to \code{catastrophe} if it detects that the battery is so low
+In \code{NORMAL\_OPERATION}, the battery discharges according to the plan. There may be some fluctuations due to temperature, for example, but it works roughly as expected.
+It would transition to the state \code{CONTINGENCY} when it detects that the battery is already too low to complete the plan, but it is still able to recover,
+i.e. drive back to its base, recharge, and continue the plan execution. However, it would proceed to \code{CATASTROPHE} if it detects that the battery is so low
 that it can already tell that it is not possible to reach the base and recharge. It is then still able to communicate the problem and save the state, but it is not able
 to recover. The extreme case, where nothing can be done, would be that the battery suddenly just breaks.
 
