@@ -257,10 +257,11 @@ trivial, since the original plan may no longer be applicable for various reasons
 \section{Execution Monitoring State Machine Architecture}
 
 Plan execution as well as robot operation monitoring are modeled as a high-level hierarchically structured state machine, whose architecture is shown
-in figure \ref{fig:high_level_smach}. The architecture is implemented in SMACH\footnote{ROS-independent Python library to build hierarchical state machines} \cite{smach}.
+in figure \ref{fig:high_level_smach}. The architecture is implemented using the SMACH\footnote{ROS-independent Python library to build hierarchical state machines \cite{smach}} 
+library.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/SMACH_high_level.png}
+    \includegraphics[width=\textwidth]{pics/SMACH_high_level_pretty.jpg}
     \caption{\textsc{Architecture of the Hierarchical State Machine (high-level)}}
     \label{fig:high_level_smach}
 \end{figure}
