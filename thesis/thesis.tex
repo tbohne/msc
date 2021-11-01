@@ -256,33 +256,30 @@ trivial, since the original plan may no longer be applicable for various reasons
 
 \section{Execution Monitoring State Machine Architecture}
 
-Plan execution as well as robot operation monitoring are modeled as a high-level hierarchical state machine, whose architecture is shown
-in figure \ref{fig:high_level_smach}.
+Plan execution as well as robot operation monitoring are modeled as a high-level hierarchically structured state machine, whose architecture is shown
+in figure \ref{fig:high_level_smach}. The architecture is implemented in SMACH\footnote{ROS-independent Python library to build hierarchical state machines} \cite{smach}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{pics/SMACH_high_level.png}
+    \includegraphics[width=\textwidth]{pics/SMACH_high_level.png}
     \caption{\textsc{Architecture of the Hierarchical State Machine (high-level)}}
     \label{fig:high_level_smach}
 \end{figure}
 \noindent
 As depicted in figure \ref{fig:high_level_smach}, the robot starts in the state \code{NORMAL\_OPERATION} in the high-level hierarchical state machine \code{EXECUTION\_MONITORING}.
-\code{NORMAL\_OPERATION} is represented by an embedded state machine named \code{OPERATION} that is visualized in figure \ref{fig:low_level_smach} as well as the two
-parallel running execution monitoring states \code{CONTINGENCY\_MONITORING} and \code{CATASTROPHE\_MONITORING}.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{pics/SMACH_low_level.png}
-    \caption{\textsc{Architecture of the Embedded State Machine (low-level)}}
-    \label{fig:low_level_smach}
-\end{figure}
-\noindent
+\code{NORMAL\_OPERATION} is represented by an embedded state machine named \code{OPERATION}, visualized in figure \ref{fig:low_level_smach}, as well as the two
+parallel running execution monitoring states (cf. \cite{monitor_state}) \code{CONTINGENCY\_MONITORING} and \code{CATASTROPHE\_MONITORING}, implemented as a concurrence container \cite{concurrence_container}.
 These parallel running states are used to monitor the robot's operation and to interrupt it when a problematic situation requiring special treatment is detected.
-During the state \code{OPERATION}, i.e. in the nested state machine visualized in figure \ref{fig:low_level_smach}, the robot can be either in the state \code{IDLE}, in which it is waiting for a plan, 
-or in \code{EXECUTE\_PLAN}, in which it is executing a given plan. The embedded state machine \code{OPERATION} has four possible outcomes - \code{end\_of\_episode},
-\code{minor\_complication}, \code{critical\_complication}, and \code{preempted}. It starts in the \code{IDLE} state and remains there as long as no plan is provided via a ROS service.
+Although a monitoring solution could in principle also be implemented sequentially, it seems more natural to choose a parallel approach, since a sequential option
+would have the disadvantage that no monitoring takes place while a task / algorithm is being executed, but only afterwards.
+It is desirable to be able to intervene at any time during the execution of a task when a monitoring procedure running in parallel is triggered and causes a change of state.
+During the state \code{OPERATION}, i.e. in the nested state machine visualized in figure \ref{fig:low_level_smach}, the robot can be either in the state \code{IDLE}, 
+in which it is waiting for a plan, or in \code{EXECUTE\_PLAN}, in which it is executing a given plan. The embedded state machine \code{OPERATION} has 
+four possible outcomes - \code{end\_of\_episode}, \code{minor\_complication}, \code{critical\_complication}, and \code{preempted}. 
+It starts in the \code{IDLE} state and remains there as long as no plan is provided via a ROS service.
 There are two common options for the robot to leave the state. The first is via a message on a ROS topic indicating that the end of the current long-term episode
 has been reached, resulting in an overall outcome of \code{end\_of\_episode} for \code{NORMAL\_OPERATION}. The second is to receive a plan that results in a state
 transition to \code{EXECUTE\_PLAN}. Additionally, the external parallel running monitoring states \code{CONTINGENCY\_MONITORING} and \code{CATASTROPHE\_MONITORING}
-are capable of interrupting the \code{IDLE} state at any time due to external problems leading to the outcome \code{preempted}.
+are capable of interrupting the \code{IDLE} state at any time (cf. state preemption \cite{state_preemption}) due to external problems leading to the outcome \code{preempted}.
 In \code{EXECUTE\_PLAN}, there are five possible outcomes, two of which result in state transitions and three of which cause \code{OPERATION} 
 to return to the parent state machine. The first possible outcome is \code{action\_completed}, which indicates that an action of the currently processed plan was 
 completed successfully and causes the same state (\code{EXECUTE\_PLAN}) to be executed again with the reduced plan, i.e. the rest of the plan is executed.
@@ -291,6 +288,13 @@ These were the possible outcomes that cause a transition to another state. Now t
 First, \code{soft\_failure}, which means that something went wrong, e.g. an action was not performed successfully, but the robot should be able to handle the problem. 
 Second, there is the potential outcome \code{hard\_failure}, which represents situations where the robot is unable to solve the problem itself.
 Finally, the last potential outcome is again \code{preempted} based on some external issue detected by \code{CONTINGENCY\_MONITORING} or \code{CATASTROPHE\_MONITORING}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{pics/SMACH_low_level.png}
+    \caption{\textsc{Architecture of the Embedded State Machine (low-level)}}
+    \label{fig:low_level_smach}
+\end{figure}
+\noindent
 Now that we have seen what happens in \code{NORMAL\_OPERATION} and particularly in \code{OPERATION}, we come back to the parent state machine depicted in figure \ref{fig:high_level_smach}.
 As mentioned, when \code{NORMAL\_OPERATION} returns \code{end\_of\_episode}, the parent state machine transitions to the \code{SHUTDOWN} state and the 
 robot's work for that long-term episode is complete, which means that the robot performs data management and then the system is deactivated.
