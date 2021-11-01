@@ -254,14 +254,14 @@ In such a case, the robot needs to be able to save the current state of the plan
 for the interruption has been resolved. Consequently, the robot has to be prepared to pause and resume the execution of a given plan, which is far from 
 trivial, since the original plan may no longer be applicable for various reasons.
 
-\section{High-Level State Machine Architecture}
+\section{State Machine Architecture}
 
 Plan execution as well as robot operation monitoring are modeled as a high-level hierarchical state machine, whose architecture is shown
 in figure \ref{fig:high_level_smach}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{pics/SMACH_complete.png}
-    \caption{\textsc{Architecture of the Hierarchical State Machine}}
+    \includegraphics[width=0.8\textwidth]{pics/SMACH_high_level.png}
+    \caption{\textsc{Architecture of the Hierarchical State Machine (high-level)}}
     \label{fig:high_level_smach}
 \end{figure}
 \noindent
@@ -269,8 +269,8 @@ As depicted in figure \ref{fig:high_level_smach}, the robot starts in the state 
 \code{NORMAL\_OPERATION} is represented by an embedded state machine with the same name that is visualized in figure \ref{fig:low_level_smach}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{pics/SMACH_low_level.png}
-    \caption{\textsc{Architecture of the Embedded State Machine}}
+    \includegraphics[width=0.8\textwidth]{pics/SMACH_low_level.png}
+    \caption{\textsc{Architecture of the Embedded State Machine (low-level)}}
     \label{fig:low_level_smach}
 \end{figure}
 \noindent
