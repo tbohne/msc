@@ -262,14 +262,16 @@ library.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/SMACH_high_level_pretty.jpg}
-    \caption{\textsc{Architecture of the Hierarchical State Machine (high-level)}}
+    \caption{\textsc{Architecture of the Hierarchical State Machine (High-Level)}}
     \label{fig:high_level_smach}
 \end{figure}
 \noindent
 As depicted in figure \ref{fig:high_level_smach}, the robot starts in the state \code{NORMAL\_OPERATION} in the high-level hierarchical state machine \code{EXECUTION\_MONITORING}.
 \code{NORMAL\_OPERATION} is represented by an embedded state machine named \code{OPERATION}, visualized in figure \ref{fig:low_level_smach}, as well as the two
-parallel running execution monitoring states (cf. \cite{monitor_state}) \code{CONTINGENCY\_MONITORING} and \code{CATASTROPHE\_MONITORING}, implemented as a concurrence container \cite{concurrence_container}.
-These parallel running states are used to monitor the robot's operation and to interrupt it when a problematic situation requiring special treatment is detected.
+parallel running execution monitoring states (cf. ROS \code{MonitorState} \cite{monitor_state}) \code{CONTINGENCY\_MONITORING} and \code{CATASTROPHE\_MONITORING}, 
+implemented as a concurrence container (cf. SMACH \code{Concurrence} \cite{concurrence_container}).
+These parallel running states are used to monitor the robot's operation and to interrupt it when a problematic situation requiring special treatment is detected
+(see the dashed arrows in figure \ref{fig:high_level_smach}).
 Although a monitoring solution could in principle also be implemented sequentially, it seems more natural to choose a parallel approach, since a sequential option
 would have the disadvantage that no monitoring takes place while a task / algorithm is being executed, but only afterwards.
 It is desirable to be able to intervene at any time during the execution of a task when a monitoring procedure running in parallel is triggered and causes a change of state.
@@ -292,23 +294,24 @@ Finally, the last potential outcome is again \code{preempted} based on some exte
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/SMACH_low_level_pretty.jpg}
-    \caption{\textsc{Architecture of the Embedded State Machine (low-level)}}
+    \caption{\textsc{Architecture of the Embedded State Machine (Low-Level)}}
     \label{fig:low_level_smach}
 \end{figure}
 \noindent
-Now that we have seen what happens in \code{NORMAL\_OPERATION} and particularly in \code{OPERATION}, we come back to the parent state machine depicted in figure \ref{fig:high_level_smach}.
+Now that the control flow of \code{NORMAL\_OPERATION} and, in particular, \code{OPERATION} has been clarified, we return to the parent state machine shown 
+in figure \ref{fig:high_level_smach}.
 As mentioned, when \code{NORMAL\_OPERATION} returns \code{end\_of\_episode}, the parent state machine transitions to the \code{SHUTDOWN} state and the 
 robot's work for that long-term episode is complete, which means that the robot performs data management and then the system is deactivated.
 Essentially, in a long-term episode in the considered scenario, the robot should stay in \code{NORMAL\_OPERATION} as 
 long as the episode is running or an error / problem has occurred, either an error that it is able to deal with itself or even a more severe problem that requires the 
 intervention of a human operator. Accordingly, if \code{NORMAL\_OPERATION}, i.e. the embedded state machine together with the parallel running monitoring states has the outcome 
-\code{minor\_complication}, the robot enters the state \code{CONTINGENCY}, which means that it has detected a minor problem, e.g. a sensor failure, but its ability to act
-is preserved, it is for example able to drive back to the base in safety mode. However, if \code{NORMAL\_OPERATION} returns \code{critical\_complication}, there is a critical 
-problem that is unsolvable for the robot, perhaps even for the operator, and the robot transitions to \code{CATASTROPHE}. If it is still possible, the robot saves the current 
+\code{minor\_complication}, the robot enters the state \code{CONTINGENCY}, which means that it has detected a soft failure, e.g. a sensor failure, but its ability to act
+is preserved, it is for example able to drive back to the base in safety mode. However, if \code{NORMAL\_OPERATION} returns \code{critical\_complication}, there is a hard 
+failure that is unsolvable for the robot, perhaps even for the operator, and the robot transitions to \code{CATASTROPHE}. If it is still possible, the robot saves the current 
 state of the plan execution, sends an emergency signal, e.g. communicates the problem to the operator, and shuts down, i.e. transitions to \code{SHUTDOWN}.
 There are, of course, situations in which the robot can no longer do anything, such as when the battery is completely discharged.
 In principle, such cases also fall under the category of catastrophe, but since monitoring then no longer works, there is nothing left to do there.
-Besides, there are two more transitions: From \code{CONTINGENCY} back to \code{NORMAL\_OPERATION}, after a minor problem is resolved by the robot, it can continue
+Besides, there are two more transitions depicted in figure \ref{fig:high_level_smach}: From \code{CONTINGENCY} back to \code{NORMAL\_OPERATION}, after a minor problem is resolved by the robot, it can continue
 its normal operation. Additionally, it is possible that something goes wrong during \code{CONTINGENCY} or that the problem actually cannot be solved by the robot,
 such that it transitions to \code{CATASTROPHE}.\newline
 To be clear, \code{NORMAL\_OPERATION} can manage problems in two ways.
