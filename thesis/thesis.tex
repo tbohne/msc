@@ -255,6 +255,7 @@ for the interruption has been resolved. Consequently, the robot has to be prepar
 trivial, since the original plan may no longer be applicable for various reasons.
 
 \section{Execution Monitoring State Machine Architecture}
+\label{sec:execution_monitoring_smach_architecture}
 
 Plan execution as well as robot operation monitoring are modeled as a high-level hierarchically structured state machine, whose architecture is shown
 in figure \ref{fig:high_level_smach}. The architecture is implemented using the SMACH\footnote{ROS-independent Python library to build hierarchical state machines \cite{smach}} 
@@ -331,6 +332,26 @@ It would transition to the state \code{CONTINGENCY} when it detects that the bat
 i.e. drive back to its base, recharge, and continue the plan execution. However, it would proceed to \code{CATASTROPHE} if it detects that the battery is so low
 that it can already tell that it is not possible to reach the base and recharge. It is then still able to communicate the problem and save the state, but it is not able
 to recover. The extreme case, where nothing can be done, would be that the battery suddenly just breaks.
+
+\section{Interrupt and Resume Normal Operation}
+
+In order to handle unexpected problematic situations, the robot must be able to stop and resume its normal operation in general
+and plan execution in particular, i.e. to save the current state of the plan execution and resume exactly that state after the reason
+for the interruption has been resolved. The idea is that whenever the monitoring procedures \code{CONTINGENCY\_MONITORING} and \code{CATASTROPHE\_MONITORING} 
+introduced in section \ref{sec:execution_monitoring_smach_architecture}, or the plan execution itself, detect a problem, they should trigger such an interruption.
+As seen in the last section, there are two states in \code{OPERATION} that the robot can be in during a long-term episode without any problems
+- \code{IDLE} or \code{EXECUTE\_PLAN}. In the \code{IDLE} state, where it waits for the plan generator described in section \ref{} to provide a plan,
+it is straightforward, the normal operation is interrupted, the high-level state machine transitions to \code{CONTINGENCY} or \code{CATASTROPHE} depending
+on the severity of the problem, and then, i.e. when the minor problem is resolved, it transitions back to \code{IDLE} or, in the case of \code{CATASTROPHE},
+it shuts down. The more interesting case, of course, is such an interruption of normal operation when the robot is in the low-level state \code{EXECUTE\_PLAN}.
+During the \code{EXECUTE\_PLAN} state, the currently executed plan is always stored in the \code{userdata} field of the state.
+SMACH states always provide so-called \code{userdata} fields, which are essentially the input and output data of a SMACH state.
+Initially, when \code{IDLE} receives a plan from the plan generator, it passes it as \code{userdata} to the \code{EXECUTE\_PLAN} state.
+Then, whenever \code{EXECUTE\_PLAN} successfully completes an action of the plan, the reduced plan is passed to the next iteration of the same state.
+Therefore, based on this architecture, the current state of the plan execution is always stored in the \code{userdata} of the SMACH.
+Of course, when the robot transitions back to \code{NORMAL\_OPERATION} after solving a contingency, it starts again in \code{IDLE}, which is why \code{IDLE} 
+always looks for existing unfinished plans in the \code{userdata} first. If there is one, it does not prompt the plan generator for a new plan, but continues the previously 
+preempted plan. The catastrophe case works analogously to the \code{IDLE} state.
 
 \chapter{Integrated Solutions}
 
