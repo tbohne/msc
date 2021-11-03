@@ -205,6 +205,8 @@ Kunze et al. point out that many challenges remain to be overcome with respect t
 Particularly relevant to this work are the natural challenge of system integration, i.e. integrating numerous methods and technologies into a comprehensive solution 
 for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the help of human operators in unexpected problematic situations. \cite{Kunze:2018}
 
+\pagebreak
+
 \section{Challenges}
 \label{sec:challenges_for_lta}
 
@@ -218,11 +220,27 @@ can prevent the smooth functioning of long-term autonomous systems and are thus 
     \item obstacles on the planned path
     \item hardware issues (e.g. sensor failure)
     \item lost connection (e.g. WiFi)
+    \item incorrect / inaccurate localization
     \item lack of GPS signal
     \item certain dynamics (day / night, e.g. for sunlight-dependent sensors such as cameras)
     \item full memory (not able to save further scans, i.e. data management)
     \item robot falls over
 \end{itemize}
+For each potential problem identified, its relevance is briefly explained below, along with why it might be problematic.\newline
+
+\noindent
+\textbf{Incorrect or Inaccurate Localization}\newline
+
+\noindent
+It is obvious that it is a problem if the robot is not able to localize itself correctly in its environment. The relevance here can easily be
+argued based on practical experience, as this issue has already caused a lot of trouble in practice with the AROX system during the work for the PORTAL project.
+In these situations, a major problem for localization was rotating on the spot. It would be very valuable to develop a monitoring approach that is capable 
+of realizing situations in which the localization is no longer accurate, as there is a simple workaround that alleviates the problem in practice in many cases: 
+Just driving the robot a few meters back and forth to recalibrate the localization using different GPS positions. Of course, it can also be a problem for
+localization if the GPS signal itself is inaccurate or non-existent, but that is another topic.\newline
+
+TODO\newline
+
 The idea is to tackle a subset of this potentially extended list of issues that is realistically solvable in the scope of the work.
 Generally, the potential barriers for long-term autonomy can be classified into three categories of increasing impact on the system:
 \begin{enumerate}
