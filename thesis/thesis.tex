@@ -232,12 +232,18 @@ For each potential problem identified, its relevance is briefly explained below,
 \textbf{Incorrect or Inaccurate Localization}\newline
 
 \noindent
-It is obvious that it is a problem if the robot is not able to localize itself correctly in its environment. The relevance here can easily be
-argued based on practical experience, as this issue has already caused a lot of trouble in practice with the AROX system during the work for the PORTAL project.
-In these situations, a major problem for localization was rotating on the spot. It would be very valuable to develop a monitoring approach that is capable 
-of realizing situations in which the localization is no longer accurate, as there is a simple workaround that alleviates the problem in practice in many cases: 
-Just driving the robot a few meters back and forth to recalibrate the localization using different GPS positions. Of course, it can also be a problem for
-localization if the GPS signal itself is inaccurate or non-existent, but that is another topic.\newline
+It is obvious that it is a problem when the robot is not able to localize itself correctly in its environment.
+In this case, it is a matter of localization within a global reference system, i.e. determining the pose (position and orientation) within a given map of the environment.
+If the localization is no longer accurate, e.g. because the robot has been moved to a different position in the map, it must detect this in order to
+trigger relocalization. In the case of such a localization error, the \textit{kidnapped robot problem} arises, because although no one has 
+physically moved the robot from its position, it is the same from the robot's perspective. \cite{Hertzberg:2012}
+The relevance here can easily be argued based on practical experience, as this issue has already caused a lot of trouble in practice with the AROX system during 
+the work for the PORTAL project. In these situations, a major problem for localization was rotating the robot on the spot.
+The problems encountered consisted mostly of an incorrect orientation of the robot and rather rarely of an actual incorrect position.
+If the orientation is incorrect, the sensor records will also be incorrectly aligned, which is a major problem for the scenario under consideration.
+It would be very valuable to develop a monitoring  approach that is capable of realizing situations in which the localization is no longer accurate, as there is a
+simple workaround that alleviates the problem in practice in many cases: Just driving the robot a few meters back and forth to recalibrate the localization 
+using different GPS positions. Of course, it can also be a problem for localization if the GPS signal itself is inaccurate or non-existent, but that is another topic.\newline
 
 TODO\newline
 
