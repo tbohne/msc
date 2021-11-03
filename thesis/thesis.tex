@@ -218,7 +218,7 @@ can prevent the smooth functioning of long-term autonomous systems and are thus 
     \item battery failure / unexpected low battery
     \item drastic weather changes
     \item obstacles on the planned path
-    \item hardware issues (e.g. sensor failure)
+    \item hardware issues (e.g. sensor failures)
     \item lost connection (e.g. WiFi)
     \item incorrect / inaccurate localization
     \item lack of GPS signal
@@ -227,6 +227,17 @@ can prevent the smooth functioning of long-term autonomous systems and are thus 
     \item robot falls over
 \end{itemize}
 For each potential problem identified, its relevance is briefly explained below, along with why it might be problematic.\newline
+
+\noindent
+\textbf{Hardware Issues - Sensor Failures}\newline
+
+\noindent
+Hardware issues are a very general problem class and could relate to almost arbitrary many kinds of issues.
+Since the correct functioning of the laser scanner is crucial for the long-term monitoring scenario, 
+the main focus in this category will be on detecting failures in the laser scanner used.
+Sensor failures are, of course, a failure class in which the robot can do little except attempt to restart the corresponding sensor, 
+and therefore rarely has any choice but to call the human operator for assistance. Nevertheless, it is important to identify such a 
+malfunction as soon as possible, communicate the problem and avoid a lot of useless work and wasted operating time.\newline
 
 \noindent
 \textbf{Incorrect or Inaccurate Localization}\newline
