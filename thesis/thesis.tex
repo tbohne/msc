@@ -219,6 +219,8 @@ can prevent the smooth functioning of long-term autonomous systems and are thus 
     \item battery failure / unexpected low battery
     \item drastic weather changes
     \item obstacles on the planned path
+    \item robot gets stuck (e.g. spinning wheels due to a muddy path)
+    \item navigation failures (e.g. global plan not feasible)
     \item hardware issues (e.g. sensor failures)
     \item lost connection (e.g. WiFi)
     \item incorrect / inaccurate localization
@@ -243,6 +245,15 @@ The entire process is essentially the same for all potential LTA problems - faul
 Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention,
 is implemented as the ROS topic \code{\/request\_help}. Once the problem has been solved by the human operator, the control can be returned
 to the autonomous mobile robot via the \code{\/problem\_solved} topic.\newline
+
+\noindent
+\textbf{Navigation Failures}\newline
+
+\noindent
+Another issue that was already present in experiments during this work.
+The global planner provides a path that tries to drive around a field although there is no way.
+Also in "Don’t Make the Same Mistakes Again and Again: Learning Local Recovery Policies for Navigation from Human Demonstrations"\newline
+TODO: REFINE:::: \newline
 
 \noindent
 \textbf{Hardware Issues - Sensor Failures}\newline
