@@ -123,8 +123,9 @@ Finally, section \ref{sec:challenges_for_lta} identifies potential hinderances f
 \label{sec:lta_plant_observation}
 
 The particular scenario that is going to be considered in this work takes place in an agricultural context.
-The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans of the plants on a field in order to monitor their growth progression and 
-to detect certain features based on the growth stage. Correspondingly, the robot has to be able to process the entire field continually without the need for human supervision,
+The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans and hyperspectral images of the plants on a field in order to monitor their growth progression and 
+to detect certain features based on the growth stage. Moreover, these recordings can be used to detect leaf diseases [TODO: refine based on literature].
+Correspondingly, the robot has to be able to process the entire field continually without the need for human supervision,
 including the requirement for repeated charge stops. For this purpose, there is supporting infrastructure in the form of a container with an inductive charging station on site
 establishing the power supply. Since the focus of the work is not going to be the scanning task, but to establish robust long-term autonomy, the actual detection of features 
 etc. will be disregarded.
@@ -226,7 +227,22 @@ can prevent the smooth functioning of long-term autonomous systems and are thus 
     \item full memory (not able to save further scans, i.e. data management)
     \item robot falls over
 \end{itemize}
-For each potential problem identified, its relevance is briefly explained below, along with why it might be problematic.\newline
+For each potential problem identified, its relevance is briefly explained below, along with why it might be problematic.
+The idea is to have monitoring nodes that look for the specific types of faults and report them via the \code{MonitorState}s topic,
+which triggers a transition to \code{CONTINGENCY} or \code{CATASTROPHE}. Via the published message, the information about the required
+method of resolution is transmitted, depending on the type of fault. Therefore, the overall goal is to have a resolver node for each of the 
+potential failures that is executed in \code{CONTINGENCY} or \code{CATASTROPHE} based on the failure case at hand.
+The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation.
+
+\pagebreak
+
+\noindent
+\textbf{Communication with a Human Operator}\newline
+
+\noindent
+Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention,
+is implemented as the ROS topic \code{\/request\_help}. Once the problem has been solved by the human operator, the control can be returned
+to the autonomous mobile robot via the \code{\/problem\_solved} topic.\newline
 
 \noindent
 \textbf{Hardware Issues - Sensor Failures}\newline
@@ -237,7 +253,13 @@ Since the correct functioning of the laser scanner is crucial for the long-term 
 the main focus in this category will be on detecting failures in the laser scanner used.
 Sensor failures are, of course, a failure class in which the robot can do little except attempt to restart the corresponding sensor, 
 and therefore rarely has any choice but to call the human operator for assistance. Nevertheless, it is important to identify such a 
-malfunction as soon as possible, communicate the problem and avoid a lot of useless work and wasted operating time.\newline
+malfunction as soon as possible, communicate the problem and avoid a lot of useless work and wasted operating time.
+A fairly trivial approach to detecting sensor failures would be to simply check whether messages are still arriving on the corresponding ROS topic.
+While trivial, it is not yet available and is critical for reasonable long-term autonomy. Moreover, it is quite easy to evaluate such a failure case,
+as it can be easily simulated by stopping to publish laser scans in the fake scanner node. In such a case, a monitoring procedure should be able to detect this,
+switch to \code{CONTINGENCY} mode and call for help, for example. The idea is then to demonstrate that in the prototypical scenario, the plan will no longer 
+execute correctly when these errors occur, and then after monitoring is started, the problem is detected, the operator is informed, the problem is resolved, 
+and plan execution can continue. Such a simulated sensor failure can also be triggered by publishing on some topic.\newline
 
 \noindent
 \textbf{Incorrect or Inaccurate Localization}\newline
