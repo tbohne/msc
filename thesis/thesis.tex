@@ -228,19 +228,18 @@ can prevent the smooth functioning of long-term autonomous systems and are thus 
     \item \textbf{power management} (battery failure / unexpected low battery)
     \item \textbf{charging failure} (unsuccessful docking / no charging)
     \item \textbf{drastic weather change} (e.g. storm, fog, extreme sunshine, heavy rain, extreme cold)
+    \item \textbf{certain dynamics} (e.g. day / night)
+    \item \textbf{sensor (perception) failure}
+    \item \textbf{data management} (e.g. full memory, sensor data processing failure)
+    \item \textbf{lost connection} (WiFi, RTK, UWB, LTE)
     \item \textbf{obstacles blocking planned path} (static / dynamic)
     \item \textbf{robot gets stuck} (e.g. spinning wheels)
     \item \textbf{robot falls over}
     \item \textbf{navigation failure} (\code{move\_base\_flex} / \code{pdc})
-    \item \textbf{sensor (perception) failure}
-    \item \textbf{sensor data processing failure}
-    \item \textbf{lost connection} (e.g. WiFi, RTK, UWB, LTE)
+    \item \textbf{sustained recovery}, i.e. no return to \code{NORMAL\_OPERATION}
     \item \textbf{incorrect / inaccurate localization} (GPS, IMU, odometry)
-    \item \textbf{certain dynamics} (e.g. day / night)
-    \item \textbf{data management} (e.g. full memory)
-    \item \textbf{sustained recovery}, i.e. no return to normal operation
-    \item \textbf{mapping issues} (e.g. incorrect costmap entries)
-    \item \textbf{plan deployment failure}, i.e. robot remains in \code{IDLE} state
+    \item \textbf{mapping error} (e.g. incorrect costmap entries)
+    \item \textbf{plan deployment failure}, i.e. robot remains in \code{IDLE}
 \end{itemize}
 For each potential problem identified, its relevance is briefly explained below, along with why it might be problematic.
 The idea is to have monitoring nodes that look for the specific types of faults and report them via the \code{MonitorState}s topic,
@@ -267,6 +266,42 @@ TBD...\newline
 
 \noindent
 TBD...\newline
+
+\noindent
+\textbf{Certain Dynamics}\newline
+
+\noindent
+(day / night, e.g. for sunlight-dependent sensors such as cameras)\newline
+
+\noindent
+\textbf{Sensor (Perception) Failure}\newline
+
+\noindent
+Hardware issues are a very general problem class and could relate to almost arbitrary many kinds of issues.
+Since the correct functioning of the laser scanner is crucial for the long-term monitoring scenario, 
+the main focus in this category will be on detecting failures in the laser scanner used.
+Sensor failures are, of course, a failure class in which the robot can do little except attempt to restart the corresponding sensor, 
+and therefore rarely has any choice but to call the human operator for assistance. Nevertheless, it is important to identify such a 
+malfunction as soon as possible, communicate the problem and avoid a lot of useless work and wasted operating time.
+A fairly trivial approach to detecting sensor failures would be to simply check whether messages are still arriving on the corresponding ROS topic.
+While trivial, it is not yet available and is critical for reasonable long-term autonomy. Moreover, it is quite easy to evaluate such a failure case,
+as it can be easily simulated by stopping to publish laser scans in the dummy scanner node. In such a case, a monitoring procedure should be able to detect this,
+switch to \code{CONTINGENCY} mode and call for help, for example. The idea is then to demonstrate that in the prototypical scenario, the plan will no longer 
+execute correctly when these errors occur, and then after monitoring is started, the problem is detected, the operator is informed, the problem is resolved, 
+and plan execution can continue. Such a simulated sensor failure can also be triggered by publishing on some topic.\newline
+
+\noindent
+\textbf{Data Management}\newline
+
+\noindent
+sensor data processing failure\newline
+e.g. full memory (not able to save further scans)\newline
+
+\noindent
+\textbf{Lost Connection}\newline
+
+\noindent
+lost connection (e.g. WiFi, RTK, UWB, LTE)\newline
 
 \noindent
 \textbf{Obstacles Blocking the Planned Path}\newline
@@ -296,36 +331,13 @@ Another issue that was already present in experiments during this work.
 The global planner provides a path that tries to drive around a field although there is no way.
 Also in "Don’t Make the Same Mistakes Again and Again: Learning Local Recovery Policies for Navigation from Human Demonstrations"\newline
 TODO: REFINE:::: \newline
-e.g. global plan not feasible\newline
+e.g. global plan not feasible\
 
 \noindent
-\textbf{Sensor (Perception) Failure}\newline
+\textbf{Sustained Recovery}\newline
 
 \noindent
-Hardware issues are a very general problem class and could relate to almost arbitrary many kinds of issues.
-Since the correct functioning of the laser scanner is crucial for the long-term monitoring scenario, 
-the main focus in this category will be on detecting failures in the laser scanner used.
-Sensor failures are, of course, a failure class in which the robot can do little except attempt to restart the corresponding sensor, 
-and therefore rarely has any choice but to call the human operator for assistance. Nevertheless, it is important to identify such a 
-malfunction as soon as possible, communicate the problem and avoid a lot of useless work and wasted operating time.
-A fairly trivial approach to detecting sensor failures would be to simply check whether messages are still arriving on the corresponding ROS topic.
-While trivial, it is not yet available and is critical for reasonable long-term autonomy. Moreover, it is quite easy to evaluate such a failure case,
-as it can be easily simulated by stopping to publish laser scans in the dummy scanner node. In such a case, a monitoring procedure should be able to detect this,
-switch to \code{CONTINGENCY} mode and call for help, for example. The idea is then to demonstrate that in the prototypical scenario, the plan will no longer 
-execute correctly when these errors occur, and then after monitoring is started, the problem is detected, the operator is informed, the problem is resolved, 
-and plan execution can continue. Such a simulated sensor failure can also be triggered by publishing on some topic.\newline
-
-\noindent
-\textbf{Sensor Data Processing Failure}\newline
-
-\noindent
-sensor data processing failure\newline
-
-\noindent
-\textbf{Lost Connection}\newline
-
-\noindent
-lost connection (e.g. WiFi, RTK, UWB, LTE)\newline
+i.e. not getting back to normal operation\newline
 
 \noindent
 \textbf{Incorrect or Inaccurate Localization}\newline
@@ -344,24 +356,6 @@ It would be very valuable to develop a monitoring  approach that is capable of r
 simple workaround that alleviates the problem in practice in many cases: Just driving the robot a few meters back and forth to recalibrate the localization 
 using different GPS positions. Of course, it can also be a problem for localization if the GPS signal itself is inaccurate or non-existent, but that is another topic.\newline
 TODO: lack of GPS signal is going to be discussed here...\newline
-
-\noindent
-\textbf{Certain Dynamics}\newline
-
-\noindent
-(day / night, e.g. for sunlight-dependent sensors such as cameras)\newline
-
-\noindent
-\textbf{Data Management}\newline
-
-\noindent
-e.g. full memory (not able to save further scans)\newline
-
-\noindent
-\textbf{Sustained Recovery}\newline
-
-\noindent
-i.e. not getting back to normal operation\newline
 
 \noindent
 \textbf{Mapping Issues}\newline
