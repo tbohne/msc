@@ -211,23 +211,36 @@ for long-term autonomy, as well as the design of ``human-in-the-loop'' systems c
 \section{Challenges}
 \label{sec:challenges_for_lta}
 
+\noindent
+\textbf{Communication with a Human Operator}\newline
+
+\noindent
+TODO: Not yet sure where to put this..\newline
+Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention,
+is implemented as the ROS topic \code{\/request\_help}. Once the problem has been solved by the human operator, the control can be returned
+to the autonomous mobile robot via the \code{\/problem\_solved} topic.\newline
+
 Having clarified what long-term autonomy means for this work, we now turn to potential problems that stand in its way.
 There are numerous potential hinderances for long-term autonomous systems that can cause failure and prevent the system from continuing its task.
 Without claiming to be exhaustive, the following is a list of potential problems in an agricultural field monitoring context that, from a practical perspective,
 can prevent the smooth functioning of long-term autonomous systems and are thus worthy of investigation:
 \begin{itemize}
-    \item battery failure / unexpected low battery
-    \item drastic weather changes
-    \item obstacles on the planned path
-    \item robot gets stuck (e.g. spinning wheels due to a muddy path)
-    \item navigation failures (e.g. global plan not feasible)
-    \item hardware issues (e.g. sensor failures)
-    \item lost connection (e.g. WiFi)
-    \item incorrect / inaccurate localization
-    \item lack of GPS signal
-    \item certain dynamics (day / night, e.g. for sunlight-dependent sensors such as cameras)
-    \item full memory (not able to save further scans, i.e. data management)
-    \item robot falls over
+    \item \textbf{power management} (battery failure / unexpected low battery)
+    \item \textbf{charging failure} (unsuccessful docking / no charging)
+    \item \textbf{drastic weather change} (e.g. storm, fog, extreme sunshine, heavy rain, extreme cold)
+    \item \textbf{obstacles blocking planned path} (static / dynamic)
+    \item \textbf{robot gets stuck} (e.g. spinning wheels)
+    \item \textbf{robot falls over}
+    \item \textbf{navigation failure} (\code{move\_base\_flex} / \code{pdc})
+    \item \textbf{sensor (perception) failure}
+    \item \textbf{sensor data processing failure}
+    \item \textbf{lost connection} (e.g. WiFi, RTK, UWB, LTE)
+    \item \textbf{incorrect / inaccurate localization} (GPS, IMU, odometry)
+    \item \textbf{certain dynamics} (e.g. day / night)
+    \item \textbf{data management} (e.g. full memory)
+    \item \textbf{sustained recovery}, i.e. no return to normal operation
+    \item \textbf{mapping issues} (e.g. incorrect costmap entries)
+    \item \textbf{plan deployment failure}, i.e. robot remains in \code{IDLE} state
 \end{itemize}
 For each potential problem identified, its relevance is briefly explained below, along with why it might be problematic.
 The idea is to have monitoring nodes that look for the specific types of faults and report them via the \code{MonitorState}s topic,
@@ -236,27 +249,57 @@ method of resolution is transmitted, depending on the type of fault. Therefore, 
 potential failures that is executed in \code{CONTINGENCY} or \code{CATASTROPHE} based on the failure case at hand.
 The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation.
 
-\pagebreak
+\noindent
+\textbf{Power Management}\newline
 
 \noindent
-\textbf{Communication with a Human Operator}\newline
+TBD...\newline
 
 \noindent
-Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention,
-is implemented as the ROS topic \code{\/request\_help}. Once the problem has been solved by the human operator, the control can be returned
-to the autonomous mobile robot via the \code{\/problem\_solved} topic.\newline
+\textbf{Charging Failure}\newline
 
 \noindent
-\textbf{Navigation Failures}\newline
+i.e. unsuccessful docking with inductive charging station / charging process does not start after docking\newline
+TBD...\newline
+
+\noindent
+\textbf{Drastic Weather Change}\newline
+
+\noindent
+TBD...\newline
+
+\noindent
+\textbf{Obstacles Blocking the Planned Path}\newline
+
+\noindent
+(static (e.g. trailer) / dynamic (e.g. humans or animals))\newline
+TBD...\newline
+
+\noindent
+\textbf{Robot Gets Stuck}\newline
+
+\noindent
+(e.g. spinning wheels due to a muddy path)\newline
+TBD...\newline
+
+\noindent
+\textbf{Robot Falls Over}\newline
+
+\noindent
+TBD--\newline
+
+\noindent
+\textbf{Navigation Failure}\newline
 
 \noindent
 Another issue that was already present in experiments during this work.
 The global planner provides a path that tries to drive around a field although there is no way.
 Also in "Don’t Make the Same Mistakes Again and Again: Learning Local Recovery Policies for Navigation from Human Demonstrations"\newline
 TODO: REFINE:::: \newline
+e.g. global plan not feasible\newline
 
 \noindent
-\textbf{Hardware Issues - Sensor Failures}\newline
+\textbf{Sensor (Perception) Failure}\newline
 
 \noindent
 Hardware issues are a very general problem class and could relate to almost arbitrary many kinds of issues.
@@ -267,10 +310,22 @@ and therefore rarely has any choice but to call the human operator for assistanc
 malfunction as soon as possible, communicate the problem and avoid a lot of useless work and wasted operating time.
 A fairly trivial approach to detecting sensor failures would be to simply check whether messages are still arriving on the corresponding ROS topic.
 While trivial, it is not yet available and is critical for reasonable long-term autonomy. Moreover, it is quite easy to evaluate such a failure case,
-as it can be easily simulated by stopping to publish laser scans in the fake scanner node. In such a case, a monitoring procedure should be able to detect this,
+as it can be easily simulated by stopping to publish laser scans in the dummy scanner node. In such a case, a monitoring procedure should be able to detect this,
 switch to \code{CONTINGENCY} mode and call for help, for example. The idea is then to demonstrate that in the prototypical scenario, the plan will no longer 
 execute correctly when these errors occur, and then after monitoring is started, the problem is detected, the operator is informed, the problem is resolved, 
 and plan execution can continue. Such a simulated sensor failure can also be triggered by publishing on some topic.\newline
+
+\noindent
+\textbf{Sensor Data Processing Failure}\newline
+
+\noindent
+sensor data processing failure\newline
+
+\noindent
+\textbf{Lost Connection}\newline
+
+\noindent
+lost connection (e.g. WiFi, RTK, UWB, LTE)\newline
 
 \noindent
 \textbf{Incorrect or Inaccurate Localization}\newline
@@ -288,6 +343,37 @@ If the orientation is incorrect, the sensor records will also be incorrectly ali
 It would be very valuable to develop a monitoring  approach that is capable of realizing situations in which the localization is no longer accurate, as there is a
 simple workaround that alleviates the problem in practice in many cases: Just driving the robot a few meters back and forth to recalibrate the localization 
 using different GPS positions. Of course, it can also be a problem for localization if the GPS signal itself is inaccurate or non-existent, but that is another topic.\newline
+TODO: lack of GPS signal is going to be discussed here...\newline
+
+\noindent
+\textbf{Certain Dynamics}\newline
+
+\noindent
+(day / night, e.g. for sunlight-dependent sensors such as cameras)\newline
+
+\noindent
+\textbf{Data Management}\newline
+
+\noindent
+e.g. full memory (not able to save further scans)\newline
+
+\noindent
+\textbf{Sustained Recovery}\newline
+
+\noindent
+i.e. not getting back to normal operation\newline
+
+\noindent
+\textbf{Mapping Issues}\newline
+
+\noindent
+incorrect costmap entries due to incorrectly perceived 'virtual objects' (e.g. detect ground as obstacle)\newline
+
+\noindent
+\textbf{Plan Deployment Failure}\newline
+
+\noindent
+i.e. robot keeps in \code{IDLE} state too long, because no plan arrives -> should be recognized\newline
 
 TODO\newline
 
