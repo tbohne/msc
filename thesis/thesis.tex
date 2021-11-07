@@ -245,7 +245,11 @@ and subsequent remediation.
 \textbf{Power Management}\newline
 
 \noindent
-TBD...\newline
+A natural requirement for LTA systems is some kind of energy management. The system is expected to operate autonomously for extended periods of time, which of course 
+assumes a power supply. However, the energy management estimated at planning time may not work correctly or as expected at execution time, e.g. the battery could be 
+low before the planned time. Or worse, there could be a complete battery failure. It would certainly be useful to enable the system to handle such issues, at least to 
+some degree. A watchdog module that monitors the battery state and acts as a fail-safe, such as the one described in section \ref{sec:battery_monitoring}, could be 
+integrated to address power management issues and improve the robot's survivability.\newline
 
 \noindent
 \textbf{Charging Failure}\newline
