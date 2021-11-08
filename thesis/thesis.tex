@@ -221,6 +221,7 @@ can prevent the smooth functioning of long-term autonomous systems and are thus 
     \item \textbf{drastic weather change} (e.g. storm, fog, extreme sunshine, heavy rain, extreme cold)
     \item \textbf{certain dynamics} (e.g. day / night)
     \item \textbf{sensor (perception) failure}
+    \item \textbf{perceptual aliasing issue}
     \item \textbf{data management} (e.g. full memory, sensor data processing failure)
     \item \textbf{lost connection} (WiFi, RTK, UWB, LTE)
     \item \textbf{obstacles blocking planned path} (static / dynamic)
@@ -294,6 +295,20 @@ as it can be easily simulated by stopping to publish laser scans in the dummy sc
 switch to \code{CONTINGENCY} mode and call for help, for example. The idea is then to demonstrate that in the prototypical scenario, the plan will no longer 
 execute correctly when these errors occur, and then after monitoring is started, the problem is detected, the operator is informed, the problem is resolved, 
 and plan execution can continue. Such a simulated sensor failure can also be triggered by publishing on some topic.\newline
+
+\noindent
+\textbf{Perceptual Aliasing Issue}\newline
+
+\noindent
+Place recognition can certainly be useful for LTA operation of a mobile robot. However, long-term place recognition is not trivial because 
+the appearance of places in the environment changes quite drastically over time, e.g. due to illumination, vegetation periods, or weather. \cite{Han:2018}
+In the scenario considered in this work, it is particularly relevant that the robot is able to recognize the place of the mobile container
+that serves as shelter and provides the charging station. In addition to the natural changes in the environment over time, there is another important aspect
+that makes long-term place recognition particularly challenging - the perceptual aliasing issue. This problem refers to the fact that certain places and objects are very 
+similar to each other, that is, they have many common characteristics, which makes them hard to distinguish. \cite{Han:2018}
+If, for example, a mobile office container is placed right next to the robot's base station, it might be difficult for the robot to distinguish the objects.
+There could be a need for monitoring methods that are capable of recognizing such situations and providing some strategies to resolve the perceptual aliasing issue,
+e.g. by changing the position or the viewpoint in order to discriminate the objects.\newline
 
 \noindent
 \textbf{Data Management}\newline
