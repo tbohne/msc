@@ -382,7 +382,12 @@ the errors that occur there, but that is beyond the scope of this work.\newline
 \textbf{Mapping Issues}\newline
 
 \noindent
-incorrect costmap entries due to incorrectly perceived 'virtual objects' (e.g. detect ground as obstacle)\newline
+Mapping issues can generally refer to a variety of problems. In this case, a particular issue regarding the local \textit{costmap} observed during experiments for this work is meant.
+The \textit{costmap} is a 2D occupancy grid based on sensor data of the world. It generates costs based on a user defined inflation radius.
+If the robot drives over a hill and the sensors are configured in a certain way, parts of the ground may be incorrectly perceived as an obstacle and entered into the \textit{costmap}.
+The problem then is that the robot is unable to drive through these ``virtual'' obstacles. Therefore, it is demanded to either pay close attention to obstacle detection
+when moving on uneven terrain or to clear the \textit{costmap} from time to time to eliminate such erroneous entries. This is especially true for recovery behaviors, 
+where such ``virtual'' objects can block a path that the robot must traverse.\newline
 
 \noindent
 \textbf{Plan Deployment Failure}\newline
