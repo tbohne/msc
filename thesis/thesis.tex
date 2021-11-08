@@ -308,7 +308,11 @@ It would be valuable to identify such problems as soon as possible to avoid redu
 \textbf{Lost Connection}\newline
 
 \noindent
-lost connection (e.g. WiFi, RTK, UWB, LTE)\newline
+For the robot to work as expected, it must maintain connections to various services. Accordingly, an interruption of one of these connections should be detected immediately.
+A real time communication channel (e.g. WiFi) is required to connect the RTK base station, i.e. the mobile container, and the RTK rover, i.e. the robot, in order to
+transmit the correction signals for high-precision positioning. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals,
+i.e. are connected to the GNSS service. In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
+to the base station or external servers for further processing.\newline
 
 \noindent
 \textbf{Obstacles Blocking the Planned Path}\newline
