@@ -213,8 +213,14 @@ for long-term autonomy, as well as the design of ``human-in-the-loop'' systems c
 
 Having clarified what long-term autonomy (LTA) means for this work, we now turn to potential problems that stand in its way.
 There are numerous potential hinderances for long-term autonomous systems that can cause failure and prevent the system from continuing its task.
-Without claiming to be exhaustive, the following is a list of potential problems in an agricultural field monitoring context that, from a practical perspective,
-can prevent the smooth functioning of long-term autonomous systems and are thus worthy of investigation:
+The following three constraints precisely define the LTA problems considered in this work.
+\begin{enumerate}
+    \item It can practically occur in the concrete scenario described in section \ref{sec:lta_plant_observation}.
+    \item It can prevent the smooth functioning of LTA systems or affect the quality of its results.
+    \item It can be detected by monitoring methods and subsequently solved or communicated.
+\end{enumerate}
+Without claiming to be exhaustive, the following is a list of potential problems in an agricultural field monitoring context that, 
+from a practical perspective, fulfill the above restrictions and are thus worthy of investigation:
 \begin{itemize}
     \item \textbf{power management} (battery failure / unexpected low battery)
     \item \textbf{charging failure} (unsuccessful docking / no charging)
@@ -238,9 +244,7 @@ The idea is to have monitoring nodes that look for the specific types of issues 
 which triggers a transition to \code{CONTINGENCY} or \code{CATASTROPHE}. Depending on the type of problem, information on the required method of resolution 
 is transmitted via the published message. Therefore, the overall goal is to have a resolver node for each of the potential failures that is executed in \code{CONTINGENCY} 
 or \code{CATASTROPHE} based on the failure case at hand. The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, 
-and subsequent remediation.
-
-\pagebreak
+and subsequent remediation.\newline
 
 \noindent
 \textbf{Power Management}\newline
