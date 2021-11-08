@@ -318,8 +318,13 @@ to the base station or external servers for further processing.\newline
 \textbf{Obstacles Blocking the Planned Path}\newline
 
 \noindent
-(static (e.g. trailer) / dynamic (e.g. humans or animals))\newline
-TBD...\newline
+A relatively common problem for the long-term autonomy of a mobile robot is obstacles blocking the planned path.
+A rough distinction can be made between static obstacles such as a trailer and dynamic obstacles such as animals or people.
+The used navigation framework \code{move\_base\_flex} can already detect obstacles and initiate a recovery behavior if the planned path is not traversable.
+However, it would be good to refine the default recovery behaviors and adapt them to the scenario at hand. Recovery behaviors should naturally vary between
+static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases simply walk through the scene and disappear a moment later,
+so waiting for a moment can already be a very reasonable and sufficient recovery behavior. Static obstacles, on the other hand, may be present for longer 
+periods of time, requiring more sophisticated recovery behaviors.\newline
 
 \noindent
 \textbf{Robot Gets Stuck}\newline
