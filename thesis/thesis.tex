@@ -330,14 +330,16 @@ periods of time, requiring more sophisticated recovery behaviors.\newline
 \textbf{Robot Gets Stuck}\newline
 
 \noindent
-(e.g. spinning wheels due to a muddy path)\newline
-TBD...\newline
+A problem not unlike the obstacles, but slightly different, is that the robot gets stuck and cannot move on. This can happen, for example, when the wheels spin due 
+to a muddy path. Such situations where the robot cannot move even though the plan calls for it should be identified and addressed.\newline
 
 \noindent
 \textbf{Robot Falls Over}\newline
 
 \noindent
-TBD--\newline
+A special case of getting stuck, which should nevertheless be considered separately, is the robot falling over.
+This problem should be considered separately, since in such a case the robot will not be able to recover without human assistance in any case.
+Therefore, it will always lead to a transition to the \code{CATASTROPHE} state.\newline
 
 \noindent
 \textbf{Navigation Failure}\newline
