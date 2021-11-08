@@ -284,11 +284,10 @@ the robot should take twilight into account and plan its operations accordingly 
 
 \noindent
 Hardware issues are a very general problem class and could relate to almost arbitrary many kinds of issues.
-Since the correct functioning of the laser scanner is crucial for the long-term monitoring scenario, 
-the main focus in this category will be on detecting failures in the laser scanner used.
-Sensor failures are, of course, a failure class in which the robot can do little except attempt to restart the corresponding sensor, 
-and therefore rarely has any choice but to call the human operator for assistance. Nevertheless, it is important to identify such a 
-malfunction as soon as possible, communicate the problem and avoid a lot of useless work and wasted operating time.
+Since the correct functioning of the 3D-Lidar sensor is crucial for the long-term monitoring scenario,
+the main focus will be on detecting hardware faults of this type. Sensor failures are, of course, a failure class in which the robot can do little except 
+attempt to restart the corresponding sensor, and therefore rarely has any choice but to call the human operator for assistance. 
+Nevertheless, it is important to identify such a malfunction as soon as possible, communicate the problem and avoid a lot of useless work and wasted operating time.
 A fairly trivial approach to detecting sensor failures would be to simply check whether messages are still arriving on the corresponding ROS topic.
 While trivial, it is not yet available and is critical for reasonable long-term autonomy. Moreover, it is quite easy to evaluate such a failure case,
 as it can be easily simulated by stopping to publish laser scans in the dummy scanner node. In such a case, a monitoring procedure should be able to detect this,
@@ -300,8 +299,10 @@ and plan execution can continue. Such a simulated sensor failure can also be tri
 \textbf{Data Management}\newline
 
 \noindent
-sensor data processing failure\newline
-e.g. full memory (not able to save further scans)\newline
+Since the overall objective of the robot's missions is to acquire data, the appropriate management of this data is of relevance.
+If, for example, the robot is no longer able to save further scans due to a full memory, it should recognize and communicate this.
+In addition, there may be disturbances in the processing of the sensor data, so that the robot is no longer able to process and save the recordings correctly.
+It would be valuable to identify such problems as soon as possible to avoid redundant missions.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
