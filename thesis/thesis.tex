@@ -354,7 +354,10 @@ They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ra
 \textbf{Sustained Recovery}\newline
 
 \noindent
-i.e. not getting back to normal operation\newline
+If the robot tries to recover from a problematic situation, e.g. obstacles on the planned path, such recovery may not be successful, i.e. the robot may not be able
+to return to the normal operation state. In case of an unsuccessful recovery attempt, the robot could either give up and abort its mission or perform another recovery.
+Of course, the robot should not end up in an infinite loop of repeating the same failing recovery, but instead it should try a few different recovery attempts,
+and if none of them work, it should shut down and call the operator. Therefore, it is important to introduce monitoring solutions for recovery behaviors as well.\newline
 
 \noindent
 \textbf{Incorrect or Inaccurate Localization}\newline
