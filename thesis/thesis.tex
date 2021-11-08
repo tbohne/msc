@@ -234,17 +234,14 @@ from a practical perspective, fulfill the above restrictions and are thus worthy
     \item \textbf{robot gets stuck} (e.g. spinning wheels)
     \item \textbf{robot falls over}
     \item \textbf{navigation failure} (\code{move\_base\_flex} / \code{pdc})
-    \item \textbf{sustained recovery}, i.e. no return to \code{NORMAL\_OPERATION}
+    \item \textbf{sustained recovery}, i.e. no return to normal operation
     \item \textbf{incorrect / inaccurate localization} (GPS, IMU, odometry)
     \item \textbf{mapping error} (e.g. incorrect costmap entries)
-    \item \textbf{plan deployment failure}, i.e. robot remains in \code{IDLE}
+    \item \textbf{plan deployment failure}, i.e. robot remains in idle state
 \end{itemize}
 For each potential problem identified, its relevance, i.e. the reasons why it might be problematic, and its consequences are briefly explained below.
-The idea is to have monitoring nodes that look for the specific types of issues and report them via the \code{MonitorState}s topics,
-which triggers a transition to \code{CONTINGENCY} or \code{CATASTROPHE}. Depending on the type of problem, information on the required method of resolution 
-is transmitted via the published message. Therefore, the overall goal is to have a resolver node for each of the potential failures that is executed in \code{CONTINGENCY} 
-or \code{CATASTROPHE} based on the failure case at hand. The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, 
-and subsequent remediation.\newline
+The idea is to have monitoring nodes that look for the specific types of issues and initiate an appropriate response, i.e. solve the problem or
+request the help of a human operator.\newline
 
 \noindent
 \textbf{Power Management}\newline
