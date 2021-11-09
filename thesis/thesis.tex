@@ -447,22 +447,14 @@ the plan generation service described in section \ref{sec:plan_generation}. If t
 The problem can be trivially simulated by simply not launching the plan generation service.\newline
 
 \noindent
-\textbf{Communication with a Human Operator}\newline
-
-\noindent
-TODO: Not yet sure where to put this..\newline
-Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention,
-is implemented as the ROS topic \code{\/request\_help}. Once the problem has been solved by the human operator, the control can be returned
-to the autonomous mobile robot via the \code{\/problem\_solved} topic.\newline
-
-The idea is to tackle a subset of this potentially extended list of issues that is realistically solvable in the scope of the work.
+The idea is to tackle a subset of this list of issues that is realistically solvable in the scope of the work.
 Generally, the potential barriers for long-term autonomy can be classified into three categories of increasing impact on the system:
 \begin{enumerate}
     \item The robot recognizes a problem and is able to solve it by itself.
     \item The robot recognizes a problem, is unable to solve it, and calls a human operator for help.
     \item The robot has a malfunction / problem, but does not recognize it and is therefore unable to solve or communicate it.
 \end{enumerate}
-In the baseline scenario, i.e. a running prototype of an integrated solution, each potential issue in the above list will be classified as type $(3)$.
+In the baseline scenario, i.e. the running prototype of an integrated solution, each potential issue in the above list is classified as type $(3)$.
 Part of the goal of this work is to shift the problems of the selected subset to another category, i.e. to solve them completely, 
 or at least to enable the robot to recognize them with execution monitoring approaches and request help.
 However, it is also part of the truth that not all possible external influences are solvable, i.e. a robot will not be able to solve all
