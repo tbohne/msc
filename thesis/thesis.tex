@@ -321,8 +321,9 @@ that serves as shelter and provides the charging station. In addition to the nat
 that makes long-term place recognition particularly challenging - the perceptual aliasing issue. This problem refers to the fact that certain places and objects are very 
 similar to each other, that is, they have many common characteristics, which makes them hard to distinguish. \cite{Han:2018}
 If, for example, a mobile office container is placed right next to the robot's base station, it might be difficult for the robot to distinguish the objects.
-There could be a need for monitoring methods that are capable of recognizing such situations and providing some strategies to resolve the perceptual aliasing issue,
-e.g. by changing the position or the viewpoint in order to discriminate the objects.\newline
+Hence, there could be a need for monitoring methods that are capable of recognizing such situations and providing some strategies to resolve the perceptual aliasing issue,
+e.g. by changing the position or the viewpoint in order to discriminate the objects. The occurrence of a perceptual aliasing issue can be simulated, for example, 
+by placing an object similar to the container in the simulation.\newline
 
 \noindent
 \textbf{Data Management}\newline
@@ -331,7 +332,11 @@ e.g. by changing the position or the viewpoint in order to discriminate the obje
 Since the overall objective of the robot's missions is to acquire data, the appropriate management of this data is of relevance.
 If, for example, the robot is no longer able to save further scans due to a full memory, it should recognize and communicate this.
 In addition, there may be disturbances in the processing of the sensor data, so that the robot is no longer able to process and save the recordings correctly.
-It would be valuable to identify such problems as soon as possible to avoid redundant missions.\newline
+It would be valuable to identify such problems as soon as possible to avoid redundant missions.
+A full memory could perhaps be detected via an exception that could be caught and trigger the notification of the problem to the human operator.
+The problem of processing failures could be handled similarly. A first solution would always be to try to repeat the operation, if that fails, the problem is communicated. 
+It is also quite simple to simulate the occurrence of these issues by throwing the corresponding exceptions in the file management or by monitoring the extension
+of the scan records.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
