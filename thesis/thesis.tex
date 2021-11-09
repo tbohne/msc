@@ -399,7 +399,10 @@ To overcome the problems, one could develop specific recovery behaviors for the 
 If the robot tries to recover from a problematic situation, e.g. obstacles on the planned path, such recovery may not be successful, i.e. the robot may not be able
 to return to the normal operation state. In case of an unsuccessful recovery attempt, the robot could either give up and abort its mission or perform another recovery.
 Of course, the robot should not end up in an infinite loop of repeating the same failing recovery, but instead it should try a few different recovery attempts,
-and if none of them work, it should shut down and call the operator. Therefore, it is important to introduce monitoring solutions for recovery behaviors as well.\newline
+and if none of them work, it should shut down and call the operator. Therefore, it is important to introduce monitoring solutions for recovery behaviors as well.
+Sustained recoveries can be evaluated in the simulation by inducing situations where recovery is not possible, such as when the path to the destination is 
+blocked and there is no other way. In this case, the robot should try a few different recovery actions and then abort and report the problem.
+Monitoring methods must therefore track the results of recovery behaviors and decide whether it is appropriate to try more or stop.\newline
 
 \noindent
 \textbf{Incorrect or Inaccurate Localization}\newline
@@ -418,7 +421,8 @@ It would be very valuable to develop a monitoring  approach that is capable of r
 simple workaround that alleviates the problem in practice in many cases: Just driving the robot a few meters back and forth to recalibrate the localization 
 using different GNSS positions. Of course, it can also be a problem for localization if the GNSS signal itself is inaccurate or non-existent, but that is another topic
 (cf. \textit{Lost Connection} section). Since the localization is based not only on GNSS, but also on IMU and odometry data, it would also be very valuable to identify 
-the errors that occur there, but that is beyond the scope of this work.\newline
+the errors that occur there, but that is beyond the scope of this work. An incorrect localization can be evaluated very well in the simulation by simply ``teleporting''
+the robot to another position, i.e. provoking the \textit{kidnapped robot problem}.\newline
 
 \noindent
 \textbf{Mapping Issues}\newline
@@ -429,7 +433,8 @@ The \textit{costmap} is a 2D occupancy grid based on sensor data of the world. I
 If the robot drives over a hill and the sensors are configured in a certain way, parts of the ground may be incorrectly perceived as an obstacle and entered into the \textit{costmap}.
 The problem then is that the robot is unable to drive through these ``virtual'' obstacles. Therefore, it is demanded to either pay close attention to obstacle detection
 when moving on uneven terrain or to clear the \textit{costmap} from time to time to eliminate such erroneous entries. This is especially true for recovery behaviors, 
-where such ``virtual'' objects can block a path that the robot must traverse.\newline
+where such ``virtual'' objects can block a path that the robot must traverse. The problems described can be evaluated in simulation by having the robot travel
+over rough terrain or by artificially creating paths with steep inclines.\newline
 
 \noindent
 \textbf{Plan Deployment Failure}\newline
@@ -438,7 +443,8 @@ where such ``virtual'' objects can block a path that the robot must traverse.\ne
 The last type of problem is rather trivial again. If the plan distribution node does not provide a plan for the robot to execute, it remains idle until a human operator 
 notices and takes care of it. It might therefore be useful to let the operator know if a plan has still not arrived after a certain time.
 Furthermore, faulty plans that are not executable could also be reported. A first solution attempt that the robot should definitely try would be to retrigger 
-the plan generation service described in section \ref{sec:plan_generation}.\newline
+the plan generation service described in section \ref{sec:plan_generation}. If this does not help, it should waste no time and immediately notify the operator. 
+The problem can be trivially simulated by simply not launching the plan generation service.\newline
 
 \noindent
 \textbf{Communication with a Human Operator}\newline
