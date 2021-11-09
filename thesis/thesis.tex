@@ -208,7 +208,7 @@ for long-term autonomy, as well as the design of ``human-in-the-loop'' systems c
 
 \pagebreak
 
-\section{Challenges}
+\section{LTA Challenges}
 \label{sec:challenges_for_lta}
 
 Having clarified what long-term autonomy (LTA) means for this work, we now turn to potential problems that stand in its way.
@@ -464,6 +464,19 @@ robot in a controlled manner (e.g. with data backup) and, if possible, communica
 Of course, one could assign probabilities to specific incidents, which vary depending on the information available. 
 For example, if the robot detects that the battery is showing unusual discharge behavior, such information could be taken into account and 
 reported to the operator. Nevertheless, it's not feasible to cover everything that can happen, and long-term autonomy is subject to certain limits.
+
+\pagebreak
+
+\section{Solutions for LTA Challenges}
+\label{sec:solutions_for_lta_challenges}
+
+\noindent
+\textbf{Communication with a Human Operator}\newline
+
+\noindent
+Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention, 
+is implemented as the ROS topic \code{\/request\_help}. Once the problem has been solved by the human operator, the control can be returned 
+to the autonomous mobile robot via the \code{\/problem\_solved} topic.\newline
 
 \chapter{Plan Execution and Monitoring}
 
