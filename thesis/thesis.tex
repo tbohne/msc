@@ -377,8 +377,9 @@ specifically for these cases where, for example, the robot tries to rotate and r
 
 \noindent
 A special case of getting stuck, which should nevertheless be considered separately, is the robot falling over.
-This problem should be considered separately, since in such a case the robot will not be able to recover without human assistance in any case.
-Therefore, it will always lead to a transition to the \code{CATASTROPHE} state.\newline
+This problem should be considered separately, since in such a case the robot will not be able to recover and continue its mission without human assistance in any case.
+It could be tested in simulation by applying a force to the robot that causes it to fall over. 
+Subsequently, it should be possible to detect the problem based on a combination of sensor information, and the robot should notify the human operator.\newline
 
 \noindent
 \textbf{Navigation Failure}\newline
@@ -387,7 +388,9 @@ Therefore, it will always lead to a transition to the \code{CATASTROPHE} state.\
 Another potential LTA problem that has already been encountered in experiments conducted as part of this work is navigation errors.
 For example, the local planner configured in \code{move\_base\_flex} (e.g. DWA, EBand) provides a path that is infeasible, e.g. tries to drive around a field, 
 although there is no way. Del Duchetto et al. encounter similar problems in an indoor LTA scenario where valid navigation trajectories cannot be generated from time to time.
-They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018}\newline
+They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018}
+Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve.
+To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to Duchetto et al.\newline
 
 \noindent
 \textbf{Sustained Recovery}\newline
