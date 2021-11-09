@@ -346,7 +346,8 @@ For the robot to work as expected, it must maintain connections to various servi
 A real time communication channel (e.g. WiFi) is required to connect the RTK base station, i.e. the mobile container, and the RTK rover, i.e. the robot, in order to
 transmit the correction signals for high-precision positioning. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals,
 i.e. are connected to the GNSS service. In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
-to the base station or external servers for further processing.\newline
+to the base station or external servers for further processing. An initial solution would be trying to reconnect the service in question.\newline
+TODO: check how to detect connection failures + how to simulate that\newline
 
 \noindent
 \textbf{Obstacles Blocking the Planned Path}\newline
@@ -358,14 +359,18 @@ The used navigation framework \code{move\_base\_flex} can already detect obstacl
 However, it would be good to refine the default recovery behaviors and adapt them to the scenario at hand. Recovery behaviors should naturally vary between
 static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases simply walk through the scene and disappear a moment later,
 so waiting for a moment can already be a very reasonable and sufficient recovery behavior. Static obstacles, on the other hand, may be present for longer 
-periods of time, requiring more sophisticated recovery behaviors.\newline
+periods of time, requiring more sophisticated recovery behaviors.The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning 
+mobile and immobile objects at randomized positions that could potentially block the robot's path.\newline
 
 \noindent
 \textbf{Robot Gets Stuck}\newline
 
 \noindent
 A problem not unlike the obstacles, but slightly different, is that the robot gets stuck and cannot move on. This can happen, for example, when the wheels spin due 
-to a muddy path. Such situations where the robot cannot move even though the plan calls for it should be identified and addressed.\newline
+to a muddy path. Such situations where the robot cannot move even though the plan calls for it should be identified and addressed.
+In simulation, such a situation could be established by providing the necessary physical conditions leading to such a problem.
+Detection should be based on \code{move\_base\_flex} recovery behaviors, as in the case of obstacles, but again there should be a manual implementation 
+specifically for these cases where, for example, the robot tries to rotate and reduce speed to leave the place where it got stuck.\newline
 
 \noindent
 \textbf{Robot Falls Over}\newline
