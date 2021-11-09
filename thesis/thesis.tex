@@ -264,7 +264,13 @@ Another category of potential LTA problems related to the system's power supply 
 Leaving aside the simplistic assumption of charging upon arrival at specific coordinates and considering the actual charging process 
 in practice with the AROX system, it must dock with an inductive charging station in a mobile container at the field site.
 Accordingly, docking to the charging station may fail or the charging process itself may not start after docking.
-Both cases should be detected by the robot so that an appropriate reaction can be initiated, e.g. informing the human operator.\newline
+Both cases lead to a failed charging process and thus to an abortion of the robot's LTA mission. An evaluation of potential docking failures would require 
+integration of the autonomous docking / undocking solution described in section \ref{sec:docking_solution}.
+A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph.
+Both cases should be detected by the robot so that an appropriate response can be initiated, e.g. notification of the human operator.
+The first case, i.e. a docking failure, could for example be detected based on \code{move\_base\_flex} navigation errors, the docking state
+simply does not complete successfully, which should trigger a treatment procedure. A failed charging process can be detected based on a certain time in the 
+state of charge without increasing the charge level of the battery.\newline
 
 \noindent
 \textbf{Drastic Weather Change}\newline
@@ -600,6 +606,7 @@ charge stops in advance, but only responds to failure cases where the robot need
 Such a battery watchdog is an example for monitoring tools relevant for addressing the challenges introduced in section \ref{sec:challenges_for_lta}.
 
 \section{Autonomous Energy Supply}
+\label{sec:docking_solution}
 
 A fundamental step towards long-term autonomy of a mobile robot is to ensure its power supply.
 For this purpose, there is an inductive charging station located in a mobile container on the field site.
