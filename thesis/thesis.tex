@@ -602,6 +602,19 @@ Of course, when the robot transitions back to \code{NORMAL\_OPERATION} after sol
 always looks for existing unfinished plans in the \code{userdata} first. If there is one, it does not prompt the plan generator for a new plan, but continues the previously 
 preempted plan. The catastrophe case works analogously to the \code{IDLE} state.
 
+\section{Monitoring for LTA Challenges}
+
+Now that the overall architecture of the execution monitoring state machine has been described (cf. section \ref{sec:execution_monitoring_smach_architecture}),
+we can turn to the actual monitoring methods for the potential hinderances for long-term autonomous systems introduced in section \ref{sec:challenges_for_lta}.
+The idea is to implement a specific monitoring procedure for each of the presented LTA problems. Whenever such a procedure is triggered, i.e. the specific issue 
+is recognized, the problem should be reported via the \code{MonitorState}s, triggering a transition to \code{CONTINGENCY} or \code{CATASTROPHE} based on the severity of the problem.
+Depending on the nature of the problem, the information about the required solution method is conveyed via the message published to the topic of the \code{MonitorState}.
+Thus, the overall goal is to have a resolver node for each of the potential failures, which is executed in \code{CONTINGENCY} or \code{CATASTROPHE} depending on the
+failure case at hand. The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation.
+Initially, it will be demonstrated that in the prototypical scenario, the mission can no longer be completed successfully if these errors occur.
+After launching the monitoring nodes, the problems should be detected and either resolved by the robot or reported to the operator so that the mission can continue.
+The simulated failures are implemented in such a way that they can be triggered by publishing to a certain topic.\newline
+
 \chapter{Integrated Solutions}
 
 In general, an integrative work benefits from many integrated solutions. Nevertheless, it should be viable in the scope of the work and robust.
