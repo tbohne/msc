@@ -292,24 +292,23 @@ i.e. return to the base station and seek shelter.\newline
 
 \noindent
 Similar to weather changes, there are other dynamics such as the natural transition from day to night. For sunlight-dependent sensors such as cameras, 
-the robot should take twilight into account and plan its operations accordingly to be back in the shelter, i.e. the mobile container, by dark.\newline
+the robot should take twilight into account and plan its operations accordingly to be back in the shelter, i.e. the mobile container, by dark.
+It should be possible to simulate twilight in the Gazebo simulation, e.g. by simply dimming the light source. Afterwards, there should be a monitoring 
+solution that is able to detect this, stop the plan execution and postpone it to the next day.\newline
 
 \noindent
 \textbf{Sensor (Perception) Failure}\newline
 
 \noindent
-Hardware issues are a very general problem class and could relate to almost arbitrary many kinds of issues.
+Hardware issues are a very general problem class and could relate to almost arbitrary many kinds of problems.
 Since the correct functioning of the 3D-Lidar sensor is crucial for the long-term monitoring scenario,
 the main focus will be on detecting hardware faults of this type. Sensor failures are, of course, a failure class in which the robot can do little except 
 attempt to restart the corresponding sensor, and therefore rarely has any choice but to call the human operator for assistance. 
 Nevertheless, it is important to identify such a malfunction as soon as possible, communicate the problem and avoid a lot of useless work and wasted operating time.
-
 A fairly trivial approach to detecting sensor failures would be to simply check whether messages are still arriving on the corresponding ROS topic.
 While trivial, it is not yet available and is critical for reasonable long-term autonomy. Moreover, it is quite easy to evaluate such a failure case,
-as it can be easily simulated by stopping to publish laser scans in the dummy scanner node. In such a case, a monitoring procedure should be able to detect this,
-switch to \code{CONTINGENCY} mode and call for help, for example. The idea is then to demonstrate that in the prototypical scenario, the plan will no longer 
-execute correctly when these errors occur, and then after monitoring is started, the problem is detected, the operator is informed, the problem is resolved, 
-and plan execution can continue. Such a simulated sensor failure can also be triggered by publishing on some topic.\newline
+as it can be easily simulated by stopping to publish laser scans in the dummy scanner node. In such a case, a monitoring procedure should be able to detect this
+and call for help, for example.\newline
 
 \noindent
 \textbf{Perceptual Aliasing Issue}\newline
