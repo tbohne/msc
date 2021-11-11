@@ -74,7 +74,7 @@ autonomy of mobile field monitoring robots by demonstrating a fully integrated s
 
 \textbf{Approach}\newline
 
-The idea is to start with the basic long-term autonomy setup described in section \ref{sec:scientific_bg}, provide a list of potential problems that 
+The idea is to start with the basic long-term autonomy setup described in section \ref{sec:prototype_scenario}, provide a list of potential problems that 
 stand in its way, and develop execution monitoring methods to detect a subset of these issues with the aim of increasing the robustness of such a system in a simulation
 and ideally in practice on the real hardware. In the end, there should be a working system that addresses some of the problems of long-term autonomy 
 in scenarios similar to the one described in section \ref{sec:lta_plant_observation}. The nature of the work is going to be integrative and application-oriented. The modules 
@@ -118,6 +118,14 @@ Section \ref{sec:lta_plant_observation} introduces the scenario that is going to
 autonomy as understood in the following chapters, i.e. clarifies what the two remaining attributes \textit{long-term} and \textit{autonomous} are supposed to mean.
 Afterwards, in section \ref{sec:scientific_bg}, the scientific and technological background that forms the basis of this work is discussed. 
 Finally, section \ref{sec:challenges_for_lta} identifies potential hinderances for long-term autonomous systems with a particular focus on the considered plant monitoring scenario.
+TODO: update..\newline
+
+\section{Literature Review - State of the Art}
+\label{sec:literature_review}
+
+Kunze et al. point out that many challenges remain to be overcome with respect to the reliable deployment of long-term autonomous robots in real-world environments.
+Particularly relevant to this work are the natural challenge of system integration, i.e. integrating numerous methods and technologies into a comprehensive solution 
+for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the help of human operators in unexpected problematic situations. \cite{Kunze:2018}
 
 \section{Long-Term Autonomous Plant Observation}
 \label{sec:lta_plant_observation}
@@ -182,13 +190,21 @@ The plant monitoring robot considered in this work, however, can be classified a
 i.e. during a long-term autonomy cycle as defined above, the robot should only come into contact with a human operator when it detects an error or a problematic situation
 that prevents it from continuing its task.
 
-\section{Scientific and Technological Background}
-\label{sec:scientific_bg}
+\section{Robotic System}
+\label{sec:robotic_system}
 
 The robotic system under consideration is going to be the autonomous robotic experimentation platform (AROX) \cite{Kisliuk:2021} that is assumed to integrate 
 all the essential software and hardware required for the task at hand, i.e. processing a given plan (e.g. human provided) that causes the robot to autonomously
 drive to specified locations and record scans. In addition to the actual physically available AROX, the system has been modeled in the unified robot description 
-format (URDF) and can be used in a simulation. As starting point serves a physics simulation in Gazebo\footnote{Open-source 3D robotics simulator} that 
+format (URDF) and can be used in a simulation.
+
+\section{Prototype Scenario in the Simulation}
+\label{sec:prototype_scenario}
+
+Das prototypische Szenario ist die Implementation eines Minimalbeispiels eines langzeitautonomen Pflanzenmonitoring-Beispiels in einer Simulation.
+Die grundlegende langzeitautonome Funktionalität ist gegeben und dient später der Evaluation der Monitoring-Ansätze.
+
+As starting point serves a physics simulation in Gazebo\footnote{Open-source 3D robotics simulator} that 
 has been created within the research project PORTAL \cite{portal} and will be adapted and extended as part of this work. 
 The simulation includes the AROX model, which is able to navigate autonomously to certain coordinates, as well as a 2.5D 
 reflection of a test field and some abstract crops as objects of interest. Initially, the simulation works under the assumption that the robot is able to charge its 
@@ -202,9 +218,6 @@ In practice, the real robot is equipped with a 3D-Lidar sensor that is going to 
 To simulate the scanning procedure, some kind of dummy node is required that allows to scan on command, i.e. to simulate scanning, since we are not actually interested
 in any scanning data. Thus, the second type of action will initiate a scanning procedure of the 3D-Lidar sensor or an execution of a dummy node, respectively.
 There are other actions, but these two are the very specific ones relevant to the scenario under consideration; the details are described in section \ref{sec:plan_generation}.\newline
-Kunze et al. point out that many challenges remain to be overcome with respect to the reliable deployment of long-term autonomous robots in real-world environments.
-Particularly relevant to this work are the natural challenge of system integration, i.e. integrating numerous methods and technologies into a comprehensive solution 
-for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the help of human operators in unexpected problematic situations. \cite{Kunze:2018}
 
 \pagebreak
 
