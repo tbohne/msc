@@ -221,7 +221,7 @@ There are other actions, but these two are the very specific ones relevant to th
 
 \pagebreak
 
-\section{LTA Challenges}
+\section{Challenges}
 \label{sec:challenges_for_lta}
 
 Having clarified what long-term autonomy (LTA) means for this work, we now turn to potential problems that stand in its way.
@@ -486,17 +486,6 @@ reported to the operator. Nevertheless, it's not feasible to cover everything th
 
 \pagebreak
 
-\section{Solutions for LTA Challenges}
-\label{sec:solutions_for_lta_challenges}
-
-\noindent
-\textbf{Communication with a Human Operator}\newline
-
-\noindent
-Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention, 
-is implemented as the ROS topic \code{\/request\_help}. Once the problem has been solved by the human operator, the control can be returned 
-to the autonomous mobile robot via the \code{\/problem\_solved} topic.\newline
-
 \chapter{Plan Execution and Monitoring}
 
 A key aspect of handling some of the potential issues introduced in section \ref{sec:challenges_for_lta} is going to be that the robot will not be able to
@@ -634,7 +623,11 @@ Of course, when the robot transitions back to \code{NORMAL\_OPERATION} after sol
 always looks for existing unfinished plans in the \code{userdata} first. If there is one, it does not prompt the plan generator for a new plan, but continues the previously 
 preempted plan. The catastrophe case works analogously to the \code{IDLE} state.
 
+\section{Simulation of LTA Challenges}
+\label{sec:simulation_of_lta_challenges}
+
 \section{Monitoring for LTA Challenges}
+\label{sec:monitoring_for_lta_challenges}
 
 Now that the overall architecture of the execution monitoring state machine has been described (cf. section \ref{sec:execution_monitoring_smach_architecture}),
 we can turn to the actual monitoring methods for the potential hinderances for long-term autonomous systems introduced in section \ref{sec:challenges_for_lta}.
@@ -646,6 +639,17 @@ failure case at hand. The entire process is essentially the same for all potenti
 Initially, it will be demonstrated that in the prototypical scenario, the mission can no longer be completed successfully if these errors occur.
 After launching the monitoring nodes, the problems should be detected and either resolved by the robot or reported to the operator so that the mission can continue.
 The simulated failures are implemented in such a way that they can be triggered by publishing to a certain topic.\newline
+
+\section{Solutions for LTA Challenges}
+\label{sec:solutions_for_lta_challenges}
+
+\noindent
+\textbf{Communication with a Human Operator}\newline
+
+\noindent
+Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention, 
+is implemented as the ROS topic \code{\/request\_help}. Once the problem has been solved by the human operator, the control can be returned 
+to the autonomous mobile robot via the \code{\/problem\_solved} topic.\newline
 
 \chapter{Integrated Solutions}
 
