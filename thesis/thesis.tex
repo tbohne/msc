@@ -190,13 +190,33 @@ The plant monitoring robot considered in this work, however, can be classified a
 i.e. during a long-term autonomy cycle as defined above, the robot should only come into contact with a human operator when it detects an error or a problematic situation
 that prevents it from continuing its task.
 
-\section{Robotic System}
+\section{Robotic System and Infrastructure}
 \label{sec:robotic_system}
 
-The robotic system under consideration is going to be the autonomous robotic experimentation platform (AROX) \cite{Kisliuk:2021} that is assumed to integrate 
-all the essential software and hardware required for the task at hand, i.e. processing a given plan (e.g. human provided) that causes the robot to autonomously
-drive to specified locations and record scans. In addition to the actual physically available AROX, the system has been modeled in the unified robot description 
-format (URDF) and can be used in a simulation.
+The robotic system under consideration is going to be the autonomous robotic experimentation platform (AROX) \cite{Kisliuk:2021} that is depicted in figure \ref{fig:arox_system}.
+It is assumed to integrate all the essential software and hardware required for the task at hand, i.e. processing a given plan (e.g. human provided) that causes the robot
+to autonomously drive to specified locations and record scans.\newline
+The AROX consists of a two-axle (2WD differential drive) mobile platform based on an \textit{Innok Heros}\footnote{https://www.innok-robotics.de/produkte/heros}. \cite{Kisliuk:2021}
+In addition to the AROX system itself, Kisliuk et al. introduce a supporting infrastructure in the form of a mobile base station (container) at the field site,
+which provides an inductive charging station, a mobile internet connection and a WiFi network for local data exchange.
+Real-time kinematics (RTK) is used, a differential GNSS\footnote{Global Navigation Satellite System} method that results in high-precision positioning (in centimeter range)
+near a base station, such as the mobile container. The errors or inaccuracies of basic GNSS techniques are avoided in RTK solutions by transmitting correction signals based
+on carrier measurements of the base station, whose location is precisely known. \cite{RTK_fundamentals} For this purpose, the container also provides an NTRIP server.
+Besides these technical features of the container, it also simply serves as a shelter for the robot.
+In order to actually use RTK, a real-time communication channel (e.g. WiFi) is needed to connect the RTK base station, i.e. the mobile container, with the RTK rover,
+i.e. the AROX, to transmit the aforementioned correction signals. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals, 
+i.e. are connected to the GNSS service. The AROX also maintains WiFi or LTE connections for the purpose of transmitting the recorded scans to external servers or the base station.
+The robot's localization is multi-layered and based on sensor fusion of IMU, odometry and RTK-GNSS data using the \code{robot\_localization} \cite{Moore:2014} package.
+Several laser scanners are attached to its base and used to avoid collisions. For the actual task of plant monitoring, a high-resolution 3D-Lidar sensor is used, 
+which can be combined with a calibrated hyperspectral or RGB camera (cf. fig. \ref{fig:arox_system}). \cite{Kisliuk:2021}
+For navigation, the ROS package \code{move\_base\_flex} \cite{Puetz:2018} is used, a more flexible extension of the standard ROS navigation framework \code{move\_base}.
+In addition to the actual physically available AROX, the system has been modeled in the unified robot description format (URDF) and can be used in a simulation.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{pics/AROX.png}
+    \caption{\textsc{AROX System} (TODO: add img source)}
+    \label{fig:arox_system}
+\end{figure}
 
 \section{Prototype Scenario in the Simulation}
 \label{sec:prototype_scenario}
