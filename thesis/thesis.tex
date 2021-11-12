@@ -198,8 +198,9 @@ The robotic system under consideration is going to be the autonomous robotic exp
 It is assumed to integrate all the essential software and hardware required for the task at hand, i.e. processing a given plan (e.g. human provided) that causes the robot
 to autonomously drive to specified locations and record scans. As discussed, this should be possible over extended periods of time, i.e. long term, including charge stops, etc.
 According to Kunze et al. \cite{Kunze:2018}, different areas of AI must be brought together to enable long-term autonomous robots in practical applications.
-As essential building blocks, they identify \textit{navigation and mapping}, \textit{perception}, \textit{knowledge representation and reasoning}, \textit{planning},
-\textit{interaction}, and \textit{learning}.\newline
+As essential building blocks, they identify \textit{navigation \& mapping}, \textit{perception}, \textit{knowledge representation \& reasoning}, \textit{planning},
+\textit{interaction}, and \textit{learning}. All of these aspects will be part of the following description of the AROX system, except \textit{learning}, for which, however, 
+useful applications have already been identified that could improve the long-term autonomy performance of the system in the future.\newline
 The AROX consists of a two-axle (2WD differential drive) mobile platform based on an \textit{Innok Heros}\footnote{https://www.innok-robotics.de/produkte/heros}. \cite{Kisliuk:2021}
 In addition to the AROX system itself, Kisliuk et al. introduce a supporting infrastructure in the form of a mobile base station (container) at the field site,
 which provides an inductive charging station, a mobile internet connection and a WiFi network for local data exchange.
@@ -215,6 +216,7 @@ Several laser scanners are attached to its base and used to avoid collisions, e.
 slots displayed in fig. \ref{fig:arox_system}. For the actual task of plant monitoring, the high-resolution 3D-Lidar sensor \textit{RIEGL VZ-$400$i} is used,
 which can be combined with a calibrated hyperspectral or RGB camera (cf. fig. \ref{fig:arox_system}). \cite{Kisliuk:2021}
 For navigation, the ROS package \code{move\_base\_flex} \cite{Puetz:2018} is used, a more flexible extension of the standard ROS navigation framework \code{move\_base}.
+The primarily used path planning algorithms are provided by the ROS packages \code{eband\_local\_planner} and \code{dwa\_local\_planner}.
 In addition to the actual physically available AROX, the system has been modeled in the unified robot description format (URDF) and can be used in a simulation.
 \begin{figure}[H]
     \centering
