@@ -2,6 +2,8 @@
 import argparse
 from pathlib import Path
 import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 class LTAProblem:
 
@@ -22,10 +24,54 @@ class LTAProblem:
         if ratings[2] != 0:
             self.likelihood_votes.append(ratings[2])
 
+    def get_impact(self):
+        return np.average(self.impact_votes)
+
+    def get_difficulty(self):
+        return np.average(self.difficulty_votes)
+
+    def get_likelihood(self):
+        return np.average(self.likelihood_votes)
+
     def __str__(self):
-        return "problem: " + self.name + "\nimpact: " + str(np.average(self.impact_votes)) + " - (" + str(self.impact_votes) + ")\ndifficulty: " \
-            + str(np.average(self.difficulty_votes)) + " - (" + str(self.difficulty_votes) + ")\nlikelihood: " + str(np.average(self.likelihood_votes)) \
+        return "problem: " + self.name + "\nimpact: " + str(self.get_impact()) + " - (" + str(self.impact_votes) + ")\ndifficulty: " \
+            + str(self.get_difficulty()) + " - (" + str(self.difficulty_votes) + ")\nlikelihood: " + str(self.get_likelihood()) \
             + " - (" + str(self.likelihood_votes) + ")\n"
+
+
+def plot(lta_problems):
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+
+    ax.set_xlim3d(0, 3)
+    ax.set_ylim3d(0, 3)
+    ax.set_zlim3d(0, 3)
+
+    impact_votes = []
+    difficulty_votes = []
+    likelihood_votes = []
+
+    names = []
+
+    for _, problem in lta_problems.items():
+        names.append(problem.name)
+        print(problem)
+        impact_votes.append(problem.get_impact())
+        difficulty_votes.append(problem.get_difficulty())
+        likelihood_votes.append(problem.get_likelihood())
+
+    ax.scatter(impact_votes, difficulty_votes, likelihood_votes, marker='o')
+
+    print(names)
+
+    for i, problem in enumerate(names):
+        ax.text(impact_votes[i], difficulty_votes[i], likelihood_votes[i], problem)
+
+    ax.set_xlabel('impact')
+    ax.set_ylabel('difficulty')
+    ax.set_zlabel('likelihood')
+
+    plt.show()
     
 
 def generate_accumulated_results(directory):
@@ -47,6 +93,8 @@ def generate_accumulated_results(directory):
 
     for _, problem in lta_problems.items():
         print(problem)
+
+    plot(lta_problems)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='analyze results of questionnaire')
