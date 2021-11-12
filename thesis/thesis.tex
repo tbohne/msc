@@ -196,7 +196,10 @@ that prevents it from continuing its task.
 
 The robotic system under consideration is going to be the autonomous robotic experimentation platform (AROX) \cite{Kisliuk:2021} that is depicted in figure \ref{fig:arox_system}.
 It is assumed to integrate all the essential software and hardware required for the task at hand, i.e. processing a given plan (e.g. human provided) that causes the robot
-to autonomously drive to specified locations and record scans.\newline
+to autonomously drive to specified locations and record scans. As discussed, this should be possible over extended periods of time, i.e. long term, including charge stops, etc.
+According to Kunze et al. \cite{Kunze:2018}, different areas of AI must be brought together to enable long-term autonomous robots in practical applications.
+As essential building blocks, they identify \textit{navigation and mapping}, \textit{perception}, \textit{knowledge representation and reasoning}, \textit{planning},
+\textit{interaction}, and \textit{learning}.\newline
 The AROX consists of a two-axle (2WD differential drive) mobile platform based on an \textit{Innok Heros}\footnote{https://www.innok-robotics.de/produkte/heros}. \cite{Kisliuk:2021}
 In addition to the AROX system itself, Kisliuk et al. introduce a supporting infrastructure in the form of a mobile base station (container) at the field site,
 which provides an inductive charging station, a mobile internet connection and a WiFi network for local data exchange.
@@ -208,7 +211,8 @@ In order to actually use RTK, a real-time communication channel (e.g. WiFi) is n
 i.e. the AROX, to transmit the aforementioned correction signals. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals, 
 i.e. are connected to the GNSS service. The AROX also maintains WiFi or LTE connections for the purpose of transmitting the recorded scans to external servers or the base station.
 The robot's localization is multi-layered and based on sensor fusion of IMU, odometry and RTK-GNSS data using the \code{robot\_localization} \cite{Moore:2014} package.
-Several laser scanners are attached to its base and used to avoid collisions. For the actual task of plant monitoring, a high-resolution 3D-Lidar sensor is used, 
+Several laser scanners are attached to its base and used to avoid collisions, e.g. the \textit{SICK TiM} and the \textit{Velodyne Puck} mounted at the optional sensor
+slots displayed in fig. \ref{fig:arox_system}. For the actual task of plant monitoring, the high-resolution 3D-Lidar sensor \textit{RIEGL VZ-$400$i} is used,
 which can be combined with a calibrated hyperspectral or RGB camera (cf. fig. \ref{fig:arox_system}). \cite{Kisliuk:2021}
 For navigation, the ROS package \code{move\_base\_flex} \cite{Puetz:2018} is used, a more flexible extension of the standard ROS navigation framework \code{move\_base}.
 In addition to the actual physically available AROX, the system has been modeled in the unified robot description format (URDF) and can be used in a simulation.
