@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 from pathlib import Path
+import numpy as np
 
 class LTAProblem:
 
@@ -10,13 +11,21 @@ class LTAProblem:
         self.difficulty_votes = []
         self.likelihood_votes = []
 
-    def add_votes(self, impact, difficulty, likelihood):
-        self.impact_votes.append(impact)
-        self.difficulty_votes.append(difficulty)
-        self.likelihood_votes.append(likelihood)
+    def add_votes(self, ratings):
+        """
+        0 -> no oppinion -> ignore in results
+        """
+        if ratings[0] != 0:
+            self.impact_votes.append(ratings[0])
+        if ratings[1] != 0:
+            self.difficulty_votes.append(ratings[1])
+        if ratings[2] != 0:
+            self.likelihood_votes.append(ratings[2])
 
     def __str__(self):
-        return "impact: " + str(self.impact_votes) + "\ndifficulty:" + str(self.difficulty_votes) + "\nlikelihood:" + str(self.likelihood_votes) + "\n"
+        return "problem: " + self.name + "\nimpact: " + str(np.average(self.impact_votes)) + " - (" + str(self.impact_votes) + ")\ndifficulty: " \
+            + str(np.average(self.difficulty_votes)) + " - (" + str(self.difficulty_votes) + ")\nlikelihood: " + str(np.average(self.likelihood_votes)) \
+            + " - (" + str(self.likelihood_votes) + ")\n"
     
 
 def generate_accumulated_results(directory):
@@ -29,14 +38,15 @@ def generate_accumulated_results(directory):
 
         with open(file, 'r') as f:
             for l in f.readlines()[1:]:
-                problem, impact, difficulty, likelihood = l.strip().split(",")
+                vals = l.strip().split(",")
+                problem = vals[0]
+                ratings = vals[1:]
                 if problem not in lta_problems.keys():
                     lta_problems[problem] = LTAProblem(problem)
-                lta_problems[problem].add_votes(impact, difficulty, likelihood)
+                lta_problems[problem].add_votes([int(i) for i in ratings])
 
-    for key, value in lta_problems.items():
-        print("problem:", key)
-        print("res:", value)
+    for _, problem in lta_problems.items():
+        print(problem)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='analyze results of questionnaire')
