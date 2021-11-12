@@ -1,0 +1,32 @@
+potential LTA problem,"impact / relevance
+1 - high (prevents successful mission)
+2 - medium (has some influence, e.g. delays 
+     missions / reduces quality of results)
+3 - low (no / minor influence on mission)
+
+","difficulty to detect / solve
+1 - easy (simple solutions)
+2 - medium (requires some effort, 
+     but doable in the scope of the work)
+3 - hard (general problem)
+","likelihood of occurrence
+1 - very likely (have experienced this in practice several times)
+2 - occurs (e.g. have experienced this once / heard of it)
+3 - highly unlikely (never seen / heard of it)
+"
+power management (battery failure / unexpected low battery),,,
+charging failure (unsuccessful docking / no charging),,,
+"drastic weather change (e.g. storm, fog, extreme sunshine, heavy rain, extreme cold)",,,
+certain dynamics (e.g. day / night),,,
+sensor (perception) failure,,,
+perceptual aliasing issue,,,
+"data management (e.g. full memory, sensor data processing failure)",,,
+"lost connection (WiFi, RTK, UWB, LTE)",,,
+obstacles blocking planned path (static / dynamic),,,
+robot gets stuck (e.g. spinning wheels),,,
+robot falls over,,,
+navigation failure (move_base_flex / pdc),,,
+"sustained recovery, i.e. no return to normal operation",,,
+"incorrect / inaccurate localization (GPS, IMU, odometry)",,,
+mapping error (e.g. incorrect costmap entries),,,
+"plan deployment failure, i.e. robot remains in idle state",,,
