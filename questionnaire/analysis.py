@@ -50,7 +50,6 @@ def plot(lta_problems):
     impact_votes = []
     difficulty_votes = []
     likelihood_votes = []
-
     names = []
 
     for _, problem in lta_problems.items():
@@ -60,16 +59,16 @@ def plot(lta_problems):
         difficulty_votes.append(problem.get_difficulty())
         likelihood_votes.append(problem.get_likelihood())
 
-    ax.scatter(impact_votes, difficulty_votes, likelihood_votes, marker='o')
+    ax.scatter(impact_votes, difficulty_votes, likelihood_votes, marker='D', color='red')
 
     print(names)
 
     for i, problem in enumerate(names):
         ax.text(impact_votes[i], difficulty_votes[i], likelihood_votes[i], problem)
 
-    ax.set_xlabel('impact')
-    ax.set_ylabel('difficulty')
-    ax.set_zlabel('likelihood')
+    ax.set_xlabel('impact (1: high, 2: medium, 3: low)')
+    ax.set_ylabel('difficulty (1: easy, 2: medium, 3: hard)')
+    ax.set_zlabel('likelihood (1: very likely, 2: occurs, 3: highly unlikely')
 
     plt.show()
     
