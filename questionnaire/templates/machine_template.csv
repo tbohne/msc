@@ -1,7 +1,7 @@
 problem,impact,difficulty,likelihood
 power_management,,,
 charging_failure,,,
-drastic_weather,,,
+drastic_weather_change,,,
 certain_dynamics,,,
 sensor_failure,,,
 perceptual_aliasing_issue,,,
