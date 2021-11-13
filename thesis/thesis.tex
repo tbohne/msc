@@ -518,15 +518,18 @@ To assess the relevance to long-term autonomy of the potential problems introduc
 difficulty, and likelihood of each problem was conducted. The idea is not to simply arbitrarily select the problems that will be studied in more detail
 as part of this work, but to rely on the assessment of more experienced roboticists in the working group to set priorities.
 For this purpose, a simple questionnaire in the form of a spreadsheet was designed. The first aspect by which participants were asked to rank each problem was its 
-respective impact from \textit{high}, i.e. prevents a successful mission, to \textit{medium} impact, e.g. delays missions or reduces the quality of results, 
-to \textit{low}, where it has at most a minor impact on the robot's mission. The next aspect is about evaluating each problem in terms of its individual difficulty 
-of solution and recognition. The options were \textit{easy}, meaning simple solutions exist, \textit{medium}, which requires some effort but should be feasible within 
-the scope of the work, to \textit{hard}, i.e. it is a rather general problem. Finally, the likelihood of occurrence for each problem should be evaluated based on the
-three options \textit{very likely}, which roughly means you have experienced this in practice several times, \textit{occurs}, meaning you have experienced or heard of
-this once, and \textit{highly unlikely}, meaning you have never seen or heard of this. The questionnaire was completed by a total of $n$ people. Of course, 
+respective impact from \textit{high ($1$)}, i.e. prevents a successful mission, to \textit{medium ($2$)} impact, e.g. delays missions or reduces the quality of results, 
+to \textit{low ($3$)}, where it has at most a minor impact on the robot's mission. The next aspect is about evaluating each problem in terms of its individual difficulty 
+of solution and recognition. The options were \textit{easy ($1$)}, meaning simple solutions exist, \textit{medium ($2$)}, which requires some effort but should be feasible within 
+the scope of the work, to \textit{hard ($3$)}, i.e. it is a rather general problem. Finally, the likelihood of occurrence for each problem should be evaluated based on the
+three options \textit{very likely ($1$)}, which roughly means you have experienced this in practice several times, \textit{occurs ($2$)}, meaning you have experienced or heard of
+this once, and \textit{highly unlikely ($3$)}, meaning you have never seen or heard of this. The questionnaire was completed by a total of $n$ people. Of course, 
 this can by no means be considered representative or significant, but it nevertheless does give an indication of which problems should be considered with higher priority.
 The accumulated results are visualized in the 3D scatter plot depicted in figure \ref{fig:questionnaire_results}.
-
+For each problem, the average vote among all three dimensions is displayed. The most relevant problem to consider according to the introduced rating system would be the
+one at coordinates $(1, 1, 1)$, i.e. a problem with high impact that is easy to solve / detect and very likely to occur. This optimum combination is visualized as
+the golden cross in fig. \ref{fig:questionnaire_results}. The problems that are closest to this point in the 3D space are the ones that are most relevant to consider
+based on the questionnaire.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/questionnaire.png}
