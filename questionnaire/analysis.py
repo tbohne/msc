@@ -43,9 +43,9 @@ def plot(lta_problems):
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
 
-    ax.set_xlim3d(0, 3)
-    ax.set_ylim3d(0, 3)
-    ax.set_zlim3d(0, 3)
+    ax.set_xlim3d(3, 1)
+    ax.set_ylim3d(1, 3)
+    ax.set_zlim3d(1, 3)
 
     impact_votes = []
     difficulty_votes = []
