@@ -530,13 +530,39 @@ nevertheless does give an indication of which problems should be considered with
 The most relevant problem to consider under the introduced scoring system would be a problem at coordinates $(1, 1, 1)$, i.e. a high-impact problem 
 that is easy to solve / discover and has a high probability of occurring. This optimal combination is shown as a golden cross in figure \ref{fig:questionnaire_results}.
 The problems closest to this point in 3D space are the ones that are most important to consider based on the questionnaire and therefore should be 
-investigated with higher priority in this work.
+investigated with higher priority in this work. For a more detailed overview, the average results can be taken from the table in figure \ref{fig:average_results}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/questionnaire.png}
+    \includegraphics[width=0.75\textwidth]{pics/questionnaire.png}
     \caption{\textsc{Accumulated Results of Questionnaire}}
     \label{fig:questionnaire_results}
 \end{figure}
+\begin{figure}[H]
+    \centering
+    \resizebox{0.5\textwidth}{!}{
+    \begin{tabular}{| c | c | c | c |}
+        \hline
+        \textbf{problem} & \textbf{\o \thinspace impact} & \textbf{\o \thinspace difficulty} & \textbf{\o \thinspace likelihood} \\ \hline
+        power\_management &  &  &  \\ \hline
+        charging\_failure &  &  &  \\ \hline
+        drastic\_weather\_change &  &  &  \\ \hline
+        certain\_dynamics &  &  &  \\ \hline
+        sensor\_failure &  &  &  \\ \hline
+        perceptual\_aliasing\_issue &  &  &  \\ \hline
+        data\_management &  &  &  \\ \hline
+        lost\_connection &  &  &  \\ \hline
+        obstacles\_blocking\_path &  &  &  \\ \hline
+        robot\_gets\_stuck &  &  &  \\ \hline
+        robot\_falls\_over &  &  &  \\ \hline
+        navigation\_failure &  &  &  \\ \hline
+        sustained\_recovery &  &  &  \\ \hline
+        incorrect\_localization &  &  &  \\ \hline
+        mapping\_error &  &  &  \\ \hline
+        plan\_deployment\_failure &  &  &  \\ \hline
+    \end{tabular}}
+    \caption{\textsc{Average Results of the Evaluation}}
+    \label{fig:average_results}
+    \end{figure}
 
 \pagebreak
 
