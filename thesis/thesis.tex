@@ -515,21 +515,22 @@ reported to the operator. Nevertheless, it's not feasible to cover everything th
 \label{sec:relevance_assessment}
 
 To assess the relevance to long-term autonomy of the potential problems introduced in the last section, a kind of informal analysis of the impact, 
-difficulty, and likelihood of each problem was conducted. The idea is not to simply arbitrarily select the problems that will be studied in more detail
-as part of this work, but to rely on the assessment of more experienced roboticists in the working group to set priorities.
-For this purpose, a simple questionnaire in the form of a spreadsheet was designed. The first aspect by which participants were asked to rank each problem was its 
-respective impact from \textit{high ($1$)}, i.e. prevents a successful mission, to \textit{medium ($2$)} impact, e.g. delays missions or reduces the quality of results, 
-to \textit{low ($3$)}, where it has at most a minor impact on the robot's mission. The next aspect is about evaluating each problem in terms of its individual difficulty 
-of solution and recognition. The options were \textit{easy ($1$)}, meaning simple solutions exist, \textit{medium ($2$)}, which requires some effort but should be feasible within 
-the scope of the work, to \textit{hard ($3$)}, i.e. it is a rather general problem. Finally, the likelihood of occurrence for each problem should be evaluated based on the
-three options \textit{very likely ($1$)}, which roughly means you have experienced this in practice several times, \textit{occurs ($2$)}, meaning you have experienced or heard of
-this once, and \textit{highly unlikely ($3$)}, meaning you have never seen or heard of this. The questionnaire was completed by a total of $n$ people. Of course, 
-this can by no means be considered representative or significant, but it nevertheless does give an indication of which problems should be considered with higher priority.
-The accumulated results are visualized in the 3D scatter plot depicted in figure \ref{fig:questionnaire_results}.
-For each problem, the average vote among all three dimensions is displayed. The most relevant problem to consider according to the introduced rating system would be the
-one at coordinates $(1, 1, 1)$, i.e. a problem with high impact that is easy to solve / detect and very likely to occur. This optimum combination is visualized as
-the golden cross in fig. \ref{fig:questionnaire_results}. The problems that are closest to this point in the 3D space are the ones that are most relevant to consider
-based on the questionnaire.
+difficulty, and likelihood of each problem was conducted. The idea is not to arbitrarily select the problems that will be studied in more detail as part
+of this work, but to rely on the judgment of the more experienced roboticists in the working group to set priorities.
+For this purpose, a simple questionnaire was designed in the form of a spreadsheet. The first aspect by which participants were asked to rank each problem was its 
+respective impact from \textit{high} ($1$), i.e. prevents a successful mission, to \textit{medium} ($2$) impact, e.g. delays missions or reduces the quality of 
+results, to \textit{low} ($3$), where it has at most a minor impact on the robot's mission. The next aspect was about evaluating each problem in terms of its individual
+difficulty of solution and recognition. The options were \textit{easy} ($1$), meaning that simple solutions exist, \textit{medium} ($2$), which requires some effort but
+should be feasible within the scope of the work, to \textit{hard} ($3$), i.e. that it is a rather general problem that can only be tackled in first approximation.
+Finally, the likelihood of each problem occurring should be evaluated using the following three options. \textit{Very likely} ($1$), which roughly means you have experienced
+this in practice several times, \textit{occurs} ($2$), meaning you have experienced or heard of this once, and \textit{highly unlikely} ($3$), meaning you have never 
+seen or heard of this. The questionnaire was completed by a total of $n$ people. Obviously, this can by no means be considered representative or significant, but it 
+nevertheless does give an indication of which problems should be considered with higher priority. The accumulated results are visualized in the 3D scatter plot depicted in figure 
+\ref{fig:questionnaire_results}. For each problem, the average vote among all three dimensions (impact, difficulty, likelihood) is displayed.
+The most relevant problem to consider under the introduced scoring system would be a problem at coordinates $(1, 1, 1)$, i.e. a high-impact problem 
+that is easy to solve / discover and has a high probability of occurring. This optimal combination is shown as a golden cross in figure \ref{fig:questionnaire_results}.
+The problems closest to this point in 3D space are the ones that are most important to consider based on the questionnaire and therefore should be 
+investigated with higher priority in this work.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/questionnaire.png}
