@@ -250,6 +250,9 @@ relevant to the scenario under consideration; the details are described in secti
 example of a long-term autonomous plant monitoring scenario in a simulation. Basic autonomous long-term functionality is provided, which means that the robot is able to 
 complete its plant observation missions interrupted by several necessary charge stops. It will be used later to evaluate the challenges identified in section 
 \ref{sec:challenges_for_lta} as well as the monitoring approaches presented in section \ref{sec:monitoring_for_lta_challenges}.
+The overall process implemented for each of the challenges considered is to simulate the occurrence of the respective issue, detect it using
+the monitoring approaches developed in this work, interrupt the robot's normal operation, solve the problem, and transition back to normal operation to resume 
+plan execution exactly where it was preempted.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
