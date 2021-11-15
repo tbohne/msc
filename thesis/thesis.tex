@@ -688,6 +688,8 @@ preempted plan. The catastrophe case works analogously to the \code{IDLE} state.
 \section{Simulation of LTA Challenges}
 \label{sec:simulation_of_lta_challenges}
 
+In the following, potential ways of simulating each issue in order to evaluate it are discussed.\newline
+
 \noindent
 \textbf{Power Management}\newline
 
@@ -922,7 +924,10 @@ If this does not help, it should waste no time and immediately notify the operat
 \section{Solutions for LTA Challenges}
 \label{sec:solutions_for_lta_challenges}
 
-TODO: desribe that initial solution for all is communication..\newline
+As anticipated, the focus of the work is on detection, and an initial solution adopted for all of the issues identified in section \ref{sec:challenges_for_lta} will be 
+to communicate the problem to a human operator. Requesting the help of the human operator not only serves as an initial solution, but is always acting as fallback 
+solution when other solution attempts are unsuccessful. The idea is to have the monitoring procedures described in section \ref{sec:monitoring_for_lta_challenges} that 
+look for the specific types of issues and initiate an appropriate response.\newline
 
 \noindent
 \textbf{Communication with a Human Operator}\newline
