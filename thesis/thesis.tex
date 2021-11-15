@@ -691,16 +691,19 @@ preempted plan. The catastrophe case works analogously to the \code{IDLE} state.
 \noindent
 \textbf{Power Management}\newline
 
+\noindent
 Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will.\newline
 
 \noindent
 \textbf{Charging Failure}\newline
 
+\noindent
 A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph.\newline
 
 \noindent
 \textbf{Drastic Weather Change}\newline
 
+\noindent
 Although such weather conditions are difficult to simulate realistically, it might be worthwhile to implement at least a subset of them in the Gazebo
 simulation to get an idea of how to detect them. But even if that is not realistically feasible within the scope of the work, there would be a second
 option, in which the robot does not detect extreme weather conditions itself through its sensors, but simply relies on external local weather information.\newline
@@ -708,71 +711,84 @@ option, in which the robot does not detect extreme weather conditions itself thr
 \noindent
 \textbf{Certain Dynamics}\newline
 
+\noindent
 It should be possible to simulate twilight in the Gazebo simulation, e.g. by simply dimming the light source.\newline
 
 \noindent
 \textbf{Sensor (Perception) Failure}\newline
 
+\noindent
 It is quite easy to evaluate such a failure case, as it can be easily simulated by stopping to publish laser scans in the dummy scanner node. 
 In such a case, a monitoring procedure should be able to detect this and call for help, for example.\newline
 
 \noindent
 \textbf{Perceptual Aliasing Issue}\newline
 
+\noindent
 The occurrence of a perceptual aliasing issue can be simulated, for example, by placing an object similar to the container in the simulation.\newline
 
 \noindent
 \textbf{Data Management}\newline
 
+\noindent
 It is quite simple to simulate the occurrence of these issues by throwing the corresponding exceptions in the file management or by monitoring the extension
 of the scan records.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
 
+\noindent
 TBD.\newline
 
 \noindent
 \textbf{Obstacles Blocking the Planned Path}\newline
 
+\noindent
 The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized 
 positions that could potentially block the robot's path.\newline
 
 \noindent
 \textbf{Robot Gets Stuck}\newline
 
+\noindent
 In simulation, such a situation could be established by providing the necessary physical conditions leading to such a problem.\newline
 
 \noindent
 \textbf{Robot Falls Over}\newline
 
+\noindent
 It could be tested in simulation by applying a force to the robot that causes it to fall over.\newline
 
 \noindent
 \textbf{Navigation Failure}\newline
 
+\noindent
 Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve.\newline
 
 \noindent
 \textbf{Sustained Recovery}\newline
 
+\noindent
 Sustained recoveries can be evaluated in the simulation by inducing situations where recovery is not possible, such as when the path to the destination is
 blocked and there is no other way.\newline
 
 \noindent
 \textbf{Incorrect or Inaccurate Localization}\newline
 
+\noindent
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
 \textit{kidnapped robot problem}.\newline
 
 \noindent
 \textbf{Mapping Issues}\newline
 
+\noindent
 The problems described can be evaluated in simulation by having the robot travel over rough terrain or by artificially creating paths with steep inclines.\newline
 
 \noindent
 \textbf{Plan Deployment Failure}\newline
 
+\noindent
 The problem can be trivially simulated by simply not launching the plan generation service.\newline
 
 \section{Monitoring for LTA Challenges}
@@ -792,12 +808,14 @@ The simulated failures are implemented in such a way that they can be triggered 
 \noindent
 \textbf{Power Management}\newline
 
+\noindent
 A watchdog module that monitors the battery state and acts as a fail-safe, such as the one described in section \ref{sec:battery_monitoring}, could be 
 integrated to address power management issues and improve the robot's survivability.\newline
 
 \noindent
 \textbf{Charging Failure}\newline
 
+\noindent
 Both cases should be detected by the robot so that an appropriate response can be initiated, e.g. notification of the human operator. The first case, i.e. a docking 
 failure, could for example be detected based on \code{move\_base\_flex} navigation errors, the docking state simply does not complete successfully, which should trigger
 a treatment procedure. A failed charging process can be detected based on a certain time in the state of charge without increasing the charge level of the battery.\newline
@@ -805,6 +823,7 @@ a treatment procedure. A failed charging process can be detected based on a cert
 \noindent
 \textbf{Drastic Weather Change}\newline
 
+\noindent
 As described in the section on simulations, there are two ways to incorporate weather information, either by having the robot detect it with its own sensors or by 
 utilizing external weather information. In any case, it would be good to identify extreme weather conditions that could affect the proper functioning of the system 
 in order to react accordingly, i.e. return to the base station and seek shelter.\newline
@@ -812,35 +831,41 @@ in order to react accordingly, i.e. return to the base station and seek shelter.
 \noindent
 \textbf{Certain Dynamics}\newline
 
+\noindent
 There should be a monitoring solution that is able to detect twilight, stop the plan execution and postpone it to the next day.\newline
 
 \noindent
 \textbf{Sensor (Perception) Failure}\newline
 
+\noindent
 A fairly trivial approach to detecting sensor failures would be to simply check whether messages are still arriving on the corresponding ROS topic.
 While trivial, it is not yet available and is critical for reasonable long-term autonomy.\newline
 
 \noindent
 \textbf{Perceptual Aliasing Issue}\newline
 
+\noindent
 There could be a need for monitoring methods that are capable of recognizing such situations and providing some strategies to resolve the 
 perceptual aliasing issue., e.g. by changing the position or the viewpoint in order to discriminate the objects.\newline
 
 \noindent
 \textbf{Data Management}\newline
 
+\noindent
 A full memory could perhaps be detected via an exception that could be caught and trigger the notification of the problem to the human operator.
 The problem of processing failures could be handled similarly. A first solution would always be to try to repeat the operation, if that fails, the problem is communicated.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
 
+\noindent
 TBD.\newline
 An initial solution would be trying to reconnect the service in question.\newline
 
 \noindent
 \textbf{Obstacles Blocking the Planned Path}\newline
 
+\noindent
 Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases 
 simply walk through the scene and disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. 
 Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors.\newline
@@ -848,28 +873,33 @@ Static obstacles, on the other hand, may be present for longer  periods of time,
 \noindent
 \textbf{Robot Gets Stuck}\newline
 
+\noindent
 Detection should be based on \code{move\_base\_flex} recovery behaviors, as in the case of obstacles, but again there should be a manual implementation 
 specifically for these cases where, for example, the robot tries to rotate and reduce speed to leave the place where it got stuck.\newline
 
 \noindent
 \textbf{Robot Falls Over}\newline
 
+\noindent
 It should be possible to detect the problem based on a combination of sensor information, and the robot should notify the human operator.\newline
 
 \noindent
 \textbf{Navigation Failure}\newline
 
+\noindent
 To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to Duchetto et al.\newline
 
 \noindent
 \textbf{Sustained Recovery}\newline
 
+\noindent
 In this case, the robot should try a few different recovery actions and then abort and report the problem.
 Monitoring methods must therefore track the results of recovery behaviors and decide whether it is appropriate to try more or stop.\newline
 
 \noindent
 \textbf{Incorrect or Inaccurate Localization}\newline
 
+\noindent
 It would be very valuable to develop a monitoring approach that is capable of realizing situations in which the localization is no longer accurate, as there is a 
 simple workaround that alleviates the problem in practice in many cases: Just driving the robot a few meters back and forth to recalibrate the localization
 using different GNSS positions. Since the localization is based not only on GNSS, but also on IMU and odometry data, it would also be very valuable to identify
@@ -878,12 +908,14 @@ the errors that occur there, but that is beyond the scope of this work.\newline
 \noindent
 \textbf{Mapping Issues}\newline
 
+\noindent
 It is demanded to either pay close attention to obstacle detection when moving on uneven terrain or to clear the \textit{costmap} from time to time
 to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such ``virtual'' objects can block a path that the robot must traverse.\newline
 
 \noindent
 \textbf{Plan Deployment Failure}\newline
 
+\noindent
 A first solution attempt that the robot should definitely try would be to retrigger the plan generation service described in section \ref{sec:plan_generation}. 
 If this does not help, it should waste no time and immediately notify the operator.\newline
 
