@@ -233,9 +233,9 @@ In addition to the actual physically available AROX, the system has been modeled
 \label{sec:prototype_scenario}
 
 As starting point serves a physics simulation in Gazebo\footnote{Open-source 3D robotics simulator} that has been created within the research project PORTAL \cite{portal}
-and is adapted and extended as part of this work. The simulation includes the AROX model, i.e. the simulated version of the system described in section \ref{sec:robotic_system},
-as well as a 2.5D reflection of a test field environment. For the prototype baseline scenario, the layout of abstract crops as objects of interest shown in figure
-\ref{fig:prototypical_layout} was created. Initially, the simulation works under the assumption that the robot is able to charge its battery as soon as it is located at 
+and is adapted and extended as part of this work. The simulation includes the AROX model, i.e. a simulated version of the system described in section \ref{sec:robotic_system},
+as well as a 2.5D reflection of a test field environment. For the prototypical baseline scenario of this work, the layout of abstract crops as objects of interest shown in 
+figure \ref{fig:prototypical_layout} was created. Initially, the simulation works under the assumption that the robot is able to charge its battery as soon as it is located at 
 certain coordinates as a simplification of the container infrastructure. These coordinates are visualized by the charge patch displayed in figure \ref{fig:prototypical_layout}.
 In order to determine the robot's route through the field as well as the whole scanning processes, a plan is needed, i.e. when to drive to and process which parcel of the field. 
 An example of a simple scan route can be seen in figure \ref{fig:example_scan_route}. Since this work does not deal with planning algorithms, it is simply assumed that the plans
@@ -246,10 +246,10 @@ at the robot's current position. In practice, the real robot is equipped with a 
 to be used to scan the field parcels with the aim of detecting features of the plants. To simulate the scanning procedure, some kind of dummy node is required that allows to 
 scan on command (cf. section \ref{sec:dummy_scanning_node}), i.e. to simulate scanning, since we are not actually interested in any real scanning data. Thus, the second type 
 of action will initiate a scanning procedure of the 3D-Lidar sensor or an execution of a dummy node, respectively. There are other actions, but these two are the very specific ones
-relevant to the scenario under consideration; the details are described in section \ref{sec:plan_generation}.
-This prototypical scenario is the implementation of a minimal example of a long-term autonomous plant monitoring scenario in a simulation.
-The basic long-term autonomous functionality is given and will be used later to evaluate the challenges identified in section \ref{sec:challenges_for_lta}
-as well as the monitoring approaches presented in section \ref{sec:monitoring_for_lta_challenges}.
+relevant to the scenario under consideration; the details are described in section \ref{sec:plan_generation}. This prototypical scenario is the implementation of a minimal 
+example of a long-term autonomous plant monitoring scenario in a simulation. Basic autonomous long-term functionality is provided, which means that the robot is able to 
+complete its plant observation missions interrupted by several necessary charge stops. It will be used later to evaluate the challenges identified in section 
+\ref{sec:challenges_for_lta} as well as the monitoring approaches presented in section \ref{sec:monitoring_for_lta_challenges}.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
