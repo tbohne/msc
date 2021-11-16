@@ -1,0 +1,17 @@
+problem,impact,difficulty,likelihood
+power_management,1,1,2
+charging_failure,1,1,1
+drastic_weather_change,2,2,2
+certain_dynamics,3,1,1
+sensor_failure,2,2,2
+perceptual_aliasing_issue,2,2,2
+data_management,1,2,2
+lost_connection,2,3,2
+obstacles_blocking_path,3,2,1
+robot_gets_stuck,1,2,2
+robot_falls_over,1,3,3
+navigation_failure,2,2,2
+sustained_recovery,1,3,2
+incorrect_localization,2,2,1
+mapping_error,2,2,2
+plan_deployment_failure,2,2,2
