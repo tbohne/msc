@@ -56,7 +56,8 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
     - manual:
         - run execution monitoring node: `rosrun execution_monitoring high_level_smach.py`
             - state machine providing plan execution and monitoring for LTA plant observation with a mobile robot
-        - run action server providing the dummy scanner (republishes Velodyne): `rosrun execution_monitoring dummy_scanner.py`
+        - run action server providing the dummy scanner: `rosrun execution_monitoring dummy_scanner.py`
+        - - run fake RIEGL publisher republishes Velodyne scans): `rosrun execution_monitoring republish_velodyne.py`
         - run monitoring node: `rosrun execution_monitoring monitoring.py`
         - run resolver node: `rosrun execution_monitoring resolver.py`
         - run plan generator: `rosrun plan_generation plan_generator.py`
