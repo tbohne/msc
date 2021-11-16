@@ -52,10 +52,17 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 ## Plan Generation, Execution and Monitoring (within docker container)
 
 - access exploration GUI: `http://localhost/exploration_gui/`
-- run execution monitoring node: `rosrun execution_monitoring execution_monitoring.py`
-    - state machine providing plan execution and monitoring for LTA plant observation with a mobile robot
-- run plan generator: `rosrun plan_generation plan_generator.py`
-    - generates and provides handcrafted plan as service
+- execution monitoring
+    - manual:
+        - run execution monitoring node: `rosrun execution_monitoring high_level_smach.py`
+            - state machine providing plan execution and monitoring for LTA plant observation with a mobile robot
+        - run action server providing the dummy scanner (republishes Velodyne): `rosrun execution_monitoring dummy_scanner.py`
+        - run monitoring node: `rosrun execution_monitoring monitoring.py`
+        - run resolver node: `rosrun execution_monitoring resolver.py`
+        - run plan generator: `rosrun plan_generation plan_generator.py`
+            - generates and provides handcrafted plan as service
+    - with launch file (including plan generation):
+        - `roslaunch execution_monitoring execution_monitoring.launch`
 - run battery model (energy consumption): `rosrun arox_engine arox_battery.py`
     - configurable via `rosrun rqt_reconfigure rqt_reconfigure`
 
