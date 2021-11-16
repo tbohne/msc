@@ -15,7 +15,7 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
         - [arox_launch](https://git.ni.dfki.de/arox/arox_core/arox_launch): `feature_msc_setup_tim`
         - [arox_indoor_navi](https://git.ni.dfki.de/arox/arox_core/arox_indoor_navi): `feature_less_self_scan`
         - [arox_engine](https://git.ni.dfki.de/arox/arox_core/arox_engine): `feature_arox_battery`
-        - [arox_performance_parameters ](https://git.ni.dfki.de/arox/arox_core/arox_performance_parameters): `feature_performace_parameters`
+        - [arox_performance_parameters ](https://git.ni.dfki.de/arox/arox_core/arox_performance_parameters): `feature_msc_setup_tim`
         - [map_langsenkamp](https://git.ni.dfki.de/zla/map_langsenkamp): `feature_lta_map`
         - [execution_monitoring](https://github.com/tbohne/execution_monitoring): `main`
         - [plan_generation](https://github.com/tbohne/plan_generation): `main`
@@ -62,10 +62,10 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
         - run resolver node: `rosrun execution_monitoring resolver.py`
         - run plan generator: `rosrun plan_generation plan_generator.py`
             - generates and provides handcrafted plan as service
+        - run battery model (energy consumption): `rosrun arox_engine arox_battery.py`
+            - configurable via `rosrun rqt_reconfigure rqt_reconfigure`
     - with launch file (including plan generation):
         - `roslaunch execution_monitoring execution_monitoring.launch`
-- run battery model (energy consumption): `rosrun arox_engine arox_battery.py`
-    - configurable via `rosrun rqt_reconfigure rqt_reconfigure`
 
 ## Settings for AROX Battery (non-defaults)
 
