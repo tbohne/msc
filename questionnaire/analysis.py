@@ -59,10 +59,10 @@ def plot(lta_problems):
         difficulty_votes.append(problem.get_difficulty())
         likelihood_votes.append(problem.get_likelihood())
 
-    s = [75 for n in range(len(names))]
+    s = [500 for n in range(len(names))]
 
-    ax.scatter(impact_votes, difficulty_votes, likelihood_votes, marker='D', color='red', s=s)
-    ax.scatter(1, 1, 1, marker='X', color='gold', s=[75])
+    ax.scatter(impact_votes, difficulty_votes, likelihood_votes, marker='D', color='red', s=s, label='PM: power_management\nCF: charging_failure\nDW: drastic_weather_change\nCD: certain_dynamics\nSF: sensor_failure\nPA: perceptual_aliasing_issue\nDM: data_management\nLC: lost_connection\nOB: obstacles_blocking_path\nRS: robot_gets_stuck\nRF: robot_falls_over\nNF: navigation_failure\nSR: sustained_recovery\nIL: incorrect_localization\nME: mapping_error\nPF: plan_deployment_failure')
+    ax.scatter(1, 1, 1, marker='X', color='gold', s=[500])
 
     print(names)
 
@@ -74,6 +74,7 @@ def plot(lta_problems):
     ax.set_ylabel('difficulty (1: easy, 2: medium, 3: hard)', fontsize=15)
     ax.set_zlabel('likelihood (1: very likely, 2: occurs, 3: highly unlikely', fontsize=15)
     
+    ax.legend(loc='upper left', fontsize=15)
     plt.show()
     
 
