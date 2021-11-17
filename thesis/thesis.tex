@@ -275,13 +275,15 @@ plan execution exactly where it was preempted.
 \subsection{Dummy Scanning Node}
 \label{sec:dummy_scanning_node}
 
-Since the scenario requires a representation of a \code{scan} action, but the work does not really depend on realistic scan data, a pragmatic solution is needed.
-The result is a dummy node implementation that fakes the results of the \textit{RIEGL} scanner (cf. \ref{fig:arox_system}). A \code{scan} action is expected to cause
-an incoming scan on the \code{/RIEGL} topic, which will then be written to a file to also have some form of data management. Since the \textit{Velodyne} LiDAR sensor is 
-already part of the simulation and the type of incoming data is essentially the same, a \code{scan} action just leads to one repuplished \textit{Velodyne} scan under 
-the \code{/RIEGL} topic. The incoming data is basically a list of distance values for certain angle-height combinations. Thus, the idea is that the \textit{Velodyne} sensor 
-briefly pretends to be a \textit{RIEGL} sensor. This approach has the useful side effect of making it relatively easy to simulate sensor failures by simply stopping to 
-republish the \textit{Velodyne} after a \code{scan} action.
+Since the scenario described in the previous section assumes a representation of a \code{scan} action, but the work does not really depend on realistic scan data,
+a pragmatic solution is required. The result is a dummy node implementing a ROS \code{SimpleActionServer} that simulates the results of the \textit{RIEGL} scanner
+(cf. fig. \ref{fig:arox_system}). It is expected that a \code{scan} action will trigger an incoming \code{LaserScan} on the topic \code{/RIEGL}, which will then be
+written to a file to also have some form of data management. Since the \textit{Velodyne} LiDAR sensor is already part of the simulation and the nature of the incoming data
+is essentially the same, a \code{scan} action just leads to one republished \textit{Velodyne} scan under the \code{/RIEGL} topic using \code{rospy.wait\_for\_message()},
+which merely creates a subscription to the topic, receives one message, and then unsubscribes. The incoming data is basically a list of distance values for certain angle-height 
+combinations along with arbitrary many metadata such as minimum angle, maximum angle, scanning time, and identifier. Thus, the dummy node enables the \textit{Velodyne} sensor
+to briefly pretend to be a \textit{RIEGL} sensor. This approach has the useful side effect of making it relatively easy to simulate sensor failures by simply stopping to
+republish the \textit{Velodyne} after a \code{scan} action (cf. section \ref{sec:simulation_of_lta_challenges}).
 
 \pagebreak
 
