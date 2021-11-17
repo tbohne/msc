@@ -725,14 +725,17 @@ It should be possible to simulate twilight in the Gazebo simulation, e.g. by sim
 \textbf{Sensor (Perception) Failure}\newline
 
 \noindent
-It is quite easy to evaluate a sensor failure as it can be easily simulated by interrupting the publication of laser scans in the dummy scanner node.
-However, there may be more subtle failures than just a total breakdown. Therefore, there should be simulations of failure cases that go beyond this.
-One issue could be an empty list of range values, i.e. a scan arrives on the topic but is essentially empty. Another more subtle problem could be realized by 
-publishing a scan that only contains maximum range values, which may indicate that the robot has fallen over or that the sensor has slipped out of place. 
-In any case, this would indicate that the sensor is pointing towards the sky. Finally, it could be a problem if the same scan is published over and over again.
-It is possible that the values between two scans where the robot did not move are similar, although they should never be the same due to noise etc., but the ID 
-should be unique anyway. The simulation of these different types of fault cases is implemented via ROS topics.
-The dummy scanning node introduced in section \ref{sec:dummy_scanning_node} is able to activate the simulated failure cases based on the following topics:
+The evaluation of a total sensor failure is straightforward, as it can be easily simulated by interrupting the publication of laser scans in the dummy scanning node
+described in section \ref{sec:dummy_scanning_node}. However, there are more subtle failures than just a total breakdown. One issue could be an empty list of range values,
+i.e. a scan arrives on the topic but is essentially vacuous. As mentioned in section \ref{sec:dummy_scanning_node}, the crucial part of a laser scan is the list of range values,
+which makes it useless if this list is empty for some reason. It is again rather trivial to simulate such a case by clearing the list of range values before republishing
+a scan in the dummy scanning node. Another, more subtle, problem could be realized by publishing a scan that contains only maximum range values, i.e. \code{inf}, which may
+indicate that the robot has fallen over or that the sensor has slipped out of position. In any case, this could indicate that the sensor is pointing towards the sky.
+Finally, it could be a problem if the same scan is published repeatedly. It is possible that the range values between two scans where the robot has not moved are similar,
+although they should never be the same due to noise, etc. However, what should be different in each case is the metadata such as the ID.
+To simulate repeated scans, the dummy scanning node always stores the previous scan and can replace the current scan with the previous one on command.
+Accordingly, the simulation of each different sensor fault case is implemented as part of the dummy scanning node introduced in section \ref{sec:dummy_scanning_node},
+and can be enabled / disabled via the following ROS topics:
 \begin{itemize}
     \item total sensor failure \textrightarrow \code{/toggle\_simulated\_sensor\_failure}
     \item empty list of range values \textrightarrow \code{/toggle\_simulated\_empty\_ranges}
