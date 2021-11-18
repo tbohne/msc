@@ -521,7 +521,7 @@ investigated with higher priority in this work. For a more detailed overview, th
 in figure \ref{fig:average_results}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{pics/questionnaire.png}
+    \includegraphics[width=0.95\textwidth]{pics/questionnaire.png}
     \caption{\textsc{Accumulated Results of Questionnaire}}
     \label{fig:questionnaire_results}
 \end{figure}
@@ -531,28 +531,67 @@ in figure \ref{fig:average_results}.
     \begin{tabular}{| c | c | c | c | c |}
         \hline
         \textbf{problem} & \textbf{\o \thinspace impact} & \textbf{\o \thinspace difficulty} & \textbf{\o \thinspace likelihood} & \textbf{dist. to optimum} \\ \hline
-        charging\_failure & 1.29 & 1.29 & 1.71 & 0.82 \\ \hline
-        power\_management & 1.0 & 1.43 & 2.0 & 1.09 \\ \hline
-        data\_management & 1.57 & 2.0 & 1.86 & 1.44 \\ \hline
-        sensor\_failure & 1.57 & 1.71 & 2.14 & 1.46 \\ \hline
-        incorrect\_localization & 1.57 & 2.29 & 1.57 & 1.52 \\ \hline
-        lost\_connection & 2.14 & 1.86 & 1.57 & 1.54 \\ \hline
-        navigation\_failure & 1.86 & 2.0 & 1.83 & 1.56 \\ \hline
-        plan\_deployment\_failure & 1.67 & 1.83 & 2.17 & 1.58 \\ \hline
-        mapping\_error & 1.86 & 2.14 & 1.71 & 1.6 \\ \hline
-        certain\_dynamics & 2.43 & 1.43 & 1.71 & 1.65 \\ \hline
-        obstacles\_blocking\_path & 2.29 & 2.14 & 1.43 & 1.77 \\ \hline
-        robot\_gets\_stuck & 1.43 & 2.29 & 2.14 & 1.77 \\ \hline
-        sustained\_recovery & 1.33 & 2.5 & 2.0 & 1.83 \\ \hline
-        drastic\_weather\_change & 1.86 & 2.43 & 2.29 & 2.11 \\ \hline
-        robot\_falls\_over & 1.0 & 2.33 & 2.67 & 2.13 \\ \hline
-        perceptual\_aliasing\_issue & 2.0 & 2.5 & 2.33 & 2.24 \\ \hline
+        charging\_failure & $1.29$ & $1.29$ & $1.71$ & $0.82$ \\ \hline
+        power\_management & $1.0$ & $1.43$ & $2.0$ & $1.09$ \\ \hline
+        data\_management & $1.57$ & $2.0$ & $1.86$ & $1.44$ \\ \hline
+        sensor\_failure & $1.57$ & $1.71$ & $2.14$ & $1.46$ \\ \hline
+        incorrect\_localization & $1.57$ & $2.29$ & $1.57$ & $1.52$ \\ \hline
+        lost\_connection & $2.14$ & $1.86$ & $1.57$ & $1.54$ \\ \hline
+        navigation\_failure & $1.86$ & $2.0$ & $1.83$ & $1.56$ \\ \hline
+        plan\_deployment\_failure & $1.67$ & $1.83$ & $2.17$ & $1.58$ \\ \hline
+        mapping\_error & $1.86$ & $2.14$ & $1.71$ & $1.6$ \\ \hline
+        certain\_dynamics & $2.43$ & $1.43$ & $1.71$ & $1.65$ \\ \hline
+        obstacles\_blocking\_path & $2.29$ & $2.14$ & $1.43$ & $1.77$ \\ \hline
+        robot\_gets\_stuck & $1.43$ & $2.29$ & $2.14$ & $1.77$ \\ \hline
+        sustained\_recovery & $1.33$ & $2.5$ & $2.0$ & $1.83$ \\ \hline
+        drastic\_weather\_change & $1.86$ & $2.43$ & $2.29$ & $2.11$ \\ \hline
+        robot\_falls\_over & $1.0$ & $2.33$ & $2.67$ & $2.13$ \\ \hline
+        perceptual\_aliasing\_issue & $2.0$ & $2.5$ & $2.33$ & $2.24$ \\ \hline
     \end{tabular}}
-    \caption{\textsc{Results of the Evaluation - Problems Ordered by Relevance}}
-    \label{fig:average_results}
-    \end{figure}
-
-\pagebreak
+\caption{\textsc{Results of the Evaluation - Problems Ordered by Relevance}}
+\label{fig:average_results}
+\end{figure}
+\noindent
+The results shown in the table in fig. \ref{fig:average_results} are ordered by their relevance according to the questionnaire results, i.e.
+by their distance from the optimal combination of impact, difficulty, and likelihood. It is worth mentioning, however, that the resulting order is based on the assumption
+that the three criteria of impact, difficulty, and likelihood are equally important in the consideration. One could argue that the difficulty criterion was introduced 
+primarily because of the tight time frame of this work and may be less important when it comes to the question of which problem is really crucial to solve in practice.
+Thus, it is worth considering the two-dimensional results only in terms of the expected impact and likelihood of each problem displayed in fig. \ref{fig:questionnaire_results_2d}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{pics/questionnaire_2d.png}
+    \caption{\textsc{2D Results of Questionnaire}}
+    \label{fig:questionnaire_results_2d}
+\end{figure}
+\noindent
+As shown in fig. \ref{fig:average_results_2d}, the $2D$ evaluation purely based on impact and likelihood results in a different ordering based on their distances 
+to the $2D$ optimum $(1, 1)$.
+\begin{figure}[H]
+    \centering
+    \resizebox{0.5\textwidth}{!}{
+    \begin{tabular}{| c | c | c | c | c |}
+        \hline
+        \textbf{problem} & \textbf{\o \thinspace impact} & \textbf{\o \thinspace likelihood} & \textbf{dist. to optimum} \\ \hline
+        charging\_failure & $1.29$ & $1.71$ & $0.77$ \\ \hline
+        incorrect\_localization & $1.57$ & $1.57$ & $0.81$ \\ \hline
+        power\_management & $1.0$ & $2.0$ & $1.0$ \\ \hline
+        data\_management & $1.57$ & $1.86$ & $1.03$ \\ \hline
+        sustained\_recovery & $1.33$ & $2.0$ & $1.05$ \\ \hline
+        mapping\_error & $1.86$ & $1.71$ & $1.12$ \\ \hline
+        navigation\_failure & $1.86$ & $1.83$ & $1.2$ \\ \hline
+        robot\_gets\_stuck & $1.43$ & $2.14$ & $1.22$ \\ \hline
+        sensor\_failure & $1.57$ & $2.14$ & $1.28$ \\ \hline
+        lost\_connection & $2.14$ & $1.57$ & $1.28$ \\ \hline
+        plan\_deployment\_failure & $1.67$ & $2.17$ & $1.34$ \\ \hline
+        obstacles\_blocking\_path & $2.29$ & $1.43$ & $1.36$ \\ \hline
+        drastic\_weather\_change & $1.86$ & $2.29$ & $1.55$ \\ \hline
+        certain\_dynamics & $2.43$ & $1.71$ & $1.6$ \\ \hline        
+        robot\_falls\_over & $1.0$ & $2.67$ & $1.67$ \\ \hline
+        perceptual\_aliasing\_issue & $2.0$ & $2.33$ & $1.67$ \\ \hline
+    \end{tabular}}
+\caption{\textsc{Results of the $2D$ Evaluation - Problems Ordered by Relevance}}
+\label{fig:average_results_2d}
+\end{figure}
 
 \chapter{Plan Execution and Monitoring}
 
