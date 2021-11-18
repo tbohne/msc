@@ -33,7 +33,7 @@ class LTAProblem:
     def get_likelihood(self):
         return np.average(self.likelihood_votes)
 
-    def compute_dist_to_optimum(self):
+    def compute_dist_to_optimum_3d(self):
         x_opt = 1
         y_opt = 1
         z_opt = 1
@@ -42,13 +42,21 @@ class LTAProblem:
         z_actual = self.get_likelihood()
         return np.sqrt((x_actual - x_opt) ** 2 + (y_actual - y_opt) ** 2 + (z_actual - z_opt) **2)
 
+    def compute_dist_to_optimum_2d(self):
+        x_opt = 1
+        y_opt = 1
+        x_actual = self.get_impact()
+        y_actual = self.get_likelihood()
+        return np.sqrt((x_actual - x_opt) ** 2 + (y_actual - y_opt) ** 2)
+
     def __str__(self):
         return "problem: " + self.name + "\nimpact: " + str(self.get_impact()) + " - (" + str(self.impact_votes) + ")\ndifficulty: " \
             + str(self.get_difficulty()) + " - (" + str(self.difficulty_votes) + ")\nlikelihood: " + str(self.get_likelihood()) \
-            + " - (" + str(self.likelihood_votes) + ")\ndist. to optimum: " + str(self.compute_dist_to_optimum()) + "\n"
+            + " - (" + str(self.likelihood_votes) + ")\ndist. to optimum (3D): " + str(self.compute_dist_to_optimum_3d()) \
+            + "\ndist. to optimum (2D): " + str(self.compute_dist_to_optimum_2d()) + "\n"
 
 
-def plot(lta_problems):
+def plot_3d(lta_problems):
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
 
@@ -84,7 +92,36 @@ def plot(lta_problems):
     plt.show()
     
 
-def generate_accumulated_results(directory):
+def plot_2d(lta_problems):
+
+    impact_votes = []
+    likelihood_votes = []
+    names = []
+
+    # ax.set_xlim3d(3, 1)
+    # ax.set_ylim3d(1, 3)
+
+    for _, problem in lta_problems.items():
+        names.append(problem.name)
+        impact_votes.append(problem.get_impact())
+        likelihood_votes.append(problem.get_likelihood())
+    s = [500 for n in range(len(names))]
+
+    plt.scatter(impact_votes, likelihood_votes, s, c="g", alpha=0.5, marker=r'D', label='PM: power_management\nCF: charging_failure\nDW: drastic_weather_change\nCD: certain_dynamics\nSF: sensor_failure\nPA: perceptual_aliasing_issue\nDM: data_management\nLC: lost_connection\nOB: obstacles_blocking_path\nRS: robot_gets_stuck\nRF: robot_falls_over\nNF: navigation_failure\nSR: sustained_recovery\nIL: incorrect_localization\nME: mapping_error\nPF: plan_deployment_failure')
+
+    #ax.scatter(impact_votes, likelihood_votes, marker='D', color='red', s=s, label=)
+    plt.scatter(1, 1, marker='X', color='gold', s=500)
+    for i, problem in enumerate(names):
+        plt.text(impact_votes[i], likelihood_votes[i], problem, fontsize=15)
+    plt.text(1, 1, 'optimum', fontsize=15)
+
+    plt.xlabel('impact (1: high, 2: medium, 3: low)', fontsize=15)
+    plt.ylabel('likelihood (1: very likely, 2: occurs, 3: highly unlikely', fontsize=15)
+    plt.legend(loc='upper right', fontsize=15)
+    plt.show()
+
+
+def generate_accumulated_results(directory, dimensions):
     pathlist = Path(directory).rglob('*.csv')
     lta_problems = {}
     for path in pathlist:
@@ -104,10 +141,16 @@ def generate_accumulated_results(directory):
     for _, problem in lta_problems.items():
         print(problem)
 
-    plot(lta_problems)
+    if dimensions == "2":
+        plot_2d(lta_problems)
+    elif dimensions == "3":
+        plot_3d(lta_problems)
+    else:
+        print("unsupported number of dimensions: %s", dimensions)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='analyze results of questionnaire')
     parser.add_argument('-i', '--input', help='input file', required=True)
+    parser.add_argument('-d', '--dimensions', help='number of dimensions to plot', required=True)
     args = vars(parser.parse_args())
-    generate_accumulated_results(args['input'])
+    generate_accumulated_results(args['input'], args['dimensions'])
