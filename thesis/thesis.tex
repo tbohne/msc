@@ -511,13 +511,14 @@ difficulty of solution and recognition. The options were \textit{easy} ($1$), me
 should be feasible within the scope of the work, to \textit{hard} ($3$), i.e. that it is a rather general problem that can only be tackled in first approximation.
 Finally, the likelihood of each problem occurring should be evaluated using the following three options. \textit{Very likely} ($1$), which roughly means you have experienced
 this in practice several times, \textit{occurs} ($2$), meaning you have experienced or heard of this once, and \textit{highly unlikely} ($3$), meaning you have never 
-seen or heard of this. The questionnaire was completed by a total of $n$ people. Obviously, this can by no means be considered representative or significant, but it 
+seen or heard of this. The questionnaire was completed by a total of $7$ people. Obviously, this can by no means be considered representative or significant, but it 
 nevertheless does give an indication of which problems should be considered with higher priority and contributes to systematization. The accumulated results are visualized in the
 3D scatter plot depicted in figure \ref{fig:questionnaire_results}. For each problem, the average vote among all three dimensions (impact, difficulty, likelihood) is displayed.
 The most relevant problem to consider under the introduced scoring system would be a problem at coordinates $(1, 1, 1)$, i.e. a high-impact problem 
 that is easy to solve / discover and has a high probability of occurring. This optimal combination is shown as a golden cross in figure \ref{fig:questionnaire_results}.
 The problems closest to this point in 3D space are the ones that are most important to consider based on the questionnaire and therefore should be 
-investigated with higher priority in this work. For a more detailed overview, the average results can be taken from the table in figure \ref{fig:average_results}.
+investigated with higher priority in this work. For a more detailed overview, the average results and each problem's distance to the optimum can be taken from the table 
+in figure \ref{fig:average_results}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{pics/questionnaire.png}
@@ -526,28 +527,28 @@ investigated with higher priority in this work. For a more detailed overview, th
 \end{figure}
 \begin{figure}[H]
     \centering
-    \resizebox{0.5\textwidth}{!}{
-    \begin{tabular}{| c | c | c | c |}
+    \resizebox{0.75\textwidth}{!}{
+    \begin{tabular}{| c | c | c | c | c |}
         \hline
-        \textbf{problem} & \textbf{\o \thinspace impact} & \textbf{\o \thinspace difficulty} & \textbf{\o \thinspace likelihood} \\ \hline
-        power\_management &  &  &  \\ \hline
-        charging\_failure &  &  &  \\ \hline
-        drastic\_weather\_change &  &  &  \\ \hline
-        certain\_dynamics &  &  &  \\ \hline
-        sensor\_failure &  &  &  \\ \hline
-        perceptual\_aliasing\_issue &  &  &  \\ \hline
-        data\_management &  &  &  \\ \hline
-        lost\_connection &  &  &  \\ \hline
-        obstacles\_blocking\_path &  &  &  \\ \hline
-        robot\_gets\_stuck &  &  &  \\ \hline
-        robot\_falls\_over &  &  &  \\ \hline
-        navigation\_failure &  &  &  \\ \hline
-        sustained\_recovery &  &  &  \\ \hline
-        incorrect\_localization &  &  &  \\ \hline
-        mapping\_error &  &  &  \\ \hline
-        plan\_deployment\_failure &  &  &  \\ \hline
+        \textbf{problem} & \textbf{\o \thinspace impact} & \textbf{\o \thinspace difficulty} & \textbf{\o \thinspace likelihood} & \textbf{dist. to optimum} \\ \hline
+        power\_management & 1.0 & 1.43 & 2.0 & 1.09 \\ \hline
+        charging\_failure & 1.29 & 1.29 & 1.71 & 0.82 \\ \hline
+        drastic\_weather\_change & 1.86 & 2.43 & 2.29 & 2.11 \\ \hline
+        certain\_dynamics & 2.43 & 1.43 & 1.71 & 1.65 \\ \hline
+        sensor\_failure & 1.57 & 1.71 & 2.14 & 1.46 \\ \hline
+        perceptual\_aliasing\_issue & 2.0 & 2.5 & 2.33 & 2.24 \\ \hline
+        data\_management & 1.57 & 2.0 & 1.86 & 1.44 \\ \hline
+        lost\_connection & 2.14 & 1.86 & 1.57 & 1.54 \\ \hline
+        obstacles\_blocking\_path & 2.29 & 2.14 & 1.43 & 1.77 \\ \hline
+        robot\_gets\_stuck & 1.43 & 2.29 & 2.14 & 1.77 \\ \hline
+        robot\_falls\_over & 1.0 & 2.33 & 2.67 & 2.13 \\ \hline
+        navigation\_failure & 1.86 & 2.0 & 1.83 & 1.56 \\ \hline
+        sustained\_recovery & 1.33 & 2.5 & 2.0 & 1.83 \\ \hline
+        incorrect\_localization & 1.57 & 2.29 & 1.57 & 1.52 \\ \hline
+        mapping\_error & 1.86 & 2.14 & 1.71 & 1.6 \\ \hline
+        plan\_deployment\_failure & 1.67 & 1.83 & 2.17 & 1.58 \\ \hline
     \end{tabular}}
-    \caption{\textsc{Average Results of the Evaluation}}
+    \caption{\textsc{Results of the Evaluation - Problems Ordered by Relevance}}
     \label{fig:average_results}
     \end{figure}
 
