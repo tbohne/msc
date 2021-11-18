@@ -503,15 +503,15 @@ reported to the operator. Nevertheless, it's not feasible to cover everything th
 
 To assess the relevance to long-term autonomy of the potential problems introduced in the last section, a kind of informal analysis of the impact, 
 difficulty, and likelihood of each problem was conducted. The idea is not to arbitrarily select the problems that will be studied in more detail as part
-of this work, but to rely on the judgment of the more experienced roboticists in the working group to set priorities.
-For this purpose, a simple questionnaire was designed in the form of a spreadsheet. The first aspect by which participants were asked to rank each problem was its 
-respective impact from \textit{high} ($1$), i.e. prevents a successful mission, to \textit{medium} ($2$) impact, e.g. delays missions or reduces the quality of 
-results, to \textit{low} ($3$), where it has at most a minor impact on the robot's mission. The next aspect was about evaluating each problem in terms of its individual
-difficulty of solution and recognition. The options were \textit{easy} ($1$), meaning that simple solutions exist, \textit{medium} ($2$), which requires some effort but
-should be feasible within the scope of the work, to \textit{hard} ($3$), i.e. that it is a rather general problem that can only be tackled in first approximation.
-Finally, the likelihood of each problem occurring should be evaluated using the following three options. \textit{Very likely} ($1$), which roughly means you have experienced
-this in practice several times, \textit{occurs} ($2$), meaning you have experienced or heard of this once, and \textit{highly unlikely} ($3$), meaning you have never 
-seen or heard of this. The questionnaire was completed by a total of $7$ people. Obviously, this can by no means be considered representative or significant, but it 
+of this work, but to rely on the judgment of the more experienced roboticists in the working group, especially those who have hands-on experience with the
+AROX or similar systems, to set priorities. For this purpose, a simple questionnaire was designed in the form of a spreadsheet. The first aspect by which participants 
+were asked to rank each problem was its respective impact from \textit{high} ($1$), i.e. prevents a successful mission, to \textit{medium} ($2$) impact, e.g. delays missions 
+or reduces the quality of results, to \textit{low} ($3$), where it has at most a minor impact on the robot's mission. The next aspect was about evaluating each problem in 
+terms of its individual difficulty of solution and recognition. The options were \textit{easy} ($1$), meaning that simple solutions exist, \textit{medium} ($2$), which 
+requires some effort but should be feasible within the scope of the work, to \textit{hard} ($3$), i.e. that it is a rather general problem that can only be tackled in first 
+approximation. Finally, the likelihood of each problem occurring should be evaluated using the following three options. \textit{Very likely} ($1$), which roughly means you
+have experienced this in practice several times, \textit{occurs} ($2$), meaning you have experienced or heard of this once, and \textit{highly unlikely} ($3$), meaning 
+you have never seen or heard of this. The questionnaire was completed by a total of $7$ people. Obviously, this can by no means be considered representative or significant, but it 
 nevertheless does give an indication of which problems should be considered with higher priority and contributes to systematization. The accumulated results are visualized in the
 3D scatter plot depicted in figure \ref{fig:questionnaire_results}. For each problem, the average vote among all three dimensions (impact, difficulty, likelihood) is displayed.
 The most relevant problem to consider under the introduced scoring system would be a problem at coordinates $(1, 1, 1)$, i.e. a high-impact problem 
@@ -568,7 +568,7 @@ As shown in fig. \ref{fig:average_results_2d}, the $2D$ evaluation purely based 
 to the $2D$ optimum $(1, 1)$.
 \begin{figure}[H]
     \centering
-    \resizebox{0.5\textwidth}{!}{
+    \resizebox{0.65\textwidth}{!}{
     \begin{tabular}{| c | c | c | c | c |}
         \hline
         \textbf{problem} & \textbf{\o \thinspace impact} & \textbf{\o \thinspace likelihood} & \textbf{dist. to optimum} \\ \hline
@@ -592,6 +592,16 @@ to the $2D$ optimum $(1, 1)$.
 \caption{\textsc{Results of the $2D$ Evaluation - Problems Ordered by Relevance}}
 \label{fig:average_results_2d}
 \end{figure}
+\noindent
+First, it is interesting to note that the charging failure is undisputedly in first place in both the two-dimensional and three-dimensional evaluations.
+The problem of incorrect localization climbs to second place if the difficulty criterion is disregarded. This is followed, as before, by power and data management.
+Subsequently, sustained recovery makes a huge jump of eight places when leaving aside its assumed difficulty to detect and solve.
+Mapping errors are also on the rise, overtaking sensor failures, lost connections, navigation failures, and plan deployment errors.
+Another interesting aspect is that sensor failures are far less relevant when disregarding their surprisingly low rated difficulty.
+The remaining problems remain broadly similar in their assessment, with some changing places in the middle of the list, but this is not so relevant.
+The problems rated as least relevant in the questionnaire remain the same as in the 3D case, mainly because they are considered relatively unlikely.
+In conclusion, both lists are used to prioritize the problems to be studied in this work, as it is of course useful to also consider the difficulty of 
+solving these problems, but the $2D$ view can be helpful in case of doubt.
 
 \chapter{Plan Execution and Monitoring}
 
