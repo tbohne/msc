@@ -779,8 +779,11 @@ The evaluation of a total sensor failure is straightforward, as it can be easily
 described in section \ref{sec:dummy_scanning_node}. However, there are more subtle failures than just a total breakdown. One issue could be an empty list of range values,
 i.e. a scan arrives on the topic but is essentially vacuous. As mentioned in section \ref{sec:dummy_scanning_node}, the crucial part of a laser scan is the list of range values,
 which makes it useless if this list is empty for some reason. It is again rather trivial to simulate such a case by clearing the list of range values before republishing
-a scan in the dummy scanning node. Another, more subtle, problem could be realized by publishing a scan that contains only maximum range values, i.e. \code{inf}, which may
-indicate that the robot has fallen over or that the sensor has slipped out of position. In any case, this could indicate that the sensor is pointing towards the sky.
+a scan in the dummy scanning node. Another, more subtle problem could be realized by publishing a scan that mainly contains values that do not satisfy the sensor's maximum or
+minimum range, i.e. \code{inf}, which may indicate that the robot has fallen over, or the sensor has slipped out of position. This could indicate, for example, that the sensor 
+is pointing towards the sky, causing the values to exceed the maximum range. However, depending on the sensor used and the environment, in large open fields the nearest objects 
+that could be detected may actually be farther away and exceed the maximum range of the sensor. Analogously, the same problem occurs if an object is too close to the sensor, 
+i.e. the minimum range is undercut. The list of range values is then predominantly filled with impermissible \code{inf} values.
 Finally, it could be a problem if the same scan is published repeatedly. It is possible that the range values between two scans where the robot has not moved are similar,
 although they should never be the same due to noise, etc. However, what should be different in each case is the metadata such as the ID.
 To simulate repeated scans, the dummy scanning node always stores the previous scan and can replace the current scan with the previous one on command.
@@ -789,7 +792,7 @@ and can be enabled / disabled via the following ROS topics:
 \begin{itemize}
     \item \textbf{total sensor failure} \textrightarrow \code{/toggle\_simulated\_sensor\_failure}
     \item \textbf{empty list of range values} \textrightarrow \code{/toggle\_simulated\_empty\_ranges}
-    \item \textbf{look to the sky} \textrightarrow \code{/toggle\_simulated\_look\_to\_sky}
+    \item \textbf{predominantly impermissible values} \textrightarrow \code{/toggle\_simulated\_impermissible\_values}
     \item \textbf{repeated scan} \textrightarrow \code{/toggle\_simulated\_scan\_repetition}\newline
 \end{itemize}
 
