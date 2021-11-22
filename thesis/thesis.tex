@@ -924,14 +924,14 @@ configuration, since a higher angular resolution naturally requires a longer run
 as sensor failure. In addition, there could be different modalities of recording with the sensor. The scan can be recorded continuously or published in parts.
 Therefore, the time limit is configurable by the user. While trivial, such a monitoring is not yet available and is critical for reasonable long-term autonomy in the 
 considered scenario described in section \ref{sec:prototype_scenario}. Nonetheless, more subtle errors should also be detected, beyond the outright absence of scans.
-For this purpose, the incoming scans must be examined more closely. For example, if the list of range values is empty, it is as useless for the mission as a scan that
-does not arrive at all. Hence, after the arrival of a new scan, the monitoring solution verifies that the list of range values is not empty.
-Another interesting issue to detect is a list of range values that only contains \code{inf} values, which, as mentioned in section
-\ref{sec:simulation_of_lta_challenges}, could indicate that the sensor is pointing towards the sky for some reason, e.g. because the robot has fallen over,
+For this purpose, the incoming scans must be examined more closely and checked for plausibility. For example, if the list of range values is empty, it is as useless for
+the mission as a scan that does not arrive at all. Hence, after the arrival of a new scan, the monitoring solution verifies that the list of range values is not empty.
+Another interesting issue to detect is a list of range values that predominantly contains \code{inf} values, which, as mentioned in section
+\ref{sec:simulation_of_lta_challenges}, could indicate that the sensor is pointing towards the sky, e.g. because the robot has fallen over,
 or the sensor has slipped. Admittedly, it would be a bit too simplistic to consider only range lists entirely filled with \code{inf} values as problematic.
 In many cases, depending on the field of view, the sensor can still receive reasonable values if it is oriented towards the sky, for example.
 In the minimal simulation scenario with the AROX (see section \ref{sec:prototype_scenario}), the \textit{Velodyne} scanner still receives about $10$\% of 
-reasonable-looking values when the robot is tilted on its back and the sensor is pointing toward the sky, as shown in figure \ref{fig:tilted_AROX}.
+reasonable-looking range values when the robot is tilted on its back and the sensor is pointing toward the sky, as shown in figure \ref{fig:tilted_AROX}.
 As can be seen in figure \ref{fig:straight_line}, in such a case the sensor detects parts of the ground on both sides of the robot as well as parts of the 2.5D 
 representation of a hedge in the background. Accordingly, it makes much more sense to let the user define a lower bound for reasonable-looking values (non-\code{inf}),
 e.g. that depending on the scenario and sensor configuration at least $10$\% of the detected values must be non-\code{inf} for the scan to be considered feasible.
