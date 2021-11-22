@@ -371,17 +371,19 @@ Hardware issues are a very general problem class and could relate to almost arbi
 crucial for the long-term monitoring scenario described in section \ref{sec:lta_plant_observation}, the main focus will be on detecting hardware faults of this type. 
 Sensor failures are, of course, a failure class in which the robot can do little except attempt to restart the corresponding sensor, and therefore rarely has any choice but to 
 call the human operator for assistance. Nevertheless, it is important to identify such a malfunction as soon as possible, communicate the problem and avoid a lot of useless work 
-and wasted operating time. It is obvious that total sensor failures are realistic in practice for any LiDAR sensor, or even for any sensor in general. However, there are more subtle
-failures than just a total breakdown, and the incoming scan data should be checked for plausibility. One issue could be an empty list of range values, i.e. a scan arrives on some ROS
-topic but is essentially vacuous. As mentioned in section \ref{sec:dummy_scanning_node}, the crucial part of a laser scan is the list of range values, which makes it useless if this
-list is empty for some reason. Its realism could be debated, but since it is relatively easy to simulate and detect, it is treated as a basic test that can be used to detect problems
-arising from implementation-specific errors. Another, more subtle problem could be a scan that mainly contains values that do not satisfy the sensor's maximum or minimum range,
-i.e. \code{inf}, which may indicate that the robot has fallen over, or the sensor has slipped out of position. This could indicate, for example, that the sensor is pointing towards
-the sky, causing the values to exceed the maximum range. However, depending on the sensor used and the environment, in large open fields the nearest objects that could be detected may
-actually be farther away and exceed the maximum range of the sensor. Analogously, the same problem occurs if an object is too close to the sensor, i.e. the minimum range is undercut.
-In both cases, the sensor only returns \code{inf} values. It should be detected when the list of range values is predominantly filled with impermissible \code{inf} values. Finally,
-it could be a problem if the same scan is published repeatedly. It is possible that the range values between two scans where the robot has not moved are similar, although they should
-never be the same due to noise, etc. However, what should be different in each case is the metadata such as the ID.\newline
+and wasted operating time. Obviously, total sensor failures are realistic in practice for any LiDAR sensor, or even any sensor in general, due to a hardware fault, an interrupted
+power supply, or a variety of other reasons. However, there are more subtle failures than just a total breakdown, and the incoming scan data should be checked for plausibility.
+From a practical point of view, it is a valid assumption to receive the scans via a specific ROS topic. One issue could be an empty list of range values, i.e. a scan arrives on
+some ROS topic but is essentially vacuous. As mentioned in section \ref{sec:dummy_scanning_node}, the crucial part of a laser scan is the list of range values, which makes it 
+useless if this list is empty for some reason. Its realism could be debated, and of course it is pointless to detect problems that do not occur in practice. However, since it is
+relatively easy to simulate and detect, it is treated as a basic test that can be used, for example, to detect problems due to implementation-specific errors.
+Another, more subtle problem could be a scan that mainly contains values that do not satisfy the sensor's maximum or minimum range, i.e. \code{inf}, which may indicate that
+the robot has fallen over, or the sensor has slipped out of position. This could indicate, for example, that the sensor is pointing towards the sky, causing the values to exceed
+the maximum range. However, depending on the sensor used and the environment, in large open fields the nearest objects that could be detected may actually be farther away and exceed
+the maximum range of the sensor. Analogously, the same problem occurs if an object is too close to the sensor, i.e. the minimum range is undercut. In both cases, the sensor only
+returns \code{inf} values. It should be detected when the list of range values is predominantly filled with impermissible \code{inf} values. Finally, it could be a problem if the
+same scan is published repeatedly. It is possible that the range values between two scans where the robot has not moved are similar, although they should never be the same due to
+noise, etc. However, what should be different in each case is the metadata such as the ID.\newline
 
 \noindent
 \textbf{Perceptual Aliasing Issue}\newline
