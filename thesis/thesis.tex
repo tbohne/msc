@@ -703,7 +703,12 @@ First, a problem may occur during plan execution in the child state machine, in 
 \code{minor\_complication} to the parent state machine based on the problem severity and a corresponding state transition takes place.
 In addition, there are the described parallel monitoring states, which are responsible for problems that are not directly related to plan execution, but are of a more general nature.
 If these detect a problem, they are able to interrupt \code{OPERATION} and also return \code{critical\_complication} or \code{minor\_complication} to the parent state machine
-\code{EXECUTION\_MONITORING}.\newline
+\code{EXECUTION\_MONITORING}. It is trivial to interrupt \code{OPERATION} when no task is currently being executed, i.e. no scan is being recorded and no navigation target 
+is being approached. However, it is obvious that potential problems do not wait for the completion of such tasks, but can also occur during the execution of an action.
+Therefore, the \code{drive\_to$(lat, lng, \theta)$} and \code{scan} actions are implemented as ROS \code{SimpleActionClient}s that can be interrupted at any time
+by calling the \code{cancel\_all\_goals()} method, which immediately interrupts all running goals. It is quite important that the robot is able to preempt the plan 
+execution at all times, e.g. does not continue to drive to its goal, but should instantly stop the \code{move\_base\_flex} goal execution and start following the
+recovery instructions.\newline
 The general difference between the \code{CONTINGENCY} and \code{CATASTROPHE} states is the robot's ability to act. 
 In a catastrophe case, it is no longer really capable of acting in the sense of driving back to its base, managing the problem itself, etc. 
 An example for a catastrophic case would be that the robot falls over. It is then unable to recover, but it is of course still able to communicate the problem
