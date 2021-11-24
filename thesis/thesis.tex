@@ -1037,24 +1037,29 @@ For the scenario at hand, it will be important to monitor whether the scans are 
 \noindent
 Monitoring for WiFi connectivity problems takes place at two levels of abstraction. From the perspective of the high-level execution monitoring framework developed in this work,
 the monitoring is completely independent of hardware and operating system details. However, monitoring the WiFi connection of a particular system depends heavily on such details,
-so it is also necessary to provide low-level monitoring. The idea is that the high-level monitoring node expects the information that are evaluated as part of the monitoring in a
-very specific format on the ROS topic \code{/wifi\_connectivity\_info}. For this purpose, a custom ROS message \code{WiFi.msg} was defined consisting of the three fields
-\code{float32 link\_quality}, \code{float32 signal\_level} and \code{float32 bit\_rate}. Therefore, it is irrelevant where this information comes from, it is simply assumed to
-be provided. Of course, in order to make practical use of the WiFi monitoring in this work, the low-level operating-system-specific monitoring node that transfers this information
-to the ROS system is implemented exemplarily for an Ubuntu system. It starts the Unix tool \code{iwconfig} as a subprocess for a WiFi interface identifier that can be configured
-by the user. Subsequently, the relevant information, i.e. link quality, signal level and bit rate, is parsed from the \code{iwconfig} output for the respective interface and a 
-\code{WiFi.msg} is created based on this. This message is then published under the \code{/wifi\_connectivity\_info} topic, which is subscribed by the high-level monitoring node.
-This process is repeated continuously every $10$s.\newline
+so it is also necessary to provide low-level monitoring for network interfaces. The idea is that the high-level monitoring node expects the information that are evaluated as part 
+of the monitoring in a very specific format on the ROS topic \code{/wifi\_connectivity\_info}. For this purpose, a custom ROS message \code{WiFi.msg} was defined consisting of the
+three fields \code{float32 link\_quality}, \code{float32 signal\_level} and \code{float32 bit\_rate}. Therefore, it is irrelevant where this information comes from, it is simply
+assumed to be provided. In order to demonstrate the WiFi monitoring in this work, the low-level operating-system-specific monitoring node that transfers this
+information to the ROS system is implemented exemplarily for an Ubuntu system. It starts the Unix tool \code{iwconfig} as a subprocess for a WiFi interface identifier that can be
+configured by the user. Subsequently, the relevant information, i.e. link quality, signal level and bit rate, is parsed from the \code{iwconfig} output for the respective interface
+and a \code{WiFi.msg} is created based on this. This message is then published under the \code{/wifi\_connectivity\_info} topic, which is subscribed by the high-level monitoring 
+node. This process is repeated continuously every $10$s.\newline
 Now that it is clear how the low-level node works, the actual monitoring follows. As mentioned, the high-level monitoring node receives the WiFi information via the ROS topic
 \code{/wifi\_connectivity\_info}. Based on this, the numerical information about the connection is evaluated. If all three provided values are $0$, it is considered
 a disconnect and the monitoring solution induces a transition to the \code{CONTINGENCY} state. The link quality is evaluated based on three thresholds: If it is below $5\%$,
 it is considered critically poor quality and a transition to \code{CONTINGENCY} follows. For the remaining two thresholds, the quality is not as bad as requiring a contingency
 case, but it is still worth notifying the operator. For a link quality of $< 25\%$ a poor quality is reported, and for values less than $50\%$ a below average quality.
-The signal level is also monitored based on three thresholds. As introduced in section \ref{sec:} it gets practically unusable for values below $-90$ dBm. Thus, $-90$ dBm acts as
-the trigger for a contingency case. Signal levels of $-80$ dBm and $-75$ dBm cause notifications of very weak and weak WiFi signals, respectively. Finally, the bit rate is
-monitored based on two cases: if it is below $1$ Mb/s, a contingency is triggered, and if it is below $20$ Mb/s, a notification of a rather low bit rate is transmitted.
-As soon as a malfunction is detected, monitoring is deactivated and resumed only when the problem has been solved. In all contingency cases, the high-level WiFi monitoring
-node publishes on the topic \code{/contingency\_preemption} with a message that specifies the particular kind of connection problem.\newline
+The signal level is also monitored based on three thresholds. As introduced in section \ref{sec:simulation_of_lta_challenges} it gets practically unusable for values below
+$-90$ dBm. Thus, $-90$ dBm acts as the trigger for a contingency case. Signal levels of $-80$ dBm and $-75$ dBm cause notifications of very weak and weak WiFi signals,
+respectively. Finally, the bit rate is monitored based on two cases: if it is below $1$ Mb/s, a contingency is triggered, and if it is below $20$ Mb/s, a notification of a
+rather low bit rate is transmitted. As soon as a malfunction is detected, monitoring is deactivated and resumed only when the problem has been solved. In all contingency
+cases, the high-level WiFi monitoring node publishes on the topic \code{/contingency\_preemption} with a message that specifies the particular kind of connection problem.\newline
+In summary, the problem of actually detecting the WiFi connectivity on the system in question is completely external to the execution monitoring framework,
+which has no operating system coupling at all. There is a layer of abstraction that separates the two views. The assumption of the high-level monitoring framework is the
+following: There is a node that publishes the WiFi connectivity for the system every $10$s int the \code{WiFi.msg} format. If someone wants to use the execution monitoring
+framework on Windows, for example, there is no need to modify the framework's code, there just has to be an equivalent WiFi monitoring node for a Windows system that replaces
+the Ubuntu-specific one.\newline
 
 \noindent
 \textbf{Obstacles Blocking the Planned Path}\newline
