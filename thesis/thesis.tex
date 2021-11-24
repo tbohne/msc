@@ -430,12 +430,14 @@ to the base station or external servers for further processing.\newline
 \noindent
 The most common form of WiFi failure, which is very relevant and realistic in practice, is of course a simple disconnection.
 However, there are again more subtle problems than just the complete absence of a connection, so the quality of an established connection should also be monitored.
-One realistic problem is an overall poor link quality, which is a measure combining different kinds of metrics, e.g. \textit{Received Signal Strength Indication} (RSSI),
-\textit{Signal to Interference plus Noise Ratio} (SINR), \textit{Packet Delivery Ratio} (PDR), and \textit{Bit Error Rate} (BER). \cite{Vlavianos:2008}
-Another well-known problem with WiFi systems is a poor signal, i.e. a low RSSI value. The RSSI is already part of the link quality assessment, but due to its practical
-importance, it is also worth to be considered in isolation. Furthermore, the bit rate, i.e. the speed at which information is transmitted, gives a good indication of 
-the overall connection quality, and it should be recognized when it falls below a certain threshold, which is a lower limit for practical use. In order to ensure communication
-with the base station at all times (RTK correction signals, scan storage, etc.), such problems should be detected and reported or corrected immediately.\newline
+Generally, network monitoring can be done arbitrarily detailed, for this work it is limited to some attributes that allow a general statement about the quality of
+the connection in practice. One realistic problem is an overall poor link quality, which is a measure combining different kinds of metrics, e.g.
+\textit{Received Signal Strength Indication} (RSSI), \textit{Signal to Interference plus Noise Ratio} (SINR), \textit{Packet Delivery Ratio} (PDR), and
+\textit{Bit Error Rate} (BER). \cite{Vlavianos:2008} Another well-known problem with WiFi systems is a poor signal, i.e. a low RSSI value. The RSSI is already part of
+the link quality assessment, but due to its practical importance, it is also worth to be considered in isolation. Furthermore, the bit rate, i.e. the speed at which
+information is transmitted, gives a good indication of the overall connection quality, and it should be recognized when it falls below a certain threshold, which is a
+lower limit for practical use. In order to ensure communication with the base station at all times (RTK correction signals, scan storage, etc.), such problems should be
+detected and reported or corrected immediately.\newline
 
 \noindent
 \textbf{Obstacles Blocking the Planned Path}\newline
