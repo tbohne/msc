@@ -1053,7 +1053,7 @@ a disconnect and the monitoring solution induces a transition to the \code{CONTI
 it is considered critically poor quality and a transition to \code{CONTINGENCY} follows. For the remaining two thresholds, the quality is not as bad as requiring a contingency
 case, but it is still worth notifying the operator. For a link quality of $< 25\%$ a poor quality is reported, and for values less than $50\%$ a below average quality.
 The signal level is also monitored based on three thresholds. As introduced in section \ref{sec:simulation_of_lta_challenges} it gets practically unusable for values below
-$-90$ dBm. Thus, $-90$ dBm acts as the trigger for a contingency case. Signal levels of $-80$ dBm and $-75$ dBm cause notifications of very weak and weak WiFi signals,
+$-90$ dBm. Thus, $\leq -90$ dBm acts as the trigger for a contingency case. Signal levels of $\leq -80$ dBm and $< -75$ dBm cause notifications of very weak and weak WiFi signals,
 respectively. Finally, the bit rate is monitored based on two cases: if it is below $1$ Mb/s, a contingency is triggered, and if it is below $20$ Mb/s, a notification of a
 rather low bit rate is transmitted. As soon as a malfunction is detected, monitoring is deactivated and resumed only when the problem has been solved. In all contingency
 cases, the high-level WiFi monitoring node publishes on the topic \code{/contingency\_preemption} with a message that specifies the particular kind of connection problem.\newline
@@ -1123,10 +1123,19 @@ If this does not help, it should waste no time and immediately notify the operat
 \section{Solutions for LTA Challenges}
 \label{sec:solutions_for_lta_challenges}
 
-As anticipated, the focus of the work is on detection, and an initial solution adopted for all of the issues identified in section \ref{sec:challenges_for_lta} will be 
+As anticipated, the focus of the work is on detection, and an initial solution adopted for all the issues identified in section \ref{sec:challenges_for_lta} will be 
 to communicate the problem to a human operator. Requesting the help of the human operator not only serves as an initial solution, but is always acting as fallback 
 solution when other solution attempts are unsuccessful. The idea is to have the monitoring procedures described in section \ref{sec:monitoring_for_lta_challenges} that 
 look for the specific types of issues and initiate an appropriate response.\newline
+Whenever a monitoring solution described in section \ref{sec:monitoring_for_lta_challenges} causes a transition to the \code{CONTINGENCY} or \code{CATASTROPHE} states
+by publishing on the respective topics \code{contigency\_preemption} or \code{catastrophe\_preemption}, information about the cause of the interruption is
+transmitted via a ROS message. Based on this cause, the corresponding resolver class is selected and executed. The idea is that each general problem class, e.g.
+connection problems, provides a resolution method for each potential specific problem in that class, e.g. poor WiFi link quality. The \code{CONTINGENCY} state in turn
+communicates the failure reason to the resolver classes. If available, the specific resolving method will be executed. Afterwards, the outcome is reported back to the
+high-level state machine, which either continues normal operation if the problem is successfully solved, or aggravates to catastrophe, for example. If the specific resolver
+method is not able to handle the problem, or if there is not even a specific resolver method for the failure case, the problem is handed over to the fallback resolver,
+which passes the problem to the human operator and awaits resolution. If the respective failure was caused by a simulation, the corresponding flag must be reset to restore
+normal operation, which is done by publishing on the particular toggle topic described in section \ref{sec:simulation_of_lta_challenges}.\newline
 
 \noindent
 \textbf{Communication with a Human Operator}\newline
