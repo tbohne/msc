@@ -1052,9 +1052,10 @@ results in the form of \code{LaserScan} or \code{PointCloud2}, which covers quit
 \ref{fig:arox_system}) can be replaced by another model without any problems, and data monitoring should continue to work based on the slight constraint of producing data of the
 two mentioned types. General capacity monitoring works either way. Since the logging of the data always follows the scanning and the scanner is the module that writes the scans to
 the file system, it would be superfluous to check the data again for plausibility, as this is already part of the sensor monitoring. It suffices to verify whether the storing
-operation, i.e. writing the scan to the log file, worked. Of course, more checks could be made for scenario-specific logs on the drive, etc., but since this would require additional
-knowledge of the specific circumstances, it would violate the goal of being as general as possible. Nevertheless, it is possible to extend data management in the future to include
-application-specific monitoring aspects that can be easily disabled to maintain general applicability.\newline
+operation, i.e. writing the scan to the log file, worked. Moreover, it is worth noting that a total sensor failure always implies a data management failure of the second type,
+but this should already be detected by the sensor monitoring procedure. Of course, more checks could be made for scenario-specific logs on the drive, etc., but since this would
+require additional knowledge of the specific circumstances, it would violate the goal of being as general as possible. Nevertheless, it is possible to extend data management in
+the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
