@@ -8,6 +8,7 @@
 % - use options "utf8" or "latin1" to select inputencoding
 \documentclass[english, master, utf8]{base/thesis_KBS}
 
+\usepackage[toc,page]{appendix}
 \usepackage{units}    % useful for settings units:              \unit[23]{m}
 \usepackage{nicefrac} % for setting fractions esp. within text: \nicefrac{km}{h}
 \usepackage{subcaption}
@@ -599,6 +600,21 @@ Thus, it is worth considering the two-dimensional results only in terms of the e
     \label{fig:questionnaire_results_2d}
 \end{figure}
 \noindent
+Another interesting aspect to analyze is the range in given answers in the questionnaire, i.e. the agreement among the participants. Most of the judgments roughly coincide with
+only few outliers. However, there are some controversial cases that are worth mentioning. First, the \textit{impact} category seems to be the easiest to assess, as it is the only
+one where all participants agreed on two problem types (power management, robot falls over). In addition, the other problem types in the \textit{impact} category are rated fairly
+consistently, most of them have only one outlier vote, and it is very rare that the votes are completely mixed. The most contested problem types in this category are perceptual
+aliasing, connection losses, situations where the robot gets stuck, and navigation failures. It is also interesting to examine the reason for the mixed results. This could be
+because most participants rated the problem as average on the scale, but it could also arise from extreme answers canceling each other out. There's a big difference - one means
+participants agree, the other means they do not. For the \textit{impact} category, participants seem to agree overall, with only a few outliers and even some cases of perfect
+agreement with unanimous votes. The next category, \textit{difficulty}, is already not so clear-cut, which may be explained by the fact that participants could imagine different
+depths of problem-solving based on their particular experience, while \textit{impact} is quite easy to think about. There is no unanimous vote, and there are even some cases where
+the answers are very mixed, such as in the case of lost connections, where the answers are almost evenly distributed among the possible options. However, this is still rare, in most
+cases the overall trend is clear. Finally, the voting in the third category \textit{likelihood} is similar to the \textit{difficulty} votes. There is no unanimous vote, but there
+are cases where participants are pretty much in agreement, such as in data management failures, where all but one voted for $2$ (\textit{occurs}). There is no extreme example of
+evenly distributed responses, most have some tendency and a few outliers. In summary, an average score almost never results from an even distribution of responses across the options,
+but almost always results from the actual rating of the problem as average based on the criteria. The exact results can be taken from the appendix 
+(cf. \ref{sec:detailed_questionnaire_results}).\newline
 As shown in fig. \ref{fig:average_results_2d}, the $2D$ evaluation purely based on impact and likelihood results in a different ordering based on their distances 
 to the $2D$ optimum $(1, 1)$.
 \begin{figure}[H]
@@ -1205,8 +1221,12 @@ the container in a laser scan of its nearby surroundings, drive into it and dock
 This docking solution could be used for both planned charge stops as well as unexpected but necessary stops detected by monitoring processes such
 as the one described in section \ref{sec:battery_monitoring}.
 
-% DON'T set \bibliographystyle here -- use the documentclass option instead
 \bibliography{papers}
+
+\begin{appendices}
+    \chapter{Detailed Results of Questionnaire}
+    \label{sec:detailed_questionnaire_results}
+\end{appendices}
 
 \closing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
