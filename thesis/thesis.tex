@@ -1169,9 +1169,14 @@ normal operation, which is done by publishing on the particular toggle topic des
 \textbf{Communication with a Human Operator}\newline
 
 \noindent
-Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention, 
-is implemented as the ROS topic \code{\/request\_help}. Once the problem has been solved by the human operator, the control can be returned 
-to the autonomous mobile robot via the \code{\/problem\_solved} topic.\newline
+Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention or providing useful information about the state
+of the robot or mission, is implemented as a separate \code{OperatorCommunication} class. The robot-human communication module is subscribed to three different topics. First,
+a message on \code{/request\_help\_contingency} indicates that the robot is requesting the help of a human operator, but is still functioning in principle. The second topic
+\code{/request\_help\_catastrophe} is used for more severe cases where the robot needs human help and is inoperable, e.g. has a full breakdown. Finally, there is \code{/robot\_info},
+which is used for minor problems or tasks that do not require immediate action, but are good to know and tackle soon, e.g. a memory usage of $90\%$. In the first two cases, control
+can be returned to the autonomous mobile robot via the \code{/problem\_solved} topic once the problem has been solved by the human operator. All the monitoring modules described
+in section \ref{sec:monitoring_for_lta_challenges} are subscribed to the \code{/robot\_info} topic and thus able to communicate relevant information. The more critical topics for
+contingency and catastrophe cases can be triggered by the fallback resolver described in the last section.
 
 \chapter{Integrated Solutions}
 
