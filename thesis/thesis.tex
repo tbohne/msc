@@ -838,8 +838,11 @@ The occurrence of a perceptual aliasing issue can be simulated, for example, by 
 \textbf{Data Management}\newline
 
 \noindent
-It is quite simple to simulate the occurrence of these issues by throwing the corresponding exceptions in the file management or by monitoring the extension
-of the scan records.\newline
+It is not a big challenge to simulate the occurrence of the data management problems presented in section \ref{sec:challenges_for_lta}. To simulate a ``full disk''-failure,
+i.e. a full memory of the drive on which the scans are to be logged, one could simply prepare a full USB flash drive and configure the path to be monitored accordingly,
+e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR\_DRIVE = /mnt/usb}. The second and more scenario-specific type of error is the scan logging error, which
+can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
+of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_scan\_logging\_failure}.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
