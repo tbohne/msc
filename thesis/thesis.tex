@@ -1038,12 +1038,23 @@ from the monitoring framework due to its operating system coupling, disk capacit
 If the result of \code{disk\_usage(MONITOR\_DRIVE)} exceeds $99\%$, the node detects a full memory and causes an interruption of the robot's mission and a transition to the
 \code{CONTINGENCY} state. Additionally, notifications are sent to the operator when the disk load exceeds $95\%$ and $90\%$, with an indication that the data should be backed up
 externally soon. So much for very general data management monitoring, which in principle can be used for all types of data acquisition tasks, since the type of data is irrelevant
-to capacity testing. There is also a more scenario-specific part that is optional and can be enabled or disabled by the user. This is the specific scan logging monitoring that
-assumes that the data acquisition task at hand is a scanning task, such as the one described in section \ref{sec:lta_plant_observation}, and that the scans are written to a
-user-configured directory in a file published by the dummy scanning node described in section \ref{sec:dummy_scanning_node}. Since the data format of the scans written by the
-dummy scanner is well-known, i.e. \code{LaserScan} or \code{PointCloud2}, the entries logged in this log file can be easily evaluated. The idea is that there should be an
-additional scan entry in the log file after a successful scan action.  If that is not the case, a data management error has been detected and a transition to \code{CONTINGENCY}
-is initiated.\newline
+to capacity testing. There is also a more scenario-specific part based on certain assumptions and dependencies that is optional and can be enabled or disabled by the user.
+This is the specific scan logging monitoring that assumes that the data acquisition task at hand is a scanning task, such as the one described in section
+\ref{sec:lta_plant_observation}, and that the scans are written to a user-configured directory in a file published by the dummy scanning node described in section
+\ref{sec:dummy_scanning_node}. Since the data format of the scans written by the dummy scanner is well-known, i.e. \code{LaserScan} or \code{PointCloud2}, the entries logged in
+this log file can be easily evaluated. The idea is that there should be an additional scan entry in the log file after a successful scan action. If that is not the case,
+a data management error has been detected and a transition to \code{CONTINGENCY} is initiated. It would also be possible to implement some sort of exception escalation system
+based on sensor logging errors, but since this would require in-depth knowledge of implementation details of the sensors used, it was renounced.\newline
+General capacity monitoring is based on the idea of not having dependencies on specific scenarios or configurations, and instead just monitor the configured path and communicate
+when certain thresholds are exceeded, which, as mentioned, basically works for any data acquisition task. However, the goal of ensuring a certain level of generality applies to
+both cases. Of course, the second case is only suitable for laser scanning tasks, but it is not limited to one specific sensor. It can deal with all kinds of sensors that provide
+results in the form of \code{LaserScan} or \code{PointCloud2}, which covers quite some generality. Therefore, a specific sensor such as the \textit{RIEGL} (cf. fig.
+\ref{fig:arox_system}) can be replaced by another model without any problems, and data monitoring should continue to work based on the slight constraint of producing data of the
+two mentioned types. General capacity monitoring works either way. Since the logging of the data always follows the scanning and the scanner is the module that writes the scans to
+the file system, it would be superfluous to check the data again for plausibility, as this is already part of the sensor monitoring. It suffices to verify whether the storing
+operation, i.e. writing the scan to the log file, worked. Of course, more checks could be made for scenario-specific logs on the drive, etc., but since this would require additional
+knowledge of the specific circumstances, it would violate the goal of being as general as possible. Nevertheless, it is possible to extend data management in the future to include
+application-specific monitoring aspects that can be easily disabled to maintain general applicability.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
