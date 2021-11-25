@@ -940,10 +940,10 @@ The problem can be trivially simulated by simply not launching the plan generati
 \section{Monitoring for LTA Challenges}
 \label{sec:monitoring_for_lta_challenges}
 
-Now that the overall architecture of the execution monitoring state machine has been described (cf. section \ref{sec:execution_monitoring_smach_architecture}),
-we can turn to the actual monitoring methods for the potential hinderances for long-term autonomous systems introduced in section \ref{sec:challenges_for_lta}.
-The idea is to implement a specific monitoring procedure for each of the presented LTA problems. Whenever such a procedure is triggered, i.e. the specific issue 
-is recognized, the problem should be reported via the \code{MonitorState}s, triggering a transition to \code{CONTINGENCY} or \code{CATASTROPHE} based on the severity of the problem.
+Now that the overall architecture of the execution monitoring state machine has been described (cf. section \ref{sec:execution_monitoring_smach_architecture}), we can turn to the
+actual monitoring methods for the potential hinderances for long-term autonomous systems introduced in section \ref{sec:challenges_for_lta}. The idea is to implement a specific
+monitoring procedure for each of the presented LTA problems that runs in parallel to the high-level state machine. Whenever such a procedure is triggered, i.e. the specific issue
+is recognized, the problem gets reported via the \code{MonitorState}s, causing a transition to \code{CONTINGENCY} or \code{CATASTROPHE} based on the severity of the problem.
 Depending on the nature of the problem, the information about the required solution method is conveyed via the message published to the topic of the \code{MonitorState}.
 Thus, the overall goal is to have a resolver node for each of the potential failures, which is executed in \code{CONTINGENCY} or \code{CATASTROPHE} depending on the
 failure case at hand. The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation.
