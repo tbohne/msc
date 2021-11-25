@@ -1032,17 +1032,17 @@ perceptual aliasing issue., e.g. by changing the position or the viewpoint in or
 \noindent
 Similar to sensor (perception) monitoring, executing a \code{scan} action launches the data monitoring procedure, which looks for the potential data management issues
 presented in section \ref{sec:challenges_for_lta}. To perform the drive capacity check, i.e. to determine whether the drive on which scan logging takes place has enough
-free space, the cross-platform library \code{psutil} is used. It provides a function \code{disk\_usage()} which returns the load of the specified disk, e.g. the one
-configured in \code{MONITOR\_DRIVE}. Unlike WiFi connection monitoring, where the actual low-level network connectivity checks are outsourced from the monitoring framework
-due to its operating system coupling, disk capacity checks can be part of the framework itself because of the cross-platform nature of \code{psutil}. If the result of
-\code{disk\_usage(MONITOR\_DRIVE)} exceeds $99\%$, the node detects a full memory and causes an interruption of the robot's mission and a transition to the \code{CONTINGENCY} state.
-Additionally, notifications are sent to the operator when the disk load exceeds $95\%$ and $90\%$, with an indication that the scans should be backed up externally soon.
-So much for the very general data management monitoring that can basically be used for all types of data acquisition tasks. There is also a more scenario-specific part that is
-optional and can be enabled or disabled by the user. This is the specific scan logging monitoring that assumes that the data acquisition task at hand is a scanning task, such as
-the one described in section \ref{sec:lta_plant_observation}, and that the scans are written to a user-configured directory in a file published by the dummy scanning node described
-in section \ref{sec:dummy_scanning_node}. Since the data format of the scans written by the dummy scanner is well-known, i.e. \code{LaserScan} or \code{PointCloud2}, the entries
-logged in this log file can be easily evaluated. The idea is that there should be an additional scan entry in the log file after a successful scan action.  If that is not the case,
-a data management error has been detected and a transition to \code{CONTINGENCY} is initiated.\newline
+free space, the cross-platform library \code{psutil}\footnote{https://pypi.org/project/psutil/} is used. It provides a function \code{disk\_usage()} which returns the load of
+the specified disk, e.g. the one configured in \code{MONITOR\_DRIVE}. Unlike WiFi connection monitoring, where the actual low-level network connectivity checks are outsourced
+from the monitoring framework due to its operating system coupling, disk capacity checks can be part of the framework itself because of the cross-platform nature of \code{psutil}.
+If the result of \code{disk\_usage(MONITOR\_DRIVE)} exceeds $99\%$, the node detects a full memory and causes an interruption of the robot's mission and a transition to the
+\code{CONTINGENCY} state. Additionally, notifications are sent to the operator when the disk load exceeds $95\%$ and $90\%$, with an indication that the scans should be backed up
+externally soon. So much for the very general data management monitoring that can basically be used for all types of data acquisition tasks. There is also a more scenario-specific
+part that is optional and can be enabled or disabled by the user. This is the specific scan logging monitoring that assumes that the data acquisition task at hand is a scanning task,
+such as the one described in section \ref{sec:lta_plant_observation}, and that the scans are written to a user-configured directory in a file published by the dummy scanning node
+described in section \ref{sec:dummy_scanning_node}. Since the data format of the scans written by the dummy scanner is well-known, i.e. \code{LaserScan} or \code{PointCloud2}, the
+entries logged in this log file can be easily evaluated. The idea is that there should be an additional scan entry in the log file after a successful scan action.  If that is not
+the case, a data management error has been detected and a transition to \code{CONTINGENCY} is initiated.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
@@ -1057,10 +1057,11 @@ so it is also necessary to provide low-level monitoring for network interfaces. 
 of the monitoring in a very specific format on the ROS topic \code{/wifi\_connectivity\_info}. For this purpose, a custom ROS message \code{WiFi.msg} was defined consisting of the
 three fields \code{float32 link\_quality}, \code{float32 signal\_level} and \code{float32 bit\_rate}. Therefore, it is irrelevant where this information comes from, it is simply
 assumed to be provided. In order to demonstrate the WiFi monitoring in this work, the low-level operating-system-specific monitoring node that transfers this
-information to the ROS system is implemented exemplarily for an Ubuntu system. It starts the Unix tool \code{iwconfig} as a subprocess for a WiFi interface identifier that can be
-configured by the user. Subsequently, the relevant information, i.e. link quality, signal level and bit rate, is parsed from the \code{iwconfig} output for the respective interface
-and a \code{WiFi.msg} is created based on this. This message is then published under the \code{/wifi\_connectivity\_info} topic, which is subscribed by the high-level monitoring 
-node. This process is repeated continuously every $10$s.\newline
+information to the ROS system is implemented exemplarily for an Ubuntu system. It starts the Unix tool \code{iwconfig}
+\footnote{https://manpages.debian.org/bullseye/wireless-tools/iwconfig.8.en.html} as a subprocess for a WiFi interface identifier that can be configured by the user. Subsequently,
+the relevant information, i.e. link quality, signal level and bit rate, is parsed from the \code{iwconfig} output for the respective interface and a \code{WiFi.msg} is created
+based on this. This message is then published under the \code{/wifi\_connectivity\_info} topic, which is subscribed by the high-level monitoring node. This process is repeated
+continuously every $10$s.\newline
 Now that it is clear how the low-level node works, the actual monitoring follows. As mentioned, the high-level monitoring node receives the WiFi information via the ROS topic
 \code{/wifi\_connectivity\_info}. Based on this, the numerical information about the connection is evaluated. If all three provided values are $0$, it is considered
 a disconnect and the monitoring solution induces a transition to the \code{CONTINGENCY} state. The link quality is evaluated based on three thresholds: If it is below $5\%$,
