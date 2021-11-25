@@ -412,7 +412,8 @@ Hence, there could be a need for monitoring methods that are capable of recogniz
 Since the overall objective of the robot's missions is to acquire data, the appropriate management of this data is of relevance.
 If, for example, the robot is no longer able to save further scans due to a full memory, it should recognize and communicate this.
 In addition, there may be disturbances in the processing of the sensor data, so that the robot is no longer able to process and save the recordings correctly.
-It would be valuable to identify such problems as soon as possible to avoid redundant missions.\newline
+Successful scanning is worthless if the resulting data is not saved properly, so it is important to monitor whether the scans are being written to a file correctly.
+Therefore, tt would be valuable to identify such problems as soon as possible to avoid redundant missions.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
@@ -1029,9 +1030,19 @@ perceptual aliasing issue., e.g. by changing the position or the viewpoint in or
 \textbf{Data Management}\newline
 
 \noindent
-A full memory could perhaps be detected via an exception that could be caught and trigger the notification of the problem to the human operator.
-The problem of processing failures could be handled similarly. A first solution would always be to try to repeat the operation, if that fails, the problem is communicated.\newline
-For the scenario at hand, it will be important to monitor whether the scans are correctly written to a file (and then transferred to the server).\newline
+Similar to sensor (perception) monitoring, executing a \code{scan} action launches the data monitoring procedure, which looks for the potential data management issues
+presented in section \ref{sec:challenges_for_lta}. To perform the drive capacity check, i.e. to determine whether the drive on which scan logging takes place has enough
+free space, the cross-platform library \code{psutil} is used. It provides a function \code{disk\_usage()} which returns the load of the specified disk, e.g. the one
+configured in \code{MONITOR\_DRIVE}. Unlike WiFi connection monitoring, where the actual low-level network connectivity checks are outsourced from the monitoring framework
+due to its operating system coupling, disk capacity checks can be part of the framework itself because of the cross-platform nature of \code{psutil}. If the result of
+\code{disk\_usage(MONITOR\_DRIVE)} exceeds $99\%$, the node detects a full memory and causes an interruption of the robot's mission and a transition to the \code{CONTINGENCY} state.
+Additionally, notifications are sent to the operator when the disk load exceeds $95\%$ and $90\%$, with an indication that the scans should be backed up externally soon.
+So much for the very general data management monitoring that can basically be used for all types of data acquisition tasks. There is also a more scenario-specific part that is
+optional and can be enabled or disabled by the user. This is the specific scan logging monitoring that assumes that the data acquisition task at hand is a scanning task, such as
+the one described in section \ref{sec:lta_plant_observation}, and that the scans are written to a user-configured directory in a file published by the dummy scanning node described
+in section \ref{sec:dummy_scanning_node}. Since the data format of the scans written by the dummy scanner is well-known, i.e. \code{LaserScan} or \code{PointCloud2}, the entries
+logged in this log file can be easily evaluated. The idea is that there should be an additional scan entry in the log file after a successful scan action.  If that is not the case,
+a data management error has been detected and a transition to \code{CONTINGENCY} is initiated.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
