@@ -791,9 +791,12 @@ During the \code{EXECUTE\_PLAN} state, the currently executed plan is always sto
 SMACH states always provide so-called \code{userdata} fields, which are essentially the input and output data of a SMACH state.
 Initially, when \code{IDLE} receives a plan from the plan generator, it passes it as \code{userdata} to the \code{EXECUTE\_PLAN} state.
 Then, whenever \code{EXECUTE\_PLAN} successfully completes an action of the plan, the reduced plan is passed to the next iteration of the same state.
-Therefore, based on this architecture, the current state of the plan execution is always stored in the \code{userdata} of the SMACH.
-Of course, when the robot transitions back to \code{NORMAL\_OPERATION} after solving a contingency, it starts again in \code{IDLE}, which is why \code{IDLE} 
-always looks for existing unfinished plans in the \code{userdata} first. If there is one, it does not prompt the plan generator for a new plan, but continues the previously 
+Therefore, based on this architecture, the current state of the plan execution is always stored in the \code{userdata} of the SMACH. To comply with this fact, a certain situation
+must be handled. If a plan execution is interrupted during the execution of an action, this action is already removed from the \code{userdata}, and since the execution of this
+action must be repeated when the normal operation resumes, the action that was executed during the error must be reattached to the \code{userdata} before transitioning
+to \code{CONTINGENCY} or \code{CATASTROPHE}.
+Of course, when the robot transitions back to \code{NORMAL\_OPERATION} after solving a contingency, it starts again in \code{IDLE}, which is why \code{IDLE}
+always looks for existing unfinished plans in the \code{userdata} first. If there is one, it does not prompt the plan generator for a new plan, but continues the previously
 preempted plan. The catastrophe case works analogously to the \code{IDLE} state.
 
 \section{Simulation of LTA Challenges}
