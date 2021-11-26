@@ -680,7 +680,7 @@ the list in the $3D$ assessment, but very high in the $2D$ case, mainly because 
 \ref{sec:mon_sustained_recovery}). The issue of drastic weather changes is rated as rather irrelevant in the overall result of the questionnaire. However, this is mainly due to
 its high rated difficulty and the relatively low likelihood. Although it may be difficult to solve in general, it will be dealt with in first approximation due to its quite high
 impact (cf. \ref{sec:sim_drastic_weather}, \ref{sec:mon_drastic_weather}).\newline
-A not so high-rated and also very general problem class that is not considered in detail in this work: Mapping errors. The problem class ''certain dynamics`` is of course formulated
+A not so high-rated and also very general problem class that is not considered in detail in this work: Mapping errors. The problem class ``certain dynamics'' is of course formulated
 quite generally in the questionnaire, which could be one of the reasons for the low impact rating, but for this work dynamics like sunset are not further investigated as they are
 quite predictable. In addition, situations in which the robot gets stuck are not taken into account because they are regarded relatively irrelevant due to their low probability.
 Of course, it is a severe problem when it happens, but the robot actually getting completely stuck is relatively rare, and due to the many possible reasons for getting stuck, 
@@ -692,6 +692,43 @@ detail in this thesis are nevertheless potentially relevant problems for the lon
 
 \subsection{LTA Problems Not Considered in this Work}
 \label{sec:lta_problems_not_considered}
+
+\noindent
+\textbf{Certain Dynamics}\newline
+
+\noindent
+There should be a monitoring solution that is able to detect twilight, stop the plan execution and postpone it to the next day.\newline
+It should be possible to simulate twilight in the Gazebo simulation, e.g. by simply dimming the light source.
+
+\noindent
+\textbf{Perceptual Aliasing Issue}\newline
+
+There could be a need for monitoring methods that are capable of recognizing such situations and providing some strategies to resolve the 
+perceptual aliasing issue., e.g. by changing the position or the viewpoint in order to discriminate the objects.\newline
+The occurrence of a perceptual aliasing issue can be simulated, for example, by placing an object similar to the container in the simulation.
+
+\noindent
+\textbf{Robot Gets Stuck}\newline
+
+\noindent
+Detection should be based on \code{move\_base\_flex} recovery behaviors, as in the case of obstacles, but again there should be a manual implementation 
+specifically for these cases where, for example, the robot tries to rotate and reduce speed to leave the place where it got stuck.\newline
+In simulation, such a situation could be established by providing the necessary physical conditions leading to such a problem.\newline
+
+\noindent
+\textbf{Robot Falls Over}\newline
+
+\noindent
+It could be tested in simulation by applying a force to the robot that causes it to fall over.\newline
+It should be possible to detect the problem based on a combination of sensor information, and the robot should notify the human operator.
+
+\noindent
+\textbf{Mapping Issues}\newline
+
+\noindent
+It is demanded to either pay close attention to obstacle detection when moving on uneven terrain or to clear the \textit{costmap} from time to time
+to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such ``virtual'' objects can block a path that the robot must traverse.\newline
+The problems described can be evaluated in simulation by having the robot travel over rough terrain or by artificially creating paths with steep inclines.
 
 \chapter{Plan Execution and Monitoring}
 
@@ -858,13 +895,7 @@ A failed charging process is again quite easy to simulate based on a controllabl
 
 Although such weather conditions are difficult to simulate realistically, it might be worthwhile to implement at least a subset of them in the Gazebo
 simulation to get an idea of how to detect them. But even if that is not realistically feasible within the scope of the work, there would be a second
-option, in which the robot does not detect extreme weather conditions itself through its sensors, but simply relies on external local weather information.\newline
-
-\noindent
-\textbf{Certain Dynamics}\newline
-
-\noindent
-It should be possible to simulate twilight in the Gazebo simulation, e.g. by simply dimming the light source.
+option, in which the robot does not detect extreme weather conditions itself through its sensors, but simply relies on external local weather information.
 
 \subsection{Sensor (Perception) Failure}
 \label{sec:sim_sensor_failures}
@@ -880,14 +911,8 @@ and can be enabled / disabled via the following ROS topics:
     \item \textbf{total sensor failure} \textrightarrow \code{/toggle\_simulated\_total\_sensor\_failure}
     \item \textbf{empty list of range values} \textrightarrow \code{/toggle\_simulated\_empty\_ranges}
     \item \textbf{predominantly impermissible values} \textrightarrow \code{/toggle\_simulated\_impermissible\_ranges}
-    \item \textbf{repeated scan} \textrightarrow \code{/toggle\_simulated\_scan\_repetition}\newline
+    \item \textbf{repeated scan} \textrightarrow \code{/toggle\_simulated\_scan\_repetition}
 \end{itemize}
-
-\noindent
-\textbf{Perceptual Aliasing Issue}\newline
-
-\noindent
-The occurrence of a perceptual aliasing issue can be simulated, for example, by placing an object similar to the container in the simulation.
 
 \subsection{Data Management}
 \label{sec:sim_data_management}
@@ -904,7 +929,6 @@ of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_s
 \subsubsection{WiFi Connection Failures}
 \label{sec:sim_wifi_connection_problems}
 
-\noindent
 The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described in section
 \ref{sec:monitoring_for_lta_challenges}. The idea is to simply publish problematic values for each of the considered attributes of the WiFi connection,
 i.e. link quality, signal level and bit rate. The simplest case of a complete disconnection is simulated by setting all three values to $0$.
@@ -927,30 +951,16 @@ is $0.1$ Mb/s. The simulation of each different WiFi fault case can be enabled /
 \label{sec:sim_obstacles}
 
 The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized 
-positions that could potentially block the robot's path.\newline
-
-\noindent
-\textbf{Robot Gets Stuck}\newline
-
-\noindent
-In simulation, such a situation could be established by providing the necessary physical conditions leading to such a problem.\newline
-
-\noindent
-\textbf{Robot Falls Over}\newline
-
-\noindent
-It could be tested in simulation by applying a force to the robot that causes it to fall over.
+positions that could potentially block the robot's path.
 
 \subsection{Navigation Failure}
 \label{sec:sim_navigation_failures}
 
-\noindent
 Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve.
 
 \subsection{Sustained Recovery}
 \label{sec:sim_sustained_recovery}
 
-\noindent
 Sustained recoveries can be evaluated in the simulation by inducing situations where recovery is not possible, such as when the path to the destination is
 blocked and there is no other way.
 
@@ -958,18 +968,12 @@ blocked and there is no other way.
 \label{sec:sim_incorrect_localization}
 
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
-\textit{kidnapped robot problem}.\newline
-
-\noindent
-\textbf{Mapping Issues}\newline
-
-\noindent
-The problems described can be evaluated in simulation by having the robot travel over rough terrain or by artificially creating paths with steep inclines.
+\textit{kidnapped robot problem}.
 
 \subsection{Plan Deployment Failure}
 \label{sec:sim_plan_deployment_failures}
 
-The problem can be trivially simulated by simply not launching the plan generation service.\newline
+The problem can be trivially simulated by simply not launching the plan generation service.
 
 \section{Monitoring for LTA Challenges}
 \label{sec:monitoring_for_lta_challenges}
@@ -1003,13 +1007,7 @@ a treatment procedure. A failed charging process can be detected based on a cert
 
 As described in the section on simulations, there are two ways to incorporate weather information, either by having the robot detect it with its own sensors or by 
 utilizing external weather information. In any case, it would be good to identify extreme weather conditions that could affect the proper functioning of the system 
-in order to react accordingly, i.e. return to the base station and seek shelter.\newline
-
-\noindent
-\textbf{Certain Dynamics}\newline
-
-\noindent
-There should be a monitoring solution that is able to detect twilight, stop the plan execution and postpone it to the next day.
+in order to react accordingly, i.e. return to the base station and seek shelter.
 
 \subsection{Sensor (Perception) Failure}
 \label{sec:mon_sensor_failures}
@@ -1063,14 +1061,7 @@ In general, it is crucial to keep the monitoring solutions as general as possibl
 in order to make them reusable for others. One hurdle standing in the way of this claim is the fact that many sensor manufacturers use their own proprietary data types.
 Nevertheless, the underlying data is likely to be very similar. To provide some generality, the developed monitoring approaches will be able to handle the two data 
 types commonly used in the ROS ecosystem, \code{LaserScan} and \code{PointCloud2}. In all cases, the sensor monitoring node publishes on the topic
-\code{/contingency\_preemption} with a message that specifies the particular kind of sensor failure and causes a transition to the \code{CONTINGENCY} state.\newline
-
-\noindent
-\textbf{Perceptual Aliasing Issue}\newline
-
-\noindent
-There could be a need for monitoring methods that are capable of recognizing such situations and providing some strategies to resolve the 
-perceptual aliasing issue., e.g. by changing the position or the viewpoint in order to discriminate the objects.
+\code{/contingency\_preemption} with a message that specifies the particular kind of sensor failure and causes a transition to the \code{CONTINGENCY} state.
 
 \subsection{Data Management}
 \label{sec:mon_data_management}
@@ -1135,25 +1126,12 @@ following: There is a node that publishes the WiFi connectivity for the system e
 framework on Windows, for example, there is no need to modify the framework's code, there just has to be an equivalent WiFi monitoring node for a Windows system that replaces
 the Ubuntu-specific one.
 
-\textbf{Obstacles Blocking the Planned Path}
+\subsection{Obstacles Blocking the Planned Path}
 \label{sec:mon_obstacles}
 
 Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases 
 simply walk through the scene and disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. 
-Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors.\newline
-
-\noindent
-\textbf{Robot Gets Stuck}\newline
-
-\noindent
-Detection should be based on \code{move\_base\_flex} recovery behaviors, as in the case of obstacles, but again there should be a manual implementation 
-specifically for these cases where, for example, the robot tries to rotate and reduce speed to leave the place where it got stuck.\newline
-
-\noindent
-\textbf{Robot Falls Over}\newline
-
-\noindent
-It should be possible to detect the problem based on a combination of sensor information, and the robot should notify the human operator.
+Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors.
 
 \subsection{Navigation Failure}
 \label{sec:mon_navigation_failures}
@@ -1172,14 +1150,7 @@ Monitoring methods must therefore track the results of recovery behaviors and de
 It would be very valuable to develop a monitoring approach that is capable of realizing situations in which the localization is no longer accurate, as there is a 
 simple workaround that alleviates the problem in practice in many cases: Just driving the robot a few meters back and forth to recalibrate the localization
 using different GNSS positions. Since the localization is based not only on GNSS, but also on IMU and odometry data, it would also be very valuable to identify
-the errors that occur there, but that is beyond the scope of this work.\newline
-
-\noindent
-\textbf{Mapping Issues}\newline
-
-\noindent
-It is demanded to either pay close attention to obstacle detection when moving on uneven terrain or to clear the \textit{costmap} from time to time
-to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such ``virtual'' objects can block a path that the robot must traverse.
+the errors that occur there, but that is beyond the scope of this work.
 
 \subsection{Plan Deployment Failure}
 \label{sec:mon_plan_deployment_failures}
