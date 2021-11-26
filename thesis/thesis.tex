@@ -876,24 +876,26 @@ preempted plan. The catastrophe case works analogously to the \code{IDLE} state.
 \section{Simulation and Monitoring of LTA-Challenges}
 \label{sec:sim_and_mon_of_lta_challenges}
 
-TODO: paragraph should be refined\newline
 Now that the overall architecture of the execution monitoring state machine has been described (cf. section \ref{sec:execution_monitoring_smach_architecture}), we can turn to the
 actual monitoring methods for the potential hinderances for long-term autonomous systems introduced in section \ref{sec:challenges_for_lta}. The idea is to implement a specific
-monitoring procedure for each of the presented LTA problems that runs in parallel to the high-level state machine. Whenever such a procedure is triggered, i.e. the specific issue
+monitoring procedure for each of the selected LTA problems that runs in parallel to the high-level state machine. Whenever such a procedure is triggered, i.e. the specific issue
 is recognized, the problem gets reported via the \code{MonitorState}s, causing a transition to \code{CONTINGENCY} or \code{CATASTROPHE} based on the severity of the problem.
 Depending on the nature of the problem, the information about the required solution method is conveyed via the message published to the topic of the \code{MonitorState}.
-Thus, the overall goal is to have a resolver node for each of the potential failures, which is executed in \code{CONTINGENCY} or \code{CATASTROPHE} depending on the
-failure case at hand. The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation.
+Thus, the long-term goal is to have a resolver node for each of the potential failures, which is executed in \code{CONTINGENCY} or \code{CATASTROPHE} depending on the
+failure case at hand. The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation. 
 Initially, it will be demonstrated that in the prototypical scenario, the mission can no longer be completed successfully if these errors occur.
 After launching the monitoring nodes, the problems should be detected and either resolved by the robot or reported to the operator so that the mission can continue.
-The simulated failures are implemented in such a way that they can be triggered by publishing to a certain topic.
-In the following, potential ways of simulating each issue in order to evaluate it are discussed as well as monitoring solutions.
+The simulated failures are usually implemented in such a way that they can be triggered by publishing to a certain topic. In the following, the simulation of the selected
+LTA problems is presented along with the monitoring solutions developed for each.
 
 \subsection{Power Management}
 \label{sec:sim_and_mon_power_management}
 
-Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will.\newline
+Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will.
 
+\pagebreak
+
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -903,8 +905,9 @@ integrated to address power management issues and improve the robot's survivabil
 \subsection{Charging Failure}
 \label{sec:sim_and_mon_charging_failures}
 
-A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph.
+A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph.\newline
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -917,8 +920,9 @@ a treatment procedure. A failed charging process can be detected based on a cert
 
 Although such weather conditions are difficult to simulate realistically, it might be worthwhile to implement at least a subset of them in the Gazebo
 simulation to get an idea of how to detect them. But even if that is not realistically feasible within the scope of the work, there would be a second
-option, in which the robot does not detect extreme weather conditions itself through its sensors, but simply relies on external local weather information.
+option, in which the robot does not detect extreme weather conditions itself through its sensors, but simply relies on external local weather information.\newline
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -940,9 +944,10 @@ and can be enabled / disabled via the following ROS topics:
     \item \textbf{total sensor failure} \textrightarrow \code{/toggle\_simulated\_total\_sensor\_failure}
     \item \textbf{empty list of range values} \textrightarrow \code{/toggle\_simulated\_empty\_ranges}
     \item \textbf{predominantly impermissible values} \textrightarrow \code{/toggle\_simulated\_impermissible\_ranges}
-    \item \textbf{repeated scan} \textrightarrow \code{/toggle\_simulated\_scan\_repetition}
+    \item \textbf{repeated scan} \textrightarrow \code{/toggle\_simulated\_scan\_repetition}\newline
 \end{itemize}
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -1006,6 +1011,7 @@ e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR\_DRIVE = /mnt/us
 can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
 of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_scan\_logging\_failure}.\newline
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -1057,9 +1063,10 @@ is $0.1$ Mb/s. The simulation of each different WiFi fault case can be enabled /
     \item \textbf{poor link quality} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_link}
     \item \textbf{poor signal level} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_signal}
     \item \textbf{poor bit rate} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_bit\_rate}
-    \item \textbf{disconnection} \textrightarrow \code{/toggle\_simulated\_wifi\_disconnect}
+    \item \textbf{disconnection} \textrightarrow \code{/toggle\_simulated\_wifi\_disconnect}\newline
 \end{itemize}
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -1096,6 +1103,7 @@ the Ubuntu-specific one.
 The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized 
 positions that could potentially block the robot's path.\newline
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -1108,6 +1116,7 @@ Static obstacles, on the other hand, may be present for longer  periods of time,
 
 Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve.\newline
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -1119,6 +1128,7 @@ To overcome the problems, one could develop specific recovery behaviors for the 
 Sustained recoveries can be evaluated in the simulation by inducing situations where recovery is not possible, such as when the path to the destination is
 blocked and there is no other way.\newline
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -1131,6 +1141,7 @@ Monitoring methods must therefore track the results of recovery behaviors and de
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
 \textit{kidnapped robot problem}.\newline
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
@@ -1144,6 +1155,7 @@ the errors that occur there, but that is beyond the scope of this work.
 
 The problem can be trivially simulated by simply not launching the plan generation service.\newline
 
+\noindent
 \textbf{Monitoring}\newline
 
 \noindent
