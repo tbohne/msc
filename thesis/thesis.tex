@@ -661,9 +661,37 @@ solving these problems, but the $2D$ view can be helpful in case of doubt.
 
 \noindent
 It would be beyond the scope of this work to tackle every identified potential challenge for a mobile robot's long-term autonomy. Therefore, it is necessary to sort the list and
-select the problems to be solved in this work, i.e., those detected by the presented monitoring methods, at least to a first approximation, that do not solve $100\%$ of the potential
-cases, but do solve a certain proportion. In addition, more fundamental problems are emphasized that cannot be addressed generally within the scope of this work; perhaps special
+select the problems to be considered in this work, i.e. those for which monitoring methods are presented that do not necessarily solve $100\%$ of the potential cases, a certain
+fraction, at least to a first approximation. In addition, more fundamental problems are emphasized that cannot be addressed in general within the scope of this work; perhaps special
 cases can be addressed.
+First, it is obvious that charging failures should be addressed in this work, since they are undisputedly in the first place in both the two-dimensional and three-dimensional
+evaluations of the questionnaire (cf. \ref{sec:sim_charging_failures}, \ref{sec:mon_charging_failures}). Thematically closely related and also very relevant based on the survey:
+power management problems (cf. \ref{sec:sim_power_management}, \ref{sec:mon_power_management}). Another aspect high on the list to be considered in this work is data management
+issues (cf. \ref{sec:sim_data_management}, \ref{sec:mon_data_management}). Furthermore, sensor (perception) failures are a class of problems that should not be ignored in this work
+(cf. \ref{sec:sim_sensor_failures}, \ref{sec:mon_sensor_failures}). Although in principle a very intricate and general class of problems, localization issues, i.e. incorrect
+localization (cf. \ref{sec:sim_incorrect_localization}, \ref{sec:mon_incorrect_localization}), has to be considered in this work, especially due to its high impact and likelihood
+that can be seen in fig. \ref{fig:average_results_2d}. Additionally, connection problems are treated (cf. \ref{sec:sim_lost_connections}, \ref{sec:mon_lost_connections}). Also quite
+general, but pretty high on the list are navigation errors, which are taken into account at least to some degree (cf. \ref{sec:sim_navigation_failures}, 
+\ref{sec:mon_navigation_failures}). Being relatively easy to detect, plan deployment failures will be tackled as well (cf. \ref{sec:sim_plan_deployment_failures},
+\ref{sec:mon_plan_deployment_failures}). Although the problem of obstacles blocking the robot's path is ranked quite low in the lists in figs. \ref{fig:average_results} and
+\ref{fig:average_results_2d}, it is considered to some extent because the reason for its low ranking is mainly its relatively small impact. However, it is rated as very likely,
+and it would be good if such situations could be dealt with effectively (cf. \ref{sec:sim_obstacles}, \ref{sec:mon_obstacles}). The problem of sustained recovery is fairly low on
+the list in the $3D$ assessment, but very high in the $2D$ case, mainly because of its relatively large impact. Thus, it will be studied (cf. \ref{sec:sim_sustained_recovery},
+\ref{sec:mon_sustained_recovery}). The issue of drastic weather changes is rated as rather irrelevant in the overall result of the questionnaire. However, this is mainly due to
+its high rated difficulty and the relatively low likelihood. Although it may be difficult to solve in general, it will be dealt with in first approximation due to its quite high
+impact (cf. \ref{sec:sim_drastic_weather}, \ref{sec:mon_drastic_weather}).\newline
+A not so high-rated and also very general problem class that is not considered in detail in this work: Mapping errors. The problem class ''certain dynamics`` is of course formulated
+quite generally in the questionnaire, which could be one of the reasons for the low impact rating, but for this work dynamics like sunset are not further investigated as they are
+quite predictable. In addition, situations in which the robot gets stuck are not taken into account because they are regarded relatively irrelevant due to their low probability.
+Of course, it is a severe problem when it happens, but the robot actually getting completely stuck is relatively rare, and due to the many possible reasons for getting stuck, 
+a very general problem class. All participants agree that the scenario where the robot topples over has a very large impact, but it is also quite difficult to detect and quite
+unlikely. It is not studied in detail itself, but might be detected as part of the sensor failure detection, e.g. if the sensor subsequently points to the sky (cf.
+\ref{sec:mon_sensor_failures}). Finally, ranked as least relevant in both evaluations, perceptual aliasing issues will be disregarded in this work. The problems not examined in
+detail in this thesis are nevertheless potentially relevant problems for the long-term autonomy of a mobile outdoor robot and are thus briefly discussed in section 
+\ref{sec:lta_problems_not_considered}.
+
+\subsection{LTA Problems Not Considered in this Work}
+\label{sec:lta_problems_not_considered}
 
 \chapter{Plan Execution and Monitoring}
 
@@ -813,24 +841,21 @@ preempted plan. The catastrophe case works analogously to the \code{IDLE} state.
 \section{Simulation of LTA Challenges}
 \label{sec:simulation_of_lta_challenges}
 
-In the following, potential ways of simulating each issue in order to evaluate it are discussed.\newline
+In the following, potential ways of simulating each issue in order to evaluate it are discussed.
 
-\noindent
-\textbf{Power Management}\newline
+\subsection{Power Management}
+\label{sec:sim_power_management}
 
-\noindent
-Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will.\newline
+Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will.
 
-\noindent
-\textbf{Charging Failure}\newline
+\subsection{Charging Failure}
+\label{sec:sim_charging_failures}
 
-\noindent
-A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph.\newline
+A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph.
 
-\noindent
-\textbf{Drastic Weather Change}\newline
+\subsection{Drastic Weather Change}
+\label{sec:sim_drastic_weather}
 
-\noindent
 Although such weather conditions are difficult to simulate realistically, it might be worthwhile to implement at least a subset of them in the Gazebo
 simulation to get an idea of how to detect them. But even if that is not realistically feasible within the scope of the work, there would be a second
 option, in which the robot does not detect extreme weather conditions itself through its sensors, but simply relies on external local weather information.\newline
@@ -839,12 +864,11 @@ option, in which the robot does not detect extreme weather conditions itself thr
 \textbf{Certain Dynamics}\newline
 
 \noindent
-It should be possible to simulate twilight in the Gazebo simulation, e.g. by simply dimming the light source.\newline
+It should be possible to simulate twilight in the Gazebo simulation, e.g. by simply dimming the light source.
 
-\noindent
-\textbf{Sensor (Perception) Failure}\newline
+\subsection{Sensor (Perception) Failure}
+\label{sec:sim_sensor_failures}
 
-\noindent
 The evaluation of a total sensor failure is straightforward, as it can be easily simulated by interrupting the publication of laser scans in the dummy scanning node
 described in section \ref{sec:dummy_scanning_node}. The second identified type of sensor failure, i.e. an empty list of range values, is again rather trivial to simulate
 by clearing the list of range values before republishing a scan in the dummy scanning node. Scans consisting mainly of impermissible range values can be realized by 
@@ -863,23 +887,22 @@ and can be enabled / disabled via the following ROS topics:
 \textbf{Perceptual Aliasing Issue}\newline
 
 \noindent
-The occurrence of a perceptual aliasing issue can be simulated, for example, by placing an object similar to the container in the simulation.\newline
+The occurrence of a perceptual aliasing issue can be simulated, for example, by placing an object similar to the container in the simulation.
 
-\noindent
-\textbf{Data Management}\newline
+\subsection{Data Management}
+\label{sec:sim_data_management}
 
-\noindent
 It is not a big challenge to simulate the occurrence of the data management problems presented in section \ref{sec:challenges_for_lta}. To simulate a ``full disk''-failure,
 i.e. a full memory of the drive on which the scans are to be logged, one could simply prepare a full USB flash drive and configure the path to be monitored accordingly,
 e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR\_DRIVE = /mnt/usb}. The second and more scenario-specific type of error is the scan logging error, which
 can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
-of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_scan\_logging\_failure}.\newline
+of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_scan\_logging\_failure}.
 
-\noindent
-\textbf{Lost Connection}\newline
+\subsection{Lost Connection}
+\label{sec:sim_lost_connections}
 
-\noindent
-\textbf{WiFi Connection Failures}\newline
+\subsubsection{WiFi Connection Failures}
+\label{sec:sim_wifi_connection_problems}
 
 \noindent
 The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described in section
@@ -897,13 +920,12 @@ is $0.1$ Mb/s. The simulation of each different WiFi fault case can be enabled /
     \item \textbf{poor link quality} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_link}
     \item \textbf{poor signal level} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_signal}
     \item \textbf{poor bit rate} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_bit\_rate}
-    \item \textbf{disconnection} \textrightarrow \code{/toggle\_simulated\_wifi\_disconnect}\newline
+    \item \textbf{disconnection} \textrightarrow \code{/toggle\_simulated\_wifi\_disconnect}
 \end{itemize}
 
-\noindent
-\textbf{Obstacles Blocking the Planned Path}\newline
+\subsection{Obstacles Blocking the Planned Path}
+\label{sec:sim_obstacles}
 
-\noindent
 The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized 
 positions that could potentially block the robot's path.\newline
 
@@ -917,25 +939,24 @@ In simulation, such a situation could be established by providing the necessary 
 \textbf{Robot Falls Over}\newline
 
 \noindent
-It could be tested in simulation by applying a force to the robot that causes it to fall over.\newline
+It could be tested in simulation by applying a force to the robot that causes it to fall over.
+
+\subsection{Navigation Failure}
+\label{sec:sim_navigation_failures}
 
 \noindent
-\textbf{Navigation Failure}\newline
+Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve.
 
-\noindent
-Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve.\newline
-
-\noindent
-\textbf{Sustained Recovery}\newline
+\subsection{Sustained Recovery}
+\label{sec:sim_sustained_recovery}
 
 \noindent
 Sustained recoveries can be evaluated in the simulation by inducing situations where recovery is not possible, such as when the path to the destination is
-blocked and there is no other way.\newline
+blocked and there is no other way.
 
-\noindent
-\textbf{Incorrect or Inaccurate Localization}\newline
+\subsection{Incorrect or Inaccurate Localization}
+\label{sec:sim_incorrect_localization}
 
-\noindent
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
 \textit{kidnapped robot problem}.\newline
 
@@ -943,12 +964,11 @@ An incorrect localization can be evaluated very well in the simulation by simply
 \textbf{Mapping Issues}\newline
 
 \noindent
-The problems described can be evaluated in simulation by having the robot travel over rough terrain or by artificially creating paths with steep inclines.\newline
+The problems described can be evaluated in simulation by having the robot travel over rough terrain or by artificially creating paths with steep inclines.
 
-\noindent
-\textbf{Plan Deployment Failure}\newline
+\subsection{Plan Deployment Failure}
+\label{sec:sim_plan_deployment_failures}
 
-\noindent
 The problem can be trivially simulated by simply not launching the plan generation service.\newline
 
 \section{Monitoring for LTA Challenges}
@@ -963,27 +983,24 @@ Thus, the overall goal is to have a resolver node for each of the potential fail
 failure case at hand. The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation.
 Initially, it will be demonstrated that in the prototypical scenario, the mission can no longer be completed successfully if these errors occur.
 After launching the monitoring nodes, the problems should be detected and either resolved by the robot or reported to the operator so that the mission can continue.
-The simulated failures are implemented in such a way that they can be triggered by publishing to a certain topic.\newline
+The simulated failures are implemented in such a way that they can be triggered by publishing to a certain topic.
 
-\noindent
-\textbf{Power Management}\newline
+\subsection{Power Management}
+\label{sec:mon_power_management}
 
-\noindent
 A watchdog module that monitors the battery state and acts as a fail-safe, such as the one described in section \ref{sec:battery_monitoring}, could be 
-integrated to address power management issues and improve the robot's survivability.\newline
+integrated to address power management issues and improve the robot's survivability.
 
-\noindent
-\textbf{Charging Failure}\newline
+\subsection{Charging Failure}
+\label{sec:mon_charging_failures}
 
-\noindent
 Both cases should be detected by the robot so that an appropriate response can be initiated, e.g. notification of the human operator. The first case, i.e. a docking 
 failure, could for example be detected based on \code{move\_base\_flex} navigation errors, the docking state simply does not complete successfully, which should trigger
-a treatment procedure. A failed charging process can be detected based on a certain time in the state of charge without increasing the charge level of the battery.\newline
+a treatment procedure. A failed charging process can be detected based on a certain time in the state of charge without increasing the charge level of the battery.
 
-\noindent
-\textbf{Drastic Weather Change}\newline
+\subsection{Drastic Weather Change}
+\label{sec:mon_drastic_weather}
 
-\noindent
 As described in the section on simulations, there are two ways to incorporate weather information, either by having the robot detect it with its own sensors or by 
 utilizing external weather information. In any case, it would be good to identify extreme weather conditions that could affect the proper functioning of the system 
 in order to react accordingly, i.e. return to the base station and seek shelter.\newline
@@ -992,12 +1009,11 @@ in order to react accordingly, i.e. return to the base station and seek shelter.
 \textbf{Certain Dynamics}\newline
 
 \noindent
-There should be a monitoring solution that is able to detect twilight, stop the plan execution and postpone it to the next day.\newline
+There should be a monitoring solution that is able to detect twilight, stop the plan execution and postpone it to the next day.
 
-\noindent
-\textbf{Sensor (Perception) Failure}\newline
+\subsection{Sensor (Perception) Failure}
+\label{sec:mon_sensor_failures}
 
-\noindent
 Executing a \code{scan} action not only launches the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}, but also a monitoring procedure that
 looks for potential problems with the laser scanner. The most obvious type of sensor failure is of course a total failure, i.e. no messages arrive on the corresponding ROS topic.
 A fairly trivial approach to detecting total sensor failures is therefore to use \code{rospy.wait\_for\_message()} with the particular topic and set a time period
@@ -1054,12 +1070,11 @@ types commonly used in the ROS ecosystem, \code{LaserScan} and \code{PointCloud2
 
 \noindent
 There could be a need for monitoring methods that are capable of recognizing such situations and providing some strategies to resolve the 
-perceptual aliasing issue., e.g. by changing the position or the viewpoint in order to discriminate the objects.\newline
+perceptual aliasing issue., e.g. by changing the position or the viewpoint in order to discriminate the objects.
 
-\noindent
-\textbf{Data Management}\newline
+\subsection{Data Management}
+\label{sec:mon_data_management}
 
-\noindent
 Similar to sensor (perception) monitoring, executing a \code{scan} action launches the data monitoring procedure, which looks for the potential data management issues presented in
 section \ref{sec:challenges_for_lta}. To perform the drive capacity check, i.e. to determine whether the drive on which scan logging or data storage in general takes place has enough
 free space, the cross-platform library \code{psutil}\footnote{https://pypi.org/project/psutil/} is used. It provides a function \code{disk\_usage()} which returns the load of the
@@ -1085,15 +1100,14 @@ the file system, it would be superfluous to check the data again for plausibilit
 operation, i.e. writing the scan to the log file, worked. Moreover, it is worth noting that a total sensor failure always implies a data management failure of the second type,
 but this should already be detected by the sensor monitoring procedure. Of course, more checks could be made for scenario-specific logs on the drive, etc., but since this would
 require additional knowledge of the specific circumstances, it would violate the goal of being as general as possible. Nevertheless, it is possible to extend data management in
-the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability.\newline
+the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability.
 
-\noindent
-\textbf{Lost Connection}\newline
+\subsection{Lost Connection}
+\label{sec:mon_lost_connections}
 
-\noindent
-\textbf{WiFi Connection Failures}\newline
+\subsubsection{WiFi Connection Failures}
+\label{sec:mon_wifi_connection_problems}
 
-\noindent
 Monitoring for WiFi connectivity problems takes place at two levels of abstraction. From the perspective of the high-level execution monitoring framework developed in this work,
 the monitoring is completely independent of hardware and operating system details. However, monitoring the WiFi connection of a particular system depends heavily on such details,
 so it is also necessary to provide low-level monitoring for network interfaces. The idea is that the high-level monitoring node expects the information that are evaluated as part 
@@ -1119,12 +1133,11 @@ In summary, the problem of actually detecting the WiFi connectivity on the syste
 which has no operating system coupling at all. There is a layer of abstraction that separates the two views. The assumption of the high-level monitoring framework is the
 following: There is a node that publishes the WiFi connectivity for the system every $10$s int the \code{WiFi.msg} format. If someone wants to use the execution monitoring
 framework on Windows, for example, there is no need to modify the framework's code, there just has to be an equivalent WiFi monitoring node for a Windows system that replaces
-the Ubuntu-specific one.\newline
+the Ubuntu-specific one.
 
-\noindent
-\textbf{Obstacles Blocking the Planned Path}\newline
+\textbf{Obstacles Blocking the Planned Path}
+\label{sec:mon_obstacles}
 
-\noindent
 Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases 
 simply walk through the scene and disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. 
 Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors.\newline
@@ -1140,25 +1153,22 @@ specifically for these cases where, for example, the robot tries to rotate and r
 \textbf{Robot Falls Over}\newline
 
 \noindent
-It should be possible to detect the problem based on a combination of sensor information, and the robot should notify the human operator.\newline
+It should be possible to detect the problem based on a combination of sensor information, and the robot should notify the human operator.
 
-\noindent
-\textbf{Navigation Failure}\newline
+\subsection{Navigation Failure}
+\label{sec:mon_navigation_failures}
 
-\noindent
-To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to Duchetto et al.\newline
+To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to Duchetto et al.
 
-\noindent
-\textbf{Sustained Recovery}\newline
+\subsection{Sustained Recovery}
+\label{sec:mon_sustained_recovery}
 
-\noindent
 In this case, the robot should try a few different recovery actions and then abort and report the problem.
-Monitoring methods must therefore track the results of recovery behaviors and decide whether it is appropriate to try more or stop.\newline
+Monitoring methods must therefore track the results of recovery behaviors and decide whether it is appropriate to try more or stop.
 
-\noindent
-\textbf{Incorrect or Inaccurate Localization}\newline
+\subsection{Incorrect or Inaccurate Localization}
+\label{sec:mon_incorrect_localization}
 
-\noindent
 It would be very valuable to develop a monitoring approach that is capable of realizing situations in which the localization is no longer accurate, as there is a 
 simple workaround that alleviates the problem in practice in many cases: Just driving the robot a few meters back and forth to recalibrate the localization
 using different GNSS positions. Since the localization is based not only on GNSS, but also on IMU and odometry data, it would also be very valuable to identify
@@ -1169,14 +1179,13 @@ the errors that occur there, but that is beyond the scope of this work.\newline
 
 \noindent
 It is demanded to either pay close attention to obstacle detection when moving on uneven terrain or to clear the \textit{costmap} from time to time
-to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such ``virtual'' objects can block a path that the robot must traverse.\newline
+to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such ``virtual'' objects can block a path that the robot must traverse.
 
-\noindent
-\textbf{Plan Deployment Failure}\newline
+\subsection{Plan Deployment Failure}
+\label{sec:mon_plan_deployment_failures}
 
-\noindent
 A first solution attempt that the robot should definitely try would be to retrigger the plan generation service described in section \ref{sec:plan_generation}. 
-If this does not help, it should waste no time and immediately notify the operator.\newline
+If this does not help, it should waste no time and immediately notify the operator.
 
 \section{Solutions for LTA Challenges}
 \label{sec:solutions_for_lta_challenges}
