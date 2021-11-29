@@ -787,7 +787,7 @@ When the robot executes this plan, it drives to the four specified locations in 
 Afterwards, it returns to the base and recharges its battery.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{pics/plan_example.png}
+    \includegraphics[width=0.4\textwidth]{pics/plan_example.png}
     \caption{\textsc{Sample Plan}}
     \label{fig:plan_example}
 \end{figure}
@@ -796,9 +796,9 @@ Afterwards, it returns to the base and recharges its battery.
 \section{Execution Monitoring State Machine Architecture}
 \label{sec:execution_monitoring_smach_architecture}
 
-Before introducing the developed architecture for plan execution and monitoring, it is useful to briefly consider the abstract idea of a general autonomous actor. Figure
-\ref{fig:GNT_actor} shows the conceptual view of an actor based on a visualization by Ghallab et al. and fig. \ref{fig:MSC_actor} applies this concept to the specific scenario
-studied in this work.
+Before introducing the developed architecture for plan execution, i.e. acting, and monitoring, it is useful to briefly consider the abstract idea of a general autonomous actor and
+classify how these modules fit into the overall construction. Figure \ref{fig:GNT_actor} shows the conceptual view of such an actor based on a visualization by Ghallab et al.
+and fig. \ref{fig:MSC_actor} applies this concept to the specific scenario studied in this work.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
@@ -815,9 +815,17 @@ studied in this work.
         \label{fig:MSC_actor}
     \end{subfigure}
 \caption{\textsc{Abstract Architecture for Autonomous Actors}}
-\label{fig:prototype_sim}
+\label{fig:abstract_actor}
 \end{figure}
 \noindent
+As anticipated before and visualized in fig. \ref{fig:abstract_actor}, the deliberation functions studied in this work are acting and monitoring. Furthermore, planning plays a role,
+but is only relevant for retrieving and executing plans that are provided by a human operator, i.e. the human operator is essentially the planning component in our scenario.
+Moreover, the human operator is the only other actor with whom the robot must interact. The communication between the robot and the operator will be discussed in detail later (cf.
+\ref{sec:solutions_for_lta_challenges}), but the general idea is that it is a bidirectional channel that allows the operator to send LTA missions to the robot and, on the
+other hand, allows the robot to transmit status information and help requests to the operator. Processed sensor data, mainly in the form of laser scans, is provided to the
+acting and monitoring modules by the AROX execution platform presented in section \ref{sec:robotic_system}. Responsible for initiating the actual execution of low-level actions
+are the deliberation functions that are also capable of sending commands such as \code{move\_base\_flex} navigation goals or recovery instructions to the AROX system.
+Obviously, the AROX interacts with its environment via its sensors and actuators.\newline
 Plan execution, i.e. acting, as well as robot operation monitoring are modeled as a high-level hierarchically structured state machine, whose architecture is shown
 in figure \ref{fig:high_level_smach}. The architecture is implemented using the SMACH\footnote{ROS-independent Python library to build hierarchical state machines \cite{smach}} 
 library.
