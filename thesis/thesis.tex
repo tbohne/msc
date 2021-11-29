@@ -789,19 +789,19 @@ Although a monitoring solution could in principle also be implemented sequential
 would have the disadvantage that no monitoring takes place while a task / algorithm is being executed, but only afterwards.
 It is desirable to be able to intervene at any time during the execution of a task when a monitoring procedure running in parallel is triggered and causes a change of state.
 During the state \code{OPERATION}, i.e. in the nested state machine visualized in figure \ref{fig:low_level_smach}, the robot can be either in the state \code{IDLE}, 
-in which it is waiting for a plan, or in \code{EXECUTE\_PLAN}, in which it is executing a given plan. The embedded state machine \code{OPERATION} has 
+in which it is waiting for a plan $\pi$, or in \code{EXECUTE\_PLAN}, in which it is executing a given plan $\pi$. The embedded state machine \code{OPERATION} has 
 four possible outcomes - \code{end\_of\_episode}, \code{minor\_complication}, \code{critical\_complication}, and \code{preempted}. 
-It starts in the \code{IDLE} state and remains there as long as no plan is provided via a ROS service.
+It starts in the \code{IDLE} state and remains there as long as no plan $\pi$ is provided via a ROS service.
 There are two common options for the robot to leave the state. The first is via a message on a ROS topic indicating that the end of the current long-term episode
-has been reached, resulting in an overall outcome of \code{end\_of\_episode} for \code{NORMAL\_OPERATION}. The second is to receive a plan that results in a state
+has been reached, resulting in an overall outcome of \code{end\_of\_episode} for \code{NORMAL\_OPERATION}. The second is to receive a plan $\pi$ that results in a state
 transition to \code{EXECUTE\_PLAN}. Additionally, the external parallel running monitoring states \code{CONTINGENCY\_MONITORING} and \code{CATASTROPHE\_MONITORING}
 are capable of interrupting the \code{IDLE} state at any time (cf. state preemption \cite{state_preemption}) due to external problems leading to the outcome \code{preempted}.
-In \code{EXECUTE\_PLAN}, there are five possible outcomes, two of which result in state transitions and three of which cause \code{OPERATION} 
-to return to the parent state machine. The first possible outcome is \code{action\_completed}, which indicates that an action of the currently processed plan was 
-completed successfully and causes the same state (\code{EXECUTE\_PLAN}) to be executed again with the reduced plan, i.e. the rest of the plan is executed.
-The next possible outcome is \code{plan\_completed}, which means that the entire plan has been successfully processed and causes a transition back to the \code{IDLE} state.
+In \code{EXECUTE\_PLAN}, there are five possible outcomes, two of which result in state transitions and three of which cause \code{OPERATION} to return to the parent state machine.
+The first possible outcome is \code{action\_completed}, which indicates that an action $a \in \pi$  was completed successfully and causes the same state (\code{EXECUTE\_PLAN}) to be
+executed again with the reduced plan $\pi := \pi \backslash \{a\}$, i.e. the rest of the plan is executed. The next possible outcome is \code{plan\_completed}, which means that the entire
+plan $\pi$ has been successfully processed, i.e. $\pi = \emptyset$, and causes a transition back to the \code{IDLE} state.
 These were the possible outcomes that cause a transition to another state. Now there are the three remaining outcomes that cause a return to the parent state machine. 
-First, \code{soft\_failure}, which means that something went wrong, e.g. an action was not performed successfully, but the robot should be able to handle the problem. 
+First, \code{soft\_failure}, which means that something went wrong, e.g. an action $a \in \pi$ was not performed successfully, but the robot should be able to handle the problem. 
 Second, there is the potential outcome \code{hard\_failure}, which represents situations where the robot is unable to solve the problem itself.
 Finally, the last potential outcome is again \code{preempted} based on some external issue detected by \code{CONTINGENCY\_MONITORING} or \code{CATASTROPHE\_MONITORING}.
 \begin{figure}[H]
@@ -833,7 +833,7 @@ First, a problem may occur during plan execution in the child state machine, in 
 In addition, there are the described parallel monitoring states, which are responsible for problems that are not directly related to plan execution, but are of a more general nature.
 If these detect a problem, they are able to interrupt \code{OPERATION} and also return \code{critical\_complication} or \code{minor\_complication} to the parent state machine
 \code{EXECUTION\_MONITORING}. It is trivial to interrupt \code{OPERATION} when no task is currently being executed, i.e. no scan is being recorded and no navigation target 
-is being approached. However, it is obvious that potential problems do not wait for the completion of such tasks, but can also occur during the execution of an action.
+is being approached. However, it is obvious that potential problems do not wait for the completion of such tasks, but can also occur during the execution of an action $a \in \pi$.
 Therefore, the \code{drive\_to$(lat, lng, \theta)$} and \code{scan} actions are implemented as ROS \code{SimpleActionClient}s that can be interrupted at any time
 by calling the \code{cancel\_all\_goals()} method, which immediately interrupts all running goals. It is quite important that the robot is able to preempt the plan 
 execution at all times, e.g. does not continue to drive to its goal, but should instantly stop the \code{move\_base\_flex} goal execution and start following the
@@ -857,21 +857,21 @@ and plan execution in particular, i.e. to save the current state of the plan exe
 for the interruption has been resolved. The idea is that whenever the monitoring procedures \code{CONTINGENCY\_MONITORING} and \code{CATASTROPHE\_MONITORING} 
 introduced in section \ref{sec:execution_monitoring_smach_architecture}, or the plan execution itself, detect a problem, they should trigger such an interruption.
 As seen in the last section, there are two states in \code{OPERATION} that the robot can be in during a long-term episode without any problems
-- \code{IDLE} or \code{EXECUTE\_PLAN}. In the \code{IDLE} state, where it waits for the plan generator described in section \ref{sec:plan_generation} to provide a plan,
+- \code{IDLE} or \code{EXECUTE\_PLAN}. In the \code{IDLE} state, where it waits for the plan generator described in section \ref{sec:plan_generation} to provide a plan $\pi$,
 it is straightforward, the normal operation is interrupted, the high-level state machine transitions to \code{CONTINGENCY} or \code{CATASTROPHE} depending
 on the severity of the problem, and then, i.e. when the minor problem is resolved, it transitions back to \code{IDLE} or, in the case of \code{CATASTROPHE},
 it shuts down. The more interesting case, of course, is such an interruption of normal operation when the robot is in the low-level state \code{EXECUTE\_PLAN}.
-During the \code{EXECUTE\_PLAN} state, the currently executed plan is always stored in the \code{userdata} field of the state.
+During the \code{EXECUTE\_PLAN} state, the currently executed plan $\pi$ is always stored in the \code{userdata} field of the state.
 SMACH states always provide so-called \code{userdata} fields, which are essentially the input and output data of a SMACH state.
-Initially, when \code{IDLE} receives a plan from the plan generator, it passes it as \code{userdata} to the \code{EXECUTE\_PLAN} state.
-Then, whenever \code{EXECUTE\_PLAN} successfully completes an action of the plan, the reduced plan is passed to the next iteration of the same state.
+Initially, when \code{IDLE} receives a plan $\pi$ from the plan generator, it passes it as \code{userdata} to the \code{EXECUTE\_PLAN} state. Then, whenever \code{EXECUTE\_PLAN}
+successfully completes an action $a \in \pi$, the reduced plan, i.e. $\pi := \pi \backslash \{a\}$, is passed to the next iteration of the same state.
 Therefore, based on this architecture, the current state of the plan execution is always stored in the \code{userdata} of the SMACH. To comply with this fact, a certain situation
-must be handled. If a plan execution is interrupted during the execution of an action, this action is already removed from the \code{userdata}, and since the execution of this
-action must be repeated when the normal operation resumes, the action that was executed during the error must be reattached to the \code{userdata} before transitioning
-to \code{CONTINGENCY} or \code{CATASTROPHE}.
+must be handled. If a plan execution is interrupted during the execution of an action $a \in \pi$, the action $a$ is already removed from the plan $\pi$, i.e. the \code{userdata},
+by the latest \textit{pop} operation and since the execution of $a$ must be repeated when the normal operation resumes, $a$ must be reattached to $\pi$ before transitioning
+to \code{CONTINGENCY} or \code{CATASTROPHE}. Thus, $\pi := a.\pi$.
 Of course, when the robot transitions back to \code{NORMAL\_OPERATION} after solving a contingency, it starts again in \code{IDLE}, which is why \code{IDLE}
-always looks for existing unfinished plans in the \code{userdata} first. If there is one, it does not prompt the plan generator for a new plan, but continues the previously
-preempted plan. The catastrophe case works analogously to the \code{IDLE} state.
+always looks for existing unfinished plans $\pi$ in the \code{userdata} first. If there is one, it does not prompt the plan generator for a new plan, but continues the previously
+preempted plan $\pi$. The catastrophe case works analogously to the \code{IDLE} state.
 
 \section{Simulation and Monitoring of LTA-Challenges}
 \label{sec:sim_and_mon_of_lta_challenges}
