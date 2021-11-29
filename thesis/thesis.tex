@@ -826,9 +826,9 @@ other hand, allows the robot to transmit status information and help requests to
 acting and monitoring modules by the AROX execution platform presented in section \ref{sec:robotic_system}. Responsible for initiating the actual execution of low-level actions
 are the deliberation functions that are also capable of sending commands such as \code{move\_base\_flex} navigation goals or recovery instructions to the AROX system.
 Obviously, the AROX interacts with its environment via its sensors and actuators.\newline
-Plan execution, i.e. acting, as well as robot operation monitoring are modeled as a high-level hierarchically structured state machine, whose architecture is shown
-in figure \ref{fig:high_level_smach}. The architecture is implemented using the SMACH\footnote{ROS-independent Python library to build hierarchical state machines \cite{smach}} 
-library.
+Plan execution, as well as robot operation monitoring, i.e. the \textquote{deliberation functions}-module in fig. \ref{fig:abstract_actor}, is modeled as a high-level hierarchically
+structured state machine, whose architecture is shown in figure \ref{fig:high_level_smach}. The architecture is implemented using the SMACH\footnote{ROS-independent Python
+library to build hierarchical state machines \cite{smach}} library.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/SMACH_high_level.jpg}
