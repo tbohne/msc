@@ -787,7 +787,7 @@ When the robot executes this plan, it drives to the four specified locations in 
 Afterwards, it returns to the base and recharges its battery.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{pics/plan_example.png}
+    \includegraphics[width=0.45\textwidth]{pics/plan_example.png}
     \caption{\textsc{Sample Plan}}
     \label{fig:plan_example}
 \end{figure}
@@ -796,7 +796,29 @@ Afterwards, it returns to the base and recharges its battery.
 \section{Execution Monitoring State Machine Architecture}
 \label{sec:execution_monitoring_smach_architecture}
 
-Plan execution as well as robot operation monitoring are modeled as a high-level hierarchically structured state machine, whose architecture is shown
+Before introducing the developed architecture for plan execution and monitoring, it is useful to briefly consider the abstract idea of a general autonomous actor. Figure
+\ref{fig:GNT_actor} shows the conceptual view of an actor based on a visualization by Ghallab et al. and fig. \ref{fig:MSC_actor} applies this concept to the specific scenario
+studied in this work.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/GNT_actor.png}
+        \caption{\textsc{Actor based on Ghallab et al. \cite{GNT:2016}}}
+        \label{fig:GNT_actor}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/MSC_actor.png}
+        \caption{\textsc{Applied to our Scenario (cf. \ref{sec:prototype_scenario})}}
+        \label{fig:MSC_actor}
+    \end{subfigure}
+\caption{\textsc{Abstract Architecture for Autonomous Actors}}
+\label{fig:prototype_sim}
+\end{figure}
+\noindent
+Plan execution, i.e. acting, as well as robot operation monitoring are modeled as a high-level hierarchically structured state machine, whose architecture is shown
 in figure \ref{fig:high_level_smach}. The architecture is implemented using the SMACH\footnote{ROS-independent Python library to build hierarchical state machines \cite{smach}} 
 library.
 \begin{figure}[H]
