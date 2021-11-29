@@ -970,12 +970,13 @@ and can be enabled / disabled via the following ROS topics:
 \noindent
 Executing a \code{scan} action not only launches the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}, but also a monitoring procedure that
 looks for potential problems with the laser scanner. The most obvious type of sensor failure is of course a total failure, i.e. no messages arrive on the corresponding ROS topic.
-A fairly trivial approach to detecting total sensor failures is therefore to use \code{rospy.wait\_for\_message()} with the particular topic and set a time period
-after which a missing scan is considered a total sensor failure. Of course, such a timeout is highly dependent on the respective application and also on the sensor 
+A fairly trivial approach to detecting total sensor failures is therefore to use \code{rospy.wait\_for\_message()} with the particular topic and set a time limit $t \in \mathbb{N}$
+in seconds after which a missing scan is considered a total sensor failure. Of course, such a timeout is highly dependent on the respective application and also on the sensor 
 configuration, since a higher angular resolution naturally requires a longer runtime, e.g. a longer runtime due to a higher resolution should not be falsely identified 
 as sensor failure. In addition, there could be different modalities of recording with the sensor. The scan can be recorded continuously or published in parts.
-Therefore, the time limit is configurable by the user. While trivial, such a monitoring is not yet available and is critical for reasonable long-term autonomy in the 
-considered scenario described in section \ref{sec:prototype_scenario}. Nonetheless, more subtle errors should also be detected, beyond the outright absence of scans.
+Therefore, the time limit $t$ is configurable by the user. While trivial, such a monitoring is not yet available and is critical for reasonable long-term autonomy in the 
+considered scenario described in section \ref{sec:prototype_scenario}. In summary, whenever the runtime $r \in \mathbb{N}$ of a scan recording exceeds the user-specified time
+limit, i.e. $r > t$, a total sensor failure is assumed. Nonetheless, more subtle errors should also be detected, beyond the outright absence of scans.
 For this purpose, the incoming scans must be examined more closely and checked for plausibility. For example, if the list of range values is empty, it is as useless for
 the mission as a scan that does not arrive at all. Hence, after the arrival of a new scan, the monitoring solution verifies that the list of range values is not empty.
 Another interesting issue to detect is a list of range values that predominantly contains \code{inf} values, which, as mentioned in section
