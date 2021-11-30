@@ -1106,8 +1106,8 @@ the future to include application-specific monitoring aspects that can be easily
 \subsubsection{WiFi Connection Failures}
 \label{sec:sim_and_mon_wifi_connection_problems}
 
-The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described in section
-\ref{sec:sim_and_mon_of_lta_challenges}. The idea is to simply publish problematic values for each of the considered attributes of the WiFi connection,
+The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described in the monitoring section
+below. The idea is to simply publish problematic values for each of the considered attributes of the WiFi connection,
 i.e. link quality, signal level and bit rate. The simplest case of a complete disconnection is simulated by setting all three values to $0$.
 Since the question of which values are considered problematic depends heavily on the environment and application scenario, these values are configurable by the user.
 By default, a poor link is simulated by publishing a corresponding value of $2\%$, meaning that the measure of how good the link is described in section
@@ -1154,6 +1154,24 @@ which has no operating system coupling at all. There is a layer of abstraction t
 following: There is a node that publishes the WiFi connectivity for the system every $10$s int the \code{WiFi.msg} format. If someone wants to use the execution monitoring
 framework on Windows, for example, there is no need to modify the framework's code, there just has to be an equivalent WiFi monitoring node for a Windows system that replaces
 the Ubuntu-specific one.
+
+\subsubsection{Internet Connection Failures}
+\label{sec:sim_and_mon_internet_connection_problems}
+
+Simulating internet connectivity problems has three components. First, a total disconnect, which can be simulated by simply cutting the connection.
+The other two options are again simulated by publishing user-configurable problematic values for the respective download and upload speed components.
+By default, a poor download as well as upload speed is simulated by publishing corresponding values of $0.5$ Mb/s.
+The simulation of poor download and upload speed cases can be enabled / disabled via the following ROS topics:
+\begin{itemize}
+    \item \textbf{poor download speed} \textrightarrow \code{/toggle\_simulated\_bad\_download}
+    \item \textbf{poor upload speed} \textrightarrow \code{/toggle\_simulated\_bad\_upload}
+\end{itemize}
+
+\noindent
+\textbf{Monitoring}\newline
+
+\noindent
+testtestasets
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
