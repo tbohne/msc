@@ -448,7 +448,8 @@ For the robot to work as expected, it must maintain connections to various servi
 A real time communication channel (e.g. WiFi) is required to connect the RTK base station, i.e. the mobile container, and the RTK rover, i.e. the robot, in order to
 transmit the correction signals for high-precision positioning. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals,
 i.e. are connected to the GNSS service. In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
-to the base station or external servers for further processing.\newline
+to the base station or external servers for further processing. Whether LTE is behind it or the internet connection is provided via the WiFi connection, it would make sense
+to monitor the robot's internet connection in any case.\newline
 
 \noindent
 \textbf{WiFi Connection Failures}\newline
