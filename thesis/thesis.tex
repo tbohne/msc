@@ -1180,11 +1180,11 @@ complete disconnect. In such a case, the internet monitoring node creates and pu
 reflecting cases of actual disconnects after a successful connection to the API. On the other hand, if the connection to the API was successful, the actual monitoring begins, which
 repeatedly performs speed tests every $n$ seconds, where $n$ can be configured by the user. For each result, the download and upload speed is parsed and an \code{Internet.msg} is
 generated and published. The high-level connectivity monitor receiving the message performs several checks based on the data. In addition to a check for complete disconnects,
-i.e. upload and download of $0$ Mb/s, other specific checks are performed. When the download speed $d < 1$ Mb/s, a critically low download speed is detected and a contingency is
-initiated. If $d < 40$ Mb/s, an information is sent to the operator that a rather low download speed was detected. Analogously, the upload speed $u$ is checked. An upload speed
-of $u < 1$ Mb/s causes a contingency, and $u < 10$ Mb/s initiates an information of a rather poor upload speed in the communication channel with the human operator. As always, in
-all contingency cases, the monitoring node publishes a message on \code{/contingency\_preemption} that specifies the particular nature of the connection problem. In cases of a failed
-connection to the \code{speedtest-cli} API, the monitoring itself does not work properly, so the connection is reinitialized after the problem is fixed.
+i.e. upload and download of $0$ Mb/s, which causes a contingency, other specific checks are performed. When the download speed $d < 1$ Mb/s, a critically low download speed is 
+detected and a contingency is initiated. If $d < 40$ Mb/s, an information is sent to the operator that a rather low download speed was detected. Analogously, the upload speed $u$ is
+checked. An upload speed of $u < 1$ Mb/s causes a contingency, and $u < 10$ Mb/s initiates an information of a rather poor upload speed in the communication channel with the human
+operator. As always, in all contingency cases, the monitoring node publishes a message on \code{/contingency\_preemption} that specifies the particular nature of the connection
+problem. In cases of a failed connection to the \code{speedtest-cli} API, the monitoring itself does not work properly, so the connection is reinitialized after the problem is fixed.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
