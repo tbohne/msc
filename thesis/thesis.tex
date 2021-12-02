@@ -355,7 +355,8 @@ from a practical perspective, fulfill the above restrictions and are thus worthy
     \item \textbf{mapping error} (e.g. incorrect costmap entries)
     \item \textbf{plan deployment failure}, i.e. robot remains in idle state
 \end{itemize}
-For each potential problem identified, its relevance and consequences, i.e. a brief description of why it might be problematic, is provided below.\newline
+For each potential problem identified, its relevance and consequences, i.e. a brief description of why it might be problematic, is provided below.
+A more detailed consideration as well as monitoring and simulation approaches for each selected problem are presented in section \ref{sec:sim_and_mon_of_lta_challenges}.\newline
 
 \noindent
 \textbf{Power Management}\newline
@@ -949,44 +950,27 @@ LTA problems is presented along with the monitoring solutions developed for each
 \subsection{Power Management}
 \label{sec:sim_and_mon_power_management}
 
-Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will.
-
-\pagebreak
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 A watchdog module that monitors the battery state and acts as a fail-safe, such as the one described in section \ref{sec:battery_monitoring}, could be 
-integrated to address power management issues and improve the robot's survivability.
+integrated to address power management issues and improve the robot's survivability.\newline
+Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will.
 
 \subsection{Charging Failure}
 \label{sec:sim_and_mon_charging_failures}
 
-A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph.\newline
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 Both cases should be detected by the robot so that an appropriate response can be initiated, e.g. notification of the human operator. The first case, i.e. a docking 
 failure, could for example be detected based on \code{move\_base\_flex} navigation errors, the docking state simply does not complete successfully, which should trigger
-a treatment procedure. A failed charging process can be detected based on a certain time in the state of charge without increasing the charge level of the battery.
+a treatment procedure. A failed charging process can be detected based on a certain time in the state of charge without increasing the charge level of the battery.\newline
+A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph.
 
 \subsection{Drastic Weather Change}
 \label{sec:sim_and_mon_drastic_weather}
 
-Although such weather conditions are difficult to simulate realistically, it might be worthwhile to implement at least a subset of them in the Gazebo
-simulation to get an idea of how to detect them. But even if that is not realistically feasible within the scope of the work, there would be a second
-option, in which the robot does not detect extreme weather conditions itself through its sensors, but simply relies on external local weather information.\newline
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 As described in the section on simulations, there are two ways to incorporate weather information, either by having the robot detect it with its own sensors or by 
 utilizing external weather information. In any case, it would be good to identify extreme weather conditions that could affect the proper functioning of the system 
-in order to react accordingly, i.e. return to the base station and seek shelter.
+in order to react accordingly, i.e. return to the base station and seek shelter.\newline
+Although such weather conditions are difficult to simulate realistically, it might be worthwhile to implement at least a subset of them in the Gazebo
+simulation to get an idea of how to detect them. But even if that is not realistically feasible within the scope of the work, there would be a second
+option, in which the robot does not detect extreme weather conditions itself through its sensors, but simply relies on external local weather information.
 
 \subsection{Sensor (Perception) Failure}
 \label{sec:sim_and_mon_sensor_failures}
