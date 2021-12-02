@@ -1154,67 +1154,42 @@ The simulation of poor download and upload speed cases can be enabled / disabled
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
 
-The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized 
-positions that could potentially block the robot's path.\newline
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases 
 simply walk through the scene and disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. 
-Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors.
+Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors.\newline
+The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized 
+positions that could potentially block the robot's path.
 
 \subsection{Navigation Failure}
 \label{sec:sim_and_mon_navigation_failures}
 
-Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve.\newline
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
-To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to Duchetto et al.
+To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to Duchetto et al.\newline
+Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve.
 
 \subsection{Sustained Recovery}
 \label{sec:sim_and_mon_sustained_recovery}
 
+In this case, the robot should try a few different recovery actions and then abort and report the problem. Monitoring methods must therefore track the results of recovery
+behaviors and decide whether it is appropriate to try more or stop.\newline
 Sustained recoveries can be evaluated in the simulation by inducing situations where recovery is not possible, such as when the path to the destination is
-blocked and there is no other way.\newline
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
-In this case, the robot should try a few different recovery actions and then abort and report the problem.
-Monitoring methods must therefore track the results of recovery behaviors and decide whether it is appropriate to try more or stop.
+blocked and there is no other way.
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
 
-An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
-\textit{kidnapped robot problem}.\newline
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 It would be very valuable to develop a monitoring approach that is capable of realizing situations in which the localization is no longer accurate, as there is a 
 simple workaround that alleviates the problem in practice in many cases: Just driving the robot a few meters back and forth to recalibrate the localization
 using different GNSS positions. Since the localization is based not only on GNSS, but also on IMU and odometry data, it would also be very valuable to identify
-the errors that occur there, but that is beyond the scope of this work.
+the errors that occur there, but that is beyond the scope of this work.\newline
+An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
+\textit{kidnapped robot problem}.
 
 \subsection{Plan Deployment Failure}
 \label{sec:sim_and_mon_plan_deployment_failures}
 
-The problem can be trivially simulated by simply not launching the plan generation service.\newline
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 A first solution attempt that the robot should definitely try would be to retrigger the plan generation service described in section \ref{sec:plan_generation}. 
-If this does not help, it should waste no time and immediately notify the operator.
+If this does not help, it should waste no time and immediately notify the operator.\newline
+The problem can be trivially simulated by simply not launching the plan generation service.
 
 \section{Solutions for LTA Challenges}
 \label{sec:solutions_for_lta_challenges}
