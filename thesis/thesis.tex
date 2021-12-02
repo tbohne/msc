@@ -471,7 +471,9 @@ This problem should be considered separately, since in such a case the robot wil
 Another potential LTA problem that has already been encountered in experiments conducted as part of this work is navigation errors.
 For example, the local planner configured in \code{move\_base\_flex} (e.g. DWA, EBand) provides a path that is infeasible, e.g. tries to drive around a field, 
 although there is no way. Del Duchetto et al. encounter similar problems in an indoor LTA scenario where valid navigation trajectories cannot be generated from time to time.
-They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018}\newline
+They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018}
+
+\pagebreak
 
 \noindent
 \textbf{Sustained Recovery}\newline
@@ -1064,6 +1066,11 @@ of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_s
 \subsection{Lost Connection}
 \label{sec:sim_and_mon_lost_connections}
 
+Monitoring and simulation of the specific types of considered connection failures, i.e. WiFi (\ref{sec:sim_and_mon_wifi_connection_problems}), internet (
+\ref{sec:sim_and_mon_internet_connection_problems}) and GPS (\ref{sec:sim_and_mon_gps_connection_problems}) connection problems (cf. \ref{sec:sim_and_mon_wifi_connection_problems}),
+are part of the following sections. However, there is also one monitoring aspect that works identically for all three, namely timeout monitoring. There is a continuously running
+procedure that checks the time since the last message from either connection. If a user-specified time limit for one of the connections is exceeded, a contingency case is initiated.
+
 \subsubsection{WiFi Connection Failures}
 \label{sec:sim_and_mon_wifi_connection_problems}
 
@@ -1146,6 +1153,9 @@ The simulation of poor download and upload speed cases can be enabled / disabled
     \item \textbf{poor download speed} \textrightarrow \code{/toggle\_simulated\_bad\_download}
     \item \textbf{poor upload speed} \textrightarrow \code{/toggle\_simulated\_bad\_upload}
 \end{itemize}
+
+\subsubsection{GPS Connection Failures}
+\label{sec:sim_and_mon_gps_connection_problems}
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
