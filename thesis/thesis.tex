@@ -975,24 +975,6 @@ option, in which the robot does not detect extreme weather conditions itself thr
 \subsection{Sensor (Perception) Failure}
 \label{sec:sim_and_mon_sensor_failures}
 
-The evaluation of a total sensor failure is straightforward, as it can be easily simulated by interrupting the publication of laser scans in the dummy scanning node
-described in section \ref{sec:dummy_scanning_node}. The second identified type of sensor failure, i.e. an empty list of range values, is again rather trivial to simulate
-by clearing the list of range values before republishing a scan in the dummy scanning node. Scans consisting mainly of impermissible range values can be realized by 
-simply manipulating the range values of a scan so that they do not satisfy the maximum and minimum range of the sensor before republishing, i.e. \code{inf}.
-Finally, to simulate repeated scans, the dummy scanning node always stores the previous scan and can replace the current scan with the previous one on command.
-Accordingly, the simulation of each different sensor fault case is implemented as part of the dummy scanning node introduced in section \ref{sec:dummy_scanning_node},
-and can be enabled / disabled via the following ROS topics:
-\begin{itemize}
-    \item \textbf{total sensor failure} \textrightarrow \code{/toggle\_simulated\_total\_sensor\_failure}
-    \item \textbf{empty list of range values} \textrightarrow \code{/toggle\_simulated\_empty\_ranges}
-    \item \textbf{predominantly impermissible values} \textrightarrow \code{/toggle\_simulated\_impermissible\_ranges}
-    \item \textbf{repeated scan} \textrightarrow \code{/toggle\_simulated\_scan\_repetition}\newline
-\end{itemize}
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 Executing a \code{scan} action not only launches the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}, but also a monitoring procedure that
 looks for potential problems with the laser scanner. The most obvious type of sensor failure is of course a total failure, i.e. no messages arrive on the corresponding ROS topic.
 A fairly trivial approach to detecting total sensor failures is therefore to use \code{rospy.wait\_for\_message()} with the particular topic and set a time limit $t \in \mathbb{N}$
@@ -1043,7 +1025,20 @@ In general, it is crucial to keep the monitoring solutions as general as possibl
 in order to make them reusable for others. One hurdle standing in the way of this claim is the fact that many sensor manufacturers use their own proprietary data types.
 Nevertheless, the underlying data is likely to be very similar. To provide some generality, the developed monitoring approaches will be able to handle the two data 
 types commonly used in the ROS ecosystem, \code{LaserScan} and \code{PointCloud2}. In all cases, the sensor monitoring node publishes on the topic
-\code{/contingency\_preemption} with a message that specifies the particular kind of sensor failure and causes a transition to the \code{CONTINGENCY} state.
+\code{/contingency\_preemption} with a message that specifies the particular kind of sensor failure and causes a transition to the \code{CONTINGENCY} state.\newline
+The evaluation of a total sensor failure is straightforward, as it can be easily simulated by interrupting the publication of laser scans in the dummy scanning node
+described in section \ref{sec:dummy_scanning_node}. The second identified type of sensor failure, i.e. an empty list of range values, is again rather trivial to simulate
+by clearing the list of range values before republishing a scan in the dummy scanning node. Scans consisting mainly of impermissible range values can be realized by 
+simply manipulating the range values of a scan so that they do not satisfy the maximum and minimum range of the sensor before republishing, i.e. \code{inf}.
+Finally, to simulate repeated scans, the dummy scanning node always stores the previous scan and can replace the current scan with the previous one on command.
+Accordingly, the simulation of each different sensor fault case is implemented as part of the dummy scanning node introduced in section \ref{sec:dummy_scanning_node},
+and can be enabled / disabled via the following ROS topics:
+\begin{itemize}
+    \item \textbf{total sensor failure} \textrightarrow \code{/toggle\_simulated\_total\_sensor\_failure}
+    \item \textbf{empty list of range values} \textrightarrow \code{/toggle\_simulated\_empty\_ranges}
+    \item \textbf{predominantly impermissible values} \textrightarrow \code{/toggle\_simulated\_impermissible\_ranges}
+    \item \textbf{repeated scan} \textrightarrow \code{/toggle\_simulated\_scan\_repetition}\newline
+\end{itemize}
 
 \subsection{Data Management}
 \label{sec:sim_and_mon_data_management}
