@@ -1188,11 +1188,14 @@ As can be observed in the processing scheme in fig. \ref{fig:gnss_communication}
 i.e. received from \code{gpsd}, is already the data potentially corrected by RTK. What is received is the best result there is at the moment; if RTK is available, it will be used.
 What is part of the \code{NavSatFix} definition and is also available in \code{gpsd}, i.e. in practice, is the GNSS status with the four possible options \code{STATUS\_NO\_FIX},
 \code{STATUS\_FIX}, \code{STATUS\_SBAS\_FIX}, and \code{STATUS\_GBAS\_FIX}. The first two options indicate whether or not it was possible to find a position using pure GNSS, e.g.
-GPS, GLONASS or GALILEO. An SBAS (\textit{Satellite Based Augmentation System}) is a satellite-based system that provides additional real-time data from geostationary
+\textit{GPS}, \textit{GLONASS} or \textit{Galileo}. An SBAS (\textit{Satellite Based Augmentation System}) is a satellite-based system that provides additional real-time data from geostationary
 satellites to refine the observations and increase the accuracy, e.g. \textit{StarFire\textsuperscript{TM}}. \cite{Dixon:2006} Hence, the third option indicates whether such
 an SBAS was involved in positioning. Analogously, a GBAS (\textit{Ground Based Augmentation System}) aims to ensure integrity and increase accuracy
 by using a ground infrastructure consisting of at least two GNSS receivers. \cite{GNSS_aug} Based on this, differential corrections are computed. The fourth option therefore
-tells whether a GBAS was utilized during positioning. Essentially, RTK is a specific GBAS system used in practice with the AROX system and the base station.
+tells whether a GBAS was utilized during positioning. Essentially, RTK is a specific GBAS system used in practice with the AROX system and the base station. These four GNSS status
+options are user-configurable in the \code{GNSS Simulator}. Additionally configurable, part of the \code{NavSatFix} message, and given in practice are the service options,
+i.e. the actual GNSS services used to retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} and \textit{Galileo}.
+Eventually, the GNSS covariance type as well as the covariances themselves can be configured in the \code{GNSS Simulator}.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
