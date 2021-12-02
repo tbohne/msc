@@ -1167,13 +1167,32 @@ data. In practice, the AROX system as well as the base station (mobile container
 signals. Accordingly, the one on board the AROX is configured as RTK-rover and the one mounted inside the base station is configured as RTK-base. The board attached to the AROX is
 connected to the on-board computer via USB. Since the on-board computer is an Ubuntu system, the Unix tool
 \code{gpsd}\footnote{https://manpages.ubuntu.com/manpages/trusty/man8/gpsd.8.html} can be used, a daemon that can be configured to read the GNSS data from the connected
-\textit{u-blox} board.
+\textit{u-blox} board. Afterwards, the ROS community package \code{gpsd-client}\footnote{https://wiki.ros.org/gpsd\_client} serves as a bridge between the operating system and the
+ROS world. It reads the GNSS data from \code{gpsd} and generates a \code{NavSatFix} message from it, the typical data type for GNSS data in ROS. This message is then published under
+the \code{/fix} topic and used for localization, etc. In the simulation scenario (cf. red arrows), \code{GazeboRosGps}, a module from the ROS community package
+\code{hector\_gazebo\_plugins} \footnote{https://wiki.ros.org/hector\_gazebo\_plugins}, is used to simulate GNSS data. It already generates a \code{NavSatFix} message with the
+simulated data. However, it does not simulate every single relevant aspect of the GNSS data. It simulates the position and altitude of the robot in \textit{WGS84} coordinates and
+also a GNSS velocity vector, but the status, service and covariance information are not generated. This is where the \code{GNSS Simulator} developed as part of this work comes
+into play, acting as a \textquote{man-in-the-middle} to enrich the data coming from \code{GazeboRosGps}. For this purpose, it receives the \code{NavSatFix} message from the
+\code{/fix\_plugin} topic and enriches it with user-configurable service, status and covariance information. Finally, as in the real scenario in practice, a \code{NavSatFix} message
+appears on the \code{/fix} topic. Thus, from the perspective of any component that uses the GNSS information, such as localization, it is not clear and also irrelevant whether the
+data is real or simulated, the result is the same.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/GNSS_comm.png}
-    \caption{\textsc{Communication of GNSS data}}
+    \caption{\textsc{Processing of GNSS data}}
     \label{fig:gnss_communication}
 \end{figure}
+\noindent
+As can be observed in the processing scheme in fig. \ref{fig:gnss_communication}, the GNSS data arriving at the system,
+i.e. received from \code{gpsd}, is already the data potentially corrected by RTK. What is received is the best result there is at the moment; if RTK is available, it will be used.
+What is part of the \code{NavSatFix} definition and is also available in \code{gpsd}, i.e. in practice, is the GNSS status with the four possible options \code{STATUS\_NO\_FIX},
+\code{STATUS\_FIX}, \code{STATUS\_SBAS\_FIX}, and \code{STATUS\_GBAS\_FIX}. The first two options indicate whether or not it was possible to find a position using pure GNSS, e.g.
+GPS, GLONASS or GALILEO. An SBAS (\textit{Satellite Based Augmentation System}) is a satellite-based system that provides additional real-time data from geostationary
+satellites to refine the observations and increase the accuracy, e.g. \textit{StarFire\textsuperscript{TM}}. \cite{Dixon:2006} Hence, the third option indicates whether such
+an SBAS was involved in positioning. Analogously, a GBAS (\textit{Ground Based Augmentation System}) aims to ensure integrity and increase accuracy
+by using a ground infrastructure consisting of at least two GNSS receivers. \cite{GNSS_aug} Based on this, differential corrections are computed. The fourth option therefore
+tells whether a GBAS was utilized during positioning. Essentially, RTK is a specific GBAS system used in practice with the AROX system and the base station.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
