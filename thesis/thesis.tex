@@ -1122,25 +1122,12 @@ is $0.1$ Mb/s. The simulation of each different WiFi fault case can be enabled /
     \item \textbf{poor link quality} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_link}
     \item \textbf{poor signal level} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_signal}
     \item \textbf{poor bit rate} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_bit\_rate}
-    \item \textbf{disconnection} \textrightarrow \code{/toggle\_simulated\_wifi\_disconnect}\newline
+    \item \textbf{disconnection} \textrightarrow \code{/toggle\_simulated\_wifi\_disconnect}
 \end{itemize}
 
 \subsubsection{Internet Connection Failures}
 \label{sec:sim_and_mon_internet_connection_problems}
 
-Simulating internet connectivity problems has three components. First, a total disconnect, which can be simulated by simply cutting the connection.
-The other two options are again simulated by publishing user-configurable problematic values for the respective download and upload speed components.
-By default, a poor download as well as upload speed is simulated by publishing corresponding values of $0.5$ Mb/s.
-The simulation of poor download and upload speed cases can be enabled / disabled via the following ROS topics:
-\begin{itemize}
-    \item \textbf{poor download speed} \textrightarrow \code{/toggle\_simulated\_bad\_download}
-    \item \textbf{poor upload speed} \textrightarrow \code{/toggle\_simulated\_bad\_upload}\newline
-\end{itemize}
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 Unlike monitoring WiFi connectivity, internet connectivity monitoring does not require an operating system-specific low-level node. The internet bandwidth is tested using the
 cross-platform Python tool \code{speedtest-cli}\footnote{https://pypi.org/project/speedtest-cli/}. Nevertheless, for modularization reasons, there is a separate internet
 connectivity monitoring node that communicates the internet connectivity properties to the general connectivity monitoring node via the ROS topic \code{/internet\_connectivity\_info}.
@@ -1154,7 +1141,15 @@ i.e. upload and download of $0$ Mb/s, which causes a contingency, other specific
 detected and a contingency is initiated. If $d < 40$ Mb/s, an information is sent to the operator that a rather low download speed was detected. Analogously, the upload speed $u$ is
 checked. An upload speed of $u < 1$ Mb/s causes a contingency, and $u < 10$ Mb/s initiates an information of a rather poor upload speed in the communication channel with the human
 operator. As always, in all contingency cases, the monitoring node publishes a message on \code{/contingency\_preemption} that specifies the particular nature of the connection
-problem. In cases of a failed connection to the \code{speedtest-cli} API, the monitoring itself does not work properly, so the connection is reinitialized after the problem is fixed.
+problem. In cases of a failed connection to the \code{speedtest-cli} API, the monitoring itself does not work properly, so the connection is reinitialized after the problem is fixed.\newline
+Simulating internet connectivity problems has three components. First, a total disconnect, which can be simulated by simply cutting the connection.
+The other two options are again simulated by publishing user-configurable problematic values for the respective download and upload speed components.
+By default, a poor download as well as upload speed is simulated by publishing corresponding values of $0.5$ Mb/s.
+The simulation of poor download and upload speed cases can be enabled / disabled via the following ROS topics:
+\begin{itemize}
+    \item \textbf{poor download speed} \textrightarrow \code{/toggle\_simulated\_bad\_download}
+    \item \textbf{poor upload speed} \textrightarrow \code{/toggle\_simulated\_bad\_upload}
+\end{itemize}
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
