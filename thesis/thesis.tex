@@ -1081,28 +1081,6 @@ of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_s
 \subsubsection{WiFi Connection Failures}
 \label{sec:sim_and_mon_wifi_connection_problems}
 
-The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described in the monitoring section
-below. The idea is to simply publish problematic values for each of the considered attributes of the WiFi connection,
-i.e. link quality, signal level and bit rate. The simplest case of a complete disconnection is simulated by setting all three values to $0$.
-Since the question of which values are considered problematic depends heavily on the environment and application scenario, these values are configurable by the user.
-By default, a poor link is simulated by publishing a corresponding value of $2\%$, meaning that the measure of how good the link is described in section
-\ref{sec:challenges_for_lta} estimates the quality with only two percent of the optimum. The second attribute, the received signal strength indication (RSSI),
-ranges from $-30$ dBm to $-100$ dBm, depending on various aspects, such as distance. \cite{Heurtefeux:2012} The upper bound of $-30$ dBm is the optimal value, which
-is almost impossible to achieve in practice, and $-100$ dBm basically means no signal at all. One could roughly classify it as follows: Anything between the optimal
-$-30$ dBm and $-67$ dBm can be considered very good in practice, below an RSSI of $-80$ dBm it starts to become critical, and around $-90$ dBm it becomes practically 
-unusable. \cite{metageek} Thus, a signal level failure is simulated by publishing an RSSI value of $-90$ dBm. Finally, the default value for a simulated bit rate failure 
-is $0.1$ Mb/s. The simulation of each different WiFi fault case can be enabled / disabled via the following ROS topics:
-\begin{itemize}
-    \item \textbf{poor link quality} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_link}
-    \item \textbf{poor signal level} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_signal}
-    \item \textbf{poor bit rate} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_bit\_rate}
-    \item \textbf{disconnection} \textrightarrow \code{/toggle\_simulated\_wifi\_disconnect}\newline
-\end{itemize}
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 Monitoring for WiFi connectivity problems takes place at two levels of abstraction. From the perspective of the high-level execution monitoring framework developed in this work,
 the monitoring is completely independent of hardware and operating system details. However, monitoring the WiFi connection of a particular system depends heavily on such details,
 so it is also necessary to provide low-level monitoring for network interfaces. The idea is that the high-level monitoring node expects the information that are evaluated as part 
@@ -1128,7 +1106,24 @@ In summary, the problem of actually detecting the WiFi connectivity on the syste
 which has no operating system coupling at all. There is a layer of abstraction that separates the two views. The assumption of the high-level monitoring framework is the
 following: There is a node that publishes the WiFi connectivity for the system every $10$s int the \code{WiFi.msg} format. If someone wants to use the execution monitoring
 framework on Windows, for example, there is no need to modify the framework's code, there just has to be an equivalent WiFi monitoring node for a Windows system that replaces
-the Ubuntu-specific one.
+the Ubuntu-specific one.\newline
+The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described in the monitoring section
+below. The idea is to simply publish problematic values for each of the considered attributes of the WiFi connection,
+i.e. link quality, signal level and bit rate. The simplest case of a complete disconnection is simulated by setting all three values to $0$.
+Since the question of which values are considered problematic depends heavily on the environment and application scenario, these values are configurable by the user.
+By default, a poor link is simulated by publishing a corresponding value of $2\%$, meaning that the measure of how good the link is described in section
+\ref{sec:challenges_for_lta} estimates the quality with only two percent of the optimum. The second attribute, the received signal strength indication (RSSI),
+ranges from $-30$ dBm to $-100$ dBm, depending on various aspects, such as distance. \cite{Heurtefeux:2012} The upper bound of $-30$ dBm is the optimal value, which
+is almost impossible to achieve in practice, and $-100$ dBm basically means no signal at all. One could roughly classify it as follows: Anything between the optimal
+$-30$ dBm and $-67$ dBm can be considered very good in practice, below an RSSI of $-80$ dBm it starts to become critical, and around $-90$ dBm it becomes practically 
+unusable. \cite{metageek} Thus, a signal level failure is simulated by publishing an RSSI value of $-90$ dBm. Finally, the default value for a simulated bit rate failure 
+is $0.1$ Mb/s. The simulation of each different WiFi fault case can be enabled / disabled via the following ROS topics:
+\begin{itemize}
+    \item \textbf{poor link quality} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_link}
+    \item \textbf{poor signal level} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_signal}
+    \item \textbf{poor bit rate} \textrightarrow \code{/toggle\_simulated\_bad\_wifi\_bit\_rate}
+    \item \textbf{disconnection} \textrightarrow \code{/toggle\_simulated\_wifi\_disconnect}\newline
+\end{itemize}
 
 \subsubsection{Internet Connection Failures}
 \label{sec:sim_and_mon_internet_connection_problems}
