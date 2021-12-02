@@ -27,6 +27,8 @@
 
 \begin{document}
 
+\setcounter{secnumdepth}{3}
+
 \title{Execution Monitoring for Long-Term Autonomous Plant Observation with a Mobile Robot}
 \author{Tim Bohne}
 \email{tbohne@uni-osnabrueck.de}
@@ -1066,8 +1068,8 @@ of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_s
 \subsection{Lost Connection}
 \label{sec:sim_and_mon_lost_connections}
 
-Monitoring and simulation of the specific types of considered connection failures, i.e. WiFi (\ref{sec:sim_and_mon_wifi_connection_problems}), internet (
-\ref{sec:sim_and_mon_internet_connection_problems}) and GPS (\ref{sec:sim_and_mon_gps_connection_problems}) connection problems (cf. \ref{sec:sim_and_mon_wifi_connection_problems}),
+Monitoring and simulation of the specific types of considered connection failures, i.e. WiFi (\ref{sec:sim_and_mon_wifi_connection_problems}), internet
+(\ref{sec:sim_and_mon_internet_connection_problems}) and GNSS (\ref{sec:sim_and_mon_gnss_connection_problems}) connection problems (cf. \ref{sec:sim_and_mon_wifi_connection_problems}),
 are part of the following sections. However, there is also one monitoring aspect that works identically for all three, namely timeout monitoring. There is a continuously running
 procedure that checks the time since the last message from either connection. If a user-specified time limit for one of the connections is exceeded, a contingency case is initiated.
 
@@ -1154,8 +1156,11 @@ The simulation of poor download and upload speed cases can be enabled / disabled
     \item \textbf{poor upload speed} \textrightarrow \code{/toggle\_simulated\_bad\_upload}
 \end{itemize}
 
-\subsubsection{GPS Connection Failures}
-\label{sec:sim_and_mon_gps_connection_problems}
+\subsubsection{GNSS Connection Failures}
+\label{sec:sim_and_mon_gnss_connection_problems}
+
+Unlike the connections considered in the previous two sections, i.e. WiFi and internet (cf. sections \ref{sec:sim_and_mon_wifi_connection_problems}
+and \ref{sec:sim_and_mon_internet_connection_problems}), GNSS signals are already part of the ROS world both in the prototype simulation and in practice.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
