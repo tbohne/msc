@@ -1159,8 +1159,19 @@ The simulation of poor download and upload speed cases can be enabled / disabled
 \subsubsection{GNSS Connection Failures}
 \label{sec:sim_and_mon_gnss_connection_problems}
 
-Unlike the connections considered in the previous two sections, i.e. WiFi and internet (cf. sections \ref{sec:sim_and_mon_wifi_connection_problems}
-and \ref{sec:sim_and_mon_internet_connection_problems}), GNSS signals are already part of the ROS world both in the prototype simulation and in practice.
+Unlike the connections considered in the previous two sections, i.e. WiFi and internet (cf. sections \ref{sec:sim_and_mon_wifi_connection_problems} and
+\ref{sec:sim_and_mon_internet_connection_problems}), GNSS signals are already part of the ROS world both in the prototype simulation and in practice. In practice, the AROX system
+as well as the base station (mobile container) use a \textit{u-blox C099-F9P}\footnote{https://www.u-blox.com/en/product/c099-f9p-application-board?lang=de} application board as GNSS
+receiver. The board can be configured to transmit or receive RTK correction signals. Accordingly, the one on board the AROX is configured as RTK-rover and the one mounted inside the
+base station is configured as RTK-base. The board attached to the AROX is connected to the on-board computer via USB. Since the on-board computer is an Ubuntu system, the Unix tool
+\code{gpsd}\footnote{https://manpages.ubuntu.com/manpages/trusty/man8/gpsd.8.html} can be used, a daemon that can be configured to read the GNSS data from the connected
+\textit{u-blox} board.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{pics/GNSS_comm.png}
+    \caption{\textsc{Communication of GNSS data}}
+    \label{fig:gnss_communication}
+\end{figure}
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
