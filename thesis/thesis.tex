@@ -1043,16 +1043,6 @@ and can be enabled / disabled via the following ROS topics:
 \subsection{Data Management}
 \label{sec:sim_and_mon_data_management}
 
-It is not a big challenge to simulate the occurrence of the data management problems presented in section \ref{sec:challenges_for_lta}. To simulate a ``full disk''-failure,
-i.e. a full memory of the drive on which the scans are to be logged, one could simply prepare a full USB flash drive and configure the path to be monitored accordingly,
-e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR\_DRIVE = /mnt/usb}. The second and more scenario-specific type of error is the scan logging error, which
-can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
-of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_scan\_logging\_failure}.\newline
-
-\noindent
-\textbf{Monitoring}\newline
-
-\noindent
 Similar to sensor (perception) monitoring, executing a \code{scan} action launches the data monitoring procedure, which looks for the potential data management issues presented in
 section \ref{sec:challenges_for_lta}. To perform the drive capacity check, i.e. to determine whether the drive on which scan logging or data storage in general takes place has enough
 free space, the cross-platform library \code{psutil}\footnote{https://pypi.org/project/psutil/} is used. It provides a function \code{disk\_usage()} which returns the load of the
@@ -1078,7 +1068,12 @@ the file system, it would be superfluous to check the data again for plausibilit
 operation, i.e. writing the scan to the log file, worked. Moreover, it is worth noting that a total sensor failure always implies a data management failure of the second type,
 but this should already be detected by the sensor monitoring procedure. Of course, more checks could be made for scenario-specific logs on the drive, etc., but since this would
 require additional knowledge of the specific circumstances, it would violate the goal of being as general as possible. Nevertheless, it is possible to extend data management in
-the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability.
+the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability.\newline
+It is not a big challenge to simulate the occurrence of the data management problems presented in section \ref{sec:challenges_for_lta}. To simulate a ``full disk''-failure,
+i.e. a full memory of the drive on which the scans are to be logged, one could simply prepare a full USB flash drive and configure the path to be monitored accordingly,
+e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR\_DRIVE = /mnt/usb}. The second and more scenario-specific type of error is the scan logging error, which
+can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
+of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_scan\_logging\_failure}.\newline
 
 \subsection{Lost Connection}
 \label{sec:sim_and_mon_lost_connections}
