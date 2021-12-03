@@ -1194,8 +1194,9 @@ an SBAS was involved in positioning. Analogously, a GBAS (\textit{Ground Based A
 by using a ground infrastructure consisting of at least two GNSS receivers. \cite{GNSS_aug} Based on this, differential corrections are computed. The fourth option therefore
 tells whether a GBAS was utilized during positioning. Essentially, RTK is a specific GBAS system used in practice with the AROX system and the base station. These four GNSS status
 options are user-configurable in the \code{GNSS Simulator}. Additionally configurable, part of the \code{NavSatFix} message, and given in practice are the service options,
-i.e. the actual GNSS services used to retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} and \textit{Galileo}.
-Eventually, the GNSS covariance type as well as the covariances themselves can be configured in the \code{GNSS Simulator}.
+i.e. the actual GNSS services used to retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} and \textit{Galileo}. Eventually, the GNSS covariance type as well as the
+covariances themselves can be configured in the \code{GNSS Simulator}. Whether we are in simulation or using the real AROX in practice, with the setup described we always know if
+RTK data is currently being received.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
