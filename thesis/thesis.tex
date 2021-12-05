@@ -1193,10 +1193,18 @@ satellites to refine the observations and increase the accuracy, e.g. \textit{St
 an SBAS was involved in positioning. Analogously, a GBAS (\textit{Ground Based Augmentation System}) aims to ensure integrity and increase accuracy
 by using a ground infrastructure consisting of at least two GNSS receivers. \cite{GNSS_aug} Based on this, differential corrections are computed. The fourth option therefore
 tells whether a GBAS was utilized during positioning. Essentially, RTK is a specific GBAS system used in practice with the AROX system and the base station. These four GNSS status
-options are user-configurable in the \code{GNSS Simulator}. Additionally configurable, part of the \code{NavSatFix} message, and given in practice are the service options,
-i.e. the actual GNSS services used to retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} and \textit{Galileo}. Eventually, the GNSS covariance type as well as the
-covariances themselves can be configured in the \code{GNSS Simulator}. Whether we are in simulation or using the real AROX in practice, with the setup described we always know if
-RTK data is currently being received.
+options are user-configurable in the \code{GNSS Simulator}. Whether we are in simulation or using the real AROX in practice, with the setup described we always know if RTK data
+is currently being received. Additionally configurable, part of the \code{NavSatFix} message, and given in practice are the service options, i.e. the actual GNSS services used to
+retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} and \textit{Galileo}. Eventually, the GNSS covariance type as well as the covariances themselves are part of a
+\code{NavSatFix} and thus configurable in the \code{GNSS Simulator}. Covariances are commonly represented as a square matrix containing the covariance for each pair of variables.
+These matrices have the property of being symmetric, that is, the covariance of $(X, Y)$ is the same as the covariance of $(Y, X)$, and providing the variances of the variables on
+their diagonal, since the diagonal contains the covariance of each variable with itself, which is equal to the variance of that variable. The different covariance types in 
+\code{NavSatFix} are \code{COVARIANCE\_TYPE\_UNKNOWN}, when the GNSS receiver gives no information about the covariance values provided, \code{COVARIANCE\_TYPE\_APPROXIMATED}, when
+the given values are only approximations based on certain criteria, \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, when the GNSS receiver gives at least the variance of each measurement,
+and \code{COVARIANCE\_TYPE\_KNOWN}, which means that the covariances are completely known and can be trusted. The covariances are not directly based on the currently believed
+latitude, longitude and altitude values, but based on a 2D approximation of a small region of the earth's surface, a tangential plane through the currently believed position.
+There are several local tangent planes, the specific one assumed in \code{NavSatFix} is the \textquote{East-North-Up} (ENU) coordinate system. The position covariances are defined
+in square meters relative to the plane.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
