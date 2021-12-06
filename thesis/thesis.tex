@@ -1201,10 +1201,10 @@ These matrices have the property of being symmetric, that is, the covariance of 
 their diagonal, since the diagonal contains the covariance of each variable with itself, which is equal to the variance of that variable. The different covariance types in 
 \code{NavSatFix} are \code{COVARIANCE\_TYPE\_UNKNOWN}, when the GNSS receiver gives no information about the covariance values provided, \code{COVARIANCE\_TYPE\_APPROXIMATED}, when
 the given values are only approximations based on certain criteria, \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, when the GNSS receiver gives at least the variance of each measurement,
-and \code{COVARIANCE\_TYPE\_KNOWN}, which means that the covariances are completely known and can be trusted. The covariances are not directly based on the currently believed
-latitude, longitude and altitude values, but based on a 2D approximation of a small region of the earth's surface, a tangential plane through the currently believed position.
-There are several local tangent planes, the specific one assumed in \code{NavSatFix} is the \textquote{East-North-Up} (ENU) coordinate system. The position covariances are defined
-in square meters relative to the plane.
+and \code{COVARIANCE\_TYPE\_KNOWN}, which means that the covariances are completely known and can be trusted. The covariances are not directly based on the current latitude,
+longitude and altitude belief state, but based on a $2D$ approximation of a small region of the earth's surface, a tangential plane through the currently believed position.
+There are several local tangent plane systems, the specific one assumed in \code{NavSatFix} is the \textquote{East-North-Up} (ENU) coordinate system. The position covariances are
+defined in square meters relative to that plane, i.e. a $3 \times 3$ matrix.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
