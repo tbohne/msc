@@ -1211,7 +1211,12 @@ The quality is rated as good, if the status is \code{STATUS\_GBAS\_FIX}, i.e. wi
 covariance matrix, are either \code{float(`nan')} or $\leq$ \code{GOOD\_VARIANCE\_UB}, which is an upper bound of what is considered to be a reasonable variance by the user. It is
 classified as medium if the status is $\geq$ \code{STATUS\_FIX}, the covariance type is $\geq$ \code{COVARIANCE\_TYPE\_APPROXIMATED}, and the variances in turn satisfy the upper
 limit of reasonable variance specified by the user. Finally, it is classified as low if it provides a position belief state ($\geq$ \code{STATUS\_FIX}), but the covariance type
-is unknown.
+is unknown. So much for the qualitative assessment of a GNSS link that works in principle.\newline
+The first type of monitoring for real failures is the status monitoring. If the status is not set to one of the available options (\code{STATUS\_NO\_FIX}, \code{STATUS\_FIX},
+\code{STATUS\_SBAS\_FIX}, \code{STATUS\_GBAS\_FIX}), a contingency is initiated, i.e. a message on \code{/contingency\_preemption} interrupts the normal operation.
+Furthermore, if the status is \code{STATUS\_NO\_FIX}, the GNSS system was unable to find the position, which is certainly a problem for localization that causes a contingency
+case. Status monitoring also checks for cases of \code{STATUS\_FIX}, which means that pure GNSS was used for positioning and no RTK is available. However, this is not a reason for
+contingency, just information worth publishing on \code{/robot\_info}.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
