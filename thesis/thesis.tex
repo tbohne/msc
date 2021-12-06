@@ -1216,7 +1216,9 @@ The first type of monitoring for real failures is the status monitoring. If the 
 \code{STATUS\_SBAS\_FIX}, \code{STATUS\_GBAS\_FIX}), a contingency is initiated, i.e. a message on \code{/contingency\_preemption} interrupts the normal operation.
 Furthermore, if the status is \code{STATUS\_NO\_FIX}, the GNSS system was unable to find the position, which is certainly a problem for localization that causes a contingency
 case. Status monitoring also checks for cases of \code{STATUS\_FIX}, which means that pure GNSS was used for positioning and no RTK is available. However, this is not a reason for
-contingency, just information worth publishing on \code{/robot\_info}.
+contingency, just information worth publishing on \code{/robot\_info}. What is also worth reporting, but does not trigger a contingency, is an unknown service, i.e. when the
+\code{NavSatFix} message does not contain any of the available GNSS services GPS, GLONASS, Compass or Galileo. Again more critical is the latitude / longitude belief state
+monitoring. It is ensured that both values are present and satisfy their respective domains, i.e. $lat \in [-90, 90]$ and $lng \in [-180, 180]$.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
