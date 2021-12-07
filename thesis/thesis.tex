@@ -1297,6 +1297,20 @@ The covariance progression depicted in fig. \ref{fig:cov_history} is expected to
 contains increasing variance values for the east component ($4.2 m^2 \rightarrow 5.1 m^2 \rightarrow 12.0 m^2 \rightarrow 21.4 m^2$) and the overall absolute increase between
 the east variance of the oldest (cf. fig. \ref{fig:oldest}) and latest (cf. fig. \ref{fig:latest}) covariance matrices exceeds the defined threshold of $15 m^2$.
 It is reasonable to interrupt normal operation in such a case, as such a covariance progression poses great challenges for localization.
+The simulation of the GNSS failure cases can be enabled / disabled via the following ROS topics:
+\begin{itemize}
+    \item \textbf{disconnect / timeout} \textrightarrow \code{/toggle\_simulated\_timeout\_failure}
+    \item \textbf{good quality} \textrightarrow \code{/set\_simulated\_good\_quality}
+    \item \textbf{medium quality} \textrightarrow \code{/set\_simulated\_med\_quality}
+    \item \textbf{low quality} \textrightarrow \code{/set\_simulated\_low\_quality}
+    \item \textbf{unknown status} \textrightarrow \code{/set\_simulated\_unknown\_status}
+    \item \textbf{no fix} \textrightarrow \code{/set\_simulated\_no\_fix}
+    \item \textbf{no RTK} \textrightarrow \code{/set\_simulated\_no\_rtk}
+    \item \textbf{unknown service} \textrightarrow \code{/toggle\_simulated\_unknown\_service}
+    \item \textbf{infeasible lat / lng} \textrightarrow \code{/toggle\_simulated\_infeasible\_lat\_lng}
+    \item \textbf{covariance history failure} \textrightarrow \code{/toggle\_simulated\_cov\_history\_failure}
+    \item \textbf{high covariance} \textrightarrow \code{/toggle\_simulated\_high\_cov}
+\end{itemize}
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
