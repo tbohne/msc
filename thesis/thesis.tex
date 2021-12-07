@@ -1234,7 +1234,69 @@ If the type is \code{COVARIANCE\_TYPE\_KNOWN}, the covariances can be fully used
 user-specified high variance threshold, normal operation is interrupted by publishing to \code{/contingency\_preemption}. Moreover, if the type is 
 \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the GNSS receiver provides the variance of each measurement, and the same check is performed only for the diagonal values.
 If the type is \code{COVARIANCE\_TYPE\_APPROXIMATED}, it can be considered, but with caution, without giving it too much weight. All values are checked as in the first case,
-but high covariances exceeding the threshold do not cause a contingency, only a message on \code{/robot\_info}.
+but high covariances exceeding the threshold do not cause a contingency, only a message on \code{/robot\_info}.\newline
+As always, evaluation of potential problem cases as well as monitoring procedures requires simulation of such cases, which is performed in the \code{GNSS Simulator} described above.
+The timeout failure can be easily simulated by unsubscribing the \code{/fix\_plugin} topic for a period of time that exceeds the time limit. Quality estimation can be evaluated by
+simply configuring the status, covariance information, and service according to the above definition. Monitoring of status, service and position belief state can be simulated by
+setting inappropriate values for each. Likewise, absolute covariance monitoring as well as covariance history analysis can be tested by simulating the respective problems.
+Let the type be \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the user-specified history length $4$, and the covariance increase threshold $15$. Covariance monitoring can then be tested
+by publishing the following covariance progression ($4$ messages in sequence):
+\begin{figure}[H]
+    \begin{subfigure}[b]{0.24\textwidth}
+    \centering
+        $\left(
+        \begin{array}{rrr}
+        \boldsymbol{4.2} & 0.0 & 0.0 \\
+        0.0 & \boldsymbol{2.4} & 0.0 \\
+        0.0 & 0.0 & \boldsymbol{4.5} \\
+        \end{array} \right) $
+        \caption{\textsc{}}
+        \label{fig:oldest}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+    \centering
+        $\left(
+        \begin{array}{rrr}
+        \boldsymbol{5.1} & 0.0 & 0.0 \\
+        0.0 & \boldsymbol{3.8} & 0.0 \\
+        0.0 & 0.0 & \boldsymbol{4.8} \\
+        \end{array} \right) $
+        \caption{\textsc{}}
+        \label{fig:}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+    \centering
+        $\left(
+        \begin{array}{rrr}
+        \boldsymbol{12.0} & 0.0 & 0.0 \\
+        0.0 & \boldsymbol{8.2} & 0.0 \\
+        0.0 & 0.0 & \boldsymbol{9.3} \\
+        \end{array} \right) $
+        \caption{\textsc{}}
+        \label{fig:}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+    \centering
+        $\left(
+        \begin{array}{rrr}
+        \boldsymbol{21.4} & 0.0 & 0.0 \\
+        0.0 & \boldsymbol{19.7} & 0.0 \\
+        0.0 & 0.0 & \boldsymbol{12.3} \\
+        \end{array} \right) $
+        \caption{\textsc{}}
+        \label{fig:latest}
+    \end{subfigure}
+\caption{\textsc{Covariance Matrix History (old to new)}}
+\label{fig:cov_history}
+\end{figure}
+\noindent
+The covariance progression depicted in fig. \ref{fig:cov_history} is expected to cause a contingency for various reasons, e.g. due to the fact that the history only
+contains increasing variance values for the east component ($4.2 m^2 \rightarrow 5.1 m^2 \rightarrow 12.0 m^2 \rightarrow 21.4 m^2$) and the overall absolute increase between
+the east variance of the oldest (cf. fig. \ref{fig:oldest}) and latest (cf. fig. \ref{fig:latest}) covariance matrices exceeds the defined threshold of $15 m^2$.
+It is reasonable to interrupt normal operation in such a case, as such a covariance progression poses great challenges for localization.
 
 \subsection{Obstacles Blocking the Planned Path}
 \label{sec:sim_and_mon_obstacles}
