@@ -946,7 +946,34 @@ There are two ways to incorporate weather information, either by having the robo
 it would be good to identify extreme weather conditions that could affect the proper functioning of the system in order to react accordingly, i.e. return to the base station and
 seek shelter. Since we live in a world where local weather information is quite readily available and the robot's sensing capabilities would also be limited in its ability to
 reasonably detect it, external weather information is used. In addition, realistic simulation of weather phenomena is a difficult task that would shift the focus of the work.
-Thus, the robot does not detect extreme weather conditions itself through its sensors, but relies on external local weather data.
+Thus, the robot does not detect extreme weather conditions itself through its sensors, but relies on external local weather data. To retrieve local weather information, a Python
+wrapper of the \textit{OpenWeatherMap} API\footnote{https://openweathermap.org/api} is used, guaranteeing cross-platform applicability. Initially, the weather monitoring node
+establishes a connection to the \textit{OpenWeatherMap} API. If successful, it continuously requests local weather data at a user-configurable frequency, e.g. every half hour.
+As weather data should be based on the current location of the robot, the node maintains a subscription to the \code{/fix} topic described in section
+\ref{sec:sim_and_mon_gnss_connection_problems}, through which \code{NavSatFix} messages containing the latitude and longitude of the robot's current presumed position arrive as
+new GNSS data is made available. These coordinates are used to retrieve local weather information from the \textit{OpenWeatherMap} API. After parsing the data relevant for
+monitoring, the actual monitoring at the user-specified frequency begins. First, the current rain volume $r_v$ in $mm/h$ is monitored based on two cases: If $7.6 > r_v > 2.6$,
+the rain is considered moderate and manageable, so an information is published to the operator, but the robot continues its work. When $r_v > 7.6$, the rain is considered heavy,
+causing the robot to interrupt its mission and launch a contingency. This classification of precipitation intensity stems from the American Meteorological Society's
+\textit{Glossary of Meteorology}\footnote{https://glossary.ametsoc.org/wiki/Rain}. Analogously, the current snow volume $s_v$ is monitored in $mm/h$. When $2.0 > s_v > 0.5$, it is
+considered bearable and only the operator is informed about the situation, but if $s_v > 2.0$, an interruption of the work is initiated. The next aspect monitored is the wind speed,
+where \textit{OpenWeatherMap} distinguishes between a general wind speed and a gust speed. The former refers to a prolonged wind speed and the latter to sudden gusts of wind.
+Since both can be dangerous for the operation of the robot, they are monitored together and summarized as wind speed $w_s$ in $m/s$ in the following. If $14.0 > w_s > 11.0$, the
+robot continues its work but informs the operator of a \textquote{strong breeze}. When $20.0 > w_s > 14.0$, the robot still continues its work, but informs the operator of a gale
+and that it is starting to get critical. When $28.0 > w_s > 21.0$, the robot interrupts its mission and informs the operator of a strong gale and the risk of structural damage.
+Moreover, at $33.0 > w_s > 28.0$, the robot reports a storm force and a very high risk of structural damage and aborts its mission. Finally, at $w_s > 33.0$, it aborts its operations
+and reports a hurricane and a very high risk of severe and extensive structural damage. Wind speed classification limits are based on wind speed estimates from the US Department of
+Commerce's \textit{National Weather Service}\footnote{https://www.weather.gov/pqr/wind}. Furthermore, the temperature is monitored in \textdegree{}C based on $t_{min}$ and $t_{max}$,
+the minimum and maximum temperatures measured in the robot's further surroundings, as well as $t$, the current temperature at the robot's location. It is reasonable to assume both
+an upper and a lower limit for the temperature in the robot's working environment. As such lower and upper bounds depend heavily on the robotic system in question as well as its
+sensor equipment, the limits are user-configurable. By default, a contingency due to excessive temperatures is initiated when $t > 40$ or $t_{max} > 40$. Likewise, the robot
+interrupts its mission due to extreme cold when $t < -5$ or $t_{min} < -5$, e.g. because this could be problematic for the system's battery. The \textit{OpenWeatherMap} API
+additionally provides a weather condition code\footnote{https://openweathermap.org/weather-conditions} for each situation, which is well-suited for systematic monitoring.
+Based on these codes, it is easy to interrupt the mission for all possible variants of thunderstorms. Besides the specific checks for precipitation amounts mentioned above,
+there are also codes for variations of heavy rain and snow that are used as indicator for contingencies. Additionally, codes for squalls, tornados, and atmospheric features
+such as mist, smoke, or fog are used to interrupt the mission. Eventually, the \textit{OpenWeatherMap} information also contains the sunrise and sunset times. Since the robot
+requires daylight for its missions, it also interrupts them when it approaches or even exceeds sunset or when it tries to start before sunrise. Of course, all upper and lower bounds
+for the attributes of the current weather situation are in principle configurable by the user, but are set to reasonable default values from the literature.
 
 \subsection{Sensor (Perception) Failure}
 \label{sec:sim_and_mon_sensor_failures}
