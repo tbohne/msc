@@ -973,7 +973,15 @@ Based on these codes, it is easy to interrupt the mission for all possible varia
 there are also codes for variations of heavy rain and snow that are used as indicator for contingencies. Additionally, codes for squalls, tornados, and atmospheric features
 such as mist, smoke, or fog are used to interrupt the mission. Eventually, the \textit{OpenWeatherMap} information also contains the sunrise and sunset times. Since the robot
 requires daylight for its missions, it also interrupts them when it approaches or even exceeds sunset or when it tries to start before sunrise. Of course, all upper and lower bounds
-for the attributes of the current weather situation are in principle configurable by the user, but are set to reasonable default values from the literature.\newline
+for the attributes of the current weather situation are in principle configurable by the user, but are set to reasonable default values from the literature.  In all contingency
+cases, the weather monitoring node publishes a message on the \code{/contingency\_preemption} topic indicating the particular type of weather condition and causing a transition to
+the \code{CONTINGENCY} state where an appropriate resolution method is selected and launched. Afterwards, it transitions to a kind of passive monitoring mode where it no longer
+triggers contingencies etc., but only waits until the weather situation is moderate again and reports this on the topic \code{/moderate\_weather}. In addition, it listens to a
+topic where the resolver provides its results. If successful, the weather monitoring transitions to active monitoring again.
+Similarly, the information that does not require interruption of the mission is transmitted via the \code{/robot\_info} topic. Aside from the
+information relevant to monitoring, there is some other information that may be of interest to the operator. Therefore, a full weather report can be configured to be communicated
+to the operator at specified intervals, e.g. once a day. Beyond those already discussed, this information includes observation time, a general status description, the cloudiness
+percentage, the humidity, the atmospheric pressure and the wind direction.\newline
 As always, in order to evaluate the monitoring procedures, a simulation of the various scenarios must be provided. This simulation takes place in the parser for
 \textit{OpenWeatherMap} data. Based on the developed weather monitoring node, it is failry trivial to simulate the occurrence of such extreme weather conditions by simply setting
 the attributes to extreme values, e.g. a heavy rain scenario can be simulated by setting the corresponding rain volume $r_v = 8$. Likewise, a heavy snow situation can be simulated
@@ -1432,7 +1440,8 @@ fallback solution of calling the operator for help is executed (cf. sec. \ref{se
 resolver subscribes to and on which the weather monitoring node publishes. After a contingency, the weather monitor transitions to a kind of passive monitoring where it no longer
 initiates contingencies etc., but just passively observes the weather and estimates whether it has returned to moderate. If this is the case, it notifies the resolution procedure,
 which then reports back successful resolution, and the high-level state machine can resume plan execution in normal operation mode. Finally, the weather monitoring node switches
-back to active monitoring.
+back to active monitoring. In summary, the robot seeks shelter in extreme weather situations, uses the time to recharge its battery, and waits until conditions are moderate before
+continuing to execute the plan.
 
 \chapter{Integrated Solutions}
 
