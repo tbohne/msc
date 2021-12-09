@@ -973,7 +973,19 @@ Based on these codes, it is easy to interrupt the mission for all possible varia
 there are also codes for variations of heavy rain and snow that are used as indicator for contingencies. Additionally, codes for squalls, tornados, and atmospheric features
 such as mist, smoke, or fog are used to interrupt the mission. Eventually, the \textit{OpenWeatherMap} information also contains the sunrise and sunset times. Since the robot
 requires daylight for its missions, it also interrupts them when it approaches or even exceeds sunset or when it tries to start before sunrise. Of course, all upper and lower bounds
-for the attributes of the current weather situation are in principle configurable by the user, but are set to reasonable default values from the literature.
+for the attributes of the current weather situation are in principle configurable by the user, but are set to reasonable default values from the literature.\newline
+As always, in order to evaluate the monitoring procedures, a simulation of the various scenarios must be provided. This simulation takes place in the parser for
+\textit{OpenWeatherMap} data. Based on the developed weather monitoring node, it is failry trivial to simulate the occurrence of such extreme weather conditions by simply setting
+the attributes to extreme values, e.g. a heavy rain scenario can be simulated by setting the corresponding rain volume $r_v = 8$. Likewise, a heavy snow situation can be simulated
+by setting $s_v = 3$. The simulation of the remaining extreme weather events can be triggered analogously and can be activated / deactivated via the following ROS topics:
+\begin{itemize}
+    \item \textbf{heavy rain} \textrightarrow \code{/toggle\_rain\_sim}
+    \item \textbf{heavy snow} \textrightarrow \code{/toggle\_snow\_sim}
+    \item \textbf{gale} \textrightarrow \code{/toggle\_wind\_sim}
+    \item \textbf{low temperature} \textrightarrow \code{/toggle\_low\_temp\_sim}
+    \item \textbf{thunderstorm} \textrightarrow \code{/toggle\_thuderstorm\_sim}
+    \item \textbf{sunset} \textrightarrow \code{/toggle\_sunset\_sim}
+\end{itemize}
 
 \subsection{Sensor (Perception) Failure}
 \label{sec:sim_and_mon_sensor_failures}
