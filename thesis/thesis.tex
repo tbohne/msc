@@ -977,7 +977,8 @@ for the attributes of the current weather situation are in principle configurabl
 As always, in order to evaluate the monitoring procedures, a simulation of the various scenarios must be provided. This simulation takes place in the parser for
 \textit{OpenWeatherMap} data. Based on the developed weather monitoring node, it is failry trivial to simulate the occurrence of such extreme weather conditions by simply setting
 the attributes to extreme values, e.g. a heavy rain scenario can be simulated by setting the corresponding rain volume $r_v = 8$. Likewise, a heavy snow situation can be simulated
-by setting $s_v = 3$. The simulation of the remaining extreme weather events can be triggered analogously and can be activated / deactivated via the following ROS topics:
+by setting $s_v = 3$. The simulation of the remaining extreme weather events can be triggered analogously. Weather-related challenges for LTA can be dealt with using the resolver
+described in section \ref{sec:weather_resolver}. Simulating extreme weather events can be activated / deactivated via the following ROS topics:
 \begin{itemize}
     \item \textbf{heavy rain} \textrightarrow \code{/toggle\_rain\_sim}
     \item \textbf{heavy snow} \textrightarrow \code{/toggle\_snow\_sim}
