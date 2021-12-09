@@ -1405,12 +1405,11 @@ communicates the failure reason to the resolver classes. If available, the speci
 high-level state machine, which either continues normal operation if the problem is successfully solved, or aggravates to catastrophe, for example. If the specific resolver
 method is not able to handle the problem, or if there is not even a specific resolver method for the failure case, the problem is handed over to the fallback resolver,
 which passes the problem to the human operator and awaits resolution. If the respective failure was caused by a simulation, the corresponding flag must be reset to restore
-normal operation, which is done by publishing on the particular toggle topic described in section \ref{sec:sim_and_mon_of_lta_challenges}.\newline
+normal operation, which is done by publishing on the particular toggle topic described in section \ref{sec:sim_and_mon_of_lta_challenges}.
 
-\noindent
-\textbf{Communication with a Human Operator}\newline
+\subsection{Fallback Solution - Requesting Help of a Human Operator}
+\label{sec:fallback_solution}
 
-\noindent
 Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention or providing useful information about the state
 of the robot or mission, is implemented as a separate \code{OperatorCommunication} class. The robot-human communication module is subscribed to three different topics. First,
 a message on \code{/request\_help\_contingency} indicates that the robot is requesting the help of a human operator, but is still functioning in principle. The second topic
@@ -1419,6 +1418,20 @@ which is used for minor problems or tasks that do not require immediate action, 
 can be returned to the autonomous mobile robot via the \code{/problem\_solved} topic once the problem has been solved by the human operator. All the monitoring modules described
 in section \ref{sec:sim_and_mon_of_lta_challenges} are subscribed to the \code{/robot\_info} topic and thus able to communicate relevant information. The more critical topics for
 contingency and catastrophe cases can be triggered by the fallback resolver described in the last section.
+
+\subsection{Drastic Weather Change}
+\label{sec:weather_resolver}
+
+The resolver, which is launched after normal operation is interrupted when somewhat extreme weather conditions are detected by the monitoring procedures described in section
+\ref{sec:sim_and_mon_drastic_weather}, operates as follows. All contingencies based on extreme weather events are resolved in the same manner: The robot returns to its base,
+i.e. the mobile container, and seeks shelter. Thus, a \code{move\_base\_flex} navigation goal with the coordinates of the base station is executed. If successful, the robot
+should charge its battery while waiting for moderate weather, i.e. it will be docked to the charging station in the base and start charging. When the battery is fully charged,
+the robot waits for clearance before continuing its mission. If something goes wrong during this resolution attempt, e.g. the \code{move\_base\_flex} navigation fails, the
+fallback solution of calling the operator for help is executed (cf. sec. \ref{sec:fallback_solution}). Clearance is transmitted via a topic \code{/moderate\_weather} to which the
+resolver subscribes to and on which the weather monitoring node publishes. After a contingency, the weather monitor transitions to a kind of passive monitoring where it no longer
+initiates contingencies etc., but just passively observes the weather and estimates whether it has returned to moderate. If this is the case, it notifies the resolution procedure,
+which then reports back successful resolution, and the high-level state machine can resume plan execution in normal operation mode. Finally, the weather monitoring node switches
+back to active monitoring.
 
 \chapter{Integrated Solutions}
 
