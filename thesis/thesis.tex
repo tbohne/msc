@@ -942,12 +942,11 @@ A failed charging process is again quite easy to simulate based on a controllabl
 \subsection{Drastic Weather Change}
 \label{sec:sim_and_mon_drastic_weather}
 
-As described in the section on simulations, there are two ways to incorporate weather information, either by having the robot detect it with its own sensors or by 
-utilizing external weather information. In any case, it would be good to identify extreme weather conditions that could affect the proper functioning of the system 
-in order to react accordingly, i.e. return to the base station and seek shelter.\newline
-Although such weather conditions are difficult to simulate realistically, it might be worthwhile to implement at least a subset of them in the Gazebo
-simulation to get an idea of how to detect them. But even if that is not realistically feasible within the scope of the work, there would be a second
-option, in which the robot does not detect extreme weather conditions itself through its sensors, but simply relies on external local weather information.
+There are two ways to incorporate weather information, either by having the robot detect it with its own sensors or by utilizing external weather information. In any case,
+it would be good to identify extreme weather conditions that could affect the proper functioning of the system in order to react accordingly, i.e. return to the base station and
+seek shelter. Since we live in a world where local weather information is quite readily available and the robot's sensing capabilities would also be limited in its ability to
+reasonably detect it, external weather information is used. In addition, realistic simulation of weather phenomena is a difficult task that would shift the focus of the work.
+Thus, the robot does not detect extreme weather conditions itself through its sensors, but relies on external local weather data.
 
 \subsection{Sensor (Perception) Failure}
 \label{sec:sim_and_mon_sensor_failures}
