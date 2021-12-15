@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /ODOMETRY1/Shape1
       Splitter Ratio: 0.6739726066589355
     Tree Height: 1027
   - Class: rviz/Selection
@@ -25,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: VelodynePointCloud
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -411,6 +412,156 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Alpha: 1
+      Class: rviz_plugin_tutorials/Imu
+      Color: 204; 51; 204
+      Enabled: true
+      History Length: 1
+      Name: IMU
+      Queue Size: 10
+      Topic: /imu_data
+      Unreliable: false
+      Value: true
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 100
+      Name: ODOMETRY
+      Position Tolerance: 0.10000000149011612
+      Queue Size: 10
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.5
+        Head Radius: 0.30000001192092896
+        Shaft Length: 1
+        Shaft Radius: 0.09000000357627869
+        Value: Arrow
+      Topic: /odom
+      Unreliable: false
+      Value: false
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 100
+      Name: ODOM_FILTERED_MAP
+      Position Tolerance: 0.10000000149011612
+      Queue Size: 10
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /odometry/filtered_map
+      Unreliable: false
+      Value: false
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 100
+      Name: ODOM_FILTERED_ODOM
+      Position Tolerance: 0.10000000149011612
+      Queue Size: 10
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /odometry/filtered_odom
+      Unreliable: false
+      Value: false
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 100
+      Name: ODOM_GPS
+      Position Tolerance: 0.10000000149011612
+      Queue Size: 10
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /odometry/gps
+      Unreliable: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -439,7 +590,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 61.745487213134766
+      Distance: 65.12116241455078
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -447,9 +598,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -6.845309257507324
-        Y: 29.343210220336914
-        Z: -0.028386300429701805
+        X: -4.879987716674805
+        Y: 25.977834701538086
+        Z: -4.430484294891357
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -457,7 +608,7 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 1.4404021501541138
+      Yaw: 1.5104023218154907
     Saved: ~
 Window Geometry:
   Displays:
