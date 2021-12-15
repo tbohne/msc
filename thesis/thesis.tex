@@ -1408,11 +1408,16 @@ topic where the GNSS information is converted to the same format as the odometry
 \code{/odometry/filtered\_odom} is the result of sensor fusion of odometry and IMU data using \code{robot\_localization}. Thus,
 the difference between what arrives on \code{/odom} and \code{/odometry/filtered\_odom} is due to the IMU. Unfortunately, it is
 fairly common for IMU, GNSS, and odometry estimates to diverge considerably. That is why they are used in combination, their
-weaknesses cancel each other out, which is why they complement each other well. Since the monitoring of the GNSS quality is
-already part of connection monitoring (cf. section \ref{sec:}), a high quality is assumed for this component because if this
-were not the case, it would already have been detected by the corresponding connection monitoring approaches. Consequently, if
-the connection monitoring does not report GNSS problems, it should be sufficiently accurate to be used to validate the other
-components, i.e. IMU and odometry.\newline
+weaknesses cancel each other out, which is why they complement each other well. Odometry, for instance, is very good at continuously approximating the distance traveled,
+i.e. the length of the trajectory, but is highly inaccurate when it comes to curves, which is why the trajectory can be in a completely wrong direction but with correct length.
+A strength of GNSS, on the other hand, is the measurement / estimation of the absolute position. Yet, a single GNSS data point does not provide any orientation information at all.
+As for the IMU, in principle one could try to use the linear acceleration (subtracting gravity) measured with the IMU to estimate the distance traveled by first integrating the
+acceleration to get the velocity and subsequently integrating the velocity to obtain the displacement. Unfortunately, this process of double integration is numerically unstable
+and becomes very inaccurate as even small sensor errors quickly explode. \cite{Yan:2018} As Yan et al. note, such an approach is not feasible unless one has access to an extremely
+expensive military-grade IMU, which is generally not the case in field observation scenarios. Since the monitoring of the GNSS quality is already part of connection monitoring
+(cf. section \ref{sec:}), a high quality is assumed for this component because if this were not the case, it would already have been detected by the corresponding connection
+monitoring approaches. Consequently, if the connection monitoring does not report GNSS problems, it should be sufficiently accurate to be used to validate the other components,
+i.e. IMU and odometry.\newline
 // SIM:\newline
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
 \textit{kidnapped robot problem}.
