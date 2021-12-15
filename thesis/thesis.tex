@@ -1385,10 +1385,35 @@ blocked and there is no other way.
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
 
-It would be very valuable to develop a monitoring approach that is capable of realizing situations in which the localization is no longer accurate, as there is a 
-simple workaround that alleviates the problem in practice in many cases: Just driving the robot a few meters back and forth to recalibrate the localization
-using different GNSS positions. Since the localization is based not only on GNSS, but also on IMU and odometry data, it would also be very valuable to identify
-the errors that occur there, but that is beyond the scope of this work.\newline
+It would be very valuable to develop a monitoring approach that is capable of realizing situations in which the localization is no
+longer accurate, as there is a simple workaround that alleviates the problem in practice in many cases: Just driving the robot
+a few meters back and forth to recalibrate the localization using different GNSS positions. The localization of the AROX system
+is based on three components, IMU (inertial measurement unit), odometry and GNSS data. An implementation of a generalized
+extended Kalman filter (cf. ROS community package \code{robot\_localization}) is used to fuse the data from the different
+sensors. The idea of a localization monitoring procedure is to measure the quality of localization. In absolute values, the
+quality of localization cannot be determined. Of course, one could compare the used localization to another localization method,
+i.e. to a redundant system. An example of such a redundant system could be a landmark localization where, for example, there are
+fixed measured (known) reference points to which the robot can go to compare with its current localization. In the scenario
+considered, however, such a system does not yet exist. Therefore, the plausibility of the localization can only be estimated
+from the sensor data, which is retrievable via ROS topics (\code{/imu\_data}, \code{/odom}, \code{/odometry/filtered\_odom},
+\code{/odometry/gps}). The messages arriving on these topics are of type \code{sensor\_msgs/Imu.msg} and
+\code{nav\_msgs/Odometry.msg} respectively. The GNSS is perhaps the easiest component to monitor because if the position estimates
+have a high variance, i.e., are not very reliable, it is probably not very accurate at the moment. GNSS monitoring is already part
+of the connection monitoring described in section \ref{sec:}. In contrast, IMU and odometry data are not as straightforward to
+verify. One idea is to let the robot take known states and check if the values are what would be expected, e.g. let the robot
+stand still and check whether the IMU values (angular velocity and linear acceleration) are approximately zero. Likewise, if no
+control values are sent to the motors, the odometry values (twist) should be approximately zero. Since GNSS information cannot be
+imediately compared to odometry data because the position is given in latitude and longitude, there is the \code{/odometry/gps}
+topic where the GNSS information is converted to the same format as the odometry data, i.e. \code{Odometry.msg}. Moreover,
+\code{/odometry/filtered\_odom} is the result of sensor fusion of odometry and IMU data using \code{robot\_localization}. Thus,
+the difference between what arrives on \code{/odom} and \code{/odometry/filtered\_odom} is due to the IMU. Unfortunately, it is
+fairly common for IMU, GNSS, and odometry estimates to diverge considerably. That is why they are used in combination, their
+weaknesses cancel each other out, which is why they complement each other well. Since the monitoring of the GNSS quality is
+already part of connection monitoring (cf. section \ref{sec:}), a high quality is assumed for this component because if this
+were not the case, it would already have been detected by the corresponding connection monitoring approaches. Consequently, if
+the connection monitoring does not report GNSS problems, it should be sufficiently accurate to be used to validate the other
+components, i.e. IMU and odometry.\newline
+// SIM:\newline
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
 \textit{kidnapped robot problem}.
 
