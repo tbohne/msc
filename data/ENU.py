@@ -14,4 +14,5 @@ alt1 = 63        # meters
 
 print("DFKI ( lat:", lat1, "lng:", lng1, "alt:", alt1, ")")
 
-print("ENU:", pm.geodetic2enu(lat0, lng0, alt0, lat1, lng1, alt1))
+# (transform (lat1,lng1,alt1) to ENU with origin (lat0,lng0,alt0))
+print("ENU:", pm.geodetic2enu(lat1, lng1, alt1, lat0, lng0, alt0))
