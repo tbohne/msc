@@ -1291,12 +1291,12 @@ Thus, one has to consider $\sqrt{c_{ii}} \thinspace \forall \thinspace i \in \{E
 currently spread in meters. In general, a minor standard deviation implies that the uncertainty about the current estimated position is very small, making the estimate very accurate.
 The monitoring for GNSS failures works as follows. First, there is a quality estimation for the currently received GNSS data based on the information in the \code{NavSatFix} message.
 The quality is rated as good, if the status is \code{STATUS\_GBAS\_FIX}, i.e. with ground-based augmentation such as RTK, the covariance type is $\geq$ 
-\code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN} (diagonal known or entirely known), and each deviation, i.e. the square root of the values on the diagonal of the
-covariance matrix, is $\leq d_{max} \in \mathbb{R}_{0}^{+}$, which is an upper bound of what is considered to be a reasonable deviation by the user. The last entry of the matrix, i.e. the
-variance of the \textquote{Up-component}, may not always be present, so \code{float(`nan')} is also accepted here. It is
-classified as medium if the status is $\geq$ \code{STATUS\_FIX}, the covariance type is $\geq$ \code{COVARIANCE\_TYPE\_APPROXIMATED}, and the deviations in turn satisfy the upper
-limit of reasonable deviations specified by the user. Finally, it is classified as low if it provides a position belief state ($\geq$ \code{STATUS\_FIX}), but the covariance type
-is unknown. So much for the qualitative assessment of a GNSS link that works in principle.\newline
+\code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN} (diagonal known or entirely known), and each standard deviation, i.e. the square root of the values on the diagonal of the
+covariance matrix, is $\leq d_{max} \in \mathbb{R}_{0}^{+}$, which is an upper bound of what is considered to be a reasonable deviation by the user. The last entry of the matrix,
+i.e. the variance of the \textquote{Up-component}, may not always be present, so \code{float(`nan')} is also accepted here. It is
+classified as medium if the status is $\geq$ \code{STATUS\_FIX}, the covariance type is $\geq$ \code{COVARIANCE\_TYPE\_APPROXIMATED}, and the standard deviations in turn satisfy the
+upper limit of reasonable deviations specified by the user. Finally, it is classified as low if it provides a position belief state ($\geq$ \code{STATUS\_FIX}), but the covariance
+type is unknown. So much for the qualitative assessment of a GNSS link that works in principle.\newline
 The first type of monitoring for real failures is the status monitoring. If the status is not set to one of the available options (\code{STATUS\_NO\_FIX}, \code{STATUS\_FIX},
 \code{STATUS\_SBAS\_FIX}, \code{STATUS\_GBAS\_FIX}), a contingency is initiated, i.e. a message on \code{/contingency\_preemption} interrupts the normal operation.
 Furthermore, if the status is \code{STATUS\_NO\_FIX}, the GNSS system was unable to find the position, which is certainly a problem for localization that causes a contingency
@@ -1307,22 +1307,21 @@ monitoring. It is ensured that both values are present and satisfy their respect
 because many GNSS receivers do not provide this information. Eventually, there is covariance monitoring. First, it is checked whether the covariance type corresponds to one of the
 available options (\code{COVARIANCE\_TYPE\_UNKNOWN}, \code{COVARIANCE\_TYPE\_APPROXIMATED}, \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, \code{COVARIANCE\_TYPE\_KNOWN}). Otherwise,
 a notification is sent to the operator, but of course not a contingency, as this is not critical. The most meaningful components of the covariance matrix are the variances or, more
-precisely, the deviations, i.e. the square root of the diagonal values, because they actually provide information about the accuracy of the estimated position.
+precisely, the standard deviations, i.e. the square root of the diagonal values, because they actually provide information about the accuracy of the estimated position.
 As for the actual deviation values, two things can be observed: The absolute values (appropriate / too high) and the progression over time.
 The latter is implemented as a variance history in the form of a fixed-length list that always stores the diagonals of the last $n \in \mathbb{N}$
 covariance matrices and replaces the oldest one when a new one arrives. The length $n$ is again configurable by the user. In the analysis of the variance
-history, the square roots, i.e. the deviations, are considered, since, as mentioned, these are the crucial values provided by most GNSS receivers.
+history, the square roots, i.e. the standard deviations, are considered, since, as mentioned, these are the crucial values provided by most GNSS receivers.
 Whenever the covariance type of an incoming \code{NavSatFix} message is $\geq$ \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the history is updated. On the arrival of new feasible 
-messages, the deviation progression is analyzed.
-Such an analysis primarily examines the deviations of the east and north components, but also those of the upward component, if present. First, it is checked whether the history
-contains only increasing values for the respective component. If this is the case and, in addition, the difference between the oldest and the newest deviation is greater than a
-user-defined significant deviation increase $d_{inc} \in \mathbb{R}_{0}^{+}$, a contingency is initiated. Thus, the definition of a bad deviation progression is exclusively
-increasing values together with an overall absolute increase between the oldest and latest value that exceeds a certain threshold.
+messages, the deviation progression is analyzed. Such an analysis primarily examines the standard deviations of the east and north components, but also those of the upward component,
+if present. First, it is checked whether the history contains only increasing values for the respective component. If this is the case and, in addition, the difference between the
+oldest and the newest deviation is greater than a user-defined significant deviation increase $d_{inc} \in \mathbb{R}_{0}^{+}$, a contingency is initiated. Thus, the definition of a
+bad deviation progression is exclusively increasing values together with an overall absolute increase between the oldest and latest value that exceeds a certain threshold.
 Finally, there is one last check, which relates to the absolute values. If the type is $\geq$ \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the present variances 
 $c_{ii} \in \mathbb{R}_{0}^{+}$ can with a clear conscience be used for quality assessment. If any of the values exceeds a user-specified maximum deviation threshold,
 i.e. $\exists c_{ii} : \sqrt{c_{ii}} > d_{max}$, normal operation is interrupted by publishing to \code{/contingency\_preemption}. 
 If the type is \code{COVARIANCE\_TYPE\_APPROXIMATED}, the variances can be considered, but with caution, without giving it too much weight.
-The deviation values $\sqrt{c_{ii}}$ are checked, but high deviations exceeding the threshold do not cause a contingency, only a message on \code{/robot\_info}.
+The deviation values $\sqrt{c_{ii}}$ are checked, but high standard deviations exceeding the threshold do not cause a contingency, only a message on \code{/robot\_info}.
 In principle, it would also be useful to monitor the off-diagonal elements of the covariance matrix, i.e. the actual covariances, since these elements provide information about the
 reciprocal relationship of the directions under consideration. For instance, if $c_{NE} < 0$, a negative error in the north direction is likely to be matched by a positive error in
 the east direction, and vice versa. However, in the scope of this work, the monitoring of the covariance matrix will be limited to the above cases.\newline
