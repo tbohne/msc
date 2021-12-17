@@ -1245,9 +1245,10 @@ tells whether a GBAS was utilized during positioning. Essentially, RTK is a spec
 options are user-configurable in the \code{GNSS Simulator}. Whether we are in simulation or using the real AROX in practice, with the setup described we always know if RTK data
 is currently being received. Additionally configurable, part of the \code{NavSatFix} message, and given in practice are the service options, i.e. the actual GNSS services used to
 retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} and \textit{Galileo}. Eventually, the GNSS covariance type as well as the covariances themselves are part of a
-\code{NavSatFix} and thus configurable in the \code{GNSS Simulator}. Covariances are commonly represented as a square matrix containing the covariance for each pair of variables.
-These matrices have the property of being symmetric, that is, the covariance of $(X, Y)$ is the same as the covariance of $(Y, X)$, and providing the variances of the variables on
-their diagonal, since the diagonal contains the covariance of each variable with itself, which is equal to the variance of that variable. \code{NavSatFix} distinguishes different
+\code{NavSatFix} and thus configurable in the \code{GNSS Simulator}. Covariances are commonly represented as a square matrix $C$ containing the covariance $c_{ij}$ for each pair
+of variables $i, j$ in the considered domain $D$. These matrices have the property of being symmetric, that is, the covariance $c_{ij} \in C$ is the same as the covariance 
+$c_{ji} \in C$, and provide the variances of the variables on their diagonal, since the covariance $c_{ii}$ of each variable $i \in D$ with itself is equal to the variance of
+that variable. \code{NavSatFix} distinguishes different
 types of position covariances. First, \code{COVARIANCE\_TYPE\_UNKNOWN} if the GNSS receiver does not yield a quality estimate and the GNSS data should be treated with caution.
 \code{COVARIANCE\_TYPE\_APPROXIMATED} means that the GNSS receiver does not provide covariance values, but instead supplies another quality estimate, such as dilution of precision
 (DOP). The covariance values are then approximated based on this estimate. If the GNSS receiver gives at least the variances or standard deviations of the individual measurements,
@@ -1260,9 +1261,9 @@ system relative to a local origin has the advantage that it allows one to work w
 \textit{Innovation Center Osnabrueck (ICO)} and the \textit{DFKI-Labor Niedersachsen}, shown in fig. \ref{fig:ICO_DFKI_map}. A typical GNSS receiver estimates positions in
 geodetic coordinates - latitude (degrees), longitude (degrees), and altitude (meters), e.g. \textit{ICO} $(52.287690, 8.018690, 63.0)$ and \textit{DFKI} $(52.287863, 8.027347, 63.0)$.
 Let the ENU representation be constructed with respect to the \textit{ICO} location. This location is the origin of the local coordinate system, i.e. the location where the tangent
-plane touches the Earth's surface. The two-dimensional \textquote{East-North-plane}, together with the \textquote{Up-axis} perpendicular to the Earth at the reference point, form
+plane meets the Earth's surface. The two-dimensional \textquote{east-north-plane}, together with the \textquote{up-axis} perpendicular to the Earth at the reference point, form
 the local Cartesian coordinate system. This is, of course, only an approximation that is feasible for relatively small areas, since the Earth's curvature would have to be taken
-into consideration for larger areas. Now another location, for instance, that of the \textit{DFKI}, is considered. The ENU representation provides the information where this point
+into consideration for larger areas. Now another location, for instance that of the \textit{DFKI}, is considered. The ENU representation provides the information where this point
 of interest is located in the local coordinate system in meters. The result of converting the geodetic coordinates of the DFKI to the ENU system ($590.7, 19.3, 0.0$), is displayed
 in fig. \ref{fig:ICO_DFKI_ENU}, i.e. the DFKI is located $590.7 m$ east and $19.3 m$ north of the ICO site. In this case, both locations have the same height.
 \begin{figure}[H]
@@ -1284,9 +1285,10 @@ in fig. \ref{fig:ICO_DFKI_ENU}, i.e. the DFKI is located $590.7 m$ east and $19.
 \label{fig:ENU_example}
 \end{figure}
 \noindent
-The position covariances in a \code{NavSatFix} message are defined in square meters relative to the tangential plane, i.e. a $3 \times 3$ matrix of ENU components. Thus, one has to
-take the square root of the values on the diagonal of the matrix to end up with the actual deviation in meters, i.e. how widely the GNSS values are currently spread in meters. In
-general, a minor deviation implies that the uncertainty about the current estimated position is very small, making the estimate very accurate.
+The position covariances $c_{ij}$ in a \code{NavSatFix} message are defined in square meters relative to the tangential plane.
+The ENU system is composed of the three variables east ($E$), north ($N$), and up ($U$), i.e. $c_{ij} \in C_{3 \times 3}$ with $i, j \in \{E, N, U\}$.
+Thus, one has to consider $\sqrt{c_{ii}} \thinspace \forall \thinspace i \in \{E, N, U\}$ to end up with the standard deviation in meters, i.e. how widely the GNSS approximations are
+currently spread in meters. In general, a minor standard deviation implies that the uncertainty about the current estimated position is very small, making the estimate very accurate.
 The monitoring for GNSS failures works as follows. First, there is a quality estimation for the currently received GNSS data based on the information in the \code{NavSatFix} message.
 The quality is rated as good, if the status is \code{STATUS\_GBAS\_FIX}, i.e. with ground-based augmentation such as RTK, the covariance type is $\geq$ 
 \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN} (diagonal known or entirely known), and each deviation, i.e. the square root of the values on the diagonal of the
