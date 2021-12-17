@@ -1289,10 +1289,11 @@ Thus, one has to take the square root of the values to end up with the actual de
 provides information on how widely the GNSS values are currently spread in meters.
 The monitoring for GNSS failures works as follows. First, there is a quality estimation for the currently received GNSS data based on the information in the \code{NavSatFix} message.
 The quality is rated as good, if the status is \code{STATUS\_GBAS\_FIX}, i.e. with ground-based augmentation such as RTK, the covariance type is $\geq$ 
-\code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN} (diagonal known or entirely known), and each variance, i.e. the values on the diagonal of the
-covariance matrix, are either \code{float(`nan')} or $\leq$ \code{GOOD\_VARIANCE\_UB}, which is an upper bound of what is considered to be a reasonable variance by the user. It is
-classified as medium if the status is $\geq$ \code{STATUS\_FIX}, the covariance type is $\geq$ \code{COVARIANCE\_TYPE\_APPROXIMATED}, and the variances in turn satisfy the upper
-limit of reasonable variance specified by the user. Finally, it is classified as low if it provides a position belief state ($\geq$ \code{STATUS\_FIX}), but the covariance type
+\code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN} (diagonal known or entirely known), and each deviation, i.e. the square root of the values on the diagonal of the
+covariance matrix, is $\leq d_{max} \in \mathbb{R}_{0}^{+}$, which is an upper bound of what is considered to be a reasonable deviation by the user. The last entry of the matrix, i.e. the
+variance of the \textquote{Up-component}, may not always be present, so \code{float(`nan')} is also accepted here. It is
+classified as medium if the status is $\geq$ \code{STATUS\_FIX}, the covariance type is $\geq$ \code{COVARIANCE\_TYPE\_APPROXIMATED}, and the deviations in turn satisfy the upper
+limit of reasonable deviations specified by the user. Finally, it is classified as low if it provides a position belief state ($\geq$ \code{STATUS\_FIX}), but the covariance type
 is unknown. So much for the qualitative assessment of a GNSS link that works in principle.\newline
 The first type of monitoring for real failures is the status monitoring. If the status is not set to one of the available options (\code{STATUS\_NO\_FIX}, \code{STATUS\_FIX},
 \code{STATUS\_SBAS\_FIX}, \code{STATUS\_GBAS\_FIX}), a contingency is initiated, i.e. a message on \code{/contingency\_preemption} interrupts the normal operation.
@@ -1303,34 +1304,37 @@ contingency, just information worth publishing on \code{/robot\_info}. What is a
 monitoring. It is ensured that both values are present and satisfy their respective domains, i.e. $lat \in [-90\degree, 90\degree]$ and $lng \in [-180\degree, 180\degree]$. Altitude is not taken into account
 because many GNSS receivers do not provide this information. Eventually, there is covariance monitoring. First, it is checked whether the covariance type corresponds to one of the
 available options (\code{COVARIANCE\_TYPE\_UNKNOWN}, \code{COVARIANCE\_TYPE\_APPROXIMATED}, \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, \code{COVARIANCE\_TYPE\_KNOWN}). Otherwise,
-a notification is sent to the operator, but of course not a contingency, as this is not critical. As for the actual covariance values, two things can be observed: The absolute values
-(appropriate / too high) and the progression over time. The latter is implemented as a covariance history in the form of a fixed-length list that always stores the last $n$
-covariance matrices and replaces the oldest one when a new one arrives. The length of the covariance history is again configurable by the user. In the analysis of the covariance
-history, only the diagonal, i.e. the variances, are considered, since these are the most important values provided by most GNSS receivers. Whenever the covariance type of an incoming
-\code{NavSatFix} message is $\geq$ \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the history is updated. On the arrival of new feasible messages, the covariance progression is analyzed.
-Such an analysis primarily examines the variances of the east and north components, but also those of the upward component, if present. First, it is checked whether the history
-contains only increasing values for the respective component. If this is the case and, in addition, the difference between the oldest and the newest variance is greater than a
-user-defined significant covariance increase, a contingency is initiated. Thus, the definition of a bad covariance progression is exclusively increasing values together with an
-overall absolute increase between the oldest and latest value that exceeds a certain threshold. Finally, there is one last covariance check, which relates to type.
-If the type is \code{COVARIANCE\_TYPE\_KNOWN}, the covariances can be fully used for quality assessment, and if any of the values other than \code{float(`nan')} exceeds a
-user-specified high variance threshold, normal operation is interrupted by publishing to \code{/contingency\_preemption}. Moreover, if the type is 
-\code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the GNSS receiver provides the variance of each measurement, and the same check is performed only for the diagonal values.
-If the type is \code{COVARIANCE\_TYPE\_APPROXIMATED}, it can be considered, but with caution, without giving it too much weight. All values are checked as in the first case,
-but high covariances exceeding the threshold do not cause a contingency, only a message on \code{/robot\_info}.\newline
+a notification is sent to the operator, but of course not a contingency, as this is not critical. The meaningful components of the covariance matrix are the variances or, more
+precisely, the deviations, i.e. the square root of the diagonal values, because they actually provide information about the accuracy of the estimated position.
+As for the actual deviation values, two things can be observed: The absolute values (appropriate / too high) and the progression over time.
+The latter is implemented as a variance history in the form of a fixed-length list that always stores the diagonals of the last $n \in \mathbb{N}$
+covariance matrices and replaces the oldest one when a new one arrives. The length $n$ is again configurable by the user. In the analysis of the variance
+history, the square roots, i.e. the deviations, are considered, since, as mentioned, these are the crucial values provided by most GNSS receivers.
+Whenever the covariance type of an incoming \code{NavSatFix} message is $\geq$ \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the history is updated. On the arrival of new feasible 
+messages, the deviation progression is analyzed.
+Such an analysis primarily examines the deviations of the east and north components, but also those of the upward component, if present. First, it is checked whether the history
+contains only increasing values for the respective component. If this is the case and, in addition, the difference between the oldest and the newest deviation is greater than a
+user-defined significant deviation increase $d_{inc} \in \mathbb{R}_{0}^{+}$, a contingency is initiated. Thus, the definition of a bad deviation progression is exclusively
+increasing values together with an overall absolute increase between the oldest and latest value that exceeds a certain threshold.
+Finally, there is one last check, which relates to the absolute values. If the type is $\geq$ \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the present variances 
+$c_{ii} \in \mathbb{R}_{0}^{+}$ can with a clear conscience be used for quality assessment. If any of the values exceeds a user-specified maximum deviation threshold,
+i.e. $\exists c_{ii} : \sqrt{c_{ii}} > d_{max}$, normal operation is interrupted by publishing to \code{/contingency\_preemption}. 
+If the type is \code{COVARIANCE\_TYPE\_APPROXIMATED}, the variances can be considered, but with caution, without giving it too much weight.
+The deviation values $\sqrt{c_{ii}}$ are checked, but high deviations exceeding the threshold do not cause a contingency, only a message on \code{/robot\_info}.\newline
 As always, evaluation of potential problem cases as well as monitoring procedures requires simulation of such cases, which is performed in the \code{GNSS Simulator} described above.
 The timeout failure can be easily simulated by unsubscribing the \code{/fix\_plugin} topic for a period of time that exceeds the time limit. Quality estimation can be evaluated by
 simply configuring the status, covariance information, and service according to the above definition. Monitoring of status, service and position belief state can be simulated by
-setting inappropriate values for each. Likewise, absolute covariance monitoring as well as covariance history analysis can be tested by simulating the respective problems.
-Let the type be \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the user-specified history length $4$, and the covariance increase threshold $15$. Covariance monitoring can then be tested
-by publishing the following covariance progression ($4$ messages in sequence):
+setting inappropriate values for each. Likewise, absolute deviation monitoring as well as variance history analysis can be tested by simulating the respective problems.
+Let the type be \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, the user-specified history length $n = 4$, and the deviation increase threshold $d_{inc} = 5 m$. Deviation monitoring
+can then be tested by publishing the following (co)variance progression ($n = 4$ messages in sequence):
 \begin{figure}[H]
     \begin{subfigure}[b]{0.24\textwidth}
     \centering
         $\left(
         \begin{array}{rrr}
-        \boldsymbol{4.2} & 0.0 & 0.0 \\
-        0.0 & \boldsymbol{2.4} & 0.0 \\
-        0.0 & 0.0 & \boldsymbol{4.5} \\
+        \boldsymbol{16.2} & 0.0 & 0.0 \\
+        0.0 & \boldsymbol{4.4} & 0.0 \\
+        0.0 & 0.0 & \boldsymbol{16.5} \\
         \end{array} \right) $
         \caption{\textsc{}}
         \label{fig:oldest}
@@ -1340,9 +1344,9 @@ by publishing the following covariance progression ($4$ messages in sequence):
     \centering
         $\left(
         \begin{array}{rrr}
-        \boldsymbol{5.1} & 0.0 & 0.0 \\
-        0.0 & \boldsymbol{3.8} & 0.0 \\
-        0.0 & 0.0 & \boldsymbol{4.8} \\
+        \boldsymbol{25.1} & 0.0 & 0.0 \\
+        0.0 & \boldsymbol{9.8} & 0.0 \\
+        0.0 & 0.0 & \boldsymbol{16.8} \\
         \end{array} \right) $
         \caption{\textsc{}}
         \label{fig:}
@@ -1352,9 +1356,9 @@ by publishing the following covariance progression ($4$ messages in sequence):
     \centering
         $\left(
         \begin{array}{rrr}
-        \boldsymbol{12.0} & 0.0 & 0.0 \\
-        0.0 & \boldsymbol{8.2} & 0.0 \\
-        0.0 & 0.0 & \boldsymbol{9.3} \\
+        \boldsymbol{89.0} & 0.0 & 0.0 \\
+        0.0 & \boldsymbol{64.2} & 0.0 \\
+        0.0 & 0.0 & \boldsymbol{81.3} \\
         \end{array} \right) $
         \caption{\textsc{}}
         \label{fig:}
@@ -1364,21 +1368,21 @@ by publishing the following covariance progression ($4$ messages in sequence):
     \centering
         $\left(
         \begin{array}{rrr}
-        \boldsymbol{21.4} & 0.0 & 0.0 \\
-        0.0 & \boldsymbol{19.7} & 0.0 \\
-        0.0 & 0.0 & \boldsymbol{12.3} \\
+        \boldsymbol{99.4} & 0.0 & 0.0 \\
+        0.0 & \boldsymbol{77.7} & 0.0 \\
+        0.0 & 0.0 & \boldsymbol{98.3} \\
         \end{array} \right) $
         \caption{\textsc{}}
         \label{fig:latest}
     \end{subfigure}
-\caption{\textsc{Covariance Matrix History (old to new)}}
+\caption{\textsc{(Co)variance History (old to new)}}
 \label{fig:cov_history}
 \end{figure}
 \noindent
-The covariance progression depicted in fig. \ref{fig:cov_history} is expected to cause a contingency for various reasons, e.g. due to the fact that the history only
-contains increasing variance values for the east component ($4.2 m^2 \rightarrow 5.1 m^2 \rightarrow 12.0 m^2 \rightarrow 21.4 m^2$) and the overall absolute increase between
-the east variance of the oldest (cf. fig. \ref{fig:oldest}) and latest (cf. fig. \ref{fig:latest}) covariance matrices exceeds the defined threshold of $15 m^2$.
-It is reasonable to interrupt normal operation in such a case, as such a covariance progression poses great challenges for localization.
+The (co)variance progression depicted in fig. \ref{fig:cov_history} is expected to cause a contingency for various reasons, e.g. due to the fact that the history only
+contains increasing deviation values for the east component ($\sqrt{16.2} m \rightarrow \sqrt{25.1} m \rightarrow \sqrt{89.0} m \rightarrow \sqrt{99.4} m$) and the overall
+absolute increase between the east deviation of the oldest (cf. fig. \ref{fig:oldest}) and latest (cf. fig. \ref{fig:latest}) covariance matrices exceeds the defined threshold
+of $5 m (\approx 5.95 m)$. It is reasonable to interrupt normal operation in such a case, as such a (co)variance progression poses great challenges for localization.
 The simulation of the GNSS failure cases can be enabled / disabled via the following ROS topics:
 \begin{itemize}
     \item \textbf{disconnect / timeout} \textrightarrow \code{/toggle\_simulated\_timeout\_failure}
@@ -1390,8 +1394,8 @@ The simulation of the GNSS failure cases can be enabled / disabled via the follo
     \item \textbf{no RTK} \textrightarrow \code{/set\_simulated\_no\_rtk}
     \item \textbf{unknown service} \textrightarrow \code{/toggle\_simulated\_unknown\_service}
     \item \textbf{infeasible lat / lng} \textrightarrow \code{/toggle\_simulated\_infeasible\_lat\_lng}
-    \item \textbf{covariance history failure} \textrightarrow \code{/toggle\_simulated\_cov\_history\_failure}
-    \item \textbf{high covariance} \textrightarrow \code{/toggle\_simulated\_high\_cov}
+    \item \textbf{variance history failure} \textrightarrow \code{/toggle\_simulated\_variance\_history\_failure}
+    \item \textbf{high deviation} \textrightarrow \code{/toggle\_simulated\_high\_deviation}
 \end{itemize}
 
 \subsection{Obstacles Blocking the Planned Path}
