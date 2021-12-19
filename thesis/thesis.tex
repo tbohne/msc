@@ -1469,7 +1469,7 @@ from the sensor data, which is retrievable via ROS topics (\code{/imu\_data}, \c
 \code{/odometry/gps}). The messages arriving on these topics are of type \code{sensor\_msgs/Imu.msg} and
 \code{nav\_msgs/Odometry.msg} respectively. The GNSS is perhaps the easiest component to monitor because if the position estimates
 have a high variance, i.e., are not very reliable, it is probably not very accurate at the moment. GNSS monitoring is already part
-of the connection monitoring described in section \ref{sec:}. In contrast, IMU and odometry data are not as straightforward to
+of the connection monitoring described in section \ref{sec:sim_and_mon_gnss_connection_problems}. In contrast, IMU and odometry data are not as straightforward to
 verify. One idea is to let the robot take known states and check if the values are what would be expected, e.g. let the robot
 stand still and check whether the IMU values (angular velocity and linear acceleration) are approximately zero. Likewise, if no
 control values are sent to the motors, the odometry values (twist) should be approximately zero. Since GNSS information cannot be
@@ -1485,9 +1485,18 @@ As for the IMU, in principle one could try to use the linear acceleration (subtr
 acceleration to get the velocity and subsequently integrating the velocity to obtain the displacement. Unfortunately, this process of double integration is numerically unstable
 and becomes very inaccurate as even small sensor errors quickly explode. \cite{Yan:2018} As Yan et al. note, such an approach is not feasible unless one has access to an extremely
 expensive military-grade IMU, which is generally not the case in field observation scenarios. Since the monitoring of the GNSS quality is already part of connection monitoring
-(cf. section \ref{sec:}), a high accuracy is assumed for this component because if this were not the case, it would already have been detected by the corresponding connection
+(cf. section \ref{sec:sim_and_mon_gnss_connection_problems}), a high accuracy is assumed for this component because if this were not the case, it would already have been detected by the corresponding connection
 monitoring approaches. Consequently, if the connection monitoring does not report GNSS problems, it should be sufficiently accurate to be used to validate the other components,
 i.e. IMU and odometry.\newline
+There are monitoring approaches for the individual components of localization (IMU, odometry, GNSS) as well as those that compare two different localization components.
+An example of the latter is the monitoring of the distance divergence between odometry and GNSS. It is sufficient to consider the two-dimensional distance, i.e., to use the $x$ and
+$y$ components of the current position estimate of the robot. Let $p_o$ be the current position estimate of odometry and $p_g$ that of GNSS. Of course, $p_o$ and $p_g$ can be
+arbitrarily different, since odometry estimates the position relative to the robot's starting position, and GNSS estimates an absolute position on the Earth's surface, converted to
+map coordinates. What should be approximately the same for both, however, is the distance traveled between the respective starting positions ($s_o, s_g$) and the latest position
+($p_o, p_g$) at all times. Therefore, one only needs to compare the Euclidean distances between the initial and latest positions $d_o$ for the odometry and $d_g$ for GNSS,
+i.e. $d_o = \sqrt{\sum_{i=1}^{n}(s_{o_i} - p_{o_i})^2}$ and $d_g = \sqrt{\sum_{i=1}^{n}(s_{g_i} - p_{g_i})^2}$. Now the divergence between the two estimates can be analyzed.
+There are user-configurable divergence thresholds that trigger information via \code{/robot\_info} or contingencies via \code{/contingency\_preemption}. Significant divergences may
+certainly be an indicator of localization problems. The usually more precise filtered odometry data are used for this purpose.\newline
 // SIM:\newline
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
 \textit{kidnapped robot problem}.
