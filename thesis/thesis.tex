@@ -1497,6 +1497,17 @@ map coordinates. What should be approximately the same for both, however, is the
 i.e. $d_o = \sqrt{\sum_{i=1}^{n}(s_{o_i} - p_{o_i})^2}$ and $d_g = \sqrt{\sum_{i=1}^{n}(s_{g_i} - p_{g_i})^2}$. Now the divergence between the two estimates can be analyzed.
 There are user-configurable divergence thresholds that trigger information via \code{/robot\_info} or contingencies via \code{/contingency\_preemption}. Significant divergences may
 certainly be an indicator of localization problems. The usually more precise filtered odometry data are used for this purpose.\newline
+Another monitoring approach that compares different localization components is yaw monitoring, arguably the most relevant type of orientation for ground vehicles.
+As mentioned above, GNSS itself does not provide any orientation at all. However, if it is known that the GNSS data is very accurate at the moment, it is feasible to interpolate
+an orientation based on two successive GNSS positions $\hat{p}_g, \tilde{p}_g$, since it is evident that the direction in which the robot was moving was
+$\overrightarrow{\hat{p}_g\tilde{p}_g}$ when the trajectory led from $\hat{p}_g$ to $\tilde{p}_g$. This estimated orientation can be compared to the orientation components of the
+IMU and filtered odometry. Obviously, such an interpolation yields only the $z$ or yaw component of the orientation. The idea is to always keep track of the latest $\hat{p}_{g}$
+and second latest $\tilde{p}_{g}$ GNSS position estimates. If the Euclidean distance between the two exceeds a certain minimum interpolation threshold $i_{min}$, i.e.
+$\sqrt{\sum_{i=1}^{n}(\hat{p}_{g_{i}} - \tilde{p}_{g_i})^2} > i_{min}$, the yaw component is interpolated. The orientation vector
+$o^{T} = (\hat{p}_{g}.x - \tilde{p}_{g}.x \quad \hat{p}_{g}.y - \tilde{p}_{g}.y)$ is then used to calculate the angle $\arctan{\frac{o.y}{o.x}}$. After conversion to the format
+suitable for comparison with \code{tf.transformations.quaternion\_from\_euler} the actual comparison can take place. Now it is again a matter of acceptable divergence, where the
+user can specify a maximum yaw divergence $y_{max}$. When the absolute difference between the yaw component of the IMU or filtered odometry orientation and the interpolated GNSS
+yaw component exceeds $y_{max}$, a contingency is initiated.\newline
 // SIM:\newline
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
 \textit{kidnapped robot problem}.
