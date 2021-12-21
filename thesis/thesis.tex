@@ -1523,24 +1523,24 @@ There is a user-defined upper bound $a^p_{max}$ for the angular velocity in the 
 the passive state is considered. If one of these values exceeds $a^p_{max}$, i.e. $\thinspace \exists \thinspace \frac{1}{n}\sum_{i=1}^{n} |a^p_i.d| > a^p_{max}, d \in \{x, y, z\}$, a contigency is initiated.
 The next aspect is the linear acceleration in $m/s^2$. In preparation, a user-configurable fraction of the active and passive IMU
 history is considered, sorted in descending order by the maximum absolute linear acceleration in the $x$ and $y$ directions for each IMU entry in the respective list.
-For both, the median is taken to obtain a representative value ignoring outliers. To increase reliability, there are again histories with configurable length for these values.
+For both, the median is taken to obtain a representative value ignoring outliers. To increase reliability, there are again histories with configurable length $m$ for these values.
 In summary, these lists contain the median values of a certain fraction of the largest absolute linear acceleration values in $x$ and $y$ directions in the active and passive states.
 Obvioulsy, the $z$ direction is not considered, since it always contains $g \approx 9.81m/s^2$. One could simply subtract $g$ and still take the direction into account, but it is not
-as relevant as the others and is therefore disregarded. Then the average ratio between the two is calculated, i.e. for each value $l_p$ in the passive linear acceleration list and
-each value $l_a$ in the active linear acceleration list the ratio $\frac{l_a}{l_p}$ is calculated. If the average of these ratios is below a user-defined threshold, a contingency
-is initiated, as the linear acceleration during motion should be significantly higher compared to standstill. Additionally, if one of the median values in the passive linear
-acceleration history exceeds an upper bound for linear acceleration at standstill, a contingency is initiated, analogous to the case of too high angular velocities during inactivity.
-In the last step of IMU monitoring, the covariance matrices are checked. Each component, i.e. orientation, angular velocity and linear acceleration, can have a covariance matrix.
-As with GNSS covariance monitoring, only the standard deviations, i.e., the square roots of the diagonals, will be considered. An upper limit for the standard deviations can be
-configured for each component. Since these matrices are not always provided or filled with meaningful entries, it must first be checked whether this is the case. If the matrix
-contains only zeros, it can be assumed that the covariance is unknown and it should be disregarded in monitoring. Moreover, if the first cell contains a value of $-1$, it means that
-the IMU device used does not support estimates for this data, e.g. because the IMU in question does not provide an orientation estimate. If neither is the case, the standard
-deviations are monitored. For each covariace matrix $C_{3 \times 3}$ for the three axes $x, y, z$, the diagonal is considered, i.e. $c_{ii} \in C \forall i \in \{x, y, z\}$. If any
-of them exceeds the threshold, i.e. $\sqrt{c_{ii}} > d_{max}$, a contingency is triggered due to a high IMU standard deviation. Finally, there is odometry monitoring, both for pure
+as relevant as the others and is therefore disregarded. Then the average ratio between the two is calculated, i.e. for each value $l^p$ in the passive linear acceleration list and
+each value $l^a$ in the active linear acceleration list the ratio $\frac{l^a}{l^p}$ is calculated. If the average of these ratios is below a user-defined minimum ratio $r_{min}$,
+i.e. $\frac{1}{m} \sum_{i=1}^{m} \frac{l^a}{l^p} < r_{min}$, a contingency is initiated, as the linear acceleration during motion should be significantly higher compared to standstill.
+Additionally, if one of the median values $l^p$ in the passive linear acceleration history exceeds an upper bound for linear acceleration $l_{max}$ at standstill, a contingency is initiated,
+analogous to the case of too high angular velocities during inactivity. In the last step of IMU monitoring, the covariance matrices are checked. Each component, i.e. orientation, angular
+velocity and linear acceleration, can have a covariance matrix $C_{3 \times 3}$ for the three axes $x, y, z$. As with GNSS covariance monitoring, only the standard deviations, i.e.
+$\sqrt{c_{ii}} \thinspace \forall \thinspace c_{ii} \in C, i \in \{x, y, z\}$, will be considered. An upper limit $d_{max}$ for the standard deviations can be configured. Since these matrices are
+not always provided or filled with meaningful entries, it must first be checked whether this is the case. If $c_{ij} = 0 \thinspace \forall \thinspace i, j \in \{x, y, z\}$,
+it can be assumed that the covariance is unknown and it should be disregarded in monitoring. Moreover, if $c_{xx} = -1$, it means that the IMU device used does not support estimates
+for this data, e.g. because the IMU in question does not provide an orientation estimate. If neither is the case, the standard deviations are monitored.  If any
+of them exceeds the threshold, i.e. $\exists \thinspace \sqrt{c_{ii}} > d_{max}, i \in \{x, y, z\}$, a contingency is triggered due to a high IMU standard deviation. Finally, there is odometry monitoring, both for pure
 odometry and filtered odometry with IMU data. The first point is again based on a known condition. When the robot is stationary, i.e. when \code{move\_base\_flex} has no active target,
 all components of linear and angular twist should be approximately zero. An upper limit can be set for both. If one of the components exceeds this threshold in one direction, a
-contingency is triggered due to an unexpectedly high twist in the passive state. Furthermore, there is pose and twist covariance monitoring. This time based on $C_{6 \times 6}$ where
-each values $c_{ij} \in \{x, y, z, rot_x, rot_y, rot_z\}$. Again, only the variances on the diagonal are considered. The pose uncertainty as well as the uncertainty of the velocity
+contingency is triggered due to an unexpectedly high twist in the passive state. Furthermore, there is pose and twist covariance monitoring. This time based on
+covariance matrices $C_{6 \times 6}$ for the following list of components $\{x, y, z, roll, pitch, yaw\}$. Again, only the variances on the diagonal are considered. The pose uncertainty as well as the uncertainty of the velocity
 in free space are checked for excessive standard deviations and initiate an interruption of the normal operation if necessary. All localization monitoring is performed at a frequency
 specified by the user.\newline
 // SIM:\newline
