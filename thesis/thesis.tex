@@ -1508,6 +1508,33 @@ $o^{T} = (\hat{p}_{g}.x - \tilde{p}_{g}.x \quad \hat{p}_{g}.y - \tilde{p}_{g}.y)
 suitable for comparison with \code{tf.transformations.quaternion\_from\_euler} the actual comparison can take place. Now it is again a matter of acceptable divergence, where the
 user can specify a maximum yaw divergence $y_{max}$. When the absolute difference between the yaw component of the IMU or filtered odometry orientation and the interpolated GNSS
 yaw component exceeds $y_{max}$, a contingency is initiated.\newline
+These were the monitoring approaches comparing different components of localization. The first monitoring for individual components considers the IMU. IMU monitoring is based on two
+lists of IMU data. The first one stores active IMU data, meaning IMU data that has been recorded during \code{move\_base\_flex} activity, i.e. \code{GoalStatus.ACTIVE}. The second
+stores IMU data for inactive situations. For both, due to the high frequency of $100Hz$ at which the IMU data arrives, as well as natural \textquote{anomalies}, a fairly long
+history is tracked. The length of the history $n$ is user-configurable, the default is $n = 1500$. The first aspect monitored is the angular velocity in $rad/s$ for passive IMU data.
+Since this is data recorded in the passive state, i.e. when the robot was not moving, the angular velocity in all directions is expected to be $\approx 0 rad/s$. For all three
+directions, the average over the last $n$ angular velocities in the passive state is considered. If one of these values exceeds a user-defined upper bound for the angular velocity in
+the passive state, a contigency is initiated. The next aspect is the linear acceleration in $m/s^2$. In preparation, a user-configurable fraction of the active and passive IMU
+history is considered, sorted in descending order by the maximum absolute linear acceleration in the $x$ and $y$ directions for each IMU entry in the respective list.
+For both, the median is taken to obtain a representative value ignoring outliers. To increase reliability, there are again histories with configurable length for these values.
+In summary, these lists contain the median values of a certain fraction of the largest absolute linear acceleration values in $x$ and $y$ directions in the active and passive states.
+Obvioulsy, the $z$ direction is not considered, since it always contains $g \approx 9.81m/s^2$. One could simply subtract $g$ and still take the direction into account, but it is not
+as relevant as the others and is therefore disregarded. Then the average factor between the two is calculated, i.e. for each value in the passive lineact acceleration list $p_l$ and
+each value in the active linear acceleration list $p_a$ the factor $\frac{p_a}{p_l}$ is calculated. If the average of these factors is below a user-defined threshold, a contingency
+is initiated, as the linear acceleration during motion should be significantly higher compared to standstill. Additionally, if one of the mean values in the passive linear
+acceleration history exceeds an upper bound for linear acceleration at standstill, a contingency is initiated, analogous to the case of too high angular velocities during inactivity.
+In the last step of IMU monitoring, the covariance matrices are checked. Each component, i.e. orientation, angular velocity and linear acceleration, can have a covariance matrix.
+As with GNSS covariance monitoring, only the standard deviations, i.e., the square roots of the diagonals, will be considered. An upper limit for the standard deviations can be
+configured for each component. Since these matrices are not always provided or filled with meaningful entries, it must first be checked whether this is the case. If the matrix
+contains only zeros, it can be assumed that the covariance is unknown and it should be disregarded in monitoring. Moreover, if the first cell contains a value of $-1$, it means that
+the IMU device used does not support estimates for this data, e.g. because the IMU in question does not provide an orientation estimate. If neither is the case, the standard
+deviations are monitored. For each covariace matrix $C_{3 \times 3}$ for the three axes $x, y, z$, the diagonal is considered, i.e. $c_{ii} \in C \forall i \in \{x, y, z\}$. If any
+of them exceeds the threshold, i.e. $\sqrt{c_{ii}} > d_{max}$, a contingency is triggered due to a high IMU standard deviation. Finally, there is odometry monitoring, both for pure
+odometry and filtered odometry with IMU data. The first point is again based on a known condition. When the robot is stationary, i.e. when \code{move\_base\_flex} has no active target,
+all components of linear and angular twist should be approximately zero. An upper limit can be set for both. If one of the components exceeds this threshold in one direction, a
+contingency is triggered due to an unexpectedly high twist in the passive state. Furthermore, there is pose and twist covariance monitoring. This time based on $C_{6 \times 6}$ where
+each values $c_{ij} \in \{x, y, z, rot_x, rot_y, rot_z\}$. Again, only the variances on the diagonal are considered. The pose uncertainty as well as the uncertainty of the velocity
+in free space are checked for excessive standard deviations and initiate an interruption of the normal operation if necessary.\newline
 // SIM:\newline
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
 \textit{kidnapped robot problem}.
