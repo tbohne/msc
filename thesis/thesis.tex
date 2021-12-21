@@ -1496,31 +1496,32 @@ map coordinates. What should be approximately the same for both, however, is the
 ($p_o, p_g$) at all times. Therefore, one only needs to compare the Euclidean distances between the initial and latest positions for the odometry $d_o$ and for GNSS $d_g$,
 i.e. $d_o = \sqrt{\sum_{i=1}^{n}(s_{o_i} - p_{o_i})^2}$ and $d_g = \sqrt{\sum_{i=1}^{n}(s_{g_i} - p_{g_i})^2}$. Now the divergence $|d_o - d_g|$ between the two estimates can be analyzed.
 There are user-configurable divergence thresholds that trigger information via \code{/robot\_info} or contingencies via \code{/contingency\_preemption} based on severity. Significant
-divergences may certainly be an indicator of localization problems. The usually more precise filtered odometry data is used for this purpose.\newline
-Another monitoring approach that compares different localization components is yaw monitoring, arguably the most relevant type of orientation for ground vehicles.
+divergences may certainly be an indicator of localization problems. The usually more precise filtered odometry data is used for this purpose.
+Another monitoring approach that compares different localization components is $yaw$ angle monitoring, arguably the most relevant kind of orientation for ground vehicles.
 As mentioned above, GNSS itself does not provide any orientation at all. However, if it is known that the GNSS data is very accurate at the moment, it is feasible to interpolate
 an orientation based on two successive GNSS positions $\hat{p}_g, \tilde{p}_g$, since it is evident that the direction in which the robot was moving was
 $\overrightarrow{\hat{p}_g\tilde{p}_g}$ when the trajectory led from $\hat{p}_g$ to $\tilde{p}_g$. $\hat{p}_g$ and $\tilde{p}_g$ are taken from \code{/odometry/gps}, i.e. in map
 coordinates. This estimated orientation can be compared to the orientation components of the
-IMU and filtered odometry. Obviously, such an interpolation yields only the $z$ or yaw component of the orientation. The idea is to always keep track of the latest $\hat{p}_{g}$
-and second latest $\tilde{p}_{g}$ GNSS position estimates. If the Euclidean distance between the two exceeds a certain minimum interpolation threshold $i_{min}$, i.e.
-$\sqrt{\sum_{i=1}^{n}(\hat{p}_{g_{i}} - \tilde{p}_{g_i})^2} > i_{min}$, the yaw component is interpolated. The orientation vector
-$o^{T} = (\hat{p}_{g}.x - \tilde{p}_{g}.x \quad \hat{p}_{g}.y - \tilde{p}_{g}.y)$ is then used to calculate the angle $\arctan{\frac{o.y}{o.x}}$. After conversion to the format
+IMU and filtered odometry. Obviously, such an interpolation yields only the $z$ or $yaw$ component of the orientation. The idea is to always keep track of the latest $\tilde{p}_{g}$
+and second latest $\hat{p}_{g}$ GNSS position estimates. If the Euclidean distance between the two exceeds a certain minimum interpolation threshold $i_{min}$, i.e.
+$\sqrt{\sum_{i=1}^{n}(\hat{p}_{g_{i}} - \tilde{p}_{g_i})^2} > i_{min}$, the $yaw$ component is interpolated. The orientation vector
+$o^{\top} = (\tilde{p}_{g}.x - \hat{p}_{g}.x \quad \tilde{p}_{g}.y - \hat{p}_{g}.y)$ is then used to calculate the angle $\arctan{\frac{o.y}{o.x}}$. After conversion to the format
 suitable for comparison with \code{tf.transformations.quaternion\_from\_euler} the actual comparison can take place. Now it is again a matter of acceptable divergence, where the
-user can specify a maximum feasible yaw divergence $y_{max}$. When the absolute difference between the yaw component of the IMU or filtered odometry orientation and the interpolated GNSS
-yaw component exceeds $y_{max}$, a contingency is initiated.\newline
+user can specify a maximum feasible $yaw$ divergence $y_{max}$. When the absolute difference between the $yaw$ component of the IMU or filtered odometry orientation and the interpolated GNSS
+$yaw$ component exceeds $y_{max}$, a contingency is initiated.\newline
 These were the monitoring approaches comparing different components of localization. The first monitoring for individual components considers the IMU. IMU monitoring is based on two
 lists of IMU data. The first one stores active IMU data, meaning IMU data that has been recorded during \code{move\_base\_flex} activity, i.e. \code{GoalStatus.ACTIVE}.
 Thus, the status of \code{move\_base\_flex} is taken into account at any time during localization monitoring. However, a certain generality is realized.  If other navigation
-frameworks such as the basic \code{move\_base} are used in different scenarios, they can also be used if they work with the common \code{actionlib\_msgs}
+frameworks such as the basic \code{move\_base} are present in different scenarios, they can also be used if they work with the common \code{actionlib\_msgs}
 \footnote{https://wiki.ros.org/actionlib\_msgs}. Additionally, since the transition between active and passive states in \code{move\_base\_flex} can be quite abrupt while smaller
 movements are still taking place, there is a certain timeout between monitoring intervals after the mode change. For instance, when the robot moves to its next target,
-\textquote{active monitoring} starts a few seconds after the mode change from passive to active. The same applies to the transition from active to passive. The second
+\textquote{active monitoring} starts a few seconds after the mode change from passive to active. The same applies to the transition from active to passive. The second list
 stores IMU data for inactive situations. For both, due to the high frequency of $100Hz$ at which the IMU data arrives, as well as natural \textquote{anomalies}, a fairly long
-history is tracked. The length of the history $n$ is user-configurable, the default is $n = 1500$. The first aspect monitored is the angular velocity in $rad/s$ for passive IMU data.
-Since this is data recorded in the passive state, i.e. when the robot was not moving, the angular velocity in all directions is expected to be $\approx 0 \thinspace rad/s$. For all three
-directions, the average over the last $n$ absolute angular velocities in the passive state is considered. If one of these values exceeds a user-defined upper bound for the angular velocity in
-the passive state, a contigency is initiated. The next aspect is the linear acceleration in $m/s^2$. In preparation, a user-configurable fraction of the active and passive IMU
+history is tracked. The length of the history $n$ is user-configurable, the default is $n = 1500$. The first aspect monitored is the angular velocity for passive IMU data $a^p$ in $rad/s$.
+Since this is data recorded in the passive state, i.e. when the robot was not moving, it is expected that $a^p.x \approx a^p.y \approx a^p.z \approx 0 \thinspace rad/s$.
+There is a user-defined upper bound $a^p_{max}$ for the angular velocity in the passive state. For all three directions, the average over the last $n$ absolute angular velocities in
+the passive state is considered. If one of these values exceeds $a^p_{max}$, i.e. $\thinspace \exists \thinspace \frac{1}{n}\sum_{i=1}^{n} |a^p_i.d| > a^p_{max}, d \in \{x, y, z\}$, a contigency is initiated.
+The next aspect is the linear acceleration in $m/s^2$. In preparation, a user-configurable fraction of the active and passive IMU
 history is considered, sorted in descending order by the maximum absolute linear acceleration in the $x$ and $y$ directions for each IMU entry in the respective list.
 For both, the median is taken to obtain a representative value ignoring outliers. To increase reliability, there are again histories with configurable length for these values.
 In summary, these lists contain the median values of a certain fraction of the largest absolute linear acceleration values in $x$ and $y$ directions in the active and passive states.
