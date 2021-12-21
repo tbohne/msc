@@ -1509,7 +1509,12 @@ suitable for comparison with \code{tf.transformations.quaternion\_from\_euler} t
 user can specify a maximum yaw divergence $y_{max}$. When the absolute difference between the yaw component of the IMU or filtered odometry orientation and the interpolated GNSS
 yaw component exceeds $y_{max}$, a contingency is initiated.\newline
 These were the monitoring approaches comparing different components of localization. The first monitoring for individual components considers the IMU. IMU monitoring is based on two
-lists of IMU data. The first one stores active IMU data, meaning IMU data that has been recorded during \code{move\_base\_flex} activity, i.e. \code{GoalStatus.ACTIVE}. The second
+lists of IMU data. The first one stores active IMU data, meaning IMU data that has been recorded during \code{move\_base\_flex} activity, i.e. \code{GoalStatus.ACTIVE}.
+Thus, the status of \code{move\_base\_flex} is taken into account at any time during localization monitoring. However, a certain generality is realized.  If other navigation
+frameworks such as the basic \code{move\_base} are used in different scenarios, they can also be used if they work with the common \code{actionlib\_msgs}
+\footnote{https://wiki.ros.org/actionlib\_msgs}. Additionally, since the transition between active and passive states in \code{move\_base\_flex} can be quite abrupt while smaller
+movements are still taking place, there is a certain timeout between monitoring intervals after the mode change. For instance, when the robot moves to its next target,
+\textquote{active monitoring} starts a few seconds after the mode change from passive to active. The same applies to the transition from active to passive. The second
 stores IMU data for inactive situations. For both, due to the high frequency of $100Hz$ at which the IMU data arrives, as well as natural \textquote{anomalies}, a fairly long
 history is tracked. The length of the history $n$ is user-configurable, the default is $n = 1500$. The first aspect monitored is the angular velocity in $rad/s$ for passive IMU data.
 Since this is data recorded in the passive state, i.e. when the robot was not moving, the angular velocity in all directions is expected to be $\approx 0 rad/s$. For all three
