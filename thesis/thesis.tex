@@ -74,7 +74,7 @@ TBD. \dots
 
 \chapter{Introduction}
 
-ADD INTRO TEXT: Why is LTA interesting and relevant for agriculture?\newline
+TODO: ADD INTRO TEXT: Why is LTA interesting and relevant for agriculture?\newline
 
 As the title suggests, the goal of this work is to integrate a prototypical system for long-term autonomous plant observation that is able to address 
 particular challenges for long-term autonomy in such a context through the use of execution monitoring methods. Initially, typical challenges that may stand in the way of a mobile
@@ -132,9 +132,9 @@ PORTAL project that is going to be extended as part of this work. Ultimately, th
 underlines the relevance of the approaches discussed in this work for practical applications. However, since a mobile robot is a complex system, there are arbitrary 
 many technical barriers that could prevent such a long-term test in the real world. The idea is therefore to be at least able to demonstrate the system in the simulation
 without depending on the success of such a real-world experiment. In addition to serving as a backup for possible failures in real-world tests,
-a simulation naturally creates an environment that allows reproducible situations and thus permits empirical investigation.
+a simulation naturally creates an environment that allows reproducible situations and thus permits empirical investigation.\newline
 
-ADD CHAPTER OVERVIEW \dots\newline
+TODO: ADD CHAPTER OVERVIEW \dots\newline
 
 \chapter{Long-Term Autonomous Mobile Robots}
 
@@ -147,7 +147,7 @@ The attribute of mobility is the easiest to define: A mobile robot is a system c
 Thus, it's about the ability of a robot to move rather than being statically attached to a position.
 Section \ref{sec:lta_plant_observation} introduces the scenario that is going to be studied in this work and provides a definition for the concept of long-term 
 autonomy as understood in the following chapters, i.e. clarifies what the two remaining attributes \textit{long-term} and \textit{autonomous} are supposed to mean.
-Afterwards, in section \ref{sec:scientific_bg}, the scientific and technological background that forms the basis of this work is discussed. 
+Afterwards, in section \ref{sec:robotic_system}, the scientific and technological background that forms the basis of this work is discussed. 
 Finally, section \ref{sec:challenges_for_lta} identifies potential hinderances for long-term autonomous systems with a particular focus on the considered plant monitoring scenario.
 TODO: update..\newline
 
@@ -157,6 +157,7 @@ TODO: update..\newline
 Kunze et al. point out that many challenges remain to be overcome with respect to the reliable deployment of long-term autonomous robots in real-world environments.
 Particularly relevant to this work are the natural challenge of system integration, i.e. integrating numerous methods and technologies into a comprehensive solution 
 for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the help of human operators in unexpected problematic situations. \cite{Kunze:2018}
+TODO: Extend..
 
 \section{Long-Term Autonomous Plant Observation}
 \label{sec:lta_plant_observation}
@@ -248,7 +249,7 @@ slots displayed in fig. \ref{fig:arox_system}. For the actual task of plant moni
 which can be combined with a calibrated hyperspectral or RGB camera (cf. fig. \ref{fig:arox_system}). \cite{Kisliuk:2021}
 For navigation, the ROS package \code{move\_base\_flex} \cite{Puetz:2018} is used, a more flexible extension of the standard ROS navigation framework \code{move\_base}.
 The primarily used path planning algorithms are provided by the ROS packages \code{eband\_local\_planner} and \code{dwa\_local\_planner}.
-In addition to the actual physically available AROX, the system has been modeled in the unified robot description format (URDF) and can be used in a simulation.
+In addition to the actual physically available AROX, the system has been modeled in the unified robot description format (URDF) and can be used in a simulation. TODO: Extend..
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/AROX.jpg}
@@ -566,6 +567,12 @@ in figure \ref{fig:average_results}.
     \caption{\textsc{Accumulated Results of Questionnaire}}
     \label{fig:questionnaire_results}
 \end{figure}
+\noindent
+The results shown in the table in fig. \ref{fig:average_results} are ordered by their relevance according to the questionnaire results, i.e.
+by their distance from the optimal combination of impact, difficulty, and likelihood. It is worth mentioning, however, that the resulting order is based on the assumption
+that the three criteria of impact, difficulty, and likelihood are equally important in the consideration. One could argue that the difficulty criterion was introduced 
+primarily because of the tight time frame of this work and may be less important when it comes to the question of which problem is really crucial to solve in practice.
+Thus, it is worth considering the two-dimensional results only in terms of the expected impact and likelihood of each problem displayed in fig. \ref{fig:questionnaire_results_2d}.
 \begin{figure}[H]
     \centering
     \resizebox{0.75\textwidth}{!}{
@@ -592,12 +599,6 @@ in figure \ref{fig:average_results}.
 \caption{\textsc{Results of the Evaluation - Problems Ordered by Relevance}}
 \label{fig:average_results}
 \end{figure}
-\noindent
-The results shown in the table in fig. \ref{fig:average_results} are ordered by their relevance according to the questionnaire results, i.e.
-by their distance from the optimal combination of impact, difficulty, and likelihood. It is worth mentioning, however, that the resulting order is based on the assumption
-that the three criteria of impact, difficulty, and likelihood are equally important in the consideration. One could argue that the difficulty criterion was introduced 
-primarily because of the tight time frame of this work and may be less important when it comes to the question of which problem is really crucial to solve in practice.
-Thus, it is worth considering the two-dimensional results only in terms of the expected impact and likelihood of each problem displayed in fig. \ref{fig:questionnaire_results_2d}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{pics/questionnaire_2d.png}
@@ -619,8 +620,7 @@ cases the overall trend is clear. Finally, the voting in the third category \tex
 are cases where participants are pretty much in agreement, such as in data management failures, where all but one voted for $2$ (\textit{occurs}). There is no extreme example of
 evenly distributed responses, most have some tendency and a few outliers. In summary, an average score almost never results from an even distribution of responses across the options,
 but almost always results from the actual rating of the problem as average based on the criteria. The exact results can be taken from the appendix 
-(cf. \ref{sec:detailed_questionnaire_results}).\newline
-As shown in fig. \ref{fig:average_results_2d}, the $2D$ evaluation purely based on impact and likelihood results in a different ordering based on their distances 
+(cf. \ref{sec:detailed_questionnaire_results}). As shown in fig. \ref{fig:average_results_2d}, the $2D$ evaluation purely based on impact and likelihood results in a different ordering based on their distances 
 to the $2D$ optimum $(1, 1)$.
 \begin{figure}[H]
     \centering
@@ -657,9 +657,7 @@ Another interesting aspect is that sensor failures are far less relevant when di
 The remaining problems remain broadly similar in their assessment, with some changing places in the middle of the list, but this is not so relevant.
 The problems rated as least relevant in the questionnaire remain the same as in the 3D case, mainly because they are considered relatively unlikely.
 In conclusion, both lists are used to prioritize the problems to be studied in this work, as it is of course useful to also consider the difficulty of 
-solving these problems, but the $2D$ view can be helpful in case of doubt.
-
-\pagebreak
+solving these problems, but the $2D$ view can be helpful in case of doubt.\newline
 
 \noindent
 \textbf{Systematization of LTA-Challenges}\newline
@@ -692,14 +690,18 @@ unlikely. It is not studied in detail itself, but might be detected as part of t
 detail in this thesis are nevertheless potentially relevant problems for the long-term autonomy of a mobile outdoor robot and are thus briefly discussed in section 
 \ref{sec:lta_problems_not_considered}.
 
+\pagebreak
+
 \subsection{LTA Problems Not Considered in this Work}
 \label{sec:lta_problems_not_considered}
+
+TODO: Clean up / refine section..\newline
 
 \noindent
 \textbf{Certain Dynamics}\newline
 
 \noindent
-There should be a monitoring solution that is able to detect twilight, stop the plan execution and postpone it to the next day.\newline
+There should be a monitoring solution that is able to detect twilight, stop the plan execution and postpone it to the next day.
 It should be possible to simulate twilight in the Gazebo simulation, e.g. by simply dimming the light source.\newline
 
 \noindent
@@ -707,7 +709,7 @@ It should be possible to simulate twilight in the Gazebo simulation, e.g. by sim
 
 \noindent
 There could be a need for monitoring methods that are capable of recognizing such situations and providing some strategies to resolve the 
-perceptual aliasing issue., e.g. by changing the position or the viewpoint in order to discriminate the objects.\newline
+perceptual aliasing issue., e.g. by changing the position or the viewpoint in order to discriminate the objects.
 The occurrence of a perceptual aliasing issue can be simulated, for example, by placing an object similar to the container in the simulation.\newline
 
 \noindent
@@ -715,14 +717,14 @@ The occurrence of a perceptual aliasing issue can be simulated, for example, by 
 
 \noindent
 Detection should be based on \code{move\_base\_flex} recovery behaviors, as in the case of obstacles, but again there should be a manual implementation 
-specifically for these cases where, for example, the robot tries to rotate and reduce speed to leave the place where it got stuck.\newline
+specifically for these cases where, for example, the robot tries to rotate and reduce speed to leave the place where it got stuck.
 In simulation, such a situation could be established by providing the necessary physical conditions leading to such a problem.\newline
 
 \noindent
 \textbf{Robot Falls Over}\newline
 
 \noindent
-It could be tested in simulation by applying a force to the robot that causes it to fall over.\newline
+It could be tested in simulation by applying a force to the robot that causes it to fall over.
 It should be possible to detect the problem based on a combination of sensor information, and the robot should notify the human operator.\newline
 
 \noindent
@@ -730,7 +732,7 @@ It should be possible to detect the problem based on a combination of sensor inf
 
 \noindent
 It is demanded to either pay close attention to obstacle detection when moving on uneven terrain or to clear the \textit{costmap} from time to time
-to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such ``virtual'' objects can block a path that the robot must traverse.\newline
+to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such ``virtual'' objects can block a path that the robot must traverse.
 The problems described can be evaluated in simulation by having the robot travel over rough terrain or by artificially creating paths with steep inclines.
 
 \chapter{Plan Execution and Monitoring}
@@ -812,7 +814,7 @@ structured state machine, whose architecture is shown in figure \ref{fig:high_le
 library to build hierarchical state machines \cite{smach}} library.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/SMACH_high_level.jpg}
+    \includegraphics[width=0.8\textwidth]{pics/SMACH_high_level.jpg}
     \caption{\textsc{Architecture of the Hierarchical State Machine (High-Level)}}
     \label{fig:high_level_smach}
 \end{figure}
@@ -844,7 +846,7 @@ Second, there is the potential outcome \code{hard\_failure}, which represents si
 Finally, the last potential outcome is again \code{preempted} based on some external issue detected by \code{CONTINGENCY\_MONITORING} or \code{CATASTROPHE\_MONITORING}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/SMACH_low_level.jpg}
+    \includegraphics[width=0.8\textwidth]{pics/SMACH_low_level.jpg}
     \caption{\textsc{Architecture of the Embedded State Machine (Low-Level)}}
     \label{fig:low_level_smach}
 \end{figure}
@@ -930,16 +932,16 @@ LTA problems is presented along with the monitoring solutions developed for each
 \label{sec:sim_and_mon_power_management}
 
 A watchdog module that monitors the battery state and acts as a fail-safe, such as the one described in section \ref{sec:battery_monitoring}, could be 
-integrated to address power management issues and improve the robot's survivability.\newline
-Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will.
+integrated to address power management issues and improve the robot's survivability.
+Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will. TODO...
 
 \subsection{Charging Failure}
 \label{sec:sim_and_mon_charging_failures}
 
 Both cases should be detected by the robot so that an appropriate response can be initiated, e.g. notification of the human operator. The first case, i.e. a docking 
 failure, could for example be detected based on \code{move\_base\_flex} navigation errors, the docking state simply does not complete successfully, which should trigger
-a treatment procedure. A failed charging process can be detected based on a certain time in the state of charge without increasing the charge level of the battery.\newline
-A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph.
+a treatment procedure. A failed charging process can be detected based on a certain time in the state of charge without increasing the charge level of the battery.
+A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph. TODO...
 
 \subsection{Drastic Weather Change}
 \label{sec:sim_and_mon_drastic_weather}
@@ -1282,7 +1284,7 @@ in fig. \ref{fig:ICO_DFKI_ENU}, i.e. the DFKI is located $590.7 m$ east and $19.
         \caption{\textsc{East-North-Up (ENU) Representation}}
         \label{fig:ICO_DFKI_ENU}
     \end{subfigure}
-\caption{\textsc{ENU Example}}
+\caption{\textsc{ENU Example} TODO}
 \label{fig:ENU_example}
 \end{figure}
 \noindent
@@ -1433,23 +1435,23 @@ The simulation of the GNSS failure cases can be enabled / disabled via the follo
 
 Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases 
 simply walk through the scene and disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. 
-Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors.\newline
+Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors.
 The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized 
-positions that could potentially block the robot's path.
+positions that could potentially block the robot's path. TODO...
 
 \subsection{Navigation Failure}
 \label{sec:sim_and_mon_navigation_failures}
 
-To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to Duchetto et al.\newline
-Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve.
+To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to Duchetto et al.
+Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve. TODO...
 
 \subsection{Sustained Recovery}
 \label{sec:sim_and_mon_sustained_recovery}
 
 In this case, the robot should try a few different recovery actions and then abort and report the problem. Monitoring methods must therefore track the results of recovery
-behaviors and decide whether it is appropriate to try more or stop.\newline
+behaviors and decide whether it is appropriate to try more or stop.
 Sustained recoveries can be evaluated in the simulation by inducing situations where recovery is not possible, such as when the path to the destination is
-blocked and there is no other way.
+blocked and there is no other way. TODO...
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
@@ -1545,14 +1547,14 @@ in free space are checked for excessive standard deviations and initiate an inte
 specified by the user.\newline
 // SIM:\newline
 An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
-\textit{kidnapped robot problem}.
+\textit{kidnapped robot problem}. TODO...
 
 \subsection{Plan Deployment Failure}
 \label{sec:sim_and_mon_plan_deployment_failures}
 
 A first solution attempt that the robot should definitely try would be to retrigger the plan generation service described in section \ref{sec:plan_generation}. 
-If this does not help, it should waste no time and immediately notify the operator.\newline
-The problem can be trivially simulated by simply not launching the plan generation service.
+If this does not help, it should waste no time and immediately notify the operator.
+The problem can be trivially simulated by simply not launching the plan generation service. TODO...
 
 \section{Solutions for LTA Challenges}
 \label{sec:solutions_for_lta_challenges}
@@ -1630,7 +1632,7 @@ as the one described in section \ref{sec:battery_monitoring}.
 TBD.\newline
 The idea is that the goal of the work was to shift the selected subset of problems into another category, i.e. solve them or at least detect them in order to communicate them.
 Very good to evaluate in the end whether the goal was reached. Did it work out, can I detect all of the problems in the selected subset such that the robot is always able to call
-for help?
+for help? TODO..
 
 \bibliography{papers}
 
@@ -1662,7 +1664,7 @@ for help?
             perceptual\_aliasing\_issue & [2, 2, 1, 2, 3, 2] & [2, 2, 3, 3, 3, 2] & [2, 2, 3, 2, 3, 2] \\ \hline
         \end{tabular}}
     \caption{\textsc{Results of the Questionnaire (cf. section \ref{sec:relevance_assessment})}}
-    \label{fig:average_results_2d}
+    \label{fig:detailed_res}
     \end{figure}
 \end{appendices}
 
