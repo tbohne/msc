@@ -1559,7 +1559,14 @@ in position, resulting in a distance divergence between the estimated distances 
 due to low friction on an icy or muddy surface. First, the gravity, i.e. acceleration in $z$ direction, is set to a low positive value for a short time to levitate the robot above
 the ground, e.g. $\vec{g} = (0, 0, 0.4) \thinspace m/s^2$. To prevent flying off, a small negative acceleration is then briefly set in the $z$ direction. Finally, the robot should
 hover in this position for a certain time so that the wheels can rotate without touching the ground, i.e. changing the position of the robot. For this purpose, the acceleration in
-all directions is set to $0 \thinspace m/s^2$. After a short period of time, normal gravity is restored, i.e. $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$.
+all directions is set to $0 \thinspace m/s^2$. After a short period of time, normal gravity is restored, i.e. $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$. The second simulation option
+is the reverse case - a change in position without wheel revolutions, which in practice could be related to the robot slipping away on a muddy path. This can be simulated by briefly
+changing the acceleration in $x$- or $y$-direction to a relatively high value (e.g. $8 m/s^2$) so that the robot drifts off. The third option, a divergence between the estimated yaw
+angles of the interpolated GNSS positions, the filtered odometry and the IMU, can be simulated by rotating the robot by $180\degree$ around the yaw axis. Such a problem can occur in
+practice in various situations, e.g. when the robot unexpectedly slips away and turns. Furthermore, the situation of too high IMU acceleration values can be simulated in situations
+where the robot is supposed to stand still. For this it suffices to apply a rather low acceleration in $x$- or $y$-direction for a brief period of time. Additionally, an unexpected
+motion for the odometry can be simulated by publishing a linear twist on \code{cmd\_vel} to let the robot move slightly. Practically, both cases may refer to situations where the
+robot does not have an active navigation goal, but is moved for some reason, e.g. slipping away.
 
 \pagebreak
 
