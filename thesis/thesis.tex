@@ -262,7 +262,7 @@ In addition to the actual physically available AROX, the system has been modeled
 \section{Prototype Scenario in the Simulation}
 \label{sec:prototype_scenario}
 
-As starting point serves a physics simulation in Gazebo\footnote{Open-source 3D robotics simulator} that has been created within the research project PORTAL \cite{portal}
+As starting point serves a physics simulation in \textit{Gazebo}\footnote{Open-source 3D robotics simulator} that has been created within the research project PORTAL \cite{portal}
 and is adapted and extended as part of this work. The simulation includes the AROX model, i.e. a simulated version of the system described in section \ref{sec:robotic_system},
 as well as a 2.5D reflection of a test field environment. For the prototypical baseline scenario of this work, the layout of abstract crops as objects of interest shown in 
 figure \ref{fig:prototypical_layout} was created. Initially, the simulation works under the assumption that the robot is able to charge its battery as soon as it is located at 
@@ -702,7 +702,7 @@ TODO: Clean up / refine section..\newline
 
 \noindent
 There should be a monitoring solution that is able to detect twilight, stop the plan execution and postpone it to the next day.
-It should be possible to simulate twilight in the Gazebo simulation, e.g. by simply dimming the light source.\newline
+It should be possible to simulate twilight in the \textit{Gazebo} simulation, e.g. by simply dimming the light source.\newline
 
 \noindent
 \textbf{Perceptual Aliasing Issue}\newline
@@ -1545,9 +1545,14 @@ contingency is triggered due to an unexpectedly high twist in the passive state.
 covariance matrices $C_{6 \times 6}$ for the following list of components $\{x, y, z, roll, pitch, yaw\}$. Again, only the variances on the diagonal are considered. The pose uncertainty as well as the uncertainty of the velocity
 in free space are checked for excessive standard deviations and initiate an interruption of the normal operation if necessary. All localization monitoring is performed at a frequency
 specified by the user.\newline
-// SIM:\newline
-An incorrect localization can be evaluated very well in the simulation by simply ``teleporting'' the robot to another position, i.e. provoking the
-\textit{kidnapped robot problem}. TODO...
+
+\pagebreak
+\noindent
+As previously, the evaluation of localization problems as well as the corresponding monitoring procedures demands the simulation of such cases. For this purpose a
+\code{PhysicsController} node was written. The general idea of the \code{PhysicsController} is to manipulate certain aspects of the physics in the \textit{Gazebo} simulation to
+provoke the circumstances that lead to localization problems.
+
+\pagebreak
 
 \subsection{Plan Deployment Failure}
 \label{sec:sim_and_mon_plan_deployment_failures}
