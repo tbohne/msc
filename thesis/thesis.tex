@@ -1566,7 +1566,16 @@ angles of the interpolated GNSS positions, the filtered odometry and the IMU, ca
 practice in various situations, e.g. when the robot unexpectedly slips away and turns. Furthermore, the situation of too high IMU acceleration values can be simulated in situations
 where the robot is supposed to stand still. For this it suffices to apply a rather low acceleration in $x$- or $y$-direction for a brief period of time. Additionally, an unexpected
 motion for the odometry can be simulated by publishing a linear twist on \code{cmd\_vel} to let the robot move slightly. Practically, both cases may refer to situations where the
-robot does not have an active navigation goal, but is moved for some reason, e.g. slipping away.
+robot does not have an active navigation goal, but is moved for some reason, e.g. slipping away. Crucially, not all of the simulated processes described can take place at all times.
+Therefore, the status of \code{move\_base\_flex} must be taken into account by subscribing to \code{/move\_base\_flex/exe\_path/status}. Whenever a simulated localization error is
+triggered, a flag is set, but actual execution is not initiated until the required \code{move\_base\_flex} state is encountered. For instance, the simulated case of wheel revolutions
+without position change can only be performed if there is an active navigation target causing the wheel revolutions. Thus, when the most recent status of \code{move\_base\_flex}
+changes from a passive state to \code{GoalStatus.ACTIVE}, the simulation is initiated. Likewise, the case of a change of position without wheel revolutions should take place in a
+passive state. The simulation of deviations in yaw angle estimation is particularly challenging, as it can only be simulated in \code{GoalStatus.ACTIVE}, since the corresponding
+monitoring is disabled in passive states due to rotations on spot, which naturally lead to inaccurate GNSS estimates. Such rotations on spot occur frequently as recovery behaviors.
+Therefore, the yaw divergence simulation can only be done precisely during the transition from \code{GoalStatus.ACTIVE} to a passive state, when monitoring is still active and GNSS
+interpolation is still expected to be accurate. Moreover, the two remaining cases of motion in passive states indicated by IMU and odometry can obviously only be simualted when no
+active navigation goal is being pursued, otherwise the motion would be expected.
 
 \pagebreak
 
