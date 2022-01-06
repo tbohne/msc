@@ -1550,7 +1550,16 @@ specified by the user.\newline
 \noindent
 As previously, the evaluation of localization problems as well as the corresponding monitoring procedures demands the simulation of such cases. For this purpose a
 \code{PhysicsController} node was written. The general idea of the \code{PhysicsController} is to manipulate certain aspects of the physics in the \textit{Gazebo} simulation to
-provoke the circumstances that lead to localization problems.
+provoke the circumstances that lead to localization problems. The ROS services \code{/gazebo/pause\_physics} and \code{/gazebo/unpause\_physics} are used to pause and unpause the
+simulation before and after physical manipulations, respectively. For the actual manipulation of physics, the \code{/gazebo/set\_physics\_properties} service is utilized. The most
+important aspects of a physics property specification request are the gravity vector and the \code{ODEPhysics}\footnote{Open Dynamics Engine (https://www.ode.org/)} configuration,
+i.e. the configuration of the physics engine used by default in \textit{Gazebo}. Initially, \code{ODEPhysics} is configured with reasonable default values from the literature and the
+ODE documentation. The gravity vector $\vec{g}$ is naturally initialized with $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$. The first simulation option is a wheel motion with no change
+in position, resulting in a distance divergence between the estimated distances traveled by odometry and GNSS. In practice, such a situation can for example occur when the wheels spin
+due to low friction on an icy or muddy surface. First, the gravity, i.e. acceleration in $z$ direction, is set to a low positive value for a short time to levitate the robot above
+the ground, e.g. $\vec{g} = (0, 0, 0.4) \thinspace m/s^2$. To prevent flying off, a small negative acceleration is then briefly set in the $z$ direction. Finally, the robot should
+hover in this position for a certain time so that the wheels can rotate without touching the ground, i.e. changing the position of the robot. For this purpose, the acceleration in
+all directions is set to $0 \thinspace m/s^2$. After a short period of time, normal gravity is restored, i.e. $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$.
 
 \pagebreak
 
