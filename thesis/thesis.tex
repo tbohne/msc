@@ -1550,10 +1550,7 @@ all components of linear and angular twist should be approximately zero. An uppe
 contingency is triggered due to an unexpectedly high twist in the passive state. Furthermore, there is pose and twist covariance monitoring. This time based on
 covariance matrices $C_{6 \times 6}$ for the following list of components $\{x, y, z, roll, pitch, yaw\}$. Again, only the variances on the diagonal are considered. The pose uncertainty as well as the uncertainty of the velocity
 in free space are checked for excessive standard deviations and initiate an interruption of the normal operation if necessary. In a nutshell, the general idea of localization
-monitoring is to check expected values for known states. All localization monitoring is performed at a frequency specified by the user.
-
-\pagebreak
-
+monitoring is to check expected values for known states. All localization monitoring is performed at a frequency specified by the user.\newline
 As previously, the evaluation of localization problems as well as the corresponding monitoring procedures demands the simulation of such cases. For this purpose a
 \code{PhysicsController} node was written. The general idea of the \code{PhysicsController} is to manipulate certain aspects of the physics in the \textit{Gazebo} simulation to
 provoke the circumstances that lead to localization problems. The ROS services \code{/gazebo/pause\_physics} and \code{/gazebo/unpause\_physics} are used to pause and unpause the
