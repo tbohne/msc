@@ -1545,9 +1545,6 @@ contingency is triggered due to an unexpectedly high twist in the passive state.
 covariance matrices $C_{6 \times 6}$ for the following list of components $\{x, y, z, roll, pitch, yaw\}$. Again, only the variances on the diagonal are considered. The pose uncertainty as well as the uncertainty of the velocity
 in free space are checked for excessive standard deviations and initiate an interruption of the normal operation if necessary. All localization monitoring is performed at a frequency
 specified by the user.\newline
-
-\pagebreak
-\noindent
 As previously, the evaluation of localization problems as well as the corresponding monitoring procedures demands the simulation of such cases. For this purpose a
 \code{PhysicsController} node was written. The general idea of the \code{PhysicsController} is to manipulate certain aspects of the physics in the \textit{Gazebo} simulation to
 provoke the circumstances that lead to localization problems. The ROS services \code{/gazebo/pause\_physics} and \code{/gazebo/unpause\_physics} are used to pause and unpause the
@@ -1590,8 +1587,8 @@ active navigation goal is being pursued, otherwise the motion would be expected.
     \item \textbf{IMU acceleration, although no active navigation target}\newline \textrightarrow \code{/moving\_although\_standing\_still\_imu}
     \item \textbf{odometry twist, although no active navigation target}\newline \textrightarrow \code{/moving\_although\_standing\_still\_odom}
 \end{itemize}
-
-\pagebreak
+\noindent
+Localization-related challenges for LTA can be addressed using the resolver described in section \ref{sec:localization_resolver}.
 
 \subsection{Plan Deployment Failure}
 \label{sec:sim_and_mon_plan_deployment_failures}
@@ -1643,6 +1640,15 @@ initiates contingencies etc., but just passively observes the weather and estima
 which then reports back successful resolution, and the high-level state machine can resume plan execution in normal operation mode. Finally, the weather monitoring node switches
 back to active monitoring. In summary, the robot seeks shelter in extreme weather situations, uses the time to recharge its battery, and waits until conditions are moderate before
 continuing to execute the plan.
+
+\subsection{Incorrect or Inaccurate Localization}
+\label{sec:localization_resolver}
+
+The approach to resolving localization problems described below is not a panacea, but merely a workaround that can, however, help in many practical situations. Whenever the robot's
+normal operation is interrupted due to localization issues detected by the monitoring procedures described in section \ref{sec:sim_and_mon_incorrect_localization}, the same resolution
+approach is initiated: The robot is moved back and forth a few meters to recalibrate the localization using different GNSS positions. This is realized by publishing appropriate linear
+twists to the \code{/cmd\_vel} topic. Afterwards, the localization monitoring node is reinitialized, clearing all previously collected data, etc. As usual, if something goes wrong
+during the resolution attempt, the fallback solution of asking the operator for help is executed (cf. section \ref{sec:fallback_solution}).
 
 \chapter{Integrated Solutions}
 
