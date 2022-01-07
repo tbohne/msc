@@ -1562,7 +1562,13 @@ hover in this position for a certain time so that the wheels can rotate without 
 all directions is set to $0 \thinspace m/s^2$. After a short period of time, normal gravity is restored, i.e. $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$. The second simulation option
 is the reverse case - a change in position without wheel revolutions, which in practice could be related to the robot slipping away on a muddy path. This can be simulated by briefly
 changing the acceleration in $x$- or $y$-direction to a relatively high value (e.g. $8 m/s^2$) so that the robot drifts off. The third option, a divergence between the estimated yaw
-angles of the interpolated GNSS positions, the filtered odometry and the IMU, can be simulated by rotating the robot by $180\degree$ around the yaw axis. Such a problem can occur in
+angles of the interpolated GNSS positions, the filtered odometry and the IMU, can be simulated by rotating the robot by $180\degree$ around the yaw axis. This assumes knowledge of
+the robot's current pose (position + orientation). The position is taken from \code{NavSatFix} messages to the \code{/fix} topic, and the orientation is extracted from the latest
+\code{Imu} message to \code{/imu\_data}. The pose is always kept available in terms of latitude ($lat$), longitude ($lng$), and the yaw angle $yaw$ in degrees. Since the IMU stores
+the orientation as a quaternion, the function \code{tf.transformations.euler\_from\_quaternion} is used to obtain the Euler angles $roll, pitch, yaw$. Eventually,
+$yaw = yaw \cdot \frac{180}{\pi}$ to convert the resulting radians to degrees. For the actual simulation, $yaw$ is increased by $180\degree$ if it does not exceed $180\degree$,
+since $yaw \in [-180\degree, 180\degree]$. Otherwise, $yaw = -180 + ((yaw + 180) \mod 180)$. Based on this adjusted $yaw$ angle, a \code{move\_base\_flex} navigation target is
+created, which then accounts for the actual $180\degree$ rotation. Such a problem can occur in
 practice in various situations, e.g. when the robot unexpectedly slips away and turns. Furthermore, the situation of too high IMU acceleration values can be simulated in situations
 where the robot is supposed to stand still. For this it suffices to apply a rather low acceleration in $x$- or $y$-direction for a brief period of time. Additionally, an unexpected
 motion for the odometry can be simulated by publishing a linear twist on \code{cmd\_vel} to let the robot move slightly. Practically, both cases may refer to situations where the
