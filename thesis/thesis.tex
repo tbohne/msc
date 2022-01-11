@@ -1569,18 +1569,24 @@ the ground, e.g. $\vec{g} = (0, 0, 0.4) \thinspace m/s^2$. To prevent flying off
 hover in this position for a certain time so that the wheels can rotate without touching the ground, i.e. changing the position of the robot. For this purpose, the acceleration in
 all directions is set to $0 \thinspace m/s^2$. After a short period of time, normal gravity is restored, i.e. $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$. The second simulation option
 is the reverse case - a change in position without wheel revolutions, which in practice could be related to the robot slipping away on a muddy path. This can be simulated by briefly
-changing the acceleration in $x$- or $y$-direction to a relatively high value (e.g. $8 m/s^2$) so that the robot drifts off. The third option, a divergence between the estimated yaw
-angles of the interpolated GNSS positions, the filtered odometry and the IMU, can be simulated by rotating the robot by $180\degree$ around the yaw axis. This assumes knowledge of
-the robot's current pose (position + orientation). The position is taken from \code{NavSatFix} messages to the \code{/fix} topic, and the angular rotation, i.e. orientation, 
-based on the IMU's gyroscope is extracted from the latest \code{Imu} message to \code{/imu\_data}.
+changing the acceleration in $x$- or $y$-direction to a relatively high value (e.g. $8 m/s^2$) so that the robot drifts off. 
+The third option, a divergence between the estimated yaw angles of the interpolated GNSS positions, the filtered odometry and the IMU, can be simulated by rotating the robot by e.g.
+$50\degree$ around the yaw axis. This assumes knowledge of the robot's current pose (position + orientation). The position is taken from \code{NavSatFix} messages to the \code{/fix}
+topic, and the angular rotation, i.e. orientation, based on the IMU's gyroscope is extracted from the latest \code{Imu} message to \code{/imu\_data}.
 The pose is always kept available in terms of latitude ($lat$), longitude ($lng$), and the yaw angle $yaw$ in degrees. Since the IMU stores
 the orientation as a quaternion, the function \code{tf.transformations.euler\_from\_quaternion} is used to obtain the Euler angles $roll, pitch, yaw$. Eventually,
-$yaw = yaw \cdot \frac{180}{\pi}$ to convert the resulting radians to degrees. For the actual simulation, $yaw$ is increased by $180\degree$ if it does not exceed $180\degree$,
-since $yaw \in [-180\degree, 180\degree]$. Otherwise, $yaw = -180 + ((yaw + 180) \mod 180)$. Based on this adjusted $yaw$ angle, a \code{move\_base\_flex} navigation target is
-created, which then accounts for the actual $180\degree$ rotation. Such a problem can occur in practice in various situations, e.g. when the robot unexpectedly slips away and turns.
+$yaw = yaw \cdot \frac{180}{\pi}$ to convert the resulting radians to degrees. For the actual simulation, $yaw$ is increased by $50\degree$ if it does not exceed $180\degree$,
+since $yaw \in [-180\degree, 180\degree]$. Otherwise, $yaw = -180 + ((yaw + 50) \mod 180)$. This adjusted $yaw$ angle is the goal orientation. A \code{Twist.msg} is created,
+which then accounts for the actual rotation by being published to \code{/cmd\_vel}. Since the rotation is supposed to distort the active \code{move\_base\_flex} navigation, it must
+be published at a very high frequency as long as the actual rotation of the robot is approximately equal to the defined target angle $yaw$. The tolerance is configurable by the user.
+To further amplify the impact on the active navigation, the twist publishing is accompanied by some gravitational changes, a positive low gravity in $z$ direction (e.g. $0.2$) and
+a slightly stronger acceleration in the $x$ and $y$ directions (e.g. $2.5$). This gravitational change does not start immediately, but only after a configurable number of twist
+messages have been published on \code{/cmd\_vel}, resulting in a reinforced rotational distortion. The value of the angular twist in $z$ direction is $\pi$ or $-\pi$, depending on
+the initial orientation. After the target $yaw$ is reached with sufficient accuracy, normal gravity is restored. A real-world problem reproduced by this simulation is when the robot
+unexpectedly slips away and turns during navigation.
 Furthermore, the situation of too high acceleration values detected by the IMU's accelerometer can be simulated in situations
 where the robot is supposed to stand still. For this it suffices to apply a rather low acceleration in $x$- or $y$-direction for a brief period of time. Additionally, an unexpected
-motion for the odometry can be simulated by publishing a linear twist (change to be performed) on \code{cmd\_vel} to let the robot move slightly without active navigation goals.
+motion for the odometry can be simulated by publishing a linear twist (change to be performed) on \code{/cmd\_vel} to let the robot move slightly without active navigation goals.
 Practically, both cases may refer to situations where the
 robot does not have an active navigation goal, but is moved for some reason, e.g. slipping away. Crucially, not all of the simulated processes described can take place at all times.
 Therefore, the status of \code{move\_base\_flex} must be taken into account by subscribing to \code{/move\_base\_flex/exe\_path/status}. Whenever a simulated localization error is
