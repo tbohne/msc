@@ -1593,10 +1593,20 @@ Therefore, the status of \code{move\_base\_flex} must be taken into account by s
 triggered, a flag is set, but actual execution is not initiated until the required \code{move\_base\_flex} state is encountered. For instance, the simulated case of wheel revolutions
 without position change can only be performed if there is an active navigation target causing the wheel revolutions. Thus, when the most recent status of \code{move\_base\_flex}
 changes from a passive state to \code{GoalStatus.ACTIVE}, the simulation is initiated. Likewise, the case of a change of position without wheel revolutions should take place in a
-passive state. The simulation of deviations in yaw angle estimation is particularly challenging, as it can only be simulated in \code{GoalStatus.ACTIVE}, since the corresponding
-monitoring is disabled in passive states due to rotations on spot, which naturally lead to inaccurate GNSS estimates. Such rotations on spot occur frequently as recovery behaviors.
-Therefore, the yaw divergence simulation can only be done precisely during the transition from \code{GoalStatus.ACTIVE} to a passive state, when monitoring is still active and GNSS
-interpolation is still expected to be accurate. Moreover, the two remaining cases of motion in passive states indicated by IMU and odometry can obviously only be simualted when no
+passive state. A particular challenge is the simulation of deviations in yaw angle estimation. First, they can only be simulated in \code{GoalStatus.ACTIVE}, as the corresponding
+monitoring is disabled in passive states, due to the fact that a divergence in yaw angle estimates in passive states can only result from unexpected movements in passive states,
+which is already covered by other monitoring options. If the yaw estimates diverged in the passive state without a change in position, the divergence would have already been present
+in the active state that led the robot there, and should thus be detected in the active state. In addition, there could be cases where active navigation ends with a rotation on the
+spot to align the robot in an expected orientation, which would always cause a contingency of this type after the transition to the passive state, since the GNSS interpolation is
+inevitably obsolete after the rotation. Consequently, monitoring and simulating yaw divergence is only meaningful during active navigation. Beyond that, of course, there can be no
+GNSS interpolation in the passive state, because the position of the robot does not change by definition and thus there can be no two distinct positions. Aside from the fact that
+rotating on the spot is a frequent occurrence in standard navigation, this is a common recovery behavior that should certainly be viable. For this reason, the aforementioned
+interpolation threshold $i_{min}$ was introduced, since otherwise a rotation on the spot would always trigger a yaw divergence. That is why it is not sufficient to simulate a
+rotation on the spot, there must also be a minor change in position that does not precisely match the robot's orientation. Simultaneously, this motion cannot be too large, otherwise
+a case of distance divergence would be triggered. It takes some experimentation to find a stable configuration for the system in question, but the idea should be clear.
+It is also worth mentioning that the simulations are not necessarily sharply separated. For instance, applying a force to trigger high acceleration values recorded by the IMU may
+very well cause wheel rotations, triggering other problem cases such as estimated position changes by the odometry. Conversely, letting the wheels rotate will accelerate the robot
+and result in higher IMU values. Finally, the two remaining simulation cases of motion in passive states indicated by IMU and odometry can obviously only be simualted when no
 active navigation goal is being pursued, otherwise the motion would be expected. The simulation of the localization failures can be enabled / disabled via the following ROS topics:
 \begin{itemize}
     \item \textbf{odometry-GNSS distance divergence (type $1$)} \textrightarrow \code{/wheel\_movement\_without\_pos\_change}
