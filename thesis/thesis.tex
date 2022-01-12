@@ -1592,7 +1592,8 @@ robot does not have an active navigation goal, but is moved for some reason, e.g
 Therefore, the status of \code{move\_base\_flex} must be taken into account by subscribing to \code{/move\_base\_flex/exe\_path/status}. Whenever a simulated localization error is
 triggered, a flag is set, but actual execution is not initiated until the required \code{move\_base\_flex} state is encountered. For instance, the simulated case of wheel revolutions
 without position change can only be performed if there is an active navigation target causing the wheel revolutions. Thus, when the most recent status of \code{move\_base\_flex}
-changes from a passive state to \code{GoalStatus.ACTIVE}, the simulation is initiated. Likewise, the case of a change of position without wheel revolutions should take place in a
+changes from a passive state to \code{GoalStatus.ACTIVE}, the simulation is initiated. To ensure the distance divergence, there is also a high-frequency linear twist published to
+\code{cmd\_vel}, which amplifies the wheel rotations. Likewise, the case of a change of position without wheel revolutions should take place in a
 passive state. A particular challenge is the simulation of deviations in yaw angle estimation. First, they can only be simulated in \code{GoalStatus.ACTIVE}, as the corresponding
 monitoring is disabled in passive states, due to the fact that a divergence in yaw angle estimates in passive states can only result from unexpected movements in passive states,
 which is already covered by other monitoring options. If the yaw estimates diverged in the passive state without a change in position, the divergence would have already been present
