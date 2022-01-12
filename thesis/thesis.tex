@@ -1675,8 +1675,10 @@ continuing to execute the plan.
 The approach to resolving localization problems described below is not a panacea, but merely a workaround that can, however, help in many practical situations. Whenever the robot's
 normal operation is interrupted due to localization issues detected by the monitoring procedures described in section \ref{sec:sim_and_mon_incorrect_localization}, the same resolution
 approach is initiated: The robot is moved back and forth a few meters to recalibrate the localization using different GNSS positions. This is realized by publishing appropriate linear
-twists to the \code{/cmd\_vel} topic. Afterwards, the localization monitoring node is reinitialized, clearing all previously collected data, etc. As usual, if something goes wrong
-during the resolution attempt, the fallback solution of asking the operator for help is executed (cf. section \ref{sec:fallback_solution}).
+twists to the \code{/cmd\_vel} topic. Afterwards, the localization monitoring node is reinitialized, clearing all previously collected data, etc. Furthermore, the local costmap is
+cleared to remove potential mapping anomalies resulting from the localization failure. This is achieved by sending a \code{clear\_costmap} \code{RecoveryGoal} to the
+\code{SimpleActionServer} for recoveries provided by \code{move\_base\_flex} as well as plain \code{move\_base}. As usual, if something goes wrong during the resolution attempt,
+the fallback solution of asking the operator for help is executed (cf. section \ref{sec:fallback_solution}).
 
 \chapter{Integrated Solutions}
 
