@@ -76,6 +76,9 @@ TBD. \dots
 
 TODO: ADD INTRO TEXT: Why is LTA interesting and relevant for agriculture?\newline
 
+Achieving robust, long-term autonomy is particularly challenging because it is impossible to envision all potential situations that the robot may encounter.
+\cite{Hawes:2017}\newline
+
 As the title suggests, the goal of this work is to integrate a prototypical system for long-term autonomous plant observation that is able to address 
 particular challenges for long-term autonomy in such a context through the use of execution monitoring methods. Initially, typical challenges that may stand in the way of a mobile
 robot's long-term autonomy in an agricultural setting will be identified. Afterwards, a subset of these challenges will be studied systematically in order to 
@@ -149,15 +152,34 @@ Section \ref{sec:lta_plant_observation} introduces the scenario that is going to
 autonomy as understood in the following chapters, i.e. clarifies what the two remaining attributes \textit{long-term} and \textit{autonomous} are supposed to mean.
 Afterwards, in section \ref{sec:robotic_system}, the scientific and technological background that forms the basis of this work is discussed. 
 Finally, section \ref{sec:challenges_for_lta} identifies potential hinderances for long-term autonomous systems with a particular focus on the considered plant monitoring scenario.
-TODO: update..\newline
+TODO: update..
+
+\pagebreak
 
 \section{Literature Review - State of the Art}
 \label{sec:literature_review}
 
+As the title of this thesis indicates, it addresses several research domains usually considered in isolation. First, there is the execution monitoring aspect, which is not only
+concerned with potential problems for the robotic system (software + hardware), but also with environmental conditions that threaten the successful completion of the robot's mission.
+In addition, the work focuses on the long-term autonomous application of mobile robotic systems in the context of plant monitoring. All of these aspects (long-term, autonomy,
+mobility, plant monitoring) can be considered and researched in isolation, which is what has been done for all of these sub-areas. The aim of this work, however, is to examine all of
+these aspects in combination and to focus on the big picture of integrating them into systems that are actually useful. The following literature review will therefore attempt to
+provide an overview of the literature on all of these subfields, but with the clear intention of considering them together rather than in isolation.\newline
+One distinction that must be emphasized when reviewing long-term autonomous robot applications in the literature is the distinction between indoor and outdoor environments.
+So far, there has been a focus on indoor environments (TODO: check - is that so?). Despite the obvious challenges that indoor environments pose, they are arguably less dangerous and
+troublesome than outdoor scenarios. \cite{Hawes:2017}\newline
+One of the most influential projects in the field of long-term autonomous robotics is the \textit{STRANDS} \cite{Hawes:2017} project. The goal of the project is to integrate all the
+artificial intelligence and robotics technologies necessary to create a long-term autonomous mobile service robot in a care facility environement. Thus, it is an example for a project
+that focuses on indoor environements. Special emphasis is placed on the application of the systems in real everyday environments as opposed to specific laboratory installations.
+Furthermore, the robots are supposed to improve their behavior during their long-term missions by learning the dynamics of their environement, thereby increasing their robustness.
+For the authors, the attribute "long-term" implies that the robot should be able to run continuously and autonomously in its environment for at least several weeks, which requires
+a certain resilience. They note that this robustness can be achieved both at design time and at runtime.\newline
 Kunze et al. point out that many challenges remain to be overcome with respect to the reliable deployment of long-term autonomous robots in real-world environments.
 Particularly relevant to this work are the natural challenge of system integration, i.e. integrating numerous methods and technologies into a comprehensive solution 
 for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the help of human operators in unexpected problematic situations. \cite{Kunze:2018}
 TODO: Extend..
+
+\pagebreak
 
 \section{Long-Term Autonomous Plant Observation}
 \label{sec:lta_plant_observation}
@@ -369,6 +391,7 @@ A more detailed consideration as well as monitoring and simulation approaches fo
 \noindent
 A natural requirement for LTA systems as defined in section \ref{sec:lta_plant_observation} is some form of energy management.
 The system is expected to operate autonomously for extended periods of time, which of course assumes a power supply. 
+As Hawes et al. \cite{Hawes:2017} point out, managing consumable resources such as battery charge is critical to long-term autonomous systems.
 However, the energy management estimated at planning time may not work correctly or as expected at execution time, e.g. the battery could be 
 depleted before the planned time. Or worse, there could be a complete battery failure. It would certainly be useful to enable the system to handle such issues, at least to 
 some degree.\newline
@@ -476,7 +499,9 @@ This problem should be considered separately, since in such a case the robot wil
 Another potential LTA problem that has already been encountered in experiments conducted as part of this work is navigation errors.
 For example, the local planner configured in \code{move\_base\_flex} (e.g. DWA, EBand) provides a path that is infeasible, e.g. tries to drive around a field, 
 although there is no way. Del Duchetto et al. encounter similar problems in an indoor LTA scenario where valid navigation trajectories cannot be generated from time to time.
-They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018}
+They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018} As Hawes
+et al. \cite{Hawes:217} point out, navigation errors are a critical factor in the long-term autonomy of a mobile robot, as they can result in the robot being incapable of returning
+to the charging station (mobile container).
 
 \pagebreak
 
@@ -494,6 +519,7 @@ and if none of them work, it should shut down and call the operator. Therefore, 
 
 \noindent
 It is obvious that it is a problem when the robot is not able to localize itself correctly in its environment.
+Localization is a critical factor for a robot's long-term autonomy, which should therefore not deteriorate during long-term deployments. \cite{Hawes:2017}
 In this case, it is a matter of localization within a global reference system, i.e. determining the pose (position and orientation) within a given map of the environment.
 If the localization is no longer accurate, e.g. because the robot has been moved to a different position in the map, it must detect this in order to
 trigger relocalization. In the case of such a localization error, the \textit{kidnapped robot problem} arises, because although no one has 
@@ -751,7 +777,11 @@ Just as important as the planning itself is the execution of the generated plan 
 The idea is that the robot executes a given plan and is somehow capable of realizing that it has to interrupt the execution due to some unexpected condition.
 In such a case, the robot needs to be able to save the current state of the plan execution and continue precisely with this state after the reason 
 for the interruption has been resolved. Consequently, the robot has to be prepared to pause and resume the execution of a given plan, which is far from 
-trivial, since the original plan may no longer be applicable for various reasons.
+trivial, since the original plan may no longer be applicable for various reasons. In this work, \textit{monitoring} is not meant to monitor plan execution in the sense of evaluating
+pre- and post-conditions of specific high-level actions and the like, but is to be understood in a more general sense to monitor aspects of the robot system as well as its environment
+that have been identified as critical to successful long-term autonomous deployment (cf. \ref{sec:challenges_for_lta}). As Hawes et al. put it: \textquote{A key strategy for
+delivering long-term robustness is the monitoring of system behavior, from the individual component level up to navigation and task behaviors, as well as the ability to restart
+system elements on demand}. \cite{Hawes:2017}
 
 \section{Plan Generation and Format}
 \label{sec:plan_generation}
@@ -922,11 +952,13 @@ monitoring procedure for each of the selected LTA problems that runs in parallel
 is recognized, the problem gets reported via the \code{MonitorState}s, causing a transition to \code{CONTINGENCY} or \code{CATASTROPHE} based on the severity of the problem.
 Depending on the nature of the problem, the information about the required solution method is conveyed via the message published to the topic of the \code{MonitorState}.
 Thus, the long-term goal is to have a resolver node for each of the potential failures, which is executed in \code{CONTINGENCY} or \code{CATASTROPHE} depending on the
-failure case at hand. The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation. 
+failure case at hand. It is useful to distinguish between internal and external exceptional situations that require special treatment, i.e. issues concerning the robotic
+system itself or the environemental conditions. \cite{Hawes:2017}
+The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation. 
 Initially, it will be demonstrated that in the prototypical scenario, the mission can no longer be completed successfully if these errors occur.
 After launching the monitoring nodes, the problems should be detected and either resolved by the robot or reported to the operator so that the mission can continue.
-The simulated failures are usually implemented in such a way that they can be triggered by publishing to a certain topic. In the following, the simulation of the selected
-LTA problems is presented along with the monitoring solutions developed for each.
+The simulated failures are usually implemented in such a way that they can be triggered by publishing to a certain topic.
+In the following, the simulation of the selected LTA problems is presented along with the monitoring solutions developed for each.
 
 \subsection{Power Management}
 \label{sec:sim_and_mon_power_management}
@@ -1706,11 +1738,19 @@ For this purpose, there is an inductive charging station located in a mobile con
 Thus, the power supply could be realized by integrating an autonomous docking / undocking solution that enables the robot to detect
 the container in a laser scan of its nearby surroundings, drive into it and dock to the inductive charging station.
 This docking solution could be used for both planned charge stops as well as unexpected but necessary stops detected by monitoring processes such
-as the one described in section \ref{sec:battery_monitoring}.
+as the one described in section \ref{sec:battery_monitoring}. Similar to Hawes et al. \cite{Hawes:2017}, one could exploit the fact that the robot keeps returning to the charging
+station by resetting the position to the location inside the container aligned in front of the charging station to avoid cumulative localization errors. In contrast to the scenario
+considered there, however, the exact position of the container is not necessarily assumed to be known, but it must be detected within a certain range. Nevertheless, it will certainly
+be the same within a mission, so one can expect to use it as a landmark after the initial detection.
 
 \chapter{Experiments and Evaluation}
 
 TBD.
+Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: the total system lifetime and the autonomy percentage. \cite{Hawes:2017} The
+first measures the time the robot was in autonomous operation and is reset when an unrecoverable failure or an unrequested intervention of the human operator is required. However,
+it does not make sense to evaluate this time when it certainly depends on the frequency with which the failures that are considered in this work are simulated. The second metric
+(autonomy percentage), on the other hand, is very useful for this work as well. \textquote{The motivation of the autonomy percentage is that it is of little value to achieve a long
+total system lifetime if the system does nothing}. \cite{Hawes:2017} 
 
 \chapter{Conclusion}
 
