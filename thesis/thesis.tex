@@ -78,6 +78,7 @@ TODO: ADD INTRO TEXT: Why is LTA interesting and relevant for agriculture?\newli
 
 Achieving robust, long-term autonomy is particularly challenging because it is impossible to envision all potential situations that the robot may encounter.
 \cite{Hawes:2017}\newline
+A particular challenge is the navigation in such scenarios in highly dynamic real-world environments. \cite{DelDuchetto:2018}\newline
 
 As the title suggests, the goal of this work is to integrate a prototypical system for long-term autonomous plant observation that is able to address 
 particular challenges for long-term autonomy in such a context through the use of execution monitoring methods. Initially, typical challenges that may stand in the way of a mobile
@@ -174,6 +175,11 @@ that focuses on indoor environements. Special emphasis is placed on the applicat
 Furthermore, the robots are supposed to improve their behavior during their long-term missions by learning the dynamics of their environement, thereby increasing their robustness.
 For the authors, the attribute "long-term" implies that the robot should be able to run continuously and autonomously in its environment for at least several weeks, which requires
 a certain resilience. They note that this robustness can be achieved both at design time and at runtime.\newline
+Del Duchetto et al. \cite{DelDuchetto:2018} address navigation failures in long-term autonomous mobile robot applications with a human-in-the-loop learning approach that provides
+recovery policies. The approach is based on the learning by demonstration paradigm that facilitates human demonstrations to learn failure situations and appropriate recoveries.
+Whenever a robot is confronted with a situation for which it has no recovery strategy, it requests a new demonstration. The work also deals with long-term service robots to be used
+in indoor environments populated by humans, specifically in nursing homes. The authors fundamentally share the global goal of this thesis and focus on one specific aspect, namely the
+detection and correction of navigation failures, but they also emphasize the need for a general framework for error detection and resolution for long-term autonomy.\newline
 Kunze et al. point out that many challenges remain to be overcome with respect to the reliable deployment of long-term autonomous robots in real-world environments.
 Particularly relevant to this work are the natural challenge of system integration, i.e. integrating numerous methods and technologies into a comprehensive solution 
 for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the help of human operators in unexpected problematic situations. \cite{Kunze:2018}
@@ -500,10 +506,14 @@ Another potential LTA problem that has already been encountered in experiments c
 For example, the local planner configured in \code{move\_base\_flex} (e.g. DWA, EBand) provides a path that is infeasible, e.g. tries to drive around a field, 
 although there is no way. Del Duchetto et al. encounter similar problems in an indoor LTA scenario where valid navigation trajectories cannot be generated from time to time.
 They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018} As Hawes
-et al. \cite{Hawes:217} point out, navigation errors are a critical factor in the long-term autonomy of a mobile robot, as they can result in the robot being incapable of returning
-to the charging station (mobile container).
-
-\pagebreak
+et al. \cite{Hawes:2017} point out, navigation errors are a critical factor in the long-term autonomy of a mobile robot, as they can result in the robot being incapable of returning
+to the charging station (mobile container). Hence, it is imperative to guarantee a certain level of robustness against navigational flaws, i.e. to provide the robot with the
+ability to detect and recover from such errors. \cite{DelDuchetto:2018}
+The authors define the errors as follows: \textquote{[...] situation in which the robot is not able to progress toward the goal, because it is not
+moving or it is performing some counterproductive behavior}. \cite{DelDuchetto:2018}
+As introduced in section \ref{sec:robotic_system}, the navigation system used is \code{move\_base\_flex}, an extension of the common ROS navigation framework \code{move\_base}.
+Navigation issues in practice can be due to a variety of reasons, such as sensor noise, dynamic obstacles, or inaccurate controls \cite{DelDuchetto:2018} and some of them are already
+detected by \code{move\_base\_flex}.
 
 \noindent
 \textbf{Sustained Recovery}\newline
