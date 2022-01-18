@@ -76,7 +76,8 @@ TBD. \dots
 
 TODO: ADD INTRO TEXT: Why is LTA interesting and relevant for agriculture?\newline
 
-Crop monitoring has the goal of detecting potential problems as soon as possible in order to avoid yield losses. \cite{Dong:2014}
+Autonomous crop monitoring, a classic domain of precision agriculture, has the goal of detecting potential problems as soon as possible in order to avoid yield losses
+while optimizing costs and environmental impact. \cite{Dong:2014} \cite{Dong:2017}
 
 Long-term autonomous robotic systems in highly dynamic real-world applications are becoming a reality. \cite{Kunze:2018}\newline
 
@@ -245,7 +246,13 @@ remote sensing and reduce the human effort required for data acquisition. Origin
 resolution. \cite{Dong:2014} Thus, the authors introduce a crop monitoring approach that uses UAVs or AGVs and methods from computer vision to increase the efficiency of crop imaging.
 The goal of the work is to create a $4D$ representation of plant development based on high-resolution imagery and GPS / IMU data. The overall goal of the work is to increase the
 efficiency of agricultural production by replacing time-consuming and costly human labor with highly efficient autonomous monitoring systems.
-As an early work, however, it is still limited to manually operated vehicles and therefore disregards the aspect of autonomy.
+As an early work, however, it is still limited to manually operated vehicles and therefore disregards the aspect of autonomy.\newline
+In a later paper, Dong et al. \cite{Dong:2017} revisit autonomous crop monitoring with a focus on high temporal as well as spatial resolution. They claim that common $3D$ models do
+not acknowledge the temporal aspect of crops that are continuously growing and changing. As in the previous work, they rely on UAVs and AGVs because of their potential to collect
+data at high spatial and temporal resolution very efficiently. They present a crop monitoring method for $4D$ representation considering both space and time, as well as an algorithm
+for robust data association that can deal with heavy environment variations. The work assumes a static environment during a data acquisition process, which means that it ignores
+unexpected dynamic changes that can be expected in real-world environments and focuses on the evaluation of the proposed methods. Moreover, the aspect of autonomy is still not taken
+into account.\newline
 
 \pagebreak
 
