@@ -202,6 +202,19 @@ AI building blocks, they identify \textit{navigation \& mapping}, \textit{percep
 facets together to actually create systems that work in a practical way. Particularly relevant to this work are the identified natural challenge of system integration, i.e.
 integrating numerous methods and technologies into a comprehensive solution for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the
 help of human operators in unexpected problematic situations. \cite{Kunze:2018}\newline
+Of course, there are not only long-term autonomous ground vehicles (AGVs). There is even more literature regarding the application of autonomous underwater vehicles (AUVs) and
+unmanned aerial vehicles (UAVs) for extended periods of time. Steinberg et al. \cite{Steinberg:2016} discuss challenges and opportunities for long-term autonomous systems in
+maritime applications. They argue that many of the previous attempts in the literature targeting autonomous systems fail when the environment varies during deployment, e.g.
+due to weather or seasonal effects. The work identifies three main types of challenges for long-term autonomous systems:
+\begin{enumerate}
+    \item transience of initial knowledge of state, environment, goals, etc.
+    \item insufficiencies of traditional fault monitoring / diagnosis due to extended operating times
+    \item demand for context-based constraints, priorities and goals
+\end{enumerate}
+The authors highlight that most autonomous maritime operations in the literature are of short duration and that humans must intervene whenever an unexpected situation arises. 
+Furthermore, the work underlines the demand for robust solutions even when the environment and context changes heavily. What will also be of particular importance
+in this thesis is their view of the human operator. They do not envision autonomous systems that should completely abandon human cooperation, but point to the importance of
+appropriate communication channels (dialogue / explanations) for autonomous systems.\newline
 
 \textit{Execution Monitoring.}\newline
 
@@ -1803,7 +1816,11 @@ Hawes et al. introduce two useful metrics to evaluate the performance of a long-
 first measures the time the robot was in autonomous operation and is reset when an unrecoverable failure or an unrequested intervention of the human operator is required. However,
 it does not make sense to evaluate this time when it certainly depends on the frequency with which the failures that are considered in this work are simulated. The second metric
 (autonomy percentage), on the other hand, is very useful for this work as well. \textquote{The motivation of the autonomy percentage is that it is of little value to achieve a long
-total system lifetime if the system does nothing}. \cite{Hawes:2017} 
+total system lifetime if the system does nothing}. \cite{Hawes:2017}
+Steinberg et al. \cite{Steinberg:2016} introduce the metric of time between undesired human interventions. By undesired situations, they mean situations in which the robot should
+in principle be able to recover itself, as opposed to situations in which human intervention is expected. Applied to this work, this could refer to LTA failures for which specific
+solutions or workarounds have been proposed but do not succeed (cf. \ref{sec:solutions_for_lta_challenges}). Furthermore, they propose a metric for information sharing, i.e. the
+percentage of time the robot communicates meaningful information to the operator.
 
 \chapter{Conclusion}
 
