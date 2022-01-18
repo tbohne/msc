@@ -76,9 +76,14 @@ TBD. \dots
 
 TODO: ADD INTRO TEXT: Why is LTA interesting and relevant for agriculture?\newline
 
+Long-term autonomous robotic systems in highly dynamic real-world applications are becoming a reality. \cite{Kunze:2018}\newline
+
 Achieving robust, long-term autonomy is particularly challenging because it is impossible to envision all potential situations that the robot may encounter.
 \cite{Hawes:2017}\newline
 A particular challenge is the navigation in such scenarios in highly dynamic real-world environments. \cite{DelDuchetto:2018}\newline
+
+Execution monitoring approaches that address failures preventing a system's long-term autonomy by providing recovery mechanisms have to be a crucial component
+of long-term autonomous architectures. \cite{Kunze:Kunze:2018}
 
 As the title suggests, the goal of this work is to integrate a prototypical system for long-term autonomous plant observation that is able to address 
 particular challenges for long-term autonomy in such a context through the use of execution monitoring methods. Initially, typical challenges that may stand in the way of a mobile
@@ -189,18 +194,23 @@ seasons, etc.). \cite{Han:2018} Their method for long-term autonomous place reco
 landmarks and holistic scene information. The idea of long-term location recognition is to be able to detect whether the place where a robot is currently located is a
 previously visited place and, if necessary, to identify it in the history (loop closure). \cite{Han:2018} Long-term place recognition is an essential milestone on the way to robust
 localization and thus long-term autonomy of mobile robots in general.\newline
-
-Kunze et al. point out that many challenges remain to be overcome with respect to the reliable deployment of long-term autonomous robots in real-world environments.
-Particularly relevant to this work are the natural challenge of system integration, i.e. integrating numerous methods and technologies into a comprehensive solution 
-for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the help of human operators in unexpected problematic situations. \cite{Kunze:2018}
-TODO: Extend..
+An important overview of the state of the art in artificial intelligence for long-term autonomy has been provided by Kunze et al. \cite{Kunze:2018}. The authors point out that there
+are still many challenges to be overcome with respect to the reliable deployment of long-term autonomous robots in dynamic, partially unknown real-world environments. As essential
+AI building blocks, they identify \textit{navigation \& mapping}, \textit{perception}, \textit{knowledge representation \& reasoning}, \textit{planning}, \textit{interaction}, and
+\textit{learning}. All of these aspects have been major research areas in the AI / robotics literature for decades. The survey emphasizes the importance of bringing all of these
+facets together to actually create systems that work in a practical way. Particularly relevant to this work are the identified natural challenge of system integration, i.e.
+integrating numerous methods and technologies into a comprehensive solution for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the
+help of human operators in unexpected problematic situations. \cite{Kunze:2018}
 
 \pagebreak
 
 \section{Long-Term Autonomous Plant Observation}
 \label{sec:lta_plant_observation}
 
-The particular scenario that is going to be considered in this work takes place in an agricultural context.
+The particular scenario that is going to be considered in this work takes place in an agricultural context. Therefore, the robot will be faced with a highly dynamic unstructured
+environement. Long-term autonomy in known static environments is essentially solvable by a robust system that is able to
+stay functional for extended periods of time. \cite{Kunze:2018} In contrast, a highly dynamic, partially unknown environment such as in this scenario poses much more difficult
+challenges, e.g., due to unexpected environmental changes that are hard, if not impossible, to anticipate.
 The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans and hyperspectral images of the plants on a field in order to monitor their growth progression and 
 to detect certain features based on the growth stage. Moreover, these recordings can be used to detect leaf diseases [TODO: refine based on literature].
 Correspondingly, the robot has to be able to process the entire field continually without the need for human supervision,
