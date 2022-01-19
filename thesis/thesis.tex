@@ -76,6 +76,8 @@ TBD. \dots
 
 TODO: ADD INTRO TEXT: Why is LTA interesting and relevant for agriculture?\newline
 
+The idea that robots can be used to efficiently monitor large areas has numerous real-world applications in precision agriculture. \cite{Bargoti:2015}
+
 Autonomous crop monitoring, a classic domain of precision agriculture, has the goal of detecting potential problems as soon as possible in order to avoid yield losses
 while optimizing costs and environmental impact. \cite{Dong:2014} \cite{Dong:2017}
 
@@ -272,6 +274,9 @@ data at high spatial and temporal resolution very efficiently. They present a cr
 for robust data association that can deal with heavy environment variations. The work assumes a static environment during a data acquisition process, which means that it ignores
 unexpected dynamic changes that can be expected in real-world environments and focuses on the evaluation of the proposed methods. Moreover, the aspect of autonomy is still not taken
 into account.\newline
+Bargoti et al. \cite{Bargoti:2015} introduce a system for automated tree detection on an apple orchard that combines image data and laser scans. The work highlights that information
+acquisition and processing is becoming increasingly relevant for farmers trying to optimize the efficiency of their processes. The developed system is a UGV capable of autonomous
+operation via intrarow nagivation. However, the authors point out issues regarding localization reliability and GPS connectivity that need to be addressed in future work.
 
 \pagebreak
 
@@ -569,7 +574,9 @@ Therefore, tt would be valuable to identify such problems as soon as possible to
 For the robot to work as expected, it must maintain connections to various services. Accordingly, an interruption of one of these connections should be detected immediately.
 A real time communication channel (e.g. WiFi) is required to connect the RTK base station, i.e. the mobile container, and the RTK rover, i.e. the robot, in order to
 transmit the correction signals for high-precision positioning. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals,
-i.e. are connected to the GNSS service. In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
+i.e. are connected to the GNSS service. Bargoti et al. \cite{Bargoti:2015} identify occlusions of GPS satellites leading to jumps in estimated position as one of the main reasons
+for detection failures in their tree monitoring scenario, which highlights the value of being able to detect poor GNSS links.
+In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
 to the base station or external servers for further processing. Whether LTE is behind it or the internet connection is provided via the WiFi connection, it would make sense
 to monitor the robot's internet connection in any case.\newline
 
