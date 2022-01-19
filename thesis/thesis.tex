@@ -211,7 +211,7 @@ facets together to actually create systems that work in a practical way. Particu
 integrating numerous methods and technologies into a comprehensive solution for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the
 help of human operators in unexpected problematic situations. \cite{Kunze:2018}\newline
 Of course, there are not only long-term autonomous ground vehicles (AGVs). There is even more literature regarding the application of autonomous underwater vehicles (AUVs)
-(\cite{Jones:2012}, \cite{Spears:2014}) and
+(\cite{Jones:2012}, \cite{Spears:2014}, \cite{Kunz:2009}) and
 unmanned aerial vehicles (UAVs) for extended periods of time. Steinberg et al. \cite{Steinberg:2016} discuss challenges and opportunities for long-term autonomous systems in
 maritime applications. They argue that many of the previous attempts in the literature targeting autonomous systems fail when the environment varies during deployment, e.g.
 due to weather or seasonal effects. The work identifies three main types of challenges for long-term autonomous systems:
@@ -1792,7 +1792,8 @@ The problem can be trivially simulated by simply not launching the plan generati
 As anticipated, the focus of the work is on detection, and an initial solution adopted for all the issues identified in section \ref{sec:challenges_for_lta} will be 
 to communicate the problem to a human operator. Requesting the help of the human operator not only serves as an initial solution, but is always acting as fallback 
 solution when other solution attempts are unsuccessful. The idea is to have the monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} that 
-look for the specific types of issues and initiate an appropriate response.\newline
+look for the specific types of issues and initiate an appropriate response. Kunz et al. \cite{Kunz:2009} emphasize that the robustness of a system can be maximized by
+providing fail-safe procedures. Although they are dealing with AUVs, the general problem remains the same.\newline
 Whenever a monitoring solution described in section \ref{sec:sim_and_mon_of_lta_challenges} causes a transition to the \code{CONTINGENCY} or \code{CATASTROPHE} states
 by publishing on the respective topics \code{contigency\_preemption} or \code{catastrophe\_preemption}, information about the cause of the interruption is
 transmitted via a ROS message. Based on this cause, the corresponding resolver class is selected and executed. The idea is that each general problem class, e.g.
