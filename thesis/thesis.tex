@@ -385,7 +385,10 @@ slots displayed in fig. \ref{fig:arox_system}. For the actual task of plant moni
 which can be combined with a calibrated hyperspectral or RGB camera (cf. fig. \ref{fig:arox_system}). \cite{Kisliuk:2021}
 For navigation, the ROS package \code{move\_base\_flex} \cite{Puetz:2018} is used, a more flexible extension of the standard ROS navigation framework \code{move\_base}.
 The primarily used path planning algorithms are provided by the ROS packages \code{eband\_local\_planner} and \code{dwa\_local\_planner}.
-In addition to the actual physically available AROX, the system has been modeled in the unified robot description format (URDF) and can be used in a simulation. TODO: Extend..
+Effective navigation assumes knowledge of the environment, e.g. a map, so that the robot can estimate its position relative to the navigation target. \cite{Krajnik:2010}
+There are numerous approaches to representing knowledge about the environment. The map may be static and such that the robot only needs to be able to locate itself in that
+map, or the robot may need to perform simultaneous localization and mapping (SLAM). \cite{Krajnik:2010} In addition to the actual physically available AROX, the system has
+been modeled in the unified robot description format (URDF) and can be used in a simulation. TODO: Extend..
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/AROX.jpg}
