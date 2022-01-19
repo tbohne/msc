@@ -175,7 +175,7 @@ mobility, plant monitoring) can be considered and researched in isolation, which
 these aspects in combination and to focus on the big picture of integrating them into systems that are actually useful. The following literature review will therefore attempt to
 provide an overview of the literature on all of these subfields, but with the clear intention of considering them together rather than in isolation.\newline
 One distinction that must be emphasized when reviewing long-term autonomous robot applications in the literature is the distinction between indoor and outdoor environments.
-So far, there has been a focus on indoor environments (TODO: check - is that so?). Despite the obvious challenges that indoor environments pose, they are arguably less dangerous and
+So far, there has been a focus on indoor environments. \cite{Kyberd:2021} Despite the obvious challenges that indoor environments pose, they are arguably less dangerous and
 troublesome than outdoor scenarios. \cite{Hawes:2017}\newline
 
 \textit{Long-Term Autonomy.}\newline
@@ -228,6 +228,12 @@ for extended periods of time. They emphasize the need for execution monitoring, 
 requests to human operators as needed. A particular focus of the work is on the robustness of the systems and understanding the nature of faults through extensive logging.
 Ultimately, they require the intervention of human operators only in very rare situations and provide stable, long-term autonomous operation in the office environments considered.
 \newline
+More recently, Kyberd et al. \cite{Kyberd:2021} presented their work on long-term autonomy in diverse outdoor environements. They emphasize that the focus in the literature to date
+has been on indoor environments due to hazardous weather conditions and the like in outdoor settings. The work introduces design principles for UGVs suited to the specific
+intricacies of operating outdoors, with particular emphasis on redundant safety layers and the ability to function in harsh weather and lighting conditions. Since their systems
+lacks an autonomous charging procedure, a human operator is notified whenever the robot needs to be recharged. The authors indicate that in the future they will aim for autonomous
+charging, e.g. by inductive charging, so that the entire operating cycle can be captured autonomously. This is exactly what the integration of autonomous docking described in section
+\ref{sec:docking_solution} aims to achieve in this work.\newline
 
 \textit{Execution Monitoring.}\newline
 
