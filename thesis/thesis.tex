@@ -223,6 +223,11 @@ in public buildings such as museums, exhibitions, and shopping malls. For instan
 shopping assistant in long-term real-world applications. The authors particularly emphasize the goal of relieving the human employees of trivial routine tasks. A crucial aspect for
 such robotic systems interacting directly with potentially inexperienced users is the development of adequate interfaces that meet the specific communication and interaction
 standards. With \textit{human-robot interaction (HRI)}, there is an entire field of research that addresses such problems, which are largely disregarded in this work.\newline
+Biswas et al. \cite{Biswas:2016} discuss results and insights from deploying a team of mobile service robots (\textit{CoBots}) in dynamic, unstructured real-world office environments
+for extended periods of time. They emphasize the need for execution monitoring, which they incorporate in the form of scripts that monitor the progress of tasks and relay help
+requests to human operators as needed. A particular focus of the work is on the robustness of the systems and understanding the nature of faults through extensive logging.
+Ultimately, they require the intervention of human operators only in very rare situations and provide stable, long-term autonomous operation in the office environments considered.
+\newline
 
 \textit{Execution Monitoring.}\newline
 
@@ -468,7 +473,11 @@ from a practical perspective, fulfill the above restrictions and are thus worthy
     \item \textbf{mapping error} (e.g. incorrect costmap entries)
     \item \textbf{plan deployment failure}, i.e. robot remains in idle state
 \end{itemize}
-For each potential problem identified, its relevance and consequences, i.e. a brief description of why it might be problematic, is provided below.
+When trying to envision challenges for long-term autonomous application of mobile robots, a common approach is to simply run a robot in such an environment for extended periods
+of time and log any information that might somehow be relevant and indicative of problems, e.g. sensor data, internal diagnostics etc. \cite{Biswas:2016}
+Some of the problems from the above list result from attempts of this type or the coincidental occurrence in other experiments. Others are obviously potential problems that may occur
+and do not require further evidence or justification. The last group is the result of extensive literature research, i.e. challenges encountered in long-term autonomous experiments
+presented in the literature. For each potential problem identified, its relevance and consequences, i.e. a brief description of why it might be problematic, is provided below.
 A more detailed consideration as well as monitoring and simulation approaches for each selected problem are presented in section \ref{sec:sim_and_mon_of_lta_challenges}.\newline
 
 \noindent
