@@ -231,7 +231,7 @@ facets together to actually create systems that work in a practical way. Particu
 integrating numerous methods and technologies into a comprehensive solution for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the
 help of human operators in unexpected problematic situations. \cite{Kunze:2018}\newline
 Of course, there are not only long-term autonomous ground vehicles (AGVs). There is even more literature regarding the application of autonomous underwater vehicles (AUVs)
-(\cite{Jones:2012}, \cite{Spears:2014}, \cite{Kunz:2009}, \cite{Chrpa:2015}) and
+(\cite{Jones:2012}, \cite{Spears:2014}, \cite{Kunz:2009}, \cite{Chrpa:2015}, \cite{Harris:2021}) and
 unmanned aerial vehicles (UAVs) for extended periods of time. AUVs are particularly used for scientific observations and security applications. \cite{Chrpa:2015}
 Steinberg et al. \cite{Steinberg:2016} discuss challenges and opportunities for long-term autonomous systems in
 maritime applications. They argue that many of the previous attempts in the literature targeting autonomous systems fail when the environment varies during deployment, e.g.
@@ -292,6 +292,12 @@ and is in turn considering monitoring particularly focused on plan execution.\ne
 Winder \cite{Winder:2016} proposes an anomaly reasoning framework capable of recognizing and responding to previously unknown entities and situations, with the overall goal of
 increasing an agent's versatility and robustness in dynamic environments. The author postulates the hypothesis that such an approach requires the integration of machine learning
 methods and systematic knowledge representation.\newline
+Recently, Harris et al. \cite{Harris:2021} presented an execution monitoring and online plan modification approach that considers aspects such as resource availability
+and goal reasoning. The approach is evaluated in a long-term AUV scenario with very limited opportunities for human intervention and a highly dynamic and uncertain environment.
+Their method is based on the idea of altering the plan as needed, e.g. adding goals when resource consumption is lower than expected and removing goals (starting with those with
+low priority) when it is higher than expected. In order not to generate infeasible plans, the method relies on information about the causal relationship between actions. In cases
+where resources are uncertain, one approach is to provide branches in plans that allow a decision to be made between multiple options based on available resources. \cite{Harris:2021}
+The general monitoring and resolution approaches developed in this thesis are not as tethered to a plan, but the overall idea and goals are similar.\newline
 
 \textit{Crop Monitoring.}\newline
 
@@ -950,7 +956,8 @@ such as planning, acting, monitoring, goal reasoning, reasoning about sensing an
 fundamental - planning, acting and monitoring. Although, this is not about the planning itself, but rather about the handling and execution of given plans.
 A key aspect of dealing with some of the potential issues introduced in section \ref{sec:challenges_for_lta} is going to be that the robot will not be able to
 complete its missions without preempting the plan execution from time to time. Either due to insufficient battery capacity or other unmanageable conditions such as 
-drastic weather changes that force the robot to interrupt its task. Although the overall route may always be the same for the same field, there are certain stopping
+drastic weather changes that force the robot to interrupt its task. As Harris et al. remark: \textquote{Fixed plans may fail if states encountered during execution do not
+sufficiently reflect the assumptions made during plan generation}. \cite{Harris:2021} Although the overall route may always be the same for the same field, there are certain stopping
 conditions that cause the robot to interrupt its active scanning tour and possibly drive back to its base, i.e. the mobile container.
 There are generally two relevant perspectives. First, such stops have to be considered at planning time by acknowledging charge stops as crucial part of the plan.
 Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
