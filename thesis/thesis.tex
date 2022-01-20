@@ -100,7 +100,13 @@ While long-term autnomous robots have enormous potential to increase efficiency 
 and safe enough to be used with a clear conscience in a wide variety of real-world environments. \cite{Arvin:2018}
 
 Execution monitoring approaches that address failures preventing a system's long-term autonomy by providing recovery mechanisms have to be a crucial component
-of long-term autonomous architectures. \cite{Kunze:Kunze:2018}
+of long-term autonomous architectures. \cite{Kunze:Kunze:2018}\newline
+
+According to Pinillos et al. there are two major requirements that robots must meet in order to be commercially successful: A reasonable price-performance ratio
+and a robust task performance. \cite{Pinillos:2016} This thesis is primarily concerned with the latter. Almost regardless of the actual service a robot provides, it must be robust
+in its basic autonomous capabilities such as localization, navigation, perception, etc. Pinillos et al. underline another aspect that is a major motivation for this work:
+\textquote{Research efforts often focus on robot localization, navigation, planning or face recognition, but fail in the integration of different technologies to create useful
+applications.} \cite{Pinillos:2016} This is precisely the objective of this thesis - to work towards robust integrated systems.\newline
 
 As Ingrand at al. put it: \textquote{Autonomous robots facing a diversity of environments, a variety of tasks and a range of interactions cannot be
 preprogrammed by foreseeing at the design stage all possible courses of actions they may require. These robots need to perform some explicit deliberation.} \cite{Ingrand:2017}
@@ -1952,10 +1958,10 @@ For this purpose, there is an inductive charging station located in a mobile con
 Thus, the power supply could be realized by integrating an autonomous docking / undocking solution that enables the robot to detect
 the container in a laser scan of its nearby surroundings, drive into it and dock to the inductive charging station.
 This docking solution could be used for both planned charge stops as well as unexpected but necessary stops detected by monitoring processes such
-as the one described in section \ref{sec:battery_monitoring}. Similar to Hawes et al. \cite{Hawes:2017}, one could exploit the fact that the robot keeps returning to the charging
-station by resetting the position to the location inside the container aligned in front of the charging station to avoid cumulative localization errors. In contrast to the scenario
-considered there, however, the exact position of the container is not necessarily assumed to be known, but it must be detected within a certain range. Nevertheless, it will certainly
-be the same within a mission, so one can expect to use it as a landmark after the initial detection.
+as the one described in section \ref{sec:battery_monitoring}. Similar to Hawes et al. \cite{Hawes:2017} and Pinillos et al. \cite{Pinillos:2016}, one could exploit the fact that the
+robot keeps returning to the charging station by resetting the position to the location inside the container aligned in front of the charging station to avoid cumulative localization
+errors. In contrast to the scenario considered there, however, the exact position of the container is not necessarily assumed to be known, but it must be detected within a certain
+range. Nevertheless, it will certainly be the same within a mission, so one can expect to use it as a landmark after the initial detection.
 
 \chapter{Experiments and Evaluation}
 
