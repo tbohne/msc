@@ -291,6 +291,9 @@ inherent risks. They model the problem as a \textit{Partially Observable Markov 
 managing the stochastic actions.\newline
 Furgale et al. \cite{Furgale:2010} present a mobile robotic system capable of LTA operation in a dynamic outdoor environement based on a visual teach-and-repeat approach relying
 only on a stereo camera. The authors stress that most failures during autonomous navigation are due to changes in the environment. (cf. \ref{sec:challenges_for_lta}).\newline
+Tipaldi et al. \cite{Tipaldi:2013} introduce a robust probabilistic localization framework for long-term autonomous systems, particularly acknowledging environement changes during
+LTA operations. The authors state that previous approaches to localization in dynamic environements often treated dynamic objects as outliers and that this is insufficient
+for semi-static objects such as doors.\newline
 
 \textit{Execution Monitoring.}\newline
 
@@ -647,7 +650,8 @@ often systematic and repeatable. Moreover, Latif et al. tackle the task of place
 to winter, without requiring knowledge of the image correspondence beforehand, ending up with different versions of an environment snapshot in which the structure remains the same.
 \cite{Latif:2018} These versions can then be used to learn how to distinguish locations. A further approach to recognizing changes between observations is based on the idea of
 learning to separate the static and dynamic structures of an environement during long-term deployments. \cite{Ambrus:2014}
-In the scenario considered in this work, it is particularly relevant that the robot is able to recognize the place of the mobile container
+Visual place recognition is a very active area of research, where it is far beyond the scope of this thesis to cover all recent advances (cf. \cite{Porav:2018},
+\cite{Lowry:2016}). In the scenario considered in this work, it is particularly relevant that the robot is able to recognize the place of the mobile container
 that serves as shelter and provides the charging station. In addition to the natural changes in the environment over time, there is another important aspect
 that makes long-term place recognition particularly challenging - the perceptual aliasing issue. This problem refers to the fact that certain places and objects are very 
 similar to each other, that is, they have many common characteristics, which makes them hard to distinguish. \cite{Han:2018}
