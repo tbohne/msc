@@ -302,9 +302,14 @@ not possible to know every relevant aspect of the world in advance - LTA robots 
 Santos et al. \cite{Santos:2017} focus on spatio-temporal environment representations during long-term autonomous operations of mobile robots with the goal of constantly updating
 and refining the robot's knowledge of its dynamic environement during the application. They view it as a never-ending task of acknowledging environemental changes, which is a key
 requirement for long-term autonomy without human intervention. \cite{Santos:2017}\newline
+Recently, Emam et al. \cite{Emam:2021} presented a \textit{Control Barrier Function (CBF)} framework to tackle the problem of perturbations that the robot may face. The authors
+underscore that when developing new algorithms for robots operating autnomously for extended periods of time in dynamic environements, it is imperative to pay close attention to
+robustness in order to deal with all the challenges potentially occuring in such situations (cf. \ref{sec:challenges_for_lta}). As they claim: 
+\textquote{[...] if these disturbances are not addressed, the possibility of failure becomes almost assured if the robots are required to operate over long time horizons.}
+\cite{Emam:2021} Accordingly, the work indicates the need for robust control mechanisms capable of dealing with such contingencies.\newline
 In conclusion, there is not a great deal of research on long-term experiments with autonomous robots, mainly for two reasons:
 Long-term studies are obviously more time-consuming and tedious, especially in real-world outdoor environments, and furthermore it is only in recent years that it has become
-reasonably realistic to conduct such experiments based on technological progress. \cite{Leite:2013}
+reasonably realistic to conduct such experiments based on technological progress. \cite{Leite:2013}\newline
 
 \textit{Execution Monitoring.}\newline
 
@@ -665,7 +670,7 @@ to winter, without requiring knowledge of the image correspondence beforehand, e
 \cite{Latif:2018} These versions can then be used to learn how to distinguish locations. A further approach to recognizing changes between observations is based on the idea of
 learning to separate the static and dynamic structures of an environement during long-term deployments. \cite{Ambrus:2014}
 Visual place recognition is a very active area of research, where it is far beyond the scope of this thesis to cover all recent advances (cf. \cite{Porav:2018},
-\cite{Lowry:2016}, \cite{Sünderhauf:2013}, \cite{Lowry:2016}, \cite{Milford:2012}). In the scenario considered in this work, it is particularly relevant that the robot is able to recognize the place of the mobile container
+\cite{Lowry:2016}, \cite{Suenderhauf:2013}, \cite{Lowry:2016}, \cite{Milford:2012}). In the scenario considered in this work, it is particularly relevant that the robot is able to recognize the place of the mobile container
 that serves as shelter and provides the charging station. In addition to the natural changes in the environment over time, there is another important aspect
 that makes long-term place recognition particularly challenging - the perceptual aliasing issue. This problem refers to the fact that certain places and objects are very 
 similar to each other, that is, they have many common characteristics, which makes them hard to distinguish. \cite{Han:2018}
