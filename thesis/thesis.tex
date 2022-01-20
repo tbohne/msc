@@ -102,6 +102,13 @@ and safe enough to be used with a clear conscience in a wide variety of real-wor
 Execution monitoring approaches that address failures preventing a system's long-term autonomy by providing recovery mechanisms have to be a crucial component
 of long-term autonomous architectures. \cite{Kunze:Kunze:2018}
 
+As Ingrand at al. put it: \textquote{Autonomous robots facing a diversity of environments, a variety of tasks and a range of interactions cannot be
+preprogrammed by foreseeing at the design stage all possible courses of actions they may require. These robots need to perform some explicit deliberation.} \cite{Ingrand:2017}
+They highlight that deliberation capabilities increase the flexibility and robustness of robotic systems.
+Interestingly, the deployment of autonomous robots in agricultural scenarios is one of the most challenging domains in the field.
+Although (semi-)autonomous planetary exploration rovers such as \textit{Curiosity} encounter manifold and demanding tasks, the environment is quite predictable and exhibits
+rather low semantic complexity, in contrast to agricultural robots, which face a richer environment populated by humans, etc. \cite{Ingrand:2017}\newline
+
 As the title suggests, the goal of this work is to integrate a prototypical system for long-term autonomous plant observation that is able to address 
 particular challenges for long-term autonomy in such a context through the use of execution monitoring methods. Initially, typical challenges that may stand in the way of a mobile
 robot's long-term autonomy in an agricultural setting will be identified. Afterwards, a subset of these challenges will be studied systematically in order to 
@@ -190,7 +197,8 @@ these aspects in combination and to focus on the big picture of integrating them
 provide an overview of the literature on all of these subfields, but with the clear intention of considering them together rather than in isolation.\newline
 One distinction that must be emphasized when reviewing long-term autonomous robot applications in the literature is the distinction between indoor and outdoor environments.
 So far, there has been a focus on indoor environments. \cite{Kyberd:2021} Despite the obvious challenges that indoor environments pose, they are arguably less dangerous and
-troublesome than outdoor scenarios. \cite{Hawes:2017}\newline
+troublesome than outdoor scenarios. \cite{Hawes:2017} Considering the broadness of these research fields, it is obviously not possible to discuss all the relevant fundamentals.
+The idea is to provide a meaningful overview.\newline
 
 \textit{Long-Term Autonomy.}\newline
 
@@ -947,16 +955,20 @@ In such a case, the robot needs to be able to save the current state of the plan
 for the interruption has been resolved. Consequently, the robot has to be prepared to pause and resume the execution of a given plan, which is far from 
 trivial, since the original plan may no longer be applicable for various reasons. In this work, \textit{monitoring} is not meant to monitor plan execution in the sense of evaluating
 pre- and post-conditions of specific high-level actions and the like, but is to be understood in a more general sense to monitor aspects of the robot system as well as its environment
-that have been identified as critical to successful long-term autonomous deployment (cf. \ref{sec:challenges_for_lta}). As Hawes et al. put it: \textquote{A key strategy for
+that have been identified as critical to successful long-term autonomous deployment (cf. \ref{sec:challenges_for_lta}). Essentially, the things that are implicitly part of the plan,
+like working sensors and a reasonable battery state of charge. \cite{Ingrand:2017} Based on the challenges identified in section \ref{sec:challenges_for_lta}, this includes the use of
+proprioceptive as well exteroceptive sensors and information. As Hawes et al. put it: \textquote{A key strategy for
 delivering long-term robustness is the monitoring of system behavior, from the individual component level up to navigation and task behaviors, as well as the ability to restart
 system elements on demand}. \cite{Hawes:2017} Likewise, Furgale et al. assert that long-term autonomous robots need introspection capabilities to recognize internal problems in
-the interest of safety. \cite{Furgale:2015}
+the interest of safety. \cite{Furgale:2015} Ingrand et al. perfectly summarize the view of monitoring in this work: \textquote{Compares what is predicted regarding the robot
+activities to what is observed in the world. It detects and interprets discrepancies, performs diagnosis and triggers recovery actions when needed.} \cite{Ingrand:2017}
 
 \section{Plan Generation and Format}
 \label{sec:plan_generation}
 
 Long-term autonomous robot operation commonly includes following some sort of plan $\pi$. Planning is the process of selecting and ordering actions that must be performed to
-achieve an objective. \cite{GNT:2016} However, since the actual planning is not part of this work, it is assumed that
+achieve an objective. \cite{GNT:2016} While actions generally refer to processes that change the state of the robot or its environement, they can be considered at different
+levels ob abstraction. \cite{Ingrand:2017} However, since the actual planning is not part of this work, it is assumed that
 plans are provided and usable, e.g. handcrafted by a human operator or generated by a planner from the literature.
 For the purpose of parsing a plan $\pi$ and making it retrievable via a service call, a ROS node was developed.
 In order for the node to parse the plans, they must be formulated in the following CSV format.
@@ -966,7 +978,8 @@ Each line in a provided CSV file represents one action $a \in A$ of a plan $\pi$
 but \code{drive\_to$(lat, lng, \theta)$} needs the additional arguments latitude ($lat$), longitude ($lng$), and orientation ($\theta$) of the target pose.
 An example for a simple plan is shown in figure \ref{fig:plan_example}. 
 When the robot executes this plan, it drives to the four specified locations in sequence and records scans.
-Afterwards, it returns to the base and recharges its battery.
+Afterwards, it returns to the base and recharges its battery. However, acting requirers a lot more than only processing abstract actions provided by a plan (cf. 
+\ref{sec:execution_monitoring_smach_architecture}). \cite{Ingrand:2017}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{pics/plan_example.png}
@@ -1010,7 +1023,8 @@ are the deliberation functions that are also capable of sending commands such as
 Obviously, the AROX interacts with its environment via its sensors and actuators.\newline
 Plan execution, as well as robot operation monitoring, i.e. the \textquote{deliberation functions}-module in fig. \ref{fig:abstract_actor}, is modeled as a high-level hierarchically
 structured state machine, whose architecture is shown in figure \ref{fig:high_level_smach}. The architecture is implemented using the SMACH\footnote{ROS-independent Python
-library to build hierarchical state machines \cite{smach}} library.
+library to build hierarchical state machines \cite{smach}} library. The main objectives of monitoring are to detect deviations between what is expected and what is observed
+(fault detection), diagnosis of the reasons for such deviations (identification), and provision of recovery options. \cite{Ingrand:2017}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{pics/SMACH_high_level.jpg}
