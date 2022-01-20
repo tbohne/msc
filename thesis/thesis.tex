@@ -448,8 +448,10 @@ For navigation, the ROS package \code{move\_base\_flex} \cite{Puetz:2018} is use
 The primarily used path planning algorithms are provided by the ROS packages \code{eband\_local\_planner} and \code{dwa\_local\_planner}.
 Effective navigation assumes knowledge of the environment, e.g. a map, so that the robot can estimate its position relative to the navigation target. \cite{Krajnik:2010}
 There are numerous approaches to representing knowledge about the environment. The map may be static and such that the robot only needs to be able to locate itself in that
-map, or the robot may need to perform simultaneous localization and mapping (SLAM). \cite{Krajnik:2010} In addition to the actual physically available AROX, the system has
-been modeled in the unified robot description format (URDF) and can be used in a simulation. TODO: Extend..
+map, or the robot may need to perform simultaneous localization and mapping (SLAM). \cite{Krajnik:2010} Particularly in long-term autonomy scenarios, the robot must be able to cope
+with environmental changes over time. Santos et al. propose a way for the robot to update and refine its environment representations during long-term application. \cite{Santos:2016}
+They introduce a $4D$ environment representation, i.e. they incorporate the time domain to account for dynamic changes. (TODO: what is the AROX doing?)
+In addition to the actual physically available AROX, the system has been modeled in the unified robot description format (URDF) and can be used in a simulation. TODO: Extend..
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/AROX.jpg}
