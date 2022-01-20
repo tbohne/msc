@@ -626,7 +626,9 @@ the appearance of places in the environment changes quite drastically over time,
 A useful approach to compare two images (places) is local feature matching, e.g. based on the \textit{Scale-Invariant Feature Transform (SIFT)} and
 \textit{Speeded Up Robust Features (SURF)} algorithms. \cite{Valgren:2007} The authors discuss how such approaches can be facilitatd to address the problems related to drastic
 environment changes. Another method, proposed by Neubert et al. \cite{Neubert:2013} attempts to predict environemental appearance changes based on the assumption that they are
-often systematic and repeatable.
+often systematic and repeatable. Moreover, Latif et al. tackle the task of place recognition using \textit{Generative Adversarial Networks (GANs)}, which enable them to transform the appearance, e.g. from summer
+to winter, without requiring knowledge of the image correspondence beforehand, ending up with different versions of an environment snapshot in which the structure remains the same.
+\cite{Latif:2018} These versions can then be used to learn how to distinguish locations.
 In the scenario considered in this work, it is particularly relevant that the robot is able to recognize the place of the mobile container
 that serves as shelter and provides the charging station. In addition to the natural changes in the environment over time, there is another important aspect
 that makes long-term place recognition particularly challenging - the perceptual aliasing issue. This problem refers to the fact that certain places and objects are very 
