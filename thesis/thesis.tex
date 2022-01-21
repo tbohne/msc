@@ -87,6 +87,8 @@ detecting potential problems as soon as possible in order to avoid yield losses 
 yield loss without the need for manual sampling, which is too expensive and inefficient. \cite{Carlone:2015}\newline
 On the technological side, long-term autonomous robotic systems in highly dynamic real-world applications are becoming a reality. \cite{Kunze:2018} Nonetheless, achieving robust
 long-term autonomy is particularly challenging because it is impossible to envision all potential situations that the robot may encounter. \cite{Hawes:2017}
+As Ingrand at al. put it: \textquote{\textit{Autonomous robots facing a diversity of environments, a variety of tasks and a range of interactions cannot be
+preprogrammed by foreseeing at the design stage all possible courses of actions they may require.}} \cite{Ingrand:2017}
 Thus, while long-term autnomous robots have enormous potential to increase efficiency and reduce the burden on humans in many areas, they are often not yet reliable
 and safe enough to be used with a clear conscience in a wide variety of real-world environments. \cite{Arvin:2018} Execution monitoring approaches that address failures preventing
 a system's long-term autonomy by providing recovery mechanisms have to be a crucial component of robotic architectures. \cite{Kunze:2018}
@@ -97,11 +99,8 @@ in order to be commercially successful: A reasonable price-performance ratio and
 Almost regardless of the actual service a robot provides, it must be robust in its basic autonomous capabilities such as localization, navigation, perception, etc. Pinillos et al.
 underline another aspect that is a major motivation for this work: \textquote{\textit{Research efforts often focus on robot localization, navigation, planning or face recognition,
 but fail in the integration of different technologies to create useful applications.}} \cite{Pinillos:2016} This is precisely the objective of this thesis - to work towards robust
-integrated systems. As Ingrand at al. put it: \textquote{\textit{Autonomous robots facing a diversity of environments, a variety of tasks and a range of interactions cannot be
-preprogrammed by foreseeing at the design stage all possible courses of actions they may require. These robots need to perform some explicit deliberation.}} \cite{Ingrand:2017}
-They highlight that deliberation capabilities increase the flexibility and robustness of robotic systems.
-Interestingly, the deployment of autonomous robots in agricultural scenarios is one of the most challenging domains in the field.
-Although (semi-)autonomous planetary exploration rovers such as \textit{Curiosity} encounter manifold and demanding tasks, the environment is quite predictable and exhibits
+integrated systems. Intriguingly, agricultural scenarios represent one of the most challenging domains in the field of autonomous mobile robotics. Although (semi-)autonomous
+planetary exploration rovers such as NASA's \textit{Curiosity} encounter manifold and demanding tasks, the environment is quite predictable and exhibits
 rather low semantic complexity, in contrast to agricultural robots, which face a richer environment populated by humans, etc. \cite{Ingrand:2017}\newline
 
 As the title suggests, the goal of this work is to integrate a prototypical system for long-term autonomous plant observation that is able to address 
@@ -117,7 +116,10 @@ the real robot, i.e., acting. As Ghallab et al. phrase it \textquote{\textit{Pla
 integrate these activities in order to act effectively in the real world}}. \cite{GNT:2016} There is much literature that considers abstract planning, i.e. generating high-level
 task schedules, and also quite some work on integrating planning and acting. What is perhaps a bit underrepresented so far is the aspect of monitoring the execution of the generated
 plans, especially in long-term scenarios, which will be the subject of this work. In particular, little attention has been paid to a joint consistent integration of both monitoring
-and acting. \cite{Ingrand:2017} This is crucial as plans will not always work out as expected when faced with the dynamic and chaotic nature of reality.\newline
+and acting. \cite{Ingrand:2017} This is crucial as plans will not always work out as expected when faced with the dynamic and chaotic nature of reality.
+
+\vfill
+\pagebreak
 
 \textbf{Expected Scientific Contribution}\newline
 
