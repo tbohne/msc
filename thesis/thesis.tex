@@ -269,7 +269,14 @@ Early examples of a long-term autonomous mobile service robots are \textit{RHINO
 and its successor \textit{MINERVA} with improved navigation capabilities presented by Thrun et al. \cite{Thrun:1999}.\newline
 They focus on robust localization (pose estimation) and navigation in crowded environements, as well as viable human-robot interaction.\newline
 The highly successful examples of \textit{RHINO} and \textit{MINERVA} were followed by numerous works on mobile indoor robots focusing on specific technological aspects of
-meaningful autonomy in such environments. Subsequently, Marder-Eppstein et al. \cite{MarderEppstein:2010} focus on robust long-term autonomous navigation for mobile indoor
+meaningful autonomy in such environments.\newline
+Nourbakhsh et al. \cite{Nourbakhsh:2003} also consider the deployment of long-term autonomous mobile robots in a museum setting, considering in particular the aspect that
+it is infeasible to place autonomous robots under full-time human supervision. They claim that, in any case, they should reach a level of autonomy that allows them to act fully
+autonomously as long as they are confronted with a problem they cannot solve. In which case: \textquote{[...] critical aspect of autonomy in our unsupervised application is the
+ability to detect failure and signal humans for help.} \cite{Nourbakhsh:2003} The authors have already implemented some diagnostics and ideas for responding to failure cases,
+mainly based on the simple but effective idea of retrying a failed task. After an iterative process of testing and refining the diagnostics over a long period of time, the
+authors reach a state where the robot is able to self-detect almost any problem encountered during autonomous operation in its indoor museum environment.\newline
+Subsequently, Marder-Eppstein et al. \cite{MarderEppstein:2010} focus on robust long-term autonomous navigation for mobile indoor
 robots in real-world environements without the need for human supervision or intervention. Although successful in principle, the authors discover the need for monitoring mechanisms
 needed to allow the robot to recognize problematic situations that it cannot handle and inform a human operator. In particular, they point to the need for future work on problem
 detection and recovery behaviors.\newline
@@ -1963,6 +1970,8 @@ normal operation, which is done by publishing on the particular toggle topic des
 \subsection{Fallback Solution - Requesting Help of a Human Operator}
 \label{sec:fallback_solution}
 
+Requesting assistance from a human operator was identified early on as a crucial aspect of long-term autonomous mobile robots: \textquote{[...] critical aspect of autonomy in our
+unsupervised application is the ability to detect failure and signal humans for help}. \cite{Nourbakhsh:2003}
 Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention or providing useful information about the state
 of the robot or mission, is implemented as a separate \code{OperatorCommunication} class. The robot-human communication module is subscribed to three different topics. First,
 a message on \code{/request\_help\_contingency} indicates that the robot is requesting the help of a human operator, but is still functioning in principle. The second topic
