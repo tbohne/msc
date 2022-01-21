@@ -281,6 +281,13 @@ for extended periods of time. They emphasize the need for execution monitoring, 
 requests to human operators as needed. A particular focus of the work is on the robustness of the systems and understanding the nature of faults through extensive logging.
 Ultimately, they require the intervention of human operators only in very rare situations and provide stable, long-term autonomous operation in the office environments considered.
 \newline
+A very recent example of an LTA mobile robot serving as a tour guide in a museum is provided by Del Duchetto et al. \cite{Duchetto:2019}, who present their robot
+\textit{Lindsey}, which is designed to have better social abilities. However, since the focus of this thesis is not on human-robot interaction, another aspect of the work is of
+greater relevance - their approaches to dealing with contingencies. A useful monitoring interface that can be used to observe and, to a limited extent, control the robot via a web
+application is developed. They note that it is obligatory for long-term autonomous robots that operate without the supervision of a human operator to be able to communicate
+problems and situations that the robot cannot handle itself. In the work, a ROS module is developed in which operators can specify problematic conditions that are then constantly
+checked during runtime. As soon as such a condition occurs, the information is transmitted via a specific channel. This allows the operator to respond to faults without having to
+permanently monitor the robot's activities.\newline
 More recently, Kyberd et al. \cite{Kyberd:2021} presented their work on long-term autonomy in diverse outdoor environements. They emphasize that the focus in the literature to date
 has been on indoor environments due to hazardous weather conditions and the like in outdoor settings. The work introduces design principles for UGVs suited to the specific
 intricacies of operating outdoors, with particular emphasis on redundant safety layers and the ability to function in harsh weather and lighting conditions. Since their systems
