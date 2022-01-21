@@ -504,7 +504,7 @@ such as plan generation and evaluation. \cite{Bresina:2005} NASA calls the conce
 flexibility, which allows to dynamically react to unexpected situations. \cite{Bresina:2005}
 The idea is that the robotic system operates autonomously in principle, performing all the repetitive routine tasks, but the human operator can take over in certain situations,
 such as when the robot is in danger and human intervention is required, or when a task needs to be performed that for some reason is better suited for a human operator.
-\cite{Kortenkamp:2009} There is even evidence that \textquote{Human-Initiative (HI)} systems that can switch between different autonomy levels during operation perform better than
+\cite{Kortenkamp:2009} There is even evidence that \textit{human initiative} systems that can switch between different autonomy levels during operation perform better than
 systems with fixed autonomy levels, at least in certain environements. \cite{Chiou:2021}
 The plant monitoring robot considered in this work, however, can be classified as fully autonomous in the sense of figure \ref{fig:autonomy_spectrum}, 
 i.e. during a long-term autonomy cycle as defined above, the robot should only come into contact with a human operator when it detects an error or a problematic situation
@@ -669,7 +669,7 @@ As Hawes et al. \cite{Hawes:2017} point out, managing consumable resources such 
 However, the energy management estimated at planning time may not work correctly or as expected at execution time, e.g. the battery could be 
 depleted before the planned time. Or worse, there could be a complete battery failure. It would certainly be useful to enable the system to handle such issues, at least to 
 some degree. Arvin et al. point out that long-term autonomy experiments are still rare due to the limited battery capacity of robots. \cite{Arvin:2018}
-Therefore, they believe that solving power management issues is of great importance.
+Therefore, they believe that solving power management issues is of great importance.\newline
 
 \noindent
 \textbf{Charging Failure}\newline
@@ -681,6 +681,9 @@ in practice with the AROX system, it must dock with an inductive charging statio
 Accordingly, docking to the charging station may fail or the charging process itself may not start after docking.
 Both cases lead to a failed charging process and thus to an abortion of the robot's LTA mission. An evaluation of potential docking failures would require 
 integration of the autonomous docking / undocking solution described in section \ref{sec:docking_solution}.\newline
+
+\vfill
+\pagebreak
 
 \noindent
 \textbf{Drastic Weather Change}\newline
@@ -789,11 +792,11 @@ They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ra
 et al. \cite{Hawes:2017} point out, navigation errors are a critical factor in the long-term autonomy of a mobile robot, as they can result in the robot being incapable of returning
 to the charging station (mobile container). Hence, it is imperative to guarantee a certain level of robustness against navigational flaws, i.e. to provide the robot with the
 ability to detect and recover from such errors. \cite{DelDuchetto:2018}
-The authors define the errors as follows: \textquote{[...] situation in which the robot is not able to progress toward the goal, because it is not
-moving or it is performing some counterproductive behavior}. \cite{DelDuchetto:2018}
+The authors define the errors as follows: \textquote{\textit{[...] situation in which the robot is not able to progress toward the goal, because it is not
+moving or it is performing some counterproductive behavior}}. \cite{DelDuchetto:2018}
 As introduced in section \ref{sec:robotic_system}, the navigation system used is \code{move\_base\_flex}, an extension of the common ROS navigation framework \code{move\_base}.
 Navigation issues in practice can be due to a variety of reasons, such as sensor noise, dynamic obstacles, or inaccurate controls \cite{DelDuchetto:2018} and some of them are already
-detected by \code{move\_base\_flex}.
+detected by \code{move\_base\_flex}.\newline
 
 \noindent
 \textbf{Sustained Recovery}\newline
@@ -1060,8 +1063,8 @@ such as planning, acting, monitoring, goal reasoning, reasoning about sensing an
 fundamental - planning, acting and monitoring. Although, this is not about the planning itself, but rather about the handling and execution of given plans.
 A key aspect of dealing with some of the potential issues introduced in section \ref{sec:challenges_for_lta} is going to be that the robot will not be able to
 complete its missions without preempting the plan execution from time to time. Either due to insufficient battery capacity or other unmanageable conditions such as 
-drastic weather changes that force the robot to interrupt its task. As Harris et al. remark: \textquote{Fixed plans may fail if states encountered during execution do not
-sufficiently reflect the assumptions made during plan generation}. \cite{Harris:2021} Although the overall route may always be the same for the same field, there are certain stopping
+drastic weather changes that force the robot to interrupt its task. As Harris et al. remark: \textquote{\textit{Fixed plans may fail if states encountered during execution do not
+sufficiently reflect the assumptions made during plan generation}}. \cite{Harris:2021} Although the overall route may always be the same for the same field, there are certain stopping
 conditions that cause the robot to interrupt its active scanning tour and possibly drive back to its base, i.e. the mobile container.
 There are generally two relevant perspectives. First, such stops have to be considered at planning time by acknowledging charge stops as crucial part of the plan.
 Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
@@ -1074,11 +1077,11 @@ trivial, since the original plan may no longer be applicable for various reasons
 pre- and post-conditions of specific high-level actions and the like, but is to be understood in a more general sense to monitor aspects of the robot system as well as its environment
 that have been identified as critical to successful long-term autonomous deployment (cf. \ref{sec:challenges_for_lta}). Essentially, the things that are implicitly part of the plan,
 like working sensors and a reasonable battery state of charge. \cite{Ingrand:2017} Based on the challenges identified in section \ref{sec:challenges_for_lta}, this includes the use of
-proprioceptive as well exteroceptive sensors and information. As Hawes et al. put it: \textquote{A key strategy for
+proprioceptive as well exteroceptive sensors and information. As Hawes et al. put it: \textquote{\textit{A key strategy for
 delivering long-term robustness is the monitoring of system behavior, from the individual component level up to navigation and task behaviors, as well as the ability to restart
-system elements on demand}. \cite{Hawes:2017} Likewise, Furgale et al. assert that long-term autonomous robots need introspection capabilities to recognize internal problems in
-the interest of safety. \cite{Furgale:2015} Ingrand et al. perfectly summarize the view of monitoring in this work: \textquote{Compares what is predicted regarding the robot
-activities to what is observed in the world. It detects and interprets discrepancies, performs diagnosis and triggers recovery actions when needed.} \cite{Ingrand:2017}
+system elements on demand}}. \cite{Hawes:2017} Likewise, Furgale et al. assert that long-term autonomous robots need introspection capabilities to recognize internal problems in
+the interest of safety. \cite{Furgale:2015} Ingrand et al. perfectly summarize the view of monitoring in this work: \textquote{\textit{Compares what is predicted regarding the robot
+activities to what is observed in the world. It detects and interprets discrepancies, performs diagnosis and triggers recovery actions when needed.}} \cite{Ingrand:2017}
 
 \section{Plan Generation and Format}
 \label{sec:plan_generation}
@@ -1222,7 +1225,7 @@ to recover. The extreme case, where nothing can be done, would be that the batte
 
 \section{Interrupt and Resume Normal Operation}
 
-\textquote{Plans must be executed according to some strategy. This must account for action failure, plan failure due to ignorance or change in a dynamic environment [...].}
+\textquote{\textit{Plans must be executed according to some strategy. This must account for action failure, plan failure due to ignorance or change in a dynamic environment [...].}}
 \cite{Cashmore:2015}
 In order to handle unexpected problematic situations, the robot must be able to stop and resume its normal operation in general
 and plan execution in particular, i.e. to save the current state of the plan execution and resume exactly that state after the reason
@@ -2056,8 +2059,8 @@ TBD.
 Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: the total system lifetime and the autonomy percentage. \cite{Hawes:2017} The
 first measures the time the robot was in autonomous operation and is reset when an unrecoverable failure or an unrequested intervention of the human operator is required. However,
 it does not make sense to evaluate this time when it certainly depends on the frequency with which the failures that are considered in this work are simulated. The second metric
-(autonomy percentage), on the other hand, is very useful for this work as well. \textquote{The motivation of the autonomy percentage is that it is of little value to achieve a long
-total system lifetime if the system does nothing}. \cite{Hawes:2017}
+(autonomy percentage), on the other hand, is very useful for this work as well. \textquote{\textit{The motivation of the autonomy percentage is that it is of little value to achieve a long
+total system lifetime if the system does nothing}}. \cite{Hawes:2017}
 Steinberg et al. \cite{Steinberg:2016} introduce the metric of time between undesired human interventions. By undesired situations, they mean situations in which the robot should
 in principle be able to recover itself, as opposed to situations in which human intervention is expected. Applied to this work, this could refer to LTA failures for which specific
 solutions or workarounds have been proposed but do not succeed (cf. \ref{sec:solutions_for_lta_challenges}). Furthermore, they propose a metric for information sharing, i.e. the
