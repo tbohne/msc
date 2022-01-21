@@ -191,12 +191,13 @@ concerned with potential problems for the robotic system (software + hardware), 
 In addition, the work focuses on the long-term autonomous application of mobile robotic systems in the context of plant monitoring. All of these aspects (long-term, autonomy,
 mobility, plant monitoring) can be considered and researched in isolation, which is what has been done for all of these sub-areas. The aim of this work, however, is to examine all of
 these aspects in combination and to focus on the big picture of integrating them into systems that are actually useful. The following literature review will therefore attempt to
-provide an overview of the literature on all of these subfields, but with the clear intention of considering them together rather than in isolation.\newline
+provide an overview of the literature on all of these subfields, but with the clear intention of considering them together rather than in isolation.
 One distinction that must be emphasized when reviewing long-term autonomous robot applications in the literature is the distinction between indoor and outdoor environments.
 So far, there has been a focus on indoor environments. \cite{Kyberd:2021} Despite the obvious challenges that indoor environments pose, they are arguably less dangerous and
 troublesome than outdoor scenarios. \cite{Hawes:2017} Considering the broadness of these research fields, it is obviously not possible to discuss all the relevant fundamentals.
 The idea is to provide a meaningful overview.\newline
 
+\noindent
 \textit{Long-Term Autonomy.}\newline
 
 \noindent
@@ -204,8 +205,8 @@ One of the most influential projects in the field of long-term autonomous roboti
 artificial intelligence and robotics technologies necessary to create a long-term autonomous mobile service robot in a care facility environement. Thus, it is an example for a project
 that focuses on indoor environements. Special emphasis is placed on the application of the systems in real everyday environments as opposed to specific laboratory installations.
 Furthermore, the robots are supposed to improve their behavior during their long-term missions by learning the dynamics of their environement, thereby increasing their robustness.
-For the authors, the attribute "long-term" implies that the robot should be able to run continuously and autonomously in its environment for at least several weeks, which requires
-a certain resilience. They note that this robustness can be achieved both at design time and at runtime.\newline
+For the authors, the attribute \textquote{long-term} implies that the robot should be able to run continuously and autonomously in its environment for at least several weeks, which requires
+a certain resilience.\newline
 An example of a study that emerged from the \textit{STRANDS} project is a study of autonomous service robots deployed in a nursing home by Hanheide et al. \cite{Hanheide:2017}.
 Although the study concentrates on aspects of human-robot interaction, it is a relevant example of long-term autonomous use of a mobile robot in a real-world environment.
 Their robot was in fully autonomous operation for $63$ days.\newline
@@ -229,7 +230,7 @@ integrating numerous methods and technologies into a comprehensive solution for 
 help of human operators in unexpected problematic situations. \cite{Kunze:2018}\newline
 Of course, there are not only long-term autonomous ground vehicles (AGVs). There is even more literature regarding the application of autonomous underwater vehicles (AUVs)
 (\cite{Jones:2012}, \cite{Spears:2014}, \cite{Kunz:2009}, \cite{Chrpa:2015}, \cite{Harris:2021}) and
-unmanned aerial vehicles (UAVs) for extended periods of time. AUVs are particularly used for scientific observations and security applications. \cite{Chrpa:2015}
+unmanned aerial vehicles (UAVs) (TODO: add src) for extended periods of time. AUVs are particularly used for scientific observations and security applications. \cite{Chrpa:2015}
 Steinberg et al. \cite{Steinberg:2016} discuss challenges and opportunities for long-term autonomous systems in
 maritime applications. They argue that many of the previous attempts in the literature targeting autonomous systems fail when the environment varies during deployment, e.g.
 due to weather or seasonal effects. The work identifies three main types of challenges for long-term autonomous systems:
@@ -248,14 +249,14 @@ shopping assistant in long-term real-world applications. The authors particularl
 such robotic systems interacting directly with potentially inexperienced users is the development of adequate interfaces that meet the specific communication and interaction
 standards. With \textit{human-robot interaction (HRI)}, there is an entire field of research that addresses such problems, which are largely disregarded in this work.\newline
 Early examples of a long-term autonomous mobile service robots are \textit{RHINO}, an interactive museum tour guide developed by Burgard et al. \cite{Burgard:1998}
-and its successor \textit{MINERVA} with improved navigation capabilities presented by Thrun et al. \cite{Thrun:1999}.\newline
+and its successor \textit{MINERVA} with improved navigation capabilities presented by Thrun et al. \cite{Thrun:1999}.
 They focus on robust localization (pose estimation) and navigation in crowded environements, as well as viable human-robot interaction.\newline
 The highly successful examples of \textit{RHINO} and \textit{MINERVA} were followed by numerous works on mobile indoor robots focusing on specific technological aspects of
 meaningful autonomy in such environments.\newline
 Nourbakhsh et al. \cite{Nourbakhsh:2003} also consider the deployment of long-term autonomous mobile robots in a museum setting, considering in particular the aspect that
 it is infeasible to place autonomous robots under full-time human supervision. They claim that, in any case, they should reach a level of autonomy that allows them to act fully
-autonomously as long as they are confronted with a problem they cannot solve. In which case: \textquote{[...] critical aspect of autonomy in our unsupervised application is the
-ability to detect failure and signal humans for help.} \cite{Nourbakhsh:2003} The authors have already implemented some diagnostics and ideas for responding to failure cases,
+autonomously as long as they are confronted with a problem they cannot solve. In which case: \textquote{\textit{[...] critical aspect of autonomy in our unsupervised application
+is the ability to detect failure and signal humans for help.}} \cite{Nourbakhsh:2003} The authors have already implemented some diagnostics and ideas for responding to failure cases,
 mainly based on the simple but effective idea of retrying a failed task. After an iterative process of testing and refining the diagnostics over a long period of time, the
 authors reach a state where the robot is able to self-detect almost any problem encountered during autonomous operation in its indoor museum environment.\newline
 Subsequently, Marder-Eppstein et al. \cite{MarderEppstein:2010} focus on robust long-term autonomous navigation for mobile indoor
@@ -270,7 +271,7 @@ for extended periods of time. They emphasize the need for execution monitoring, 
 requests to human operators as needed. A particular focus of the work is on the robustness of the systems and understanding the nature of faults through extensive logging.
 Ultimately, they require the intervention of human operators only in very rare situations and provide stable, long-term autonomous operation in the office environments considered.
 \newline
-A very recent example of an LTA mobile robot serving as a tour guide in a museum is provided by Del Duchetto et al. \cite{Duchetto:2019}, who present their robot
+A very recent example of a long-term autonomous mobile robot serving as a tour guide in a museum is provided by Del Duchetto et al. \cite{Duchetto:2019}, who present their robot
 \textit{Lindsey}, which is designed to have better social abilities. However, since the focus of this thesis is not on human-robot interaction, another aspect of the work is of
 greater relevance - their approaches to dealing with contingencies. A useful monitoring interface that can be used to observe and, to a limited extent, control the robot via a web
 application is developed. They note that it is obligatory for long-term autonomous robots that operate without the supervision of a human operator to be able to communicate
@@ -323,17 +324,18 @@ Furthermore, Mühlfellner et al. \cite{Muehlfellner:2015} present an approach fo
     \item selection of landmarks that are considered useful for localization
     \item online localization
 \end{enumerate}
-The authors have an interesting facet to their approach: \textquote{[...] we are concerned not so much with maintaining an accurate model of the world, but rather with maintaining
-a useful model.} \cite{Muehlfellner:2015}\newline
+The authors have an interesting facet to their approach: \textquote{\textit{[...] we are concerned not so much with maintaining an accurate model of the world, but rather with
+maintaining a useful model.}} \cite{Muehlfellner:2015}\newline
 Recently, Emam et al. \cite{Emam:2021} presented a \textit{Control Barrier Function (CBF)} framework to tackle the problem of perturbations that the robot may face. The authors
 underscore that when developing new algorithms for robots operating autnomously for extended periods of time in dynamic environements, it is imperative to pay close attention to
 robustness in order to deal with all the challenges potentially occuring in such situations (cf. \ref{sec:challenges_for_lta}). As they claim: 
-\textquote{[...] if these disturbances are not addressed, the possibility of failure becomes almost assured if the robots are required to operate over long time horizons.}
+\textquote{\textit{[...] if these disturbances are not addressed, the possibility of failure becomes almost assured if the robots are required to operate over long time horizons.}}
 \cite{Emam:2021} Accordingly, the work indicates the need for robust control mechanisms capable of dealing with such contingencies.\newline
 In conclusion, there is not a great deal of research on long-term experiments with autonomous robots, mainly for two reasons:
 Long-term studies are obviously more time-consuming and tedious, especially in real-world outdoor environments, and furthermore it is only in recent years that it has become
 reasonably realistic to conduct such experiments based on technological progress. \cite{Leite:2013}\newline
 
+\noindent
 \textit{Execution Monitoring.}\newline
 
 \noindent
@@ -364,6 +366,7 @@ Vechet et al. \cite{Vechet:2015} state that fault detection is underexposed in r
 deployment of autonomous mobile robots. They see a demand for health monitoring to prevent system failures and present a Markov chain model for \textit{Failure Detection and
 Identification (FDI)}.\newline
 
+\noindent
 \textit{Crop Monitoring.}\newline
 
 Singh et al. \cite{Singh:2010} present their results and findings from operating a reconfigurable autonomous driving system on a farm. Their overall goal is to integrate technologies
