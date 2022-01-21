@@ -74,51 +74,31 @@ TBD. \dots
 
 \chapter{Introduction}
 
-TODO: ADD INTRO TEXT: Why is LTA interesting and relevant for agriculture?\newline
-
-Increasing efficiency in agriculture is not only sensible, but perhaps even necessary.
-The rapidly growing human population and environmental changes require a significant increase in production to meet rising demand. \cite{Virlet:2016}\cite{KhakPour:2021}
-\cite{Roure:2018}\newline
-
-The idea that robots can be used to efficiently monitor large areas has numerous real-world applications in precision agriculture. \cite{Bargoti:2015}\newline
-
-However, it is not the case that robots can merely improve the efficiency in tasks that could have been done by humans. There are examples of tasks that only become possible
-through the use of robotic systems: \textquote{A robot's \textquote{eye} is far better than human one, and it can collect a large amount of data that are invisible
-for us.} \cite{Ampatzidis:2017}\newline
-
-Since the beginning of the 21st century, numerous robotic applications for agriculture have been developed to increase productivity and improve the accuracy, efficiency and
-safety of agricultural production processes. \cite{Xue:2010}
-
-Autonomous crop monitoring, a classic domain of precision agriculture, has the goal of detecting potential problems as soon as possible in order to avoid yield losses
-while optimizing costs (economic efficiency) and environmental impact. \cite{Dong:2014} \cite{Dong:2017}
-
-The ultimate goal of precision agriculture is to automatically obtain relevant crop health information to detect and treat biotic and abiotic stresses to prevent yield loss 
-without the need for manual sampling, which is too expensive and inefficient. \cite{Carlone:2015}
-
-Long-term autonomous robotic systems in highly dynamic real-world applications are becoming a reality. \cite{Kunze:2018}\newline
-
-Achieving robust, long-term autonomy is particularly challenging because it is impossible to envision all potential situations that the robot may encounter.
-\cite{Hawes:2017}\newline
-A particular challenge is the navigation in such scenarios in highly dynamic real-world environments. \cite{DelDuchetto:2018}\newline
-
-While long-term autnomous robots have enormous potential to increase efficiency and reduce the burden on humans in many areas, they are often not yet reliable
-and safe enough to be used with a clear conscience in a wide variety of real-world environments. \cite{Arvin:2018}
-
-Execution monitoring approaches that address failures preventing a system's long-term autonomy by providing recovery mechanisms have to be a crucial component
-of long-term autonomous architectures. \cite{Kunze:Kunze:2018}\newline
-
+In recent years, progressive automation has increasingly entered the field of agriculture. In particular, long-term autonomous mobile robots offer tremendous potential for
+agricultural applications, as these often entail extended periods of time (seasonal cycles) as well as large areas to cover. Since the beginning of the 21st century, numerous
+robotic applications for agriculture have been developed to increase productivity and improve the accuracy, efficiency and safety of agricultural production processes. \cite{Xue:2010}
+Efficiency improvements in agriculture are not only sensible, but perhaps even necessary. The rapidly growing human population and environmental changes require a significant
+increase in production to meet the rising demand. \cite{Virlet:2016}\cite{KhakPour:2021}\cite{Roure:2018} However, it is not the case that robots can merely improve the efficiency
+in tasks that could have been done by humans. There are examples of tasks that only become possible through the use of robotic systems: \textquote{\textit{A robot's \textquote{eye}
+is far better than a human one, and it can collect a large amount of data that are invisible for us.}} \cite{Ampatzidis:2017} The idea that robots can be used to efficiently monitor
+large areas has numerous real-world applications in precision agriculture. \cite{Bargoti:2015} Autonomous crop monitoring, a classic domain of precision agriculture, has the goal of
+detecting potential problems as soon as possible in order to avoid yield losses while optimizing costs (economic efficiency) and environmental impact. \cite{Dong:2014}
+\cite{Dong:2017} The ultimate goal of precision agriculture is to automatically obtain relevant crop health information to detect and treat biotic and abiotic stresses to prevent
+yield loss without the need for manual sampling, which is too expensive and inefficient. \cite{Carlone:2015}\newline
+On the technological side, long-term autonomous robotic systems in highly dynamic real-world applications are becoming a reality. \cite{Kunze:2018} Nonetheless, achieving robust
+long-term autonomy is particularly challenging because it is impossible to envision all potential situations that the robot may encounter. \cite{Hawes:2017}
+Thus, while long-term autnomous robots have enormous potential to increase efficiency and reduce the burden on humans in many areas, they are often not yet reliable
+and safe enough to be used with a clear conscience in a wide variety of real-world environments. \cite{Arvin:2018} Execution monitoring approaches that address failures preventing
+a system's long-term autonomy by providing recovery mechanisms have to be a crucial component of robotic architectures. \cite{Kunze:2018}
 Commonly, autonomous robot operations were often closely supervised by human operators, who intervened whenever the robot reached its limits. \cite{Rosenthal:2011}
 Only recently has a shift begun toward systems equipped with the ability to recognize their own shortcomings and actively request help from human operators, who do not
-necessarily monitor them closely, but only provide assistance when needed. \cite{Rosenthal:2011}\newline
-
-According to Pinillos et al. there are two major requirements that robots must meet in order to be commercially successful: A reasonable price-performance ratio
-and a robust task performance. \cite{Pinillos:2016} This thesis is primarily concerned with the latter. Almost regardless of the actual service a robot provides, it must be robust
-in its basic autonomous capabilities such as localization, navigation, perception, etc. Pinillos et al. underline another aspect that is a major motivation for this work:
-\textquote{Research efforts often focus on robot localization, navigation, planning or face recognition, but fail in the integration of different technologies to create useful
-applications.} \cite{Pinillos:2016} This is precisely the objective of this thesis - to work towards robust integrated systems.\newline
-
-As Ingrand at al. put it: \textquote{Autonomous robots facing a diversity of environments, a variety of tasks and a range of interactions cannot be
-preprogrammed by foreseeing at the design stage all possible courses of actions they may require. These robots need to perform some explicit deliberation.} \cite{Ingrand:2017}
+necessarily monitor them closely, but only provide assistance when needed. \cite{Rosenthal:2011} According to Pinillos et al. there are two major requirements that robots must meet
+in order to be commercially successful: A reasonable price-performance ratio and a robust task performance. \cite{Pinillos:2016} This thesis is primarily concerned with the latter.
+Almost regardless of the actual service a robot provides, it must be robust in its basic autonomous capabilities such as localization, navigation, perception, etc. Pinillos et al.
+underline another aspect that is a major motivation for this work: \textquote{\textit{Research efforts often focus on robot localization, navigation, planning or face recognition,
+but fail in the integration of different technologies to create useful applications.}} \cite{Pinillos:2016} This is precisely the objective of this thesis - to work towards robust
+integrated systems. As Ingrand at al. put it: \textquote{\textit{Autonomous robots facing a diversity of environments, a variety of tasks and a range of interactions cannot be
+preprogrammed by foreseeing at the design stage all possible courses of actions they may require. These robots need to perform some explicit deliberation.}} \cite{Ingrand:2017}
 They highlight that deliberation capabilities increase the flexibility and robustness of robotic systems.
 Interestingly, the deployment of autonomous robots in agricultural scenarios is one of the most challenging domains in the field.
 Although (semi-)autonomous planetary exploration rovers such as \textit{Curiosity} encounter manifold and demanding tasks, the environment is quite predictable and exhibits
