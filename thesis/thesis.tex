@@ -1988,6 +1988,8 @@ The simulation of the plan deployment failure cases can be enabled via the follo
     \item \textbf{empty plan} \textrightarrow \code{/sim\_empty\_plan}
     \item \textbf{infeasible plan} \textrightarrow \code{/sim\_infeasible\_plan}
 \end{enumerate}
+\noindent
+Plan-deployment-related challenges for LTA can be addressed using the resolver described in section \ref{sec:plan_deployment_resolver}.
 
 \section{Solutions for LTA Challenges}
 \label{sec:solutions_for_lta_challenges}
@@ -2010,8 +2012,8 @@ normal operation, which is done by publishing on the particular toggle topic des
 \subsection{Fallback Solution - Requesting Help of a Human Operator}
 \label{sec:fallback_solution}
 
-Requesting assistance from a human operator was identified early on as a crucial aspect of long-term autonomous mobile robots: \textquote{[...] critical aspect of autonomy in our
-unsupervised application is the ability to detect failure and signal humans for help}. \cite{Nourbakhsh:2003}
+Requesting assistance from a human operator was identified early on as a crucial aspect of long-term autonomous mobile robots: \textquote{\textit{[...] critical aspect of autonomy in our
+unsupervised application is the ability to detect failure and signal humans for help}}. \cite{Nourbakhsh:2003}
 Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention or providing useful information about the state
 of the robot or mission, is implemented as a separate \code{OperatorCommunication} class. The robot-human communication module is subscribed to three different topics. First,
 a message on \code{/request\_help\_contingency} indicates that the robot is requesting the help of a human operator, but is still functioning in principle. The second topic
@@ -2046,6 +2048,21 @@ twists to the \code{/cmd\_vel} topic. Afterwards, the localization monitoring no
 cleared to remove potential mapping anomalies resulting from the localization failure. This is achieved by sending a \code{clear\_costmap} \code{RecoveryGoal} to the
 \code{SimpleActionServer} for recoveries provided by \code{move\_base\_flex} as well as plain \code{move\_base}. As usual, if something goes wrong during the resolution attempt,
 the fallback solution of asking the operator for help is executed (cf. section \ref{sec:fallback_solution}).
+
+\subsection{Plan Deployment Failure}
+\label{sec:plan_deployment_resolver}
+
+All three of the plan deployment problems presented in section \ref{sec:sim_and_mon_plan_deployment_failures} can be addressed with workarounds that the robot can try
+on its own, ignoring the fourth issue that only causes a message on \code{/robot\_info} and no contingency case. The cases of empty or otherwise infeasible plans can be resolved
+in some cases simply by requesting the plan again. For this purpose, the resolver keeps track of plan retrieval attempts. If the counter for either case is $0$, which means that the
+first attempt to retrieve a plan failed, the resolution is to re-try and the counter is incremented. However, if the counter reaches a configurable threshold, e.g. $2$, which means
+that the robot has already unsuccessfully requested the plan three times, it stops repeating the plan request, resets the counter and forwards the problem to the fallback solution,
+i.e. it notifies the operator. In such a case, it should waste no further time and immediately notify the operator. The remaining problem case of an unavailable plan service can also
+be dealt with by the robot itself in some cases. For this purpose, the plan generation node provides a topic \code{/activate\_plan\_service} that enables external service activation.
+Thus, in case of an unavailable service failure, the resolver simply publishes on this topic and initiates a re-initialization of the plan generation service. Similar to the two
+cases above, such a re-initialization is not performed arbitrarily often, but there is a counter and a limit that cause the problem to be forwarded to the human operator in case of
+repeated failure. In summary, for all potential contingencies arising from problems in the deployment of the plan, the robot has a strategy to solve them itself. As always, when it
+fails, it passes the problem on to the human operator.
 
 \chapter{Integrated Solutions}
 
