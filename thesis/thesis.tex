@@ -334,6 +334,16 @@ robustness in order to deal with all the challenges potentially occuring in such
 Eventually, it should be noted that there is not a great deal of research providing actual long-term experiments with autonomous robots, mainly for two reasons:
 Long-term studies are obviously more time-consuming and tedious, especially in real-world outdoor environments, and furthermore it is only in recent years that it has become
 reasonably realistic to conduct such experiments based on technological progress. \cite{Leite:2013}\newline
+Egerstedt et al. \cite{Egerstedt:2018} consider a long-term autonomous environement monitoring scenario in which they define survival constraints inspired by the bond between
+biological organisms and their environement in ecology. First, the authors highlight the unique challenges of long-term deployment in a dynamic, unstructured environment, such as
+agriculture, noting that robots must have adaptive capabilities and manage problems potentially affecting their survivability. \textquote{\textit{The basic issue of survivability
+over long time periods remains an open problem for autonomous robotic systems in uncontrolled environments.}} \cite{Egerstedt:2018} The work claims that survivability has been
+previously addressed either by planned tasks that enforce survivability, such as battery station revisits in the scenario described in section \ref{sec:lta_plant_observation},
+or by defining specific survivability goals that are combined with other objectives, i.e. multi-objective optimization. However, the authors point out that survivability is a
+necessary condition for any successful operation and therefore a constraint-based approach may be preferable, based on the idea of ensuring survivability during the optimization
+of an objective function. A very important aspect of long-term autonomous applications highlighted in the paper is that \textquote{\textit{[...] any assumption about environemental
+stationarity, or even predictability, are doomed to be incorrect}}. \cite{Egerstedt:2018} They conclude that drastic environmental changes can lead to infeasible assumptions and
+dysfunctional controls. Thus, they prefer to rely on low-level constraints that ensure safety and robustness and assume nothing about the environement.\newline
 
 \noindent
 \textit{Execution Monitoring.}\newline
@@ -2108,7 +2118,8 @@ One solution that could be worth integrating is a watchdog module that observes 
 be part of the plan, i.e. be considered at planning time. Thus, there has to be resource planning for the missions that includes to be back at the base station before
 the robot runs out of battery. However, if it fails, there could be a monitoring process at execution time that is able to react to wrong plans, i.e. the battery is
 depleted before expected and the robot has to return to its base. The module essentially checks the distance from the robot's current position to the base station, 
-the expected battery consumption to get there, and the remaining battery charge. In summary, the module is running at execution time, it does not schedule the 
+the expected battery consumption to get there, and the remaining battery charge. The base station essentially restricts the robot's radius of motion; the robot is,
+as Egerstedt et al. put it, \textquote{spatially anchored}. \cite{Egerstedt:2018} In summary, the module is running at execution time, it does not schedule the
 charge stops in advance, but only responds to failure cases where the robot needs to preempt the plan execution, return to its base and recharge.
 Such a battery watchdog is an example for monitoring tools relevant for addressing the challenges introduced in section \ref{sec:challenges_for_lta}.
 
