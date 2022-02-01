@@ -368,6 +368,7 @@ Identification (FDI)}.\newline
 
 \noindent
 \textit{Crop Monitoring.}\newline
+TODO: perhaps better: agricultural robotics\newline
 
 \noindent
 Singh et al. \cite{Singh:2010} present their results and findings from operating a reconfigurable autonomous driving system on a farm. Their overall goal is to integrate technologies
@@ -437,17 +438,45 @@ to this thesis is the section on plant monitoring, where the authors highlight t
 \textit{Ratio Vegetation Index (RVI)} and \textit{Normalized Difference Vegetation Index (NDVI)} that inform about important aspects of the overall plant health. \cite{Fountas:2020}
 In general, the authors point out that robotics in agriculture has the potential to solve some of the fundamental efficiency problems that currently exist in the field. In summary,
 they describe current research and commercialization efforts, highlight the technologies required for such systems, and hint to some potentials, particularly related to challenges
-in computer vision that are ubiquitous in agricultural application of robots.
+in computer vision that are ubiquitous in agricultural application of robots.\newline
+Bechar et al. \cite{Bechar:2016} provide an overview of the current state of the art of agricultural robots for field work. The authors particularly emphasize that the various
+components that make up a robotic system must be integrated and synchronized to create a holistic system capable of performing in unstructured dynamic environments at least as
+well and reliably as previously used methods, such as manual human labor. Successful systems that are rarely available on the market must be economically viable, safe and robust.
+\cite{Bechar:2016} In specific, the authors stress the necessity of researching human-in-the-loop systems, as they see great potential in them for increased robustness and
+reliability. The paper summarizes the extensive research that has demonstrated the potential of robots to address current and future problems in agriculture, particularly in terms
+of production efficiency and environmental sustainability. As one of the biggest challenges in agricultural scenarios, they identify the unstructured and dynamic nature of the
+environment, which changes over time and implies myriad unpredictable contingencies. Bechar et al. classify robotic systems into four groups:
+\begin{itemize}
+    \item environment and objects structured
+    \item environment unstructured and objects structured
+    \item environment structured and objects unstructured
+    \item environment and objects unstructured
+\end{itemize}
+They place the agricultural sector in the last and arguably most difficult category, which they see as a particular hurdle to commercialization. Based on their reasoning, it is
+evident that the challenges to long-term autonomy that will be considered in this thesis are part of the barrier to commercialization. Another challenge identified in the work that
+is particularly relevant to this thesis is that robotic systems and technologies developed for one specific agricultural use case are not necessarily reusable for others because they
+are so different, i.e. it is difficult to find generic solutions. Nevertheless, it should be an important aspiration to develop solutions as generic as possible in terms of sensors
+used, etc., which is taken to heart in this thesis. Regarding the autonomy of such systems, the authors believe that partially autonomous robots will undoubtedly be useful in
+practice, even if they do not yet achieve full autonomy. The paper examines numerous research papers and concludes that there are very few commercially available solutions, all of
+which are the result of iterative development for a very specific task. The authors note that the early examples of autonomous systems clearly suggest that the performance of the
+system can be improved by human support in dynamically occurring problem situations, allowing some form of collaboration as human and robot capabilities tend to complement each
+other. This is exactly the idea of this thesis, to cope with otherwise unsolvable situations. It is obvious that it is already a huge improvement when a robotic system can take over
+a large part of the work and a human operator only needs to intervene once in a while in unpredictable and unsolvable situations. Full autonomy may be a reasonable goal to strive for
+in the future, but it is not a requirement for improving productivity. The work also asserts that the most important aspect with respect to the numerous integrated components in a
+robot is to provide methods capable of handling unexpected events, which is a great motivation for this thesis.
 
 \section{Long-Term Autonomous Plant Observation}
 \label{sec:lta_plant_observation}
 
 The particular scenario that is going to be considered in this work takes place in an agricultural context. Therefore, the robot will be faced with a highly dynamic unstructured
 environement. Long-term autonomy in known static environments is essentially solvable by a robust system that is able to
-stay functional for extended periods of time. \cite{Kunze:2018} In contrast, a highly dynamic, partially unknown environment such as in this scenario poses much more difficult
+stay functional for extended periods of time. \cite{Kunze:2018} Such environments are often given in an industrial context where the robot must perform well-defined, repetitive tasks
+in a stable and predictable setting. \cite{Bechar:2016}
+In contrast, a highly dynamic, partially unknown environment such as in this scenario poses much more difficult
 challenges, e.g., due to unexpected environmental changes that are hard, if not impossible, to anticipate.
 The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans and hyperspectral images of the plants on a field in order to monitor their growth progression and 
-to detect certain features based on the growth stage. Moreover, these recordings can be used to detect leaf diseases [TODO: refine based on literature].
+to detect certain features based on the growth stage. Moreover, these recordings can be used to detect leaf diseases [TODO: refine based on literature]. It is essentially a task of
+data acquisition.
 Correspondingly, the robot has to be able to process the entire field continually without the need for human supervision,
 including the requirement for repeated charge stops. For this purpose, there is supporting infrastructure in the form of a container with an inductive charging station on site
 establishing the power supply. Since the focus of the work is not going to be the scanning task, but to establish robust long-term autonomy, the actual detection of features 
@@ -751,7 +780,7 @@ Therefore, tt would be valuable to identify such problems as soon as possible to
 For the robot to work as expected, it must maintain connections to various services. Accordingly, an interruption of one of these connections should be detected immediately.
 A real time communication channel (e.g. WiFi) is required to connect the RTK base station, i.e. the mobile container, and the RTK rover, i.e. the robot, in order to
 transmit the correction signals for high-precision positioning. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals,
-i.e. are connected to the GNSS service. Bargoti et al. \cite{Bargoti:2015} identify occlusions of GPS satellites leading to jumps in estimated position as one of the main reasons
+i.e. are connected to the GNSS service. Bargoti et al. \cite{Bargoti:2015} and Bechar et al. \cite{Bechar:2016} identify occlusions of GPS satellites leading to jumps in estimated position as one of the main reasons
 for detection failures in their tree monitoring scenario, which highlights the value of being able to detect poor GNSS links.
 In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
 to the base station or external servers for further processing. Whether LTE is behind it or the internet connection is provided via the WiFi connection, it would make sense
@@ -1799,7 +1828,8 @@ Nevertheless, it would be very valuable to develop a monitoring approach that is
 longer accurate, as there is a simple workaround that alleviates the problem in practice in many cases: Just driving the robot
 a few meters back and forth to recalibrate the localization using different GNSS positions. The localization of the AROX system
 is based on three components, IMU (inertial measurement unit), odometry and GNSS. Hence, incorrect or inaccurate localization can only be the product of problems in the pose
-estimation of one or more of these components. An implementation of a generalized
+estimation of one or more of these components. There are numerous causes of drift and accumulated sensor errors, such as wheel slippage or being exposed to local magnetic fields
+or magnetic materials. \cite{Bechar:2016} An implementation of a generalized
 extended Kalman filter (cf. ROS community package \code{robot\_localization}) is used to fuse the data from the different
 sensors. The idea of a localization monitoring procedure is to measure the quality of localization. In absolute values, the
 quality of localization cannot be determined. Of course, one could compare the used localization to another localization method,
@@ -1863,11 +1893,12 @@ stores IMU data for inactive situations. It is important to note that IMU data i
 for inactivity, e.g. \code{GoalStatus.REJECTED}, are already accounted for at other levels of execution monitoring. In addition, unprocessed linear and angular twists would still be
 part of the IMU data and would be added to the passive IMU history, distorting the results.
 For both, due to the high frequency of $100Hz$ at which the IMU data arrives, as well as natural \textquote{anomalies}, a fairly long
-history is tracked. The length of the history $n$ is user-configurable, the default is $n = 1500$. The first aspect monitored is the angular velocity for passive IMU data $a^p$ in $rad/s$.
+history is tracked. The length of the history $n$ is user-configurable, the default is $n = 1500$. The first aspect monitored is the angular velocity for passive IMU data $a^p$ in
+$rad/s$ measured by the IMU's gyroscope.
 Since this is data recorded in the passive state, i.e. when the robot was not moving, it is expected that $a^p.x \approx a^p.y \approx a^p.z \approx 0 \thinspace rad/s$.
 There is a user-defined upper bound $a^p_{max}$ for the angular velocity in the passive state. For all three directions, the average over the last $n$ absolute angular velocities in
 the passive state is considered. If one of these values exceeds $a^p_{max}$, i.e. $\thinspace \exists \thinspace \frac{1}{n}\sum_{i=1}^{n} |a^p_i.d| > a^p_{max}, d \in \{x, y, z\}$, a contigency is initiated.
-The next aspect is the linear acceleration in $m/s^2$. In preparation, a user-configurable fraction of the active and passive IMU
+The next aspect is the linear acceleration in $m/s^2$ measured by the accelerometer of the IMU. In preparation, a user-configurable fraction of the active and passive IMU
 history is considered, sorted in descending order by the maximum absolute linear acceleration in the $x$ and $y$ directions for each IMU entry in the respective list.
 For both, the median is taken to obtain a representative value ignoring outliers. To increase reliability, there are again histories with configurable length $m$ for these values.
 In summary, these lists contain the median values of a certain fraction of the largest absolute linear acceleration values in $x$ and $y$ directions in the active and passive states.
