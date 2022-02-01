@@ -349,6 +349,28 @@ dysfunctional controls. Thus, they prefer to rely on low-level constraints that 
 \textit{Execution Monitoring.}\newline
 
 \noindent
+An early work on execution monitoring in robotics is by Pettersson \cite{Pettersson:2005}. The author attempts to transfer the knowledge of \textit{fault detection and isolation
+(FDI)} commonly used in industrial control to the field of robotics. The work already highlights the requirement for execution monitoring when planning the deployment of robots in
+dynamic environments, e.g. due to lack of information, unreliable resources, or stochastic effects. Pettersson discusses several attempts to deal with uncertainty, but notes that
+there is no way to completely eliminate uncertainty in partially observable dynamic environments and that systems must tolerate some degree of uncertainty. The paper asserts that
+systems must expect faulty execution from time to time, e.g. by including execution monitoring as part of the control architecture. This is exactly what is done in this thesis
+(cf. \ref{sec:execution_monitoring_smach_architecture}). Pettersson compares several definitions for execution monitoring. A classic variation from the field of AI is the
+identification and classification of inconsistencies between observations and predictions, and mechanisms to recover from these inconsistencies. \cite{Pettersson:2005}
+However, according to this definition, only systems with predictive models can perform execution monitoring. \cite{Pettersson:2005} A second definition, which comes more from an
+industrial control perspective, defines it as a continuous process of real-time information acquisition that determines the state of the system and signals anomalies.
+\cite{Pettersson:2005} Based on the literature, Pettersson proposes three types of general functions of a monitoring procedure, the first two of which are more or less mandatory:
+\begin{enumerate}
+    \item fault detection \textrightarrow $\thinspace$ recognizing problem
+    \item fault isolation \textrightarrow $\thinspace$ classifying error type
+    \item fault identification \textrightarrow $\thinspace$ rating severity
+\end{enumerate}
+Based on the definitions in the paper, the execution monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} fall under the category of data-driven
+approaches, where fault detection and isolation are based on the (statistical) evaluation of the input data. Statistical analysis assumes that data variability changes drastically
+only in problematic situations and is otherwise relatively stable. \cite{Pettersson:2005} Many of the monitoring methods presented in this paper involve comparing an input signal
+to a specified limit, which is called \textit{limit value checking} and is very common in industrial control. \cite{Pettersson:2005} However, the methods in this thesis are also
+quite well aligned with the core ideas of expert systems, which often represent knowledge with conditional statements. \cite{Pettersson:2005} Pettersson, like many other authors,
+points out that one of the most common problems in the field of mobile robotics is that methods and solutions are developed and tailored for a specific system and the
+generalizability is rather limited, which is a motivation for developing solutions that are as general as possible but still useful.\newline
 Mauro et al. \cite{Mauro:2019} introduce a high-level deep learning and vision based approach to execution monitoring for robot tasks. Monitoring is limited to the execution of the
 plan and not to the operation of the robot in an environment in general. They evaluate their approach with a humanoid assistant robot in a warehouse environment and report some
 promising results. However, as mentioned, it is only considering very specific tasks and high-level actions.\newline
@@ -1115,7 +1137,8 @@ conditions that cause the robot to interrupt its active scanning tour and possib
 There are generally two relevant perspectives. First, such stops have to be considered at planning time by acknowledging charge stops as crucial part of the plan.
 Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
 Therefore, a second perspective comes into play, that will be particularly relevant in this work - the execution time.
-Just as important as the planning itself is the execution of the generated plan as well as monitoring the execution.
+Just as important as the planning itself is the execution of the generated plan as well as monitoring the execution. Execution monitoring enables a robotic system to
+recognize and classify failure situations caused by unexpected internal (robot) or exteral (environement) states. \cite{Pettersson:2005}
 The idea is that the robot executes a given plan and is somehow capable of realizing that it has to interrupt the execution due to some unexpected condition.
 In such a case, the robot needs to be able to save the current state of the plan execution and continue precisely with this state after the reason 
 for the interruption has been resolved. Consequently, the robot has to be prepared to pause and resume the execution of a given plan, which is far from 
