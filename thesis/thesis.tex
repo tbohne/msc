@@ -201,6 +201,31 @@ The idea is to provide a meaningful overview.\newline
 \textit{Long-Term Autonomy.}\newline
 
 \noindent
+Meeussen et al. \cite{Meeussen:2011} provide early work on reliable and robust long-term autonomy in office environments. They emphasize an important insight that is also the basis
+for many aspects considered in this work: \textquote{\textit{[...] our primary concern is not autonomy for its own sake, but rather making robots do useful work, then we
+should consider what level of human involvement is acceptable for the task at hand.}} \cite{Meeussen:2011} The work shares a fundamental idea with this thesis - that it is perfectly
+fine to seek assistance from human operators from time to time to increase the robustness of the system. As a result of this work, they have achieved a level of robustness that
+requires human assistance only every few days in their indoor scenario. The authors also raise the important question of how much autonomy is needed and how much operator intervention
+should be considered viable in order to still have a useful system, which cannot be answered in general terms but should be examined for each individual scenario and use case. They
+highlight that their success necessitated not only relying on autonomous recovery behaviors, but combining them with occasional human assistance. The paper contains many practical
+examples where different levels of autonomy are combined with human assistance to achieve great success, e.g. NASA's Mars rovers, increasingly autonomous cars, but also less classical
+robots like web servers that still need human administration in case of errors. Two critical requirements are cited for the long-term autonomy of a mobile robot in an office
+environment: Indoor navigation and autonomous charging, the first being a prerequisite for the second. The authors claim that if these two capabilities are given and sufficiently
+stable, the robot can function for extended periods of time. This is a good motivation for the integration of the autonomous docking solution described in section
+\ref{sec:docking_solution}. Figure \ref{fig:autonomy_robustness} is a reproduction of a curve presented by Meeussen et al. \cite{Meeussen:2011} that perfectly illustrates the idea that
+neither extreme case is optimal. The authors believe that to achieve a high level of robustness, it is necessary to combine the strengths of humans and robots and to follow a shared
+control paradigm.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{pics/autonomy_robustness.png}
+    \caption{\textsc{Maximum robustness is achieved through a compromise}}
+    \label{fig:autonomy_robustness}
+\end{figure}
+It is obvious, but also important, that in a dynamic environment it is not possible to anticipate every possible type of failure and respond with appropriate recovery.
+\cite{Meeussen:2011} For the authors, this is another motivation for including a human operator as a fallback solution. Their key insight for this thesis is the importance of having
+a human \textquote{in-the-loop} to achieve robust long-term autonomy, where the robot acts autonomously most of the time but has the option to request help from a human operator
+when needed. They strongly suggest that this type of semi-supervised control, with a focus on fault detection and recovery, has the potential to realize systems that actually deliver
+practical benefits.\newline
 One of the most influential projects in the field of long-term autonomous robotics is the \textit{STRANDS} \cite{Hawes:2017} project. The goal of the project is to integrate all the
 artificial intelligence and robotics technologies necessary to create a long-term autonomous mobile service robot in a care facility environement. Thus, it is an example for a project
 that focuses on indoor environements. Special emphasis is placed on the application of the systems in real everyday environments as opposed to specific laboratory installations.
