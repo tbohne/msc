@@ -398,6 +398,15 @@ it is essential to find a way to systematically and reproducibly evaluate potent
 all the simulations described in section \ref{sec:sim_and_mon_of_lta_challenges}. The paper also suggests that it is advisable to design the software components in such a way that
 they tolerate the temporary unavailability of other components and wait until the recovery is completed. Finally, as a further important remark for this thesis, they note that
 comprehensive logging in long-term autonomous applications offers great potential for evaluation, testing, and learning, e.g. through the use of the ROS tool \code{rosbag}.\newline
+Schuster et al. \cite{Schuster:2017} introduce the \textit{Lightweight Rover Unit (LRU)} and study autonomous planetary exploration with its specific hurdles, such as
+inherent communication delays. Due to this delay, teleoperation is generally infeasible for planetary rover applications, and a certain level of autonomy is mandatory for successful
+operation. \cite{Schuster:2017} Leaving aside all the aspects that are crucial for missions on other celestial bodies but less relevant to the scenario of this thesis, there are
+still a number of useful insights. For instance, their view of robustness based on local recovery. Whenever a malfunction occurs due to certain environmental conditions, this should
+be recognized and dealt with locally. \cite{Schuster:2017} The authors propose defining fallback strategies for such cases, such as retrying the procedure in the simplest case. Even
+under the severely limited communications with planetary rovers, the authors emphasize the need for external (ground station) monitoring and intervention capabilities, which they
+consider mandatory for any system operating in an unknown environment. Thus, they rely on shared-autonomy whenever necessary. The work describes various recovery methods for failure
+cases, such as scripts that can be used to reinitialize failed hardware components or to adjust parameters. Another crucial aspect for increasing robustness is seen by the authors
+in redundancy, which seems reasonable in light of the limited response options due to the communication delay.\newline
 
 \noindent
 \textit{Execution Monitoring.}\newline
