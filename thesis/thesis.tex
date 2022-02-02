@@ -410,6 +410,17 @@ employd submodules, which is a great motivation for this thesis.\newline
 Vechet et al. \cite{Vechet:2015} state that fault detection is underexposed in robotics research and development, but is nonetheless fundamental to the
 deployment of autonomous mobile robots. They see a demand for health monitoring to prevent system failures and present a Markov chain model for \textit{Failure Detection and
 Identification (FDI)}.\newline
+Honig et al. \cite{Honig:2018} review methods for fault detection and recovery with a particular focus on human-robot interaction. Nevertheless, the work contains several aspects
+that are quite relevant for this thesis, despite their different focus. First, like many authors before, they emphasize that robots working in dynamic real-world environments are
+constantly confronted with errors and that there is still a lack of proper error management methods. Consistent with the literature, they define a \textit{failure} loosely as a
+state in which the performance provided by the robot deviates from the norm, caused by one or more \textit{errors}, which they consider system conditions that lead to such
+situations. Additionally, they consider \textit{errors} as the result of \textit{faults}, which are ultimately the reason why the system gets into such an error state.
+[TODO: Apply this terminology to the thesis?] The authors discuss numerous taxonomies for classifying failures and compare various concepts from the literature. Of particular
+interest to this work is the concept of terminal failures that break the current mission of the robot, non-terminal failures that merely affect the outcomes or performance and
+reparability of such cases. Also useful is their discussion of failure categories, which largely coincide with the categories of Khalastchi et al. (interaction, hardware, software).
+\cite{Khalastchi:2018}. The authors themselves focus on the distinction between technical failures (hardware + software) and interaction failures (environment + other actors).
+Of crucial importance to this work is the authors' finding that the involvement of a human operator in certain critical situations is computationally cheaper than comparatively
+costly and often unreliable other approaches. To do this in the most effective way, the problem should be communicated as precisely as possible. \cite{Honig:2018}\newline
 
 \noindent
 \textit{Crop Monitoring.}\newline
