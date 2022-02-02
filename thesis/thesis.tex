@@ -387,6 +387,17 @@ during its deployments. \cite{KunzeSI:2018} They point out that much of the long
 long-term operation could be an opportunity to improve the robustness and overall performance of the robot over time, e.g., through log analysis and manual improvements or machine
 learning approaches. The key message of the special issue is that there are numerous applications and opportunities for using AI methods to achieve or improve long-term autonomy,
 or in other words, for combined research of AI and long-term autonomy.\newline
+A recent example of long-term autonomous tour guide robots is provided by Wang et al. \cite{Wang:2018}. They state that autonomous robots deployed over a long period of time are
+particularly prone to failure, as the duration of the deployment introduces more uncertainties and corner cases that rarely occur in short-term applications. Based on their deployed
+robots \textit{TritonBot} and \textit{BoxBot}, they are able to closely investigate problems in terms of long-term autonomy and resilience. In particular, they draw attention to
+certain hardware and software failures, infeasible workflows, and human-robot interaction problems. The authors underline that certain errors are inevitable and that it is therefore
+crucial to equip the robot with failure detection and fail-safe capabilities to achieve a certain level of reliability. Furthermore, they claim that it may be useful to establish a form
+of component-level monitoring, which is fairly consistent with the approaches described in section \ref{sec:sim_and_mon_of_lta_challenges}. Another important aspect the authors
+stress is that certain failures, especially hardware failures, occur so infrequently that they often go unnoticed. However, since they will occur in long-term autonomous operation,
+it is essential to find a way to systematically and reproducibly evaluate potential failure cases, e.g., through simulations. \cite{Wang:2018} This is precisely the rationale behind
+all the simulations described in section \ref{sec:sim_and_mon_of_lta_challenges}. The paper also suggests that it is advisable to design the software components in such a way that
+they tolerate the temporary unavailability of other components and wait until the recovery is completed. Finally, as a further important remark for this thesis, they note that
+comprehensive logging in long-term autonomous applications offers great potential for evaluation, testing, and learning, e.g. through the use of the ROS tool \code{rosbag}.\newline
 
 \noindent
 \textit{Execution Monitoring.}\newline
@@ -813,8 +824,10 @@ Another category of potential LTA problems related to the system's power supply 
 Leaving aside the simplistic assumption of charging upon arrival at specific coordinates and considering the actual charging process 
 in practice with the AROX system, it must dock with an inductive charging station in a mobile container at the field site.
 Accordingly, docking to the charging station may fail or the charging process itself may not start after docking.
-Both cases lead to a failed charging process and thus to an abortion of the robot's LTA mission. An evaluation of potential docking failures would require 
-integration of the autonomous docking / undocking solution described in section \ref{sec:docking_solution}.\newline
+Both cases lead to a failed charging process and thus to an abortion of the robot's LTA mission.
+There is evidence in the literature that this is a common problem in long-term autonomous operation of mobile robots. Wang et al. \cite{Wang:2018}, for instance, encountered
+this problem during the deployment of their long-term autonomous service robots when the charging port failed and the robot could not recharge and thus continue its mission.
+An evaluation of potential docking failures would require integration of the autonomous docking / undocking solution described in section \ref{sec:docking_solution}.\newline
 
 \vfill
 \pagebreak
@@ -884,7 +897,10 @@ Therefore, tt would be valuable to identify such problems as soon as possible to
 \noindent
 For the robot to work as expected, it must maintain connections to various services. Accordingly, an interruption of one of these connections should be detected immediately.
 A real time communication channel (e.g. WiFi) is required to connect the RTK base station, i.e. the mobile container, and the RTK rover, i.e. the robot, in order to
-transmit the correction signals for high-precision positioning. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals,
+transmit the correction signals for high-precision positioning. In the literature, there are several examples of (semi-)autonomous mobile robots that cannot continue their
+mission as expected when they lose WiFi connectivity, such as the service robots considered by Wang et al. \cite{Wang:2018}. The authors also establish a form of network monitoring
+to deal with disconnects.
+Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals,
 i.e. are connected to the GNSS service. Bargoti et al. \cite{Bargoti:2015} and Bechar et al. \cite{Bechar:2016} identify occlusions of GPS satellites leading to jumps in estimated position as one of the main reasons
 for detection failures in their tree monitoring scenario, which highlights the value of being able to detect poor GNSS links.
 In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
@@ -897,6 +913,7 @@ to monitor the robot's internet connection in any case.\newline
 \noindent
 A relatively common problem for the long-term autonomy of a mobile robot is obstacles blocking the planned path.
 A rough distinction can be made between static obstacles such as a trailer and dynamic obstacles such as animals or people.
+Wang et al. \cite{Wang:2018} even claim that the greatest challenge for the navigation of autonomous robots are dynamic obstacles.
 The used navigation framework \code{move\_base\_flex} can already detect obstacles and initiate a recovery behavior if the planned path is not traversable.
 However, it would be good to refine the default recovery behaviors and adapt them to the scenario at hand. In addition, the robot should be able to deal with
 recovery failures.\newline
@@ -956,6 +973,9 @@ The relevance here can easily be argued based on practical experience, as this i
 the work for the PORTAL project. In these situations, a major problem for localization was rotating the robot on the spot.
 The problems encountered consisted mostly of an incorrect orientation of the robot and rather rarely of an actual incorrect position.
 If the orientation is incorrect, the sensor records will also be incorrectly aligned, which is a major problem for the scenario under consideration.
+In addition to this practical experience, there are also numerous references in the literature to localization problems in long-term autonomous robot operations. For instance,
+Wang et al. \cite{Wang:2018}}, who identified localization and execution errors as the two core problems in their long-term application of indoor service robots.
+They identify unexpected changes in the robot's position estimates as a useful method for predicting / detecting localization problems.
 Of course, it can also be a problem for localization if the GNSS signal itself is inaccurate or non-existent, but that is another topic (cf. \textit{Lost Connection} section).
 There are arbitrary many potential localization problems (e.g. slipping in sand, getting stuck, jammed wheels) and the correct functioning of the system always assumes an accurate
 position estimate. \cite{Goldberg:2002}\newline
