@@ -368,9 +368,22 @@ Based on the definitions in the paper, the execution monitoring procedures descr
 approaches, where fault detection and isolation are based on the (statistical) evaluation of the input data. Statistical analysis assumes that data variability changes drastically
 only in problematic situations and is otherwise relatively stable. \cite{Pettersson:2005} Many of the monitoring methods presented in this paper involve comparing an input signal
 to a specified limit, which is called \textit{limit value checking} and is very common in industrial control. \cite{Pettersson:2005} However, the methods in this thesis are also
-quite well aligned with the core ideas of expert systems, which often represent knowledge with conditional statements. \cite{Pettersson:2005} Pettersson, like many other authors,
-points out that one of the most common problems in the field of mobile robotics is that methods and solutions are developed and tailored for a specific system and the
-generalizability is rather limited, which is a motivation for developing solutions that are as general as possible but still useful.\newline
+quite well aligned with the core ideas of expert systems (knowledge-based systems), which often represent knowledge with conditional statements. \cite{Pettersson:2005} Pettersson,
+like many other authors, points out that one of the most common problems in the field of mobile robotics is that methods and solutions are developed and tailored for a specific
+system and the generalizability is rather limited, which is a motivation for developing solutions that are as general as possible but still useful.\newline
+Khalastchi et al. consider \textit{fault detection and diagnosis (FDD)} for robotic systems, which is necessary for recovery from problematic situations and thus
+robust long-term operation. \cite{Khalastchi:2018} The application of FDD to robotics is a relatively new field of research, but one that is very crucial
+because errors can disrupt a robot's mission, reduce its efficiency, or even pose safety problems for itself or the environment. \cite{Khalastchi:2018} The paper notes that it is
+critical that the detection of a problem is followed by some form of diagnosis that identifies the affected component and supports the recovery process. The authors provide a useful
+fault taxonomy for robotic systems in which they generally divide hardware (detection, action), software (algorithms, implementations), and interaction (internal / external) faults.
+Knowledge-based FDD methods, e.g. expert systems such as the one proposed in section \ref{sec:sim_and_mon_of_lta_challenges}, are essentially based on predefined issues and
+diagnoses. \cite{Khalastchi:2018} The authors note that internal sensors that provide information about the current state of the robot can be facilitated in FDD. In addition,
+exteroceptive sensors should be used for this purpose, but of course they can be used not only for FDD, but also can be the target of FDD in case of sensor failures. \cite{Khalastchi:2018}
+As a major challenge, the authors see the real-time nature of robotic applications, where erroneous situations must be detected as quickly as possible so that the robot can resume
+its operation. Usually, FDD must be performed on board the mobile robot, which imposes significant constraints on computational resources. \cite{Khalastchi:2018} As mentioned earlier,
+the monitoring approaches in this thesis are model-free, which has the advantage of providing some generality and thus transferability to other systems and scenarios. \cite{Khalastchi:2018} 
+In addition, the authors emphasize that trying to model every aspect of the system as well as its interaction with the environment is very complex and often infeasible.
+However, they also illustrate the disadvantage of expert system approaches, namely dealing with the unknown, since it is not trivial to extrapolate from a fixed ruleset.\newline
 Mauro et al. \cite{Mauro:2019} introduce a high-level deep learning and vision based approach to execution monitoring for robot tasks. Monitoring is limited to the execution of the
 plan and not to the operation of the robot in an environment in general. They evaluate their approach with a humanoid assistant robot in a warehouse environment and report some
 promising results. However, as mentioned, it is only considering very specific tasks and high-level actions.\newline
@@ -1211,9 +1224,14 @@ acting and monitoring modules by the AROX execution platform presented in sectio
 are the deliberation functions that are also capable of sending commands such as \code{move\_base\_flex} navigation goals or recovery instructions to the AROX system.
 Obviously, the AROX interacts with its environment via its sensors and actuators.\newline
 Plan execution, as well as robot operation monitoring, i.e. the \textquote{deliberation functions}-module in fig. \ref{fig:abstract_actor}, is modeled as a high-level hierarchically
-structured state machine, whose architecture is shown in figure \ref{fig:high_level_smach}. The architecture is implemented using the SMACH\footnote{ROS-independent Python
+structured state machine, whose architecture is shown in figure \ref{fig:high_level_smach}. The capabilities of a certain degree of failure tolerance are commonly not a directly
+integrated part of the control architecture, if considered at all. \cite{Khalastchi:2018} This is different in this thesis.
+The architecture is implemented using the SMACH\footnote{ROS-independent Python
 library to build hierarchical state machines \cite{smach}} library. The main objectives of monitoring are to detect deviations between what is expected and what is observed
 (fault detection), diagnosis of the reasons for such deviations (identification), and provision of recovery options. \cite{Ingrand:2017}
+If the behavior of a robotic system is plan-based, i.e., the operations of the robot are determined by some kind of plan, this is very meaningful for monitoring because the current
+state of plan execution provides context and thus certain expectations. \cite{Khalastchi:2018} If, for instance, the robot is recording a scan in front of a plant, it may be useful
+to start sensor monitoring, i.e. to check whether this operation results in a reasonable-looking scan that is successfully saved to disk.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{pics/SMACH_high_level.jpg}
@@ -1888,7 +1906,9 @@ topic where the GNSS information is converted to the same format as the odometry
 \code{/odometry/filtered\_odom} is the result of sensor fusion of odometry and IMU data using \code{robot\_localization}. Thus,
 the difference between what arrives on \code{/odom} and \code{/odometry/filtered\_odom} is due to the IMU. Unfortunately, it is
 fairly common for IMU, GNSS, and odometry estimates to diverge considerably. That is why they are used in combination, their
-weaknesses cancel each other out, which is why they complement each other well. Odometry, for instance, is very good at continuously approximating the distance traveled,
+weaknesses cancel each other out, which is why they complement each other well. As Khalastchi et al. put it: \textquote{\textit{When multiple sensors sense different aspects of
+the (unknown) environment, their readings can be fused to form a consensus.}} \cite{Khalastchi:2018}
+Odometry, for instance, is very good at continuously approximating the distance traveled,
 i.e. the length of the trajectory, but is highly inaccurate when it comes to curves, which is why the trajectory can be in a completely wrong direction but with correct length.
 A strength of GNSS, on the other hand, is the measurement / estimation of the absolute position. Yet, a single GNSS data point does not provide any orientation information at all.
 As for the IMU, in principle one could try to use the linear acceleration (subtracting gravity) measured with the IMU to estimate the distance traveled by first integrating the
@@ -1937,7 +1957,9 @@ $rad/s$ measured by the IMU's gyroscope.
 Since this is data recorded in the passive state, i.e. when the robot was not moving, it is expected that $a^p.x \approx a^p.y \approx a^p.z \approx 0 \thinspace rad/s$.
 There is a user-defined upper bound $a^p_{max}$ for the angular velocity in the passive state. For all three directions, the average over the last $n$ absolute angular velocities in
 the passive state is considered. If one of these values exceeds $a^p_{max}$, i.e. $\thinspace \exists \thinspace \frac{1}{n}\sum_{i=1}^{n} |a^p_i.d| > a^p_{max}, d \in \{x, y, z\}$, a contigency is initiated.
-The next aspect is the linear acceleration in $m/s^2$ measured by the accelerometer of the IMU. In preparation, a user-configurable fraction of the active and passive IMU
+The next aspect is the linear acceleration in $m/s^2$ measured by the accelerometer of the IMU.
+Both linear acceleration and angular velocity are examples of observations with contextual errors, where certain measurements (non-zero values) are legitimate in some
+contexts but illegitimate in others, e.g. motion versus stasis. \cite{Khalastchi:2018} In preparation, a user-configurable fraction of the active and passive IMU
 history is considered, sorted in descending order by the maximum absolute linear acceleration in the $x$ and $y$ directions for each IMU entry in the respective list.
 For both, the median is taken to obtain a representative value ignoring outliers. To increase reliability, there are again histories with configurable length $m$ for these values.
 In summary, these lists contain the median values of a certain fraction of the largest absolute linear acceleration values in $x$ and $y$ directions in the active and passive states.
