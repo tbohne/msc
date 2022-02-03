@@ -193,7 +193,7 @@ concerned with potential problems for a robotic system (software + hardware), bu
 In addition, the work focuses on the long-term autonomous application of mobile robotic systems in the context of plant monitoring. All of these aspects (long-term, autonomy,
 mobility, plant monitoring) can be considered and researched in isolation, which is what has been done for all of these sub-areas. The aim of this work, however, is to examine all of
 these aspects in combination and to focus on the big picture of integrating them into systems that are actually useful. The following literature review will therefore attempt to
-provide an overview of the literature on all of these subfields, but with the clear intention of considering them together rather than in isolation.
+provide a chronological overview of the literature on all of these subfields, but with the clear intention of considering them together rather than in isolation.
 One distinction that must be emphasized when reviewing long-term autonomous robot applications in the literature is the distinction between indoor and outdoor environments.
 So far, there has been a focus on indoor environments. \cite{Kyberd:2021} Despite the indisputable challenges that indoor environments pose, they are arguably less dangerous and
 troublesome than outdoor scenarios. \cite{Hawes:2017} Considering the broadness of these research fields, it is obviously not possible to discuss all the relevant fundamentals.
@@ -414,6 +414,11 @@ robustness in order to deal with all the challenges potentially occuring in such
 \noindent
 \textit{Execution Monitoring.}\newline
 
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+
 \noindent
 An early work on execution monitoring in robotics is by Pettersson \cite{Pettersson:2005}. The author attempts to transfer the knowledge of \textit{fault detection and isolation
 (FDI)} commonly used in industrial control to the field of robotics. The work already highlights the requirement for execution monitoring when planning the deployment of robots in
@@ -437,6 +442,30 @@ to a specified limit, which is called \textit{limit value checking} and is very 
 quite well aligned with the core ideas of expert systems (knowledge-based systems), which often represent knowledge with conditional statements. \cite{Pettersson:2005} Pettersson,
 like many other authors, points out that one of the most common problems in the field of mobile robotics is that methods and solutions are developed and tailored for a specific
 system and the generalizability is rather limited, which is a motivation for developing solutions that are as general as possible but still useful.\newline
+
+
+
+Vechet et al. \cite{Vechet:2015} state that fault detection is underexposed in robotics research and development, but is nonetheless fundamental to the
+deployment of autonomous mobile robots. They see a demand for health monitoring to prevent system failures and present a Markov chain model for \textit{Failure Detection and
+Identification (FDI)}.\newline
+
+
+
+Iocchi et al. \cite{Iocchi:2016} develop a framework for plan generation and execution with a focus on robustness by addressing certain shortcomings of classical plan execution
+monitoring approaches. They are evaluating the framework in a service robot application in public, human-populated environments such as shopping malls and offices. A critical
+challenge in such an environment, identified in the paper, arises from the fact that the robot must interact with inexperienced users. In particular, they highlight the great
+significance and need for planning under uncertainty, execution monitoring solutions, and the combined consideration of planning and execution when it comes to the use of
+autonomous robots in real-world environments populated by humans. The framework proposed in the work relies on \textit{Progressive Reasoning Units} and \textit{Petri Net Plans}
+and is in turn considering monitoring particularly focused on plan execution.\newline
+
+
+
+Winder \cite{Winder:2016} proposes an anomaly reasoning framework capable of recognizing and responding to previously unknown entities and situations, with the overall goal of
+increasing an agent's versatility and robustness in dynamic environments. The author postulates the hypothesis that such an approach requires the integration of machine learning
+methods and systematic knowledge representation.\newline
+
+
+
 Khalastchi et al. consider \textit{fault detection and diagnosis (FDD)} for robotic systems, which is necessary for recovery from problematic situations and thus
 robust long-term operation. \cite{Khalastchi:2018} The application of FDD to robotics is a relatively new field of research, but one that is very crucial
 because errors can disrupt a robot's mission, reduce its efficiency, or even pose safety problems for itself or the environment. \cite{Khalastchi:2018} The paper notes that it is
@@ -450,32 +479,9 @@ its operation. Usually, FDD must be performed on board the mobile robot, which i
 the monitoring approaches in this thesis are model-free, which has the advantage of providing some generality and thus transferability to other systems and scenarios. \cite{Khalastchi:2018} 
 In addition, the authors emphasize that trying to model every aspect of the system as well as its interaction with the environment is very complex and often infeasible.
 However, they also illustrate the disadvantage of expert system approaches, namely dealing with the unknown, since it is not trivial to extrapolate from a fixed ruleset.\newline
-Mauro et al. \cite{Mauro:2019} introduce a high-level deep learning and vision based approach to execution monitoring for robot tasks. Monitoring is limited to the execution of the
-plan and not to the operation of the robot in an environment in general. They evaluate their approach with a humanoid assistant robot in a warehouse environment and report some
-promising results. However, as mentioned, it is only considering very specific tasks and high-level actions.\newline
-Iocchi et al. \cite{Iocchi:2016} develop a framework for plan generation and execution with a focus on robustness by addressing certain shortcomings of classical plan execution
-monitoring approaches. They are evaluating the framework in a service robot application in public, human-populated environments such as shopping malls and offices. A critical
-challenge in such an environment, identified in the paper, arises from the fact that the robot must interact with inexperienced users. In particular, they highlight the great
-significance and need for planning under uncertainty, execution monitoring solutions, and the combined consideration of planning and execution when it comes to the use of
-autonomous robots in real-world environments populated by humans. The framework proposed in the work relies on \textit{Progressive Reasoning Units} and \textit{Petri Net Plans}
-and is in turn considering monitoring particularly focused on plan execution.\newline
-Winder \cite{Winder:2016} proposes an anomaly reasoning framework capable of recognizing and responding to previously unknown entities and situations, with the overall goal of
-increasing an agent's versatility and robustness in dynamic environments. The author postulates the hypothesis that such an approach requires the integration of machine learning
-methods and systematic knowledge representation.\newline
-Recently, Harris et al. \cite{Harris:2021} presented an execution monitoring and online plan modification approach that considers aspects such as resource availability
-and goal reasoning. The approach is evaluated in a long-term AUV scenario with very limited opportunities for human intervention and a highly dynamic and uncertain environment.
-Their method is based on the idea of altering the plan as needed, e.g. adding goals when resource consumption is lower than expected and removing goals (starting with those with
-low priority) when it is higher than expected. In order not to generate infeasible plans, the method relies on information about the causal relationship between actions. In cases
-where resources are uncertain, one approach is to provide branches in plans that allow a decision to be made between multiple options based on available resources. \cite{Harris:2021}
-The general monitoring and resolution approaches developed in this thesis are not as tethered to a plan, but the overall idea and goals are similar.\newline
-Not necessarily focused on execution monitoring, but a good motivation for its necessity is provided by \cite{Roucek:2021}, which asserts that research papers are
-usually concerned with aspects such as accuracy or computational complexity of their methods, but not so much with their reliability in integrated systems such as robots.
-And further: \textquote{\textit{[...] the performance of robotic systems cannot be optimal in real-world situations which are impacted by the robustness of the deployed systems}}.
-\cite{Roucek:2021} They conclude that the successful deployment of robots in real-world environments fundamentally depends on reliability and interoperability aspects of the
-employd submodules, which is a great motivation for this thesis.\newline
-Vechet et al. \cite{Vechet:2015} state that fault detection is underexposed in robotics research and development, but is nonetheless fundamental to the
-deployment of autonomous mobile robots. They see a demand for health monitoring to prevent system failures and present a Markov chain model for \textit{Failure Detection and
-Identification (FDI)}.\newline
+
+
+
 Honig et al. \cite{Honig:2018} review methods for fault detection and recovery with a particular focus on human-robot interaction. Nevertheless, the work contains several aspects
 that are quite relevant for this thesis, despite their different focus. First, like many authors before, they emphasize that robots working in dynamic real-world environments are
 constantly confronted with errors and that there is still a lack of proper error management methods. Consistent with the literature, they define a \textit{failure} loosely as a
@@ -487,11 +493,42 @@ reparability of such cases. Also useful is their discussion of failure categorie
 \cite{Khalastchi:2018}. The authors themselves focus on the distinction between technical failures (hardware + software) and interaction failures (environment + other actors).
 Of crucial importance to this work is the authors' finding that the involvement of a human operator in certain critical situations is computationally cheaper than comparatively
 costly and often unreliable other approaches. To do this in the most effective way, the problem should be communicated as precisely as possible. \cite{Honig:2018}\newline
+
+
+
+Mauro et al. \cite{Mauro:2019} introduce a high-level deep learning and vision based approach to execution monitoring for robot tasks. Monitoring is limited to the execution of the
+plan and not to the operation of the robot in an environment in general. They evaluate their approach with a humanoid assistant robot in a warehouse environment and report some
+promising results. However, as mentioned, it is only considering very specific tasks and high-level actions.\newline
+
+
+
+Recently, Harris et al. \cite{Harris:2021} presented an execution monitoring and online plan modification approach that considers aspects such as resource availability
+and goal reasoning. The approach is evaluated in a long-term AUV scenario with very limited opportunities for human intervention and a highly dynamic and uncertain environment.
+Their method is based on the idea of altering the plan as needed, e.g. adding goals when resource consumption is lower than expected and removing goals (starting with those with
+low priority) when it is higher than expected. In order not to generate infeasible plans, the method relies on information about the causal relationship between actions. In cases
+where resources are uncertain, one approach is to provide branches in plans that allow a decision to be made between multiple options based on available resources. \cite{Harris:2021}
+The general monitoring and resolution approaches developed in this thesis are not as tethered to a plan, but the overall idea and goals are similar.\newline
+
+
+
+Not necessarily focused on execution monitoring, but a good motivation for its necessity is provided by \cite{Roucek:2021}, which asserts that research papers are
+usually concerned with aspects such as accuracy or computational complexity of their methods, but not so much with their reliability in integrated systems such as robots.
+And further: \textquote{\textit{[...] the performance of robotic systems cannot be optimal in real-world situations which are impacted by the robustness of the deployed systems}}.
+\cite{Roucek:2021} They conclude that the successful deployment of robots in real-world environments fundamentally depends on reliability and interoperability aspects of the
+employd submodules, which is a great motivation for this thesis.\newline
+
+
+
 Very recently, Coruhlu et al. \cite{Coruhlu:2021} studied plan execution monitoring for autonomous systems. They point out that it is critical to equip robots with the ability
 to recognize and respond appropriately to deviations between expectations and observations, focusing particularly on diagnosis and explanation. Although at first glance their work
 appears to be very closely related to this thesis, their focus is quite different in that they are concerned with high-level monitoring of plan execution, dealing in particular with
 partial observability. As with most execution monitoring work in the literature, the focus is on plan execution rather than general robot operation in an environment, recovery often
 relies on replanning.\newline
+
+##############################################################
+##############################################################
+##############################################################
+##############################################################
 
 \noindent
 \textit{Crop Monitoring.}\newline
