@@ -137,7 +137,11 @@ autonomy of mobile field monitoring robots by demonstrating a fully integrated s
 
 The idea is to start with the basic long-term autonomy setup described in section \ref{sec:prototype_scenario}, provide a list of potential problems that 
 stand in its way, and develop execution monitoring methods to detect a subset of these issues with the aim of increasing the robustness of such a system in a simulation
-and ideally in practice on the real hardware. In the end, there should be a working system that addresses some of the problems of long-term autonomy 
+and ideally in practice on the real hardware. Before delving into the details, it is essential to define what is actually meant by the term \textit{robust autonomy} in the
+context of this thesis. Brodskiy et al. sum it up precisely: \textquote{\textit{[...] robust autonomy is mostly considered as ability of the system to react to changes in the
+environment, unexpected situations or special conditions. The phenomena to which the system is supposed to react can be summarised as abnormal events, happenings outside the
+normal workflow. Without special considerations the abnormal events become the cause of the system failure.}}. \cite{Brodskiy:2011}
+In the end, there should be a working system that addresses some of the problems of long-term autonomy
 in scenarios similar to the one described in section \ref{sec:lta_plant_observation}. The nature of the work is going to be integrative and application-oriented. The modules 
 needed to set up the initial prototype are available in principle, but it will be part of this work to integrate and extend them in order to end up with a holistic and robust
 solution. After the basic scenario works in the simulation, it is going to be extended with an evaluation part. A subset of the potential barriers described in section 
@@ -2149,8 +2153,10 @@ machine publishes as its normal error treatment behavior in case of plan retriev
 retrieval service unavailable, $1$: empty plan, $2$: infeasible plan). Based on this error code, the \code{PlanDeploymentMonitor} initiates a contingency with an appropriate message
 explaining the reason, using the \code{/contingency\_preemption} topic. Monitoring of plan deployment failures is
 therefore a special case, since most of the monitoring is based on error handling reported by the operational state machine. However, this makes sense because these errors are
-naturally detected in the operation state machine and only need to be reported or passed on to the higher-level state machine for execution monitoring. The exact error treatment
-responsible for detecting these errors works as follows. First, the plan generation node described in section \ref{sec:plan_generation} provides plans via the
+naturally detected in the operation state machine and only need to be reported or passed on to the higher-level state machine for execution monitoring. Brodskiy et al. refer to these
+types of failures recognized and indicated within a component as \textit{signaled failures} and argue that it is desirable to cover as many aspects as possible by such signaled
+failures, with each component being more or less self-responsible. \cite{Brodskiy:2011}
+The exact error treatment responsible for detecting these errors works as follows. First, the plan generation node described in section \ref{sec:plan_generation} provides plans via the
 \code{arox\_planner/get\_plan} service. If a call to this service triggers a timeout exception, it gets caught, the error is reported (code $0$), and the operation state machine
 remains in the \code{IDLE} state. Analogously, a plan with an empty list of actions (code $1$) and a plan containing an action of an unknown type (code $2$) are recognized and
 reported. The detection of actions of an unknown type is based on a configurable list of actions that are expected, e.g.. \code{drive\_to}, \code{return\_to\_base}, \code{charge}
@@ -2175,7 +2181,8 @@ Plan-deployment-related challenges for LTA can be addressed using the resolver d
 \label{sec:solutions_for_lta_challenges}
 
 As anticipated, the focus of the work is on detection, and an initial solution adopted for all the issues identified in section \ref{sec:challenges_for_lta} will be 
-to communicate the problem to a human operator. Requesting the help of the human operator not only serves as an initial solution, but is always acting as fallback 
+to communicate the problem to a human operator. In general, the idea of recovery is to transform an erroneous or problematic state into one without any issues. \cite{Brodskiy:2011}
+Requesting the help of the human operator not only serves as an initial solution, but is always acting as fallback
 solution when other solution attempts are unsuccessful. The idea is to have the monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} that 
 look for the specific types of issues and initiate an appropriate response. Kunz et al. \cite{Kunz:2009} emphasize that the robustness of a system can be maximized by
 providing fail-safe procedures. Although they are dealing with AUVs, the general problem remains the same.\newline
