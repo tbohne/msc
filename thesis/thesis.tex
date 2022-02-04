@@ -1170,8 +1170,8 @@ localization (cf. \ref{sec:sim_and_mon_incorrect_localization}), has to be consi
 that can be seen in fig. \ref{fig:average_results_2d}. Additionally, connection problems are treated (cf. \ref{sec:sim_and_mon_lost_connections}). Also quite
 general, but pretty high on the list are navigation errors, which are taken into account at least to some degree (cf. \ref{sec:sim_and_mon_navigation_failures}). Being relatively easy to detect, plan deployment failures will be tackled as well (cf. \ref{sec:sim_and_mon_plan_deployment_failures}). Although the problem of obstacles blocking the robot's path is ranked quite low in the lists in figs. \ref{fig:average_results} and
 \ref{fig:average_results_2d}, it is considered to some extent because the reason for its low ranking is mainly its relatively small impact. However, it is rated as very likely,
-and it would be good if such situations could be dealt with effectively (cf. \ref{sec:sim_and_mon_obstacles}). The problem of sustained recovery is fairly low on
-the list in the $3D$ assessment, but very high in the $2D$ case, mainly because of its relatively large impact. Thus, it will be studied (cf. \ref{sec:sim_and_mon_sustained_recovery}). The issue of drastic weather changes is rated as rather irrelevant in the overall result of the questionnaire. However, this is mainly due to
+and it would be good if such situations could be dealt with effectively (cf. \ref{sec:sim_and_mon_navigation_failures}). The problem of sustained recovery is fairly low on
+the list in the $3D$ assessment, but very high in the $2D$ case, mainly because of its relatively large impact. Thus, it will be studied (cf. \ref{sec:sim_and_mon_navigation_failures}). The issue of drastic weather changes is rated as rather irrelevant in the overall result of the questionnaire. However, this is mainly due to
 its high rated difficulty and the relatively low likelihood. Although it may be difficult to solve in general, it will be dealt with in first approximation due to its quite high
 impact (cf. \ref{sec:sim_and_mon_drastic_weather}).\newline
 A not so high-rated and also very general problem class that is not considered in detail in this work: Mapping errors. The problem class ``certain dynamics'' is of course formulated
@@ -1946,24 +1946,33 @@ The simulation of the GNSS failure cases can be enabled / disabled via the follo
     \item \textbf{high deviation} \textrightarrow \code{/toggle\_simulated\_high\_deviation}
 \end{itemize}
 
-\subsection{Obstacles Blocking the Planned Path}
-\label{sec:sim_and_mon_obstacles}
+\subsection{Navigation Failure}
+\label{sec:sim_and_mon_navigation_failures}
 
+Since the identified challenges of \textit{Obstacles Blocking the Planned Path} and \textit{Sustained Recovery} are also essentially navigation problems,
+the three challenges are considered together under the heading of \textit{Navigation Failure}.\newline
+
+\noindent
+\textit{Obstacles Blocking the Planned Path}\newline
+
+\noindent
 Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases 
 simply walk through the scene and disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. 
 Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors.
 The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized 
-positions that could potentially block the robot's path. TODO...
+positions that could potentially block the robot's path. TODO...\newline
 
-\subsection{Navigation Failure}
-\label{sec:sim_and_mon_navigation_failures}
+\noindent
+\textit{Navigation Failure}\newline
 
+\noindent
 To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to Duchetto et al.
-Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve. TODO...
+Problems of this type could be evaluated in simulation through specially constructed examples that are particularly difficult for the navigation algorithms to solve. TODO...\newline
 
-\subsection{Sustained Recovery}
-\label{sec:sim_and_mon_sustained_recovery}
+\noindent
+\textit{Sustained Recovery}\newline
 
+\noindent
 In this case, the robot should try a few different recovery actions and then abort and report the problem. Monitoring methods must therefore track the results of recovery
 behaviors and decide whether it is appropriate to try more or stop.
 Sustained recoveries can be evaluated in the simulation by inducing situations where recovery is not possible, such as when the path to the destination is
