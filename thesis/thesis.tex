@@ -2061,12 +2061,12 @@ monitoring method.
 The models used must be stored in \code{~/.gazebo/models} and are all freely available \footnote{http://models.gazebosim.org/}. Unfortunately, it is not trivial to
 simulate a case where \code{move\_base\_flex} fails on every attempt, although there is a path. Depending on the location and surroundings of the robot, it is sometimes able to find
 the right way after a while. Yet, it is sufficient to show that such situations exist, as this is adequate justification for the need to address them. The straightforward approach to
-simulate such situations works as follows. The user can specify a set of points, e.g., the one shown in fig. \ref{fig:outlier_points} in the scenario described in section \ref{sec:prototype_scenario}.
+simulate such situations works as follows. The user can specify a set of points, e.g., the one (red crosses) shown in fig. \ref{fig:outlier_points} in the scenario described in section \ref{sec:prototype_scenario}.
 These points are not hard to reach per se, but should be quite difficult to reach from certain locations, e.g. because there are many obstacles in between.
-When simulating such a situation, the point farthest from the robot's current position is chosen, as this will most likely cause navigation problems.
+When simulating such a situation, the point farthest from the robot's current position is chosen, which does not guarantee navigation problems, but is a fairly good heuristic.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{pics/nav_fail.png}
+    \includegraphics[width=0.3\textwidth]{pics/hard_to_reach.png}
     \caption{\textsc{Specified Set of \textquote{hard-to-reach} Points in the Prototype Scenario.}}
     \label{fig:outlier_points}
 \end{figure}
