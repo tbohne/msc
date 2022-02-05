@@ -1950,8 +1950,8 @@ The simulation of the GNSS failure cases can be enabled / disabled via the follo
 \label{sec:sim_and_mon_navigation_failures}
 
 Since the identified challenges of \textit{Obstacles Blocking the Planned Path} and \textit{Sustained Recovery} are also essentially navigation problems, the three challenges are
-considered together under the heading \textit{Navigation Failure}. Although sustainable recoveries could in principle refer to all kinds of problems, this thesis is limited to
-sustainable recoveries in the case of navigation problems, as this is by far the most relevant case from a practical perspective. Thus, it is sustained recoveries initiated by
+considered together under the heading \textit{Navigation Failure}. Although sustained recoveries could in principle refer to all kinds of problems, this thesis is limited to
+sustained recoveries in the case of navigation problems, as this is by far the most relevant case from a practical perspective. Thus, it is sustained recoveries initiated by
 \code{move\_base\_flex}.\newline
 Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases simply walk through the scene and
 disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. Static obstacles, on the other hand, may be present for longer
@@ -1959,7 +1959,14 @@ periods of time, requiring more sophisticated recovery behaviors. \code{move\_ba
 case is to closely observe what \code{move\_base\_flex} is doing and intervene if necessary. Concerning the obstacles, there are two distinct cases: Either the obstacles only block
 the direct path, but there is still one, or the obstacles actually block every single path and the robot cannot reach its destination. In the first case, it would be preferable if
 the robot was able to find it, but if it is incapable of doing so, it should be detected and communicated. This is basically the case of navigation failures in the sense that there
-is a path to the navigation goal, but \code{move\_base\_flex} cannot find it (cf. fig. \ref{} TODO). Despite the fact that such examples seem somewhat contrived, it is not
+is a path to the navigation goal, but \code{move\_base\_flex} cannot find it (cf. fig. \ref{fig:nav_fail}).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{pics/nav_fail.png}
+    \caption{\textsc{Navigation Failure: \code{move\_base\_flex} is unable to find a path to the goal.}}
+    \label{fig:nav_fail}
+\end{figure}
+Despite the fact that such examples seem somewhat contrived, it is not
 unrealistic that the robot will be confronted with such situations from time to time in practice, i.e., it is important to recognize them and thus enable the system to cope with
 them. In the second case, however, it should be detected and communicated in any case, because the robot can not solve it itself. If the robot is unable to successfully generate a
 path, there are essentially two different outcomes, regardless of whether this is because there is no path or because it simply cannot find it. First, it results in a sustained
@@ -1985,17 +1992,86 @@ with obstacles systematically, the \code{ObstacleSpawner} was developed. The ext
 leads to an error situation, which should be recognized. The idea is to dynamically spawn obstacles around the robot's current location encircling it. Since spawning the
 \textquote{robot prison} takes a moment, it is advisable to do this only when the robot is standing still, otherwise unwanted side effects such as collisions may occur. Consequently,
 when the simulation is launched, it will only be executed when the robot is next at a standstill. The \textquote{robot prison} exemplifies cases that cannot be solved by the robot
-and that should be detected by monitoring. Furthermore, the following solvable static obstacle scenarios were implemented in order to test the robot's ability to overcome them.
-[TODO: add figures.] In this manner, the situation that a static obstacle appears on the robot's route can be simulated, and it is usually able to manage it (cf. fig. \ref{} TODO).
+and that should be detected by monitoring. Furthermore, the following (cf. fig. \ref{fig:obstacle_scenarios}) solvable static obstacle scenarios were implemented in order to test the robot's ability to overcome them.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/nav_fail.png}
+        \caption{\textsc{}}
+        \label{fig:prototypical_layout}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/nav_fail.png}
+        \caption{\textsc{}}
+        \label{fig:example_scan_route}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/nav_fail.png}
+        \caption{\textsc{}}
+        \label{fig:prototypical_layout}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/nav_fail.png}
+        \caption{\textsc{}}
+        \label{fig:example_scan_route}
+    \end{subfigure}
+\caption{\textsc{Solvable Static Obstacle Scenarios.}}
+\label{fig:obstacle_scenarios}
+\end{figure}
+In this manner, the situation that a static obstacle appears on the robot's route can be simulated, and the robot is usually able to manage it (cf. fig. \ref{fig:obstacle_success}).
 This illustrates that unexpectedly appearing obstacles are not a great problem as long as there is a way. Nevertheless, if they are, it will be detected by the aforementioned
-monitoring method. The models used must be stored in \code{~/.gazebo/models} and are all freely available \footnote{http://models.gazebosim.org/}. Unfortunately, it is not trivial to
+monitoring method.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/nav_fail.png}
+        \caption{\textsc{}}
+        \label{fig:prototypical_layout}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/nav_fail.png}
+        \caption{\textsc{}}
+        \label{fig:example_scan_route}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/nav_fail.png}
+        \caption{\textsc{}}
+        \label{fig:prototypical_layout}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/nav_fail.png}
+        \caption{\textsc{}}
+        \label{fig:example_scan_route}
+    \end{subfigure}
+\caption{\textsc{Successfully Dealing with Static Obstacles.}}
+\label{fig:obstacle_success}
+\end{figure}
+The models used must be stored in \code{~/.gazebo/models} and are all freely available \footnote{http://models.gazebosim.org/}. Unfortunately, it is not trivial to
 simulate a case where \code{move\_base\_flex} fails on every attempt, although there is a path. Depending on the location and surroundings of the robot, it is sometimes able to find
 the right way after a while. Yet, it is sufficient to show that such situations exist, as this is adequate justification for the need to address them. The straightforward approach to
-simulate such situations works as follows. The user can specify a set of points, e.g., the one shown in fig. \ref{} in the scenario described in Section \ref{}, selecting the point
-farthest from the robot's current position, as this will most likely cause navigation problems. [TODO: add points in crop layout] As anticipated, this is not a guarantee of navigation
-failure, but it does cause it on a regular basis. It would be infeasible to simply interrupt the active plan and set the selected point as navigation target, as there would then be
-no successful outcome that continues the plan. Thus, the dummy target is introduced as an intermediate action in the plan (an option implemented as part of the low-level operation
-state machine).
+simulate such situations works as follows. The user can specify a set of points, e.g., the one shown in fig. \ref{fig:outlier_points} in the scenario described in section \ref{sec:prototype_scenario},
+selecting the point farthest from the robot's current position, as this will most likely cause navigation problems.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{pics/nav_fail.png}
+    \caption{\textsc{Navigation Failure: \code{move\_base\_flex} is unable to find a path to the goal.}}
+    \label{fig:outlier_points}
+\end{figure}
+As anticipated, this is not a guarantee of navigation failure, but it does cause it on a regular basis. It would be infeasible to simply interrupt the active plan and set the
+selected point as navigation target, as there would then be no successful outcome that continues the plan. Thus, the dummy target is introduced as an intermediate action in the
+plan (an option implemented as part of the low-level operation state machine).
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
