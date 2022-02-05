@@ -1949,55 +1949,53 @@ The simulation of the GNSS failure cases can be enabled / disabled via the follo
 \subsection{Navigation Failure}
 \label{sec:sim_and_mon_navigation_failures}
 
-Since the identified challenges of \textit{Obstacles Blocking the Planned Path} and \textit{Sustained Recovery} are also essentially navigation problems,
-the three challenges are considered together under the heading of \textit{Navigation Failure}. Although in principle sustained recoveries could refer to all kinds of issues,
-for this thesis it is limited to sustained recoveries in the case of navigation issues as this is by far the most relevant case from a practical perspective. Thus, we are
-talking of sustained recoveries initiated by \code{move\_base\_flex}.\newline
-Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases 
-simply walk through the scene and disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. 
-Static obstacles, on the other hand, may be present for longer  periods of time, requiring more sophisticated recovery behaviors. \code{move\_base\_flex} is generally already
-able to detect obstacles. The task of a monitoring procedure in this case is to closely observe what \code{move\_base\_flex} does and intervene if necessary.
-Regarding obstacles, there are two distinct cases: Either the obstacles are only blocking the direct way, but there still is one. Or, the obstacles are actually blocking every
-single way and the robot can't reach it's goal. In the first case, it would be best if the robot would be able to find it, but if it doesn't, it should be communicated.
-This is basically the case of navigation failures in the sense that there is a way to the navigation goal, but \code{move\_base\_flex} fails to find it (cf. fig. \ref{}).
-Although such examples are somewhat constructed, it is not unrealistic for the robot to face such situations in practice from time to time, i.e. it is good to recognize them
-and thus enable the system to deal with such situations. To overcome the problems, one could develop specific recovery behaviors for the considered scenario, analogous to
-Duchetto et al. In the second, however, it should be detected and communicated in any case as the robot can't solve it by itself.
-There are essentially two different problem cases in which it is not able to find a way, no matter whether this is because there is none or because it is just unable to find it.
-First, it ends up in a sustained recovery. Second, it just fails with an error and aborts the navigation target. Both cases should be detected.
-During practical experiments within the scope of this work, there were many situations in which \code{move\_base\_flex} was not able to find a correct way and simply ended up in
-a loop of failing recoveries without ever getting back to normal operation. In this case, the robot should try a few different recovery actions and then abort and report the
-problem. Monitoring methods must therefore track the results / states of recovery behaviors and decide whether it is appropriate to try more or stop.
-In order to detect sustained recovery situations, it would be necessary to somehow count them. \code{move\_base\_flex} repeatedly sends \code{GoalStatus.ABORTED} on
-\code{move\_base\_flex/exe\_path/status}. To count the number of executed recoveries one can simply count the transitions from \code{GoalStatus.ACTIVE} to \code{GoalStatus.ABORTED}.
-Then one can stop after  e.g. 3 recoveries. \code{GoalStatus.SUCCEEDED} should always reset the counter because then the recovery actually solved the problem.
-This method covers the case of a sustained recovery, but also obstacles without a way around, which sort of implicitly contains a sustained recovery.
-Essentially, this covers all the navigation fail issues as they will all end in a sustained recovery or explicit abortion.
-One issue is that repeated recoveries that indeed achieve some progress should not falsely be de detected as sustained recoveries and thus as failure.
-Therefore, one shouldn't only count recoveries and say that it failed after a number of attempts without success, instead one should also consider reasonable progress towards
-the goal. If during the process the robot got a lot closer to the goal (not only rotating on spot), it should be ok.\newline
-Sustained recoveries as well as explicit failures by \code{move\_base\_flex} can be evaluated in the simulation by inducing situations where recovery is not possible, such as when
-the path to the destination is blocked and there is no other way, i.e. through specially constructed examples that are particularly difficult for the navigation algorithms to solve.
-The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile
-objects at randomized positions that could potentially block the robot's path. However, as mentioned, dynamic obstacles are generally not that much of a problem as they will appear
-as obstacles, initiate a recovery, usually a rotation on spot and afterwards it will in most cases already be gone and the robot can continue its mission. Therefore, only the harder
-case of unexpected static obstacles is considered here, because this is the case, the robot actually has to adapt to. The most extreme case of an unexpected static obstacle would
-be one that blocks every way between the robot and its navigation goal such that it simply cannot reach it. The \code{obstacle\_spawner} was developed to simulate certain scenarios
-with obstacles. This case is simulated by a \textquote{robot prison}. Every navigation goal outside of the prison will cause such a failure situation that should be detected.
-The idea is to dynamically spawn obstacles around the robot's current location, encircling it. As the spawning of the \textquote{robot prison} takes a moment, it is reasonable to only
-do that when the robot is standing still, otherwise the robot could smash into the wall. So, whenever the simulation is initiated, it will only be executed when the robot is
-standing still the next time. The following static obstacle scenarios have been implemented in order to test the robot's ability to deal with them: [TODO: add figures.]
-Thus, we can simulate the situation of a static obstacle appearing on the robot's route and it is able to deal with this (cf. fig. \ref{}). This highlights that appearing obstacles
-are not much of a problem as long as there is a way. Additionally, the \textquote{robot prison} exemplifies cases that cannot be solved by the robot, which should be detected by
-monitoring. The obstacle scenarios are implemented in a way that allows to spawn them systematically from code. The models that are going to be spawned have to be stored in
-\code{~/.gazebo/models}. All of the used models are freely available at \code{http://models.gazebosim.org/}.
-Unfortunately, it is not trivial to setup a situation that causes \code{move\_base\_flex} to fail in each attempt although there is a way. Based on the specific location and
-surroundings of the robot, sometimes it is able to find the correct way after a while. Nevertheless, it suffices to show that such situations exist as that already sufficiently
-motivates the necessity of dealing with them. The simple approach to simulate such situations works like this: The user can define a number of points, e.g. the following in the
-scenario described in section \ref{}: [TODO: add points in crop layout] and the one farthest away from the robot's current location is choosen as this will most likely cause
-navigation problems. That shoudl trigger a navigation failure -- not guaranteed, but in many cases. As it won't be good to interrupt the plan and set one of these points as nav
-goal (then we'd have no success option -- the plan should basically seeminglessly continue after the "nav challenge"). Thus, the far off driving goal gets introduced as next action
-into the plan, which was implemented as part of the low-level operation state machine.
+Since the identified challenges of \textit{Obstacles Blocking the Planned Path} and \textit{Sustained Recovery} are also essentially navigation problems, the three challenges are
+considered together under the heading \textit{Navigation Failure}. Although sustainable recoveries could in principle refer to all kinds of problems, this thesis is limited to
+sustainable recoveries in the case of navigation problems, as this is by far the most relevant case from a practical perspective. Thus, it is sustained recoveries initiated by
+\code{move\_base\_flex}.\newline
+Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases simply walk through the scene and
+disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. Static obstacles, on the other hand, may be present for longer
+periods of time, requiring more sophisticated recovery behaviors. \code{move\_base\_flex} is generally already able to detect obstacles. The task of a monitoring procedure in this
+case is to closely observe what \code{move\_base\_flex} is doing and intervene if necessary. Concerning the obstacles, there are two distinct cases: Either the obstacles only block
+the direct path, but there is still one, or the obstacles actually block every single path and the robot cannot reach its destination. In the first case, it would be preferable if
+the robot was able to find it, but if it is incapable of doing so, it should be detected and communicated. This is basically the case of navigation failures in the sense that there
+is a path to the navigation goal, but \code{move\_base\_flex} cannot find it (cf. fig. \ref{} TODO). Despite the fact that such examples seem somewhat contrived, it is not
+unrealistic that the robot will be confronted with such situations from time to time in practice, i.e., it is important to recognize them and thus enable the system to cope with
+them. In the second case, however, it should be detected and communicated in any case, because the robot can not solve it itself. If the robot is unable to successfully generate a
+path, there are essentially two different outcomes, regardless of whether this is because there is no path or because it simply cannot find it. First, it results in a sustained
+recovery. Second, it simply fails with an error and aborts the navigation target. Both cases should be recognized. During practical experiments in this work, there were many
+situations where \code{move\_base\_flex} was unable to find a correct path and simply ended up in a loop of failed recoveries without ever returning to normal operation. In this
+case, the robot should try a few different recovery actions and then abort and report the problem. Monitoring methods must therefore track the results / states of recovery
+behaviors and decide whether it is appropriate to try more or stop. To identify sustained recovery situations, it would be necessary to count them somehow. \code{move\_base\_flex}
+communicates its status via the ROS topic \code{move\_base\_flex/exe\_path/status}. Consequently, to count the number of failed recoveries, one can simply count the transitions
+from \code{GoalStatus.ACTIVE} to \code{GoalStatus.ABORTED}. Then one can stop after $10$ failed recoveries, for example. \code{GoalStatus.SUCCEEDED} should always reset the counter,
+because then the recovery has actually solved the problem. This method covers the case of a sustained recovery, but also obstacles without a circumvention option that can lead to a
+sustained recovery. Combined with a check for explicit \code{move\_base\_flex} errors, this covers all navigation failures, since they will all end with a persistent recovery or an
+explicit termination. One problem is that repeated recoveries in which some progress is actually achieved should not be mistaken as sustained recoveries and thus failure. Hence, one
+should not only count the repetitions and declare that it has failed after a number of unsuccessful attempts, but also take into account reasonable progress towards the goal. For
+instance, if the robot approaches the target during the process rather than just rotating on the spot, it should be viable.\newline
+Sustained recoveries as well as explicit \code{move\_bas \_flex} failures can be evaluated in simulation by inducing situations where recovery is not possible, e.g., when the
+path to the destination is blocked and there is no other way, i.e., by specially constructed examples that are particularly difficult for the navigation algorithms to solve.
+The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized positions that could potentially block
+the robot's path. However, as mentioned earlier, dynamic obstacles are generally not a major concern as they will appear as obstacles, initiate a recovery, usually a turn on the
+spot, and after that, in most cases, the obstacle has already disappeared and the robot can continue its mission. If this is not the case, it could be treated as static anyway.
+Therefore, only the harder case of unexpected static obstacles is considered here, since this is the case to which the robot actually has to adapt. The most extreme case of an
+unexpected static obstacle would be one that blocks all paths between the robot and its navigation target, so that it simply cannot reach it. In order to simulate certain scenarios
+with obstacles systematically, the \code{ObstacleSpawner} was developed. The extreme case is simulated by spawning a \textquote{robot prison}. Any navigation target outside the prison
+leads to an error situation, which should be recognized. The idea is to dynamically spawn obstacles around the robot's current location encircling it. Since spawning the
+\textquote{robot prison} takes a moment, it is advisable to do this only when the robot is standing still, otherwise unwanted side effects such as collisions may occur. Consequently,
+when the simulation is launched, it will only be executed when the robot is next at a standstill. The \textquote{robot prison} exemplifies cases that cannot be solved by the robot
+and that should be detected by monitoring. Furthermore, the following solvable static obstacle scenarios were implemented in order to test the robot's ability to overcome them.
+[TODO: add figures.] In this manner, the situation that a static obstacle appears on the robot's route can be simulated, and it is usually able to manage it (cf. fig. \ref{} TODO).
+This illustrates that unexpectedly appearing obstacles are not a great problem as long as there is a way. Nevertheless, if they are, it will be detected by the aforementioned
+monitoring method. The models used must be stored in \code{~/.gazebo/models} and are all freely available \footnote{http://models.gazebosim.org/}. Unfortunately, it is not trivial to
+simulate a case where \code{move\_base\_flex} fails on every attempt, although there is a path. Depending on the location and surroundings of the robot, it is sometimes able to find
+the right way after a while. Yet, it is sufficient to show that such situations exist, as this is adequate justification for the need to address them. The straightforward approach to
+simulate such situations works as follows. The user can specify a set of points, e.g., the one shown in fig. \ref{} in the scenario described in Section \ref{}, selecting the point
+farthest from the robot's current position, as this will most likely cause navigation problems. [TODO: add points in crop layout] As anticipated, this is not a guarantee of navigation
+failure, but it does cause it on a regular basis. It would be infeasible to simply interrupt the active plan and set the selected point as navigation target, as there would then be
+no successful outcome that continues the plan. Thus, the dummy target is introduced as an intermediate action in the plan (an option implemented as part of the low-level operation
+state machine).
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
