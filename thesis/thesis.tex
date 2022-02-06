@@ -2093,6 +2093,12 @@ When simulating such a situation, the point farthest from the robot's current po
 As anticipated, this is not a guarantee of navigation failure, but it does cause it on a regular basis (cf. fig. \ref{fig:nav_fail}). It would be infeasible to simply interrupt the
 active plan and set the selected point as navigation target, as there would then be no successful outcome that continues the plan. Thus, the dummy target is introduced as an
 intermediate action in the plan (an option implemented as part of the low-level operation state machine).
+The simulation of the navigation failures can be enabled via the following ROS topics:
+\begin{itemize}
+    \item static obstacles \textrightarrow \code{/spawn\_static\_obstacles} with string message \code{scene\_n}, $n \in \{1, 2, 3, 4\}$
+    \item robot prison \textrightarrow \code{/spawn\_robot\_prison}
+    \item navigation failure \textrightarrow \code{/trigger\_nav\_fail}
+\end{itemize}
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
