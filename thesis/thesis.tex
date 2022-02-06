@@ -2004,7 +2004,9 @@ the robot's path. However, as mentioned earlier, dynamic obstacles are generally
 spot, and after that, in most cases, the obstacle has already disappeared and the robot can continue its mission. If this is not the case, it could be treated as static anyway.
 Therefore, only the harder case of unexpected static obstacles is considered here, since this is the case to which the robot actually has to adapt. The most extreme case of an
 unexpected static obstacle would be one that blocks all paths between the robot and its navigation target, so that it simply cannot reach it. In order to simulate certain scenarios
-with obstacles systematically, the \code{ObstacleSpawner} was developed. The extreme case is simulated by spawning a \textquote{robot prison}. Any navigation target outside the prison
+with obstacles systematically, the \code{ObstacleSpawner} was developed. The models used must be stored in \code{\textasciitilde/.gazebo/models} and are all freely available
+\footnote{http://models.gazebosim.org/}.
+The extreme case is simulated by spawning a \textquote{robot prison}. Any navigation target outside the prison
 leads to an error situation, which should be recognized. The idea is to dynamically spawn obstacles around the robot's current location encircling it. Since spawning the
 \textquote{robot prison} takes a moment, it is advisable to do this only when the robot is standing still, otherwise unwanted side effects such as collisions may occur. Consequently,
 when the simulation is launched, it will only be executed when the robot is next at a standstill. The \textquote{robot prison} exemplifies cases that cannot be solved by the robot
@@ -2076,7 +2078,7 @@ Nevertheless, if they are, it will be detected by the aforementioned monitoring 
 \caption{\textsc{Successfully Dealing with Static Obstacle Scenario One.}}
 \label{fig:obstacle_success}
 \end{figure}
-The models used must be stored in \code{\textasciitilde/.gazebo/models} and are all freely available \footnote{http://models.gazebosim.org/}. Unfortunately, it is not trivial to
+Unfortunately, it is not trivial to
 simulate a case where \code{move\_base\_flex} fails on every attempt, although there is a path. Depending on the location and surroundings of the robot, it is sometimes able to find
 the right way after a while. Yet, it is sufficient to show that such situations exist, as this is adequate justification for the need to address them. The straightforward approach to
 simulate such situations works as follows. The user can specify a set of points, e.g., the one (red crosses) shown in fig. \ref{fig:outlier_points} in the scenario described in section \ref{sec:prototype_scenario}.
@@ -2088,9 +2090,9 @@ When simulating such a situation, the point farthest from the robot's current po
     \caption{\textsc{Specified Set of \textquote{hard-to-reach} Points in the Prototype Scenario.}}
     \label{fig:outlier_points}
 \end{figure}
-As anticipated, this is not a guarantee of navigation failure, but it does cause it on a regular basis. It would be infeasible to simply interrupt the active plan and set the
-selected point as navigation target, as there would then be no successful outcome that continues the plan. Thus, the dummy target is introduced as an intermediate action in the
-plan (an option implemented as part of the low-level operation state machine).
+As anticipated, this is not a guarantee of navigation failure, but it does cause it on a regular basis (cf. fig. \ref{fig:nav_fail}). It would be infeasible to simply interrupt the
+active plan and set the selected point as navigation target, as there would then be no successful outcome that continues the plan. Thus, the dummy target is introduced as an
+intermediate action in the plan (an option implemented as part of the low-level operation state machine).
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
