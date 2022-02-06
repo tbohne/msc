@@ -2009,6 +2009,8 @@ leads to an error situation, which should be recognized. The idea is to dynamica
 \textquote{robot prison} takes a moment, it is advisable to do this only when the robot is standing still, otherwise unwanted side effects such as collisions may occur. Consequently,
 when the simulation is launched, it will only be executed when the robot is next at a standstill. The \textquote{robot prison} exemplifies cases that cannot be solved by the robot
 and that should be detected by monitoring. Furthermore, the following (cf. fig. \ref{fig:obstacle_scenarios}) solvable static obstacle scenarios were implemented in order to test the robot's ability to overcome them.
+The number plate on the ground always indicates the target position of the robot in the corresponding scenario. The idea is essentially to block the robot's direct path and see whether
+it is able to come up with an alternative. In this manner, the situation that a static obstacle appears on the robot's route can be simulated, and the robot is usually able to manage it.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.24\textwidth}
@@ -2040,9 +2042,9 @@ and that should be detected by monitoring. Furthermore, the following (cf. fig. 
 \caption{\textsc{Solvable Static Obstacle Scenarios.}}
 \label{fig:obstacle_scenarios}
 \end{figure}
-In this manner, the situation that a static obstacle appears on the robot's route can be simulated, and the robot is usually able to manage it (cf. fig. \ref{fig:obstacle_success}).
-This illustrates that unexpectedly appearing obstacles are not a great problem as long as there is a way. Nevertheless, if they are, it will be detected by the aforementioned
-monitoring method.
+For instance, fig. \ref{fig:obstacle_success} shows how the robot copes with the first scenario (cf. fig. \ref{fig:static_1}). As can be seen, the robot manages to iteratively
+progress around the static obstacle until it reaches the blocked target. This illustrates that unexpectedly appearing obstacles are not a great problem as long as there is a way.
+Nevertheless, if they are, it will be detected by the aforementioned monitoring method.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.24\textwidth}
@@ -2074,7 +2076,7 @@ monitoring method.
 \caption{\textsc{Successfully Dealing with Static Obstacle Scenario One.}}
 \label{fig:obstacle_success}
 \end{figure}
-The models used must be stored in \code{~/.gazebo/models} and are all freely available \footnote{http://models.gazebosim.org/}. Unfortunately, it is not trivial to
+The models used must be stored in \code{\textasciitilde/.gazebo/models} and are all freely available \footnote{http://models.gazebosim.org/}. Unfortunately, it is not trivial to
 simulate a case where \code{move\_base\_flex} fails on every attempt, although there is a path. Depending on the location and surroundings of the robot, it is sometimes able to find
 the right way after a while. Yet, it is sufficient to show that such situations exist, as this is adequate justification for the need to address them. The straightforward approach to
 simulate such situations works as follows. The user can specify a set of points, e.g., the one (red crosses) shown in fig. \ref{fig:outlier_points} in the scenario described in section \ref{sec:prototype_scenario}.
