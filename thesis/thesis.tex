@@ -1959,29 +1959,32 @@ periods of time, requiring more sophisticated recovery behaviors. \code{move\_ba
 case is to closely observe what \code{move\_base\_flex} is doing and intervene if necessary. Concerning the obstacles, there are two distinct cases: Either the obstacles only block
 the direct path, but there is still one, or the obstacles actually block every single path and the robot cannot reach its destination. In the first case, it would be preferable if
 the robot was able to find it, but if it is incapable of doing so, it should be detected and communicated. This is basically the case of navigation failures in the sense that there
-is a path to the navigation goal, but \code{move\_base\_flex} cannot find it (cf. fig. \ref{fig:nav_fail}). In fig. \ref{fig:nav_fail}, \code{move\_base\_flex} comes up with a path
-...
+is a path to the navigation goal, but \code{move\_base\_flex} cannot find it (cf. fig. \ref{fig:nav_fail}). Fig. \ref{fig:nav_fail} shows a side by side comparison of what the robot
+perceives and the actual section of the simulated world. In fig. \ref{fig:nav_fail_rviz} the route currently considered by \code{move\_base\_flex} is depicted (green line) as well as the
+target pose (cyan arrow). Examining the actual world excerpt in fig. \ref{fig:nav_fail_gazebo}, it is obvious that this route will not lead the robot to its destination. However, as
+can be observed from fig. \ref{fig:nav_fail_gazebo}, there is a viable route that would accomplish this. In some cases, \code{move\_base\_flex} may find the viable route after a while,
+but this is not assured.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{pics/nav_fail_wrong_route_0.png}
-        \caption{\textsc{}}
+        \caption{\code{move\_base\_flex}\textsc{Route (rviz)}}
         \label{fig:nav_fail_rviz}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{pics/nav_fail_wrong_route_1.png}
-        \caption{\textsc{}}
+        \caption{\textsc{Feasible Route (Gazebo)}}
         \label{fig:nav_fail_gazebo}
     \end{subfigure}
-\caption{\textsc{Navigation Failure: \code{move\_base\_flex} is unable to find a path to the goal.}}
-\label{fig:prototype_sim}
+\caption{\textsc{Navigation Failure:} \code{move\_base\_flex} \textsc{is Unable to Find a Path to the Goal.}}
+\label{fig:nav_fail}
 \end{figure}
 Despite the fact that such examples seem somewhat contrived, it is not
 unrealistic that the robot will be confronted with such situations from time to time in practice, i.e., it is important to recognize them and thus enable the system to cope with
-them. In the second case, however, it should be detected and communicated in any case, because the robot can not solve it itself. If the robot is unable to successfully generate a
+them. In the second case (obstacles block every single path), however, it should be detected and communicated in any case, because the robot can not solve it itself. If the robot is unable to successfully generate a
 path, there are essentially two different outcomes, regardless of whether this is because there is no path or because it simply cannot find it. First, it results in a sustained
 recovery. Second, it simply fails with an error and aborts the navigation target. Both cases should be recognized. During practical experiments in this work, there were many
 situations where \code{move\_base\_flex} was unable to find a correct path and simply ended up in a loop of failed recoveries without ever returning to normal operation. In this
