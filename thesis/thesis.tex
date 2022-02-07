@@ -2425,7 +2425,8 @@ fails, it passes the problem on to the human operator.
 \label{sec:nav_fail_resolver}
 
 Irrespective of whether the navigation failure is due to a sustained recovery or an explicit \code{move\_base\_flex} error, the resolution is the same. Initially, both the global
-and local costmaps are cleared. The order is crucial - first, the global costmap is cleared using the \code{move\_base\_flex/clear\_costmaps} service. Subsequently, the local costmap
+and local costmaps are cleared to remove previous obstacles that are no longer present.
+The order is crucial - first, the global costmap is cleared using the \code{move\_base\_flex/clear\_costmaps} service. Subsequently, the local costmap
 is cleared, which is implemented as a recovery, i.e. a \code{SimpleActionClient(move\_base\_flex/recovery, RecoveryAction)} is created and a \code{`clear\_costmap'} goal is sent.
 In case the global costmap is not cleared first, the obstacles in the global map are immediately copied back to the local map. Eventually, a simple but often effective workaround is
 executed: Driving the robot to one of several specified recovery points. Since these points are set by the user with the intention of being easily accessible from almost any location
@@ -2436,7 +2437,13 @@ simple check for \code{GoalStatus.ABORTED} cases directly in the resolution meth
 failed recovery procedures (cf. section \ref{sec:sim_and_mon_navigation_failures}). For this purpose, the navigation monitoring node described in section
 \ref{sec:sim_and_mon_navigation_failures} has another mode that is activated after navigation recovery is initiated. In this mode, recovery operations are counted again, but no
 contingencies are triggered as in default active monitoring, instead a special topic \code{/resolution\_failure} is used to notify the recovery procedure, which then cancels all
-active resolution goals. For both types of errors during navigation failure recovery, human operator notification is initiated as a fallback solution.
+active resolution goals. For both types of errors during navigation failure recovery, human operator notification is initiated as a fallback solution. An additional aspect of
+navigation error recovery that is essential for cases of simulated navigation failures is the removal of simulated obstacles. When the human operator intervenes in the event that
+the robot is unable to cope with obstacles, it is expected that the operator will remove the obstacles before re-initiating the autonomous operation of the robot. Thus, an obstacle
+removal function is implemented as part of the navigation failure monitoring node described in section \ref{sec:sim_and_mon_navigation_failures}. The most obvious example is the
+\textquote{robot prison}, which must be removed as part of the resolution, otherwise the robot will not be able to continue its mission in the simulation. The \code{ObstacleSpawner}
+keeps track of all spawned obstacle models. If a resolution was successful, obstacle removal is initiated via a topic \code{/clear\_spawned\_obstacles}, which causes the
+\code{ObstacleSpawner} to despawn all models via the \code{gazebo/delete\_model} service. Finally, after successful resolution, the active monitoring mode is reactivated via a topic.
 
 \chapter{Integrated Solutions}
 
