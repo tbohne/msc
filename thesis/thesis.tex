@@ -2418,6 +2418,23 @@ cases above, such a re-initialization is not performed arbitrarily often, but th
 repeated failure. In summary, for all potential contingencies arising from problems in the deployment of the plan, the robot has a strategy to solve them itself. As always, when it
 fails, it passes the problem on to the human operator.
 
+\subsection{Navigation Failure}
+\label{sec:nav_fail_resolver}
+
+Irrespective of whether the navigation failure is due to a sustained recovery or an explicit \code{move\_base\_flex} error, the resolution is the same. Initially, both the global
+and local costmaps are cleared. The order is crucial - first, the global costmap is cleared using the \code{move\_base\_flex/clear\_costmaps} service. Subsequently, the local costmap
+is cleared, which is implemented as a recovery, i.e. a \code{SimpleActionClient(move\_base\_flex/recovery, RecoveryAction)} is created and a \code{`clear\_costmap'} goal is sent.
+In case the global costmap is not cleared first, the obstacles in the global map are immediately copied back to the local map. Eventually, a simple but often effective workaround is
+executed: Driving the robot to one of several specified recovery points. Since these points are set by the user with the intention of being easily accessible from almost any location
+possible in the scenario, it often frees the robot from deadlocked situations and allows the mission to continue from there. Obvioulsy, it is not possible to solve inescapable
+situations such as the \textquote{robot prison} from section \ref{sec:sim_and_mon_navigation_failures} in this way. Therefore, it is a necessity to continue monitoring the execution
+of this navigation target as well. Both explicitly, i.e., the return of \code{move\_base\_flex}, and implicitly, i.e., sustained recoveries. The explicit case is trivial, it is a
+simple check for \code{GoalStatus.ABORTED} cases directly in the resolution method. The implicit case, though, must again be determined by the monitoring procedure, which counts
+failed recovery procedures (cf. section \ref{sec:sim_and_mon_navigation_failures}). For this purpose, the navigation monitoring node described in section
+\ref{sec:sim_and_mon_navigation_failures} has another mode that is activated after navigation recovery is initiated. In this mode, recovery operations are counted again, but no
+contingencies are triggered as in default active monitoring, instead a special topic \code{/resolution\_failure} is used to notify the recovery procedure, which then cancels all
+active resolution goals. For both types of errors during navigation failure recovery, human operator notification is initiated as a fallback solution.
+
 \chapter{Integrated Solutions}
 
 In general, an integrative work benefits from many integrated solutions. Nevertheless, it should be viable in the scope of the work and robust.
