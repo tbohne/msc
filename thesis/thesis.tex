@@ -2081,8 +2081,10 @@ and that should be detected by monitoring.
     \label{fig:robot_prison}
 \end{figure}
 Furthermore, the following (cf. fig. \ref{fig:obstacle_scenarios}) solvable static obstacle scenarios were implemented in order to test the robot's ability to overcome them.
-The number plate on the ground always indicates the target position of the robot in the corresponding scenario. The idea is essentially to block the robot's direct path and see whether
-it is able to come up with an alternative. In this manner, the situation that a static obstacle appears on the robot's route can be simulated, and the robot is usually able to manage it.
+All these scenarios are predefined in the \code{ObstacleSpawner} configuration and can be spawned arbitrarily during a robot operation. The number plate on the ground always indicates
+the target position of the robot in the manual evaluation of the corresponding scenario. However, they also coincide with the general direction in which the robot must overcome them in
+a simulated mission, i.e., the prototype scenario described in section \ref{sec:prototype_scenario}. The idea is essentially to block the robot's direct path and see whether it is
+able to come up with an alternative. In this manner, the situation that a static obstacle appears on the robot's route can be simulated, and the robot is usually able to manage it.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.24\textwidth}
