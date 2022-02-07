@@ -1998,7 +1998,9 @@ is a path to the navigation goal, but \code{move\_base\_flex} cannot find it (cf
 perceives and the actual section of the simulated world. In fig. \ref{fig:nav_fail_rviz} the route currently considered by \code{move\_base\_flex} is depicted (green line) as well as the
 target pose (cyan arrow). Examining the actual world excerpt in fig. \ref{fig:nav_fail_gazebo}, it is obvious that this route will not lead the robot to its destination. However, as
 can be observed from fig. \ref{fig:nav_fail_gazebo}, there is a viable route (red line) that would accomplish this. In some cases, \code{move\_base\_flex} may find the viable route after a while,
-but this is not assured.
+but this is not assured. The problem in such cases is often that the viable routes are somehow counterintuitive, e.g., because they require a detour, at least given the robot's partial
+knowledge of the environment. Analogous to leaving local optima in optimization, in some circumstances the robot must first navigate farther away from the target before it can actually
+reach it.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
@@ -2171,6 +2173,7 @@ The simulation of the navigation failures can be enabled via the following ROS t
     \item robot prison \textrightarrow \code{/spawn\_robot\_prison}
     \item navigation failure \textrightarrow \code{/trigger\_nav\_fail}
 \end{itemize}
+Navigation failures that are in principle solvable, i.e. not inevitable, can be addressed with the resolver described in section \ref{sec:nav_fail_resolver}.
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
