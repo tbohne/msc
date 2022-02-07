@@ -2427,10 +2427,11 @@ fails, it passes the problem on to the human operator.
 Irrespective of whether the navigation failure is due to a sustained recovery or an explicit \code{move\_base\_flex} error, the resolution is the same. Initially, both the global
 and local costmaps are cleared to remove previous obstacles that are no longer present.
 The order is crucial - first, the global costmap is cleared using the \code{move\_base\_flex/clear\_costmaps} service. Subsequently, the local costmap
-is cleared, which is implemented as a recovery, i.e. a \code{SimpleActionClient(move\_base\_flex/recovery, RecoveryAction)} is created and a \code{`clear\_costmap'} goal is sent.
+is cleared, which is implemented as a \code{move\_base\_flex} recovery, i.e. a \code{SimpleActionClient(move\_base\_flex/recovery, RecoveryAction)} is created and a \code{`clear\_costmap'} goal is sent.
 In case the global costmap is not cleared first, the obstacles in the global map are immediately copied back to the local map. Eventually, a simple but often effective workaround is
-executed: Driving the robot to one of several specified recovery points. Since these points are set by the user with the intention of being easily accessible from almost any location
-possible in the scenario, it often frees the robot from deadlocked situations and allows the mission to continue from there. Obvioulsy, it is not possible to solve inescapable
+executed: Driving the robot to one of several specified recovery points. Since these points are mission-specific and set by the user with the intention of being easily accessible from
+almost any location possible in the scenario, it often frees the robot from deadlocked situations and allows the mission to continue from there. The underlying idea is essentially to
+consider the problem from a different perspective, i.e. to try to plan a path from the new position. Obvioulsy, it is not possible to solve inescapable
 situations such as the \textquote{robot prison} from section \ref{sec:sim_and_mon_navigation_failures} in this way. Therefore, it is a necessity to continue monitoring the execution
 of this navigation target as well. Both explicitly, i.e., the return of \code{move\_base\_flex}, and implicitly, i.e., sustained recoveries. The explicit case is trivial, it is a
 simple check for \code{GoalStatus.ABORTED} cases directly in the resolution method. The implicit case, though, must again be determined by the monitoring procedure, which counts
