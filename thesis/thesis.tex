@@ -17,6 +17,8 @@
 
 \usepackage{gensymb}
 
+\usepackage{mathtools}
+
 \usepackage{algorithm, algorithmic}  % for pseudo code (cf. documentation)
 \renewcommand{\algorithmiccomment}[1]{\qquad{\small // \textit{#1}}}
 
@@ -2054,8 +2056,21 @@ spot, and after that, in most cases, the obstacle has already disappeared and th
 Therefore, only the harder case of unexpected static obstacles is considered here, since this is the case to which the robot actually has to adapt. The most extreme case of an
 unexpected static obstacle would be one that blocks all paths between the robot and its navigation target, so that it simply cannot reach it. In order to simulate certain scenarios
 with obstacles systematically, the \code{ObstacleSpawner} was developed. The obstacle models used must be stored in \code{\textasciitilde/.gazebo/models} and are all freely available
-\footnote{http://models.gazebosim.org/}. The extreme case is simulated by spawning a \textquote{robot prison} (cf. fig. \ref{fig:robot_prison}). Any navigation target outside the
-prison leads to an error situation, which should be recognized. The idea is to dynamically spawn obstacles around the robot's current location encircling it.
+\footnote{http://models.gazebosim.org/}. The ROS service \code{/gazebo/spawn\_sdf\_model} is used to spawn the obstacle models. The service must be called with the model name,
+the XML model read from file, an initial pose and a reference frame. The extreme case is simulated by spawning a \textquote{robot prison} (cf. fig. \ref{fig:robot_prison}). Any
+navigation target outside the prison leads to an error situation, which should be recognized. The idea is to dynamically spawn obstacles around the robot's current location encircling
+it. Since this is only a simulation, the $x$ and $y$ coordinates of the robot's current world position ($r_x, r_y$) can be taken from the \code{/pose\_ground\_truth} topic.
+As the ground truth provides the orientation as quaternion, the $z$ orientation, i.e. the yaw angle $r_\psi$ is computed using \code{tf.transformations.euler\_from\_quaternion}.
+Now the idea is to spawn the four barriers depicted in fig. \ref{fig:robot_prison}. Therefore, the poses of all four barriers have to be computed relative to the robot's current
+pose. The barrier height $b_h \in \mathbb{R}$ and the distance $b_d \in \mathbb{R}$ to the robot are the same four all four and configurable by the user. Moreover, the roll $\phi$
+and pitch $\theta$ angles are always $0$. More interesting are the $x$ and $y$ coordinates as well as the yaw angle of each barrier, which are computed as follows:
+\begin{itemize}
+    \item \textbf{barrier right:} $\boldsymbol{b_x^r} \coloneqq r_x + (b_d \cdot \cos{(\frac{\pi}{2} + \psi})), \boldsymbol{b_y^r} \coloneqq r_y + (b_d \cdot \sin{(\frac{\pi}{2} + \psi)}), \boldsymbol{b_\psi^r} \coloneqq r_\psi$
+    \item \textbf{barrier left:} $\boldsymbol{b_x^l} \coloneqq r_x + (b_d \cdot \cos{(1.5 \pi + \psi})), \boldsymbol{b_y^l} \coloneqq r_y + (b_d \cdot \sin{(1.5 \pi + \psi)}), \boldsymbol{b_\psi^l} \coloneqq r_\psi$
+    \item \textbf{barrier front:} $\boldsymbol{b_x^f} \coloneqq r_x + (b_d \cdot \cos{(\psi})), \boldsymbol{b_y^f} \coloneqq r_y + (b_d \cdot \sin{(\psi)}), \boldsymbol{b_\psi^f} \coloneqq r_\psi + \frac{\pi}{2}$
+    \item \textbf{barrier back:} $\boldsymbol{b_x^b} \coloneqq r_x + (b_d \cdot \cos{(\pi + \psi})), \boldsymbol{b_y^b} \coloneqq r_y + (b_d \cdot \sin{(\pi + \psi)}), \boldsymbol{b_\psi^b} \coloneqq r_\psi + \frac{\pi}{2}$
+\end{itemize}
+Thus, the pose passed to the \code{/gazebo/spawn\_sdf\_model} service proxy to spawn the barrier to the right side of the robot would be $(b_x^r, b_y^r, b_h, 0, 0, b_\psi^r)$.
 Since spawning the \textquote{robot prison} takes a moment, it is advisable to do this only when the robot is standing still, otherwise unwanted side effects such as collisions may occur. Consequently,
 when the simulation is launched, it will only be executed when the robot is next at a standstill. The \textquote{robot prison} exemplifies cases that cannot be solved by the robot
 and that should be detected by monitoring.
