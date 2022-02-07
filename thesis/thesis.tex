@@ -2046,6 +2046,10 @@ the recovery sequence with the present position. If the distance between the two
 and a contingency is initiated. Otherwise, the robot has performed a number of recoveries, but with some success as it progresses towards the goal, so this is not considered a
 failure. In such cases, the operator is informed via \code{/robot\_info}, the recovery counter is reset, i.e. $r = 1$, the initial recovery position is set to the present position
 and the recovery process can be continued.
+It is important to note that monitoring is kept as generic as possible to be compatible with other scenarios and applications involving autonomous mobile robots.
+For instance, it is easy to switch to the common navigation framework \code{move\_base} by simply changing the topic configuration.
+The counting of transitions etc. should still work, because \code{move\_base} works with the same \code{GoalStatus} information.
+Essentially, any navigation framework that is compatible with the general \code{actionlib\_msgs/GoalStatus} should be compatible with the introduced monitoring solution.
 \newline
 Sustained recoveries as well as explicit \code{move\_base\_flex} failures can be evaluated in simulation by inducing situations where recovery is not possible, e.g., when the
 path to the destination is blocked and there is no other way, i.e., by specially constructed examples that are particularly difficult for the navigation algorithms to solve.
