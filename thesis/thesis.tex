@@ -1962,7 +1962,7 @@ the robot was able to find it, but if it is incapable of doing so, it should be 
 is a path to the navigation goal, but \code{move\_base\_flex} cannot find it (cf. fig. \ref{fig:nav_fail}). Fig. \ref{fig:nav_fail} shows a side by side comparison of what the robot
 perceives and the actual section of the simulated world. In fig. \ref{fig:nav_fail_rviz} the route currently considered by \code{move\_base\_flex} is depicted (green line) as well as the
 target pose (cyan arrow). Examining the actual world excerpt in fig. \ref{fig:nav_fail_gazebo}, it is obvious that this route will not lead the robot to its destination. However, as
-can be observed from fig. \ref{fig:nav_fail_gazebo}, there is a viable route that would accomplish this. In some cases, \code{move\_base\_flex} may find the viable route after a while,
+can be observed from fig. \ref{fig:nav_fail_gazebo}, there is a viable route (red line) that would accomplish this. In some cases, \code{move\_base\_flex} may find the viable route after a while,
 but this is not assured.
 \begin{figure}[H]
     \centering
@@ -1997,20 +1997,26 @@ sustained recovery. Combined with a check for explicit \code{move\_base\_flex} e
 explicit termination. One problem is that repeated recoveries in which some progress is actually achieved should not be mistaken as sustained recoveries and thus failure. Hence, one
 should not only count the repetitions and declare that it has failed after a number of unsuccessful attempts, but also take into account reasonable progress towards the goal. For
 instance, if the robot approaches the target during the process rather than just rotating on the spot, it should be viable.\newline
-Sustained recoveries as well as explicit \code{move\_bas \_flex} failures can be evaluated in simulation by inducing situations where recovery is not possible, e.g., when the
+Sustained recoveries as well as explicit \code{move\_base\_flex} failures can be evaluated in simulation by inducing situations where recovery is not possible, e.g., when the
 path to the destination is blocked and there is no other way, i.e., by specially constructed examples that are particularly difficult for the navigation algorithms to solve.
 The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized positions that could potentially block
 the robot's path. However, as mentioned earlier, dynamic obstacles are generally not a major concern as they will appear as obstacles, initiate a recovery, usually a turn on the
 spot, and after that, in most cases, the obstacle has already disappeared and the robot can continue its mission. If this is not the case, it could be treated as static anyway.
 Therefore, only the harder case of unexpected static obstacles is considered here, since this is the case to which the robot actually has to adapt. The most extreme case of an
 unexpected static obstacle would be one that blocks all paths between the robot and its navigation target, so that it simply cannot reach it. In order to simulate certain scenarios
-with obstacles systematically, the \code{ObstacleSpawner} was developed. The models used must be stored in \code{\textasciitilde/.gazebo/models} and are all freely available
-\footnote{http://models.gazebosim.org/}.
-The extreme case is simulated by spawning a \textquote{robot prison}. Any navigation target outside the prison
-leads to an error situation, which should be recognized. The idea is to dynamically spawn obstacles around the robot's current location encircling it. Since spawning the
-\textquote{robot prison} takes a moment, it is advisable to do this only when the robot is standing still, otherwise unwanted side effects such as collisions may occur. Consequently,
+with obstacles systematically, the \code{ObstacleSpawner} was developed. The obstacle models used must be stored in \code{\textasciitilde/.gazebo/models} and are all freely available
+\footnote{http://models.gazebosim.org/}. The extreme case is simulated by spawning a \textquote{robot prison} (cf. fig. \ref{fig:robot_prison}). Any navigation target outside the
+prison leads to an error situation, which should be recognized. The idea is to dynamically spawn obstacles around the robot's current location encircling it.
+Since spawning the \textquote{robot prison} takes a moment, it is advisable to do this only when the robot is standing still, otherwise unwanted side effects such as collisions may occur. Consequently,
 when the simulation is launched, it will only be executed when the robot is next at a standstill. The \textquote{robot prison} exemplifies cases that cannot be solved by the robot
-and that should be detected by monitoring. Furthermore, the following (cf. fig. \ref{fig:obstacle_scenarios}) solvable static obstacle scenarios were implemented in order to test the robot's ability to overcome them.
+and that should be detected by monitoring.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{pics/robot_prison.png}
+    \caption{\textsc{\textquote{Robot Prison} - Static Obstacles that Completely Confine the Robot.}}
+    \label{fig:robot_prison}
+\end{figure}
+Furthermore, the following (cf. fig. \ref{fig:obstacle_scenarios}) solvable static obstacle scenarios were implemented in order to test the robot's ability to overcome them.
 The number plate on the ground always indicates the target position of the robot in the corresponding scenario. The idea is essentially to block the robot's direct path and see whether
 it is able to come up with an alternative. In this manner, the situation that a static obstacle appears on the robot's route can be simulated, and the robot is usually able to manage it.
 \begin{figure}[H]
