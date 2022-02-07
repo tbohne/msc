@@ -2049,7 +2049,7 @@ and the recovery process can be continued.
 It is important to note that monitoring is kept as generic as possible to be compatible with other scenarios and applications involving autonomous mobile robots.
 For instance, it is easy to switch to the common navigation framework \code{move\_base} by simply changing the topic configuration.
 The counting of transitions etc. should still work, because \code{move\_base} works with the same \code{GoalStatus} information.
-Essentially, any navigation framework that is compatible with the general \code{actionlib\_msgs/GoalStatus} should be compatible with the introduced monitoring solution.
+Essentially, any navigation framework that is compatible with the general \code{actionlib\_msgs/GoalStatus} is compatible with the introduced monitoring solution.
 \newline
 Sustained recoveries as well as explicit \code{move\_base\_flex} failures can be evaluated in simulation by inducing situations where recovery is not possible, e.g., when the
 path to the destination is blocked and there is no other way, i.e., by specially constructed examples that are particularly difficult for the navigation algorithms to solve.
