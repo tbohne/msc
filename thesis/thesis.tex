@@ -1946,6 +1946,42 @@ The simulation of the GNSS failure cases can be enabled / disabled via the follo
     \item \textbf{high deviation} \textrightarrow \code{/toggle\_simulated\_high\_deviation}
 \end{itemize}
 
+\subsection{Plan Deployment Failure}
+\label{sec:sim_and_mon_plan_deployment_failures}
+
+There are several potential failures regarding the deployment of generated plans. The first and most apparent is a missing plan, i.e. a situation where the robot is ready in
+principle to perform a mission, but no plan arrives and it remains in the \code{IDLE} state. Since this is not an error per se and this case may be perfectly valid, once a certain
+threshold is exceeded, it merely triggers a notification via \code{/robot\_info} to the human operator and keeps notifying at a specified frequency. The information whether a plan
+has been received, i.e. a mission is being executed, is retrieved via a configurable topic, in the scenario described in section \ref{sec:prototype_scenario} via
+\code{arox/ongoing\_operation}. Additionally, the \code{PlanDeploymentMonitor} subscribes to a topic \code{/plan\_retrieval\_failure} on which the embedded low-level operation state
+machine publishes as its normal error treatment behavior in case of plan retrieval failures, e.g. exceptions. There are defined error codes published on this topic ($0$: plan
+retrieval service unavailable, $1$: empty plan, $2$: infeasible plan). Based on this error code, the \code{PlanDeploymentMonitor} initiates a contingency with an appropriate message
+explaining the reason, using the \code{/contingency\_preemption} topic. Monitoring of plan deployment failures is
+therefore a special case, since most of the monitoring is based on error handling reported by the operational state machine. However, this makes sense because these errors are
+naturally detected in the operation state machine and only need to be reported or passed on to the higher-level state machine for execution monitoring. Brodskiy et al. refer to these
+types of failures recognized and indicated within a component as \textit{signaled failures} and argue that it is desirable to cover as many aspects as possible by such signaled
+failures, with each component being more or less self-responsible. \cite{Brodskiy:2011}
+The exact error treatment responsible for detecting these errors works as follows. First, the plan generation node described in section \ref{sec:plan_generation} provides plans via the
+\code{arox\_planner/get\_plan} service. If a call to this service triggers a timeout exception, it gets caught, the error is reported (code $0$), and the operation state machine
+remains in the \code{IDLE} state. Analogously, a plan with an empty list of actions (code $1$) and a plan containing an action of an unknown type (code $2$) are recognized and
+reported. The detection of actions of an unknown type is based on a configurable list of actions that are expected, e.g.. \code{drive\_to}, \code{return\_to\_base}, \code{charge}
+and \code{scan} in the considered scenario. In order to allow the monitoring node to initiate the contingency without the operational state machine immediately transitioning back
+to \code{IDLE} and repeatedly requesting a plan, a short delay (e.g. $1s$) is introduced for each detected problem to avoid unnecessary timing conflicts during transitions.
+Plan deployment failures obviously never cause catastrophes.
+For simulation, it is quite obvious that it is reasonable to simulate the failures where they occur, i.e. in the plan generator (cf. section \ref{sec:plan_generation}). The
+situation of an extended idle time is simulated by simply blocking the plan fetch for a configurable period of time, which must be greater than or equal to the threshold defined
+in \code{PlanDeploymentMonitor}. The simulation of an unavailable plan service is done by temporarily shutting down the service using the \code{shutdown} method provided by ROS services.
+Empty and otherwise infeasible plans are trivially simulated by either clearing the list of actions or setting one of the action names to an unspecified string.
+The simulation of the plan deployment failure cases can be enabled via the following ROS topics:
+\begin{enumerate}
+    \item \textbf{extended idle time} \textrightarrow \code{/sim\_extended\_idle\_time}
+    \item \textbf{unavailable plan service} \textrightarrow \code{/toggle\_unavailable\_plan\_service}
+    \item \textbf{empty plan} \textrightarrow \code{/sim\_empty\_plan}
+    \item \textbf{infeasible plan} \textrightarrow \code{/sim\_infeasible\_plan}
+\end{enumerate}
+\noindent
+Plan-deployment-related challenges for LTA can be addressed using the resolver described in section \ref{sec:plan_deployment_resolver}.
+
 \subsection{Navigation Failure}
 \label{sec:sim_and_mon_navigation_failures}
 
@@ -2290,42 +2326,6 @@ active navigation goal is being pursued, otherwise the motion would be expected.
 \end{itemize}
 \noindent
 Localization-related challenges for LTA can be addressed using the resolver described in section \ref{sec:localization_resolver}.
-
-\subsection{Plan Deployment Failure}
-\label{sec:sim_and_mon_plan_deployment_failures}
-
-There are several potential failures regarding the deployment of generated plans. The first and most apparent is a missing plan, i.e. a situation where the robot is ready in
-principle to perform a mission, but no plan arrives and it remains in the \code{IDLE} state. Since this is not an error per se and this case may be perfectly valid, once a certain
-threshold is exceeded, it merely triggers a notification via \code{/robot\_info} to the human operator and keeps notifying at a specified frequency. The information whether a plan
-has been received, i.e. a mission is being executed, is retrieved via a configurable topic, in the scenario described in section \ref{sec:prototype_scenario} via
-\code{arox/ongoing\_operation}. Additionally, the \code{PlanDeploymentMonitor} subscribes to a topic \code{/plan\_retrieval\_failure} on which the embedded low-level operation state
-machine publishes as its normal error treatment behavior in case of plan retrieval failures, e.g. exceptions. There are defined error codes published on this topic ($0$: plan
-retrieval service unavailable, $1$: empty plan, $2$: infeasible plan). Based on this error code, the \code{PlanDeploymentMonitor} initiates a contingency with an appropriate message
-explaining the reason, using the \code{/contingency\_preemption} topic. Monitoring of plan deployment failures is
-therefore a special case, since most of the monitoring is based on error handling reported by the operational state machine. However, this makes sense because these errors are
-naturally detected in the operation state machine and only need to be reported or passed on to the higher-level state machine for execution monitoring. Brodskiy et al. refer to these
-types of failures recognized and indicated within a component as \textit{signaled failures} and argue that it is desirable to cover as many aspects as possible by such signaled
-failures, with each component being more or less self-responsible. \cite{Brodskiy:2011}
-The exact error treatment responsible for detecting these errors works as follows. First, the plan generation node described in section \ref{sec:plan_generation} provides plans via the
-\code{arox\_planner/get\_plan} service. If a call to this service triggers a timeout exception, it gets caught, the error is reported (code $0$), and the operation state machine
-remains in the \code{IDLE} state. Analogously, a plan with an empty list of actions (code $1$) and a plan containing an action of an unknown type (code $2$) are recognized and
-reported. The detection of actions of an unknown type is based on a configurable list of actions that are expected, e.g.. \code{drive\_to}, \code{return\_to\_base}, \code{charge}
-and \code{scan} in the considered scenario. In order to allow the monitoring node to initiate the contingency without the operational state machine immediately transitioning back
-to \code{IDLE} and repeatedly requesting a plan, a short delay (e.g. $1s$) is introduced for each detected problem to avoid unnecessary timing conflicts during transitions.
-Plan deployment failures obviously never cause catastrophes.
-For simulation, it is quite obvious that it is reasonable to simulate the failures where they occur, i.e. in the plan generator (cf. section \ref{sec:plan_generation}). The
-situation of an extended idle time is simulated by simply blocking the plan fetch for a configurable period of time, which must be greater than or equal to the threshold defined
-in \code{PlanDeploymentMonitor}. The simulation of an unavailable plan service is done by temporarily shutting down the service using the \code{shutdown} method provided by ROS services.
-Empty and otherwise infeasible plans are trivially simulated by either clearing the list of actions or setting one of the action names to an unspecified string.
-The simulation of the plan deployment failure cases can be enabled via the following ROS topics:
-\begin{enumerate}
-    \item \textbf{extended idle time} \textrightarrow \code{/sim\_extended\_idle\_time}
-    \item \textbf{unavailable plan service} \textrightarrow \code{/toggle\_unavailable\_plan\_service}
-    \item \textbf{empty plan} \textrightarrow \code{/sim\_empty\_plan}
-    \item \textbf{infeasible plan} \textrightarrow \code{/sim\_infeasible\_plan}
-\end{enumerate}
-\noindent
-Plan-deployment-related challenges for LTA can be addressed using the resolver described in section \ref{sec:plan_deployment_resolver}.
 
 \section{Solutions for LTA Challenges}
 \label{sec:solutions_for_lta_challenges}
