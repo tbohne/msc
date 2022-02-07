@@ -1994,15 +1994,21 @@ communicates its status via the ROS topic \code{move\_base\_flex/exe\_path/statu
 from \code{GoalStatus.ACTIVE} to \code{GoalStatus.ABORTED}. \code{GoalStatus.SUCCEEDED} should always reset the counter, because then the recovery has actually solved the problem.
 Monitoring is performed at a frequency specified by the user and verifies the current recovery count $r \in \mathbb{N}$. Whenever $r = 1$, i.e. when the first recovery occurs after successful
 operation, the current position of the robot is stored using the GNSS data obtained from the \code{/fix} topic (cf. section \ref{sec:sim_and_mon_gnss_connection_problems}). If the
-recovery count reaches a user-configurable recovery limit $l \in \mathbb{N}$, i.e. $r \geq l$, a contingency is initiated due to a sustained recovery. This method covers a sustained recovery, as it
+recovery count reaches a user-configurable recovery limit $l \in \mathbb{N}$, i.e. $r \geq l$, a contingency is initiated via \code{/contingency\_preemption} due to a sustained recovery. This method covers a sustained recovery, as it
 arises from a case of obstacles without the possibility of circumvention. Combined with a check for explicit \code{move\_base\_flex} errors, this covers all navigation failures, since
-they will all end with a persistent recovery or an explicit termination. One problem is that repeated recoveries in which some progress is actually achieved should not be mistaken as
+they will all end with a persistent recovery or an explicit termination. The explicit check works as follows. The navigation monitoring node maintains a subscription to
+\code{/explicit\_nav\_failure} through which external procedures, such as the low-level operation state machine, can trigger a contingency due to a navigation problem. For this
+purpose, the operation state machine publishes to \code{/explicit\_nav\_failure} and notifies the monitoring procedure whenever a navigation goal issued to
+\code{move\_base\_flex} explicitly returns \code{GoalStatus.ABORTED}. This is again an example of \textit{signaled failures} proposed by Brodskiy et al. \cite{Brodskiy:2011} and
+discussed earlier in section \ref{sec:sim_and_mon_plan_deployment_failures}.
+One problem is that repeated recoveries in which some progress is actually achieved should not be mistaken as
 sustained recoveries and thus failure. Hence, one should not only count the repetitions and declare that it has failed after a number of unsuccessful attempts, i.e. $r \geq l$, but
 also take into account reasonable progress towards the goal. For instance, if the robot approaches the target during the process rather than just rotating on the spot, it should be
 viable. For this purpose, each time $r \geq l$, a further check is performed before a contingency is triggered, namely comparing the stored position of the robot at the beginning of
 the recovery sequence with the present position. If the distance between the two locations is less than a user-configurable lower bound, the robot has not made sufficient progress
 and a contingency is initiated. Otherwise, the robot has performed a number of recoveries, but with some success as it progresses towards the goal, so this is not considered a
-failure. In such cases, the recovery counter is reset, i.e. $r = 1$, the initial recovery position is set to the present position and the recovery process can be continued.
+failure. In such cases, the operator is informed via \code{/robot\_info}, the recovery counter is reset, i.e. $r = 1$, the initial recovery position is set to the present position
+and the recovery process can be continued.
 \newline
 Sustained recoveries as well as explicit \code{move\_base\_flex} failures can be evaluated in simulation by inducing situations where recovery is not possible, e.g., when the
 path to the destination is blocked and there is no other way, i.e., by specially constructed examples that are particularly difficult for the navigation algorithms to solve.
