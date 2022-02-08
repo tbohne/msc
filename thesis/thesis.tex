@@ -200,7 +200,7 @@ provide a chronological overview of the literature on all of these subfields, bu
 One distinction that must be emphasized when reviewing long-term autonomous robot applications in the literature is the distinction between indoor and outdoor environments.
 So far, there has been a focus on indoor environments. \cite{Kyberd:2021} Despite the indisputable challenges that indoor environments pose, they are arguably less dangerous and
 troublesome than outdoor scenarios. \cite{Hawes:2017} Considering the broadness of these research fields, it is obviously not possible to discuss all the relevant fundamentals.
-The idea is to provide a meaningful overview.\newline
+The idea is to provide a meaningful overview, which sufficiently frames the present thesis.\newline
 
 \noindent
 \textit{Long-Term Autonomy.}\newline
@@ -600,6 +600,23 @@ human workers. The authors present a method for identifying and tracking human w
 Finally, Khak Pour et al. \cite{KhakPour:2021} present an implementation of an autonomous, mobile, ground-based HTPP for crop monitoring. However, autonomy refers to the
 monitoring task, but not to the entire operation, as the tractor is a semi-autonomous vehicle. Nevertheless, since the authors consider their system ready for the commercial
 market in principle, it is a good example for the fact that full-autonomy is not necessarily the paradigm to strive for, at least not to be useful.\newline
+
+\noindent
+\textit{Concluding Remarks.}\newline
+
+\noindent
+A substantial majority of the research described concerning long-term autonomy deals with indoor service scenarios. One could argue that this is a manual sample that may be biased,
+however, it should fairly accurately reflect the focus in the literature. The examples available for outdoor scenarios tend to focus on very specific aspects of long-term autonomy,
+such as environmental change and place recognition, which is briefly discussed in section \ref{sec:challenges_for_lta}. In addition, general problem handling capabilities are often
+tightly tethered to specific systems and environments and therefore hardly reusable; sometimes they are not even explicitly described. What is perhaps a bit underexposed in the
+literature is the big picture of long-term autonomous mobile robotic applications in outdoor scenarios, not focusing on specific aspects but approaching an integrated functioning
+system. More precisely, work that discusses the common problems in all autonomous long-term scenarios, regardless of the specific application, and how to address them by merging
+ideas from long-term autonomy and general execution monitoring. This thesis is intended as a step in the direction of thinking about a generic framework that is nevertheless specific
+enough to be concretely applicable in the scenario under consideration. Referring to the overview of agricultural robotics, it should be emphasized that a fully autonomous mobile
+robot is considered in this work. Most of the work in the literature considers autonomy in the sense that a system is able to autonomously follow plant rows, e.g., intrarow
+navigation, but typically not a system that can freely and autonomously navigate through its environment. The work rarely considers full autonomy, and particularly not long-term
+autonomy. As mentioned before, full autonomy is not necessarily the paradigm to strive for if the goal is to increase efficiency. Nonetheless, it is worth investigating full autonomy
+for agricultural applications, whether or not it proves to be the best suited concept.
 
 \section{Long-Term Autonomous Plant Observation}
 \label{sec:lta_plant_observation}
