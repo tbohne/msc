@@ -2058,7 +2058,7 @@ from \code{GoalStatus.ACTIVE} to \code{GoalStatus.ABORTED}. \code{GoalStatus.SUC
 Monitoring is performed at a frequency specified by the user and verifies the current recovery count $r \in \mathbb{N}$. Whenever $r = 1$, i.e. when the first recovery occurs after successful
 operation, the current position of the robot is stored using the GNSS data obtained from the \code{/fix} topic (cf. section \ref{sec:sim_and_mon_gnss_connection_problems}). If the
 recovery count reaches a user-configurable recovery limit $l \in \mathbb{N}$, i.e. $r \geq l$, a contingency is initiated via \code{/contingency\_preemption} due to a sustained recovery. This method covers a sustained recovery, as it
-arises from a case of obstacles without the possibility of circumvention. Combined with a check for explicit \code{move\_base\_flex} errors, this covers all navigation failures, since
+arises from a case of obstacles without the possibility of circumvention. Combined with a check for explicit \code{move\_base\_flex} errors, this covers all expected navigation failures, since
 they will all end with a persistent recovery or an explicit termination. The explicit check works as follows. The navigation monitoring node maintains a subscription to
 \code{/explicit\_nav\_failure} through which external procedures, such as the low-level operation state machine, can trigger a contingency due to a navigation problem. For this
 purpose, the operation state machine publishes to \code{/explicit\_nav\_failure} and notifies the monitoring procedure whenever a navigation goal issued to
@@ -2091,7 +2091,7 @@ navigation target outside the prison leads to an error situation, which should b
 it. Since this is only a simulation, the $x$ and $y$ coordinates of the robot's current world position ($r_x, r_y$) can be taken from the \code{/pose\_ground\_truth} topic.
 As the ground truth provides the orientation as quaternion, the $z$ orientation, i.e. the yaw angle $r_\psi$ is computed using \code{tf.transformations.euler\_from\_quaternion}.
 Now the idea is to spawn the four barriers depicted in fig. \ref{fig:robot_prison}. Therefore, the poses of all four barriers have to be computed relative to the robot's current
-pose. The barrier height $b_h \in \mathbb{R}$ and the distance $b_d \in \mathbb{R}$ to the robot are the same four all four and configurable by the user. Moreover, the roll $\phi$
+pose. The barrier height $b_h \in \mathbb{R}$ and the distance $b_d \in \mathbb{R}$ to the robot are the same for all four and configurable by the user. Moreover, the roll $\phi$
 and pitch $\theta$ angles are always $0$. More interesting are the $x$ and $y$ coordinates as well as the yaw angle of each barrier, which are computed as follows:
 \begin{itemize}
     \item \textbf{barrier right:} $\boldsymbol{b_x^r} \coloneqq r_x + (b_d \cdot \cos{(\frac{\pi}{2} + \psi})), \boldsymbol{b_y^r} \coloneqq r_y + (b_d \cdot \sin{(\frac{\pi}{2} + \psi)}), \boldsymbol{b_\psi^r} \coloneqq r_\psi$
@@ -2203,7 +2203,7 @@ The simulation of the navigation failures can be enabled via the following ROS t
     \item robot prison \textrightarrow \code{/spawn\_robot\_prison}
     \item navigation failure \textrightarrow \code{/trigger\_nav\_fail}
 \end{itemize}
-Navigation failures that are in principle solvable, i.e. not inevitable, can be addressed with the resolver described in section \ref{sec:nav_fail_resolver}.
+Navigation failures that are in principle solvable, i.e. not inescapable, can be addressed with the resolver described in section \ref{sec:nav_fail_resolver}.
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
