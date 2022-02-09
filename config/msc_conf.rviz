@@ -647,7 +647,7 @@ Visualization Manager:
       Marker Topic: /docking/dbg_points
       Name: DBG
       Namespaces:
-        "": true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -655,7 +655,7 @@ Visualization Manager:
       Marker Topic: /docking/dbg_points_base
       Name: DBG_BASE
       Namespaces:
-        "": true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -671,7 +671,7 @@ Visualization Manager:
       Marker Topic: /docking/hough_lines
       Name: HOUGH
       Namespaces:
-        hough: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -710,7 +710,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 65.12116241455078
+      Distance: 64.91036987304688
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -718,9 +718,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -5.314220428466797
-        Y: 35.1356315612793
-        Z: -4.439597129821777
+        X: -9.02560043334961
+        Y: 29.04402732849121
+        Z: -4.4333086013793945
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
