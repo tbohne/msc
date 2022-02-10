@@ -91,3 +91,7 @@ Plan to interleave the reading / thinking / programming / experimenting and the 
 ## Open Container
 
 - `rostopic pub -1 /container/rampA_position_controller/command std_msgs/Float64 "data: 2.0"`
+
+## Clear Costmaps
+
+- `'rosservice call /move_base_flex/clear_costmaps "{}"`
