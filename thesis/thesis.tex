@@ -1481,10 +1481,10 @@ Power management problems can be simulated quite easily based on a controllable 
 
 As anticipated in section \ref{sec:challenges_for_lta}, (un-)docking to the charging station may fail or the charging process itself may not start after docking. Both cases should be
 detected by the robot so that an appropriate response can be initiated, e.g. notification of the human operator. Thus, charging failures are not only considered explicitly, but also
-as situations that imply charging failure (failed docking) or prevent successful continuation of the mission after charging (undocking). In general, the following remarks on docking,
+as situations that imply charging failure (failed docking) or prevent successful continuation of the mission after charging (failed undocking). In general, the following remarks on docking,
 undocking, and charging refer to the integrated base station and charging infrastructure as well as the state machines for docking and undocking presented in section
 \ref{sec:docking_solution}. Initially, it should be pointed out again that the failure cases identified in this thesis are not always strictly separated from each other. For instance,
-based on their nature, (un-)docking errors could sometimes already be covered by navigation error monitoring, such as sustained recovery (cf. section \ref{sec:sim_and_mon_navigation_failures}).
+based on their nature, (un-)docking errors could sometimes already be covered by navigation error monitoring, e.g. in the event of a sustained recovery (cf. section \ref{sec:sim_and_mon_navigation_failures}).
 However, this does not cover all types of docking and undocking problems. The first type of docking error is an explicit error returned by the docking state machine and can be caused
 by various problems, such as not being able to detect the container in the laser scan of the robot's surroundings. Likewise, explicit errors can be communicated by the undocking state
 machine, which is started after the charging process is complete. To notify the monitoring procedure of such errors, the operation state machine, which catches them as part of general
@@ -1506,16 +1506,16 @@ range $j \in [0, \frac{\pi}{2}]$ of the container ramp. Accordingly, to fully ra
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{pics/joint_position_container.png}
-    \caption{\textsc{Entry Ramp Joint Positions}}
+    \caption{\textsc{TODO: Entry Ramp Joint Positions}}
     \label{fig:joint_positions}
 \end{figure}
 \noindent
 A closed container case could in principle also be detected by the navigation monitoring solution described in section \ref{sec:sim_and_mon_navigation_failures}, but such situations
 are also recognized by the docking state machine, which returns an error after several entry attempts. Therefore, it is not determined which monitoring procedure is triggered first,
-as this depends on the situation and environment, but generally one of the two solutions will be triggered and initiate resolution. Undocking errors are in principle not very diverse,
+as this depends on the situation and environment, but generally one of the two nodes will be triggered and initiate resolution. Undocking errors are in principle not very diverse,
 since it is only a question of leaving the container. They can therefore be simulated simply by a raised ramp, so that the robot is locked in the container. This is in turn achieved
 by publishing $j = 0$ to \code{/container/ramp\_position\_controller/command} while the robot is inside the container. To ensure that the robot is actually inside the container when
-this case is simulated, the actual execution of the simulation does not follow immediately after initiation, but waits until the next \code{charge} action indicated by the operation
+this case is simulated, the execution of the simulation does not follow immediately after initiation, but waits until the next \code{charge} action indicated by the operation
 state machine is executed. A noteworthy aspect of this simulation is that the robot cannot solve the problem itself, just as in the \textquote{robot prison} scenario in section
 \ref{sec:sim_and_mon_navigation_failures}. Ultimately, a failed charge is also quite trivial to simulate based on a controllable battery consumption and recharge model.
 Charge failure simulation can be enabled using the following ROS topics:
