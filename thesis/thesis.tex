@@ -1479,10 +1479,25 @@ Power management problems can be simulated quite easily based on a controllable 
 \subsection{Charging Failure}
 \label{sec:sim_and_mon_charging_failures}
 
-Both cases should be detected by the robot so that an appropriate response can be initiated, e.g. notification of the human operator. The first case, i.e. a docking 
-failure, could for example be detected based on \code{move\_base\_flex} navigation errors, the docking state simply does not complete successfully, which should trigger
-a treatment procedure. A failed charging process can be detected based on a certain time in the state of charge without increasing the charge level of the battery.
-A failed charging process is again quite easy to simulate based on a controllable battery consumption model such as the one explained in the previous paragraph. TODO...
+As anticipated in section \ref{sec:challenges_for_lta}, (un-)docking to the charging station may fail or the charging process itself may not start after docking. Both cases should be
+detected by the robot so that an appropriate response can be initiated, e.g. notification of the human operator. Thus, charging failures are not only considered explicitly, but also
+as situations that imply charging failure (failed docking) or prevent successful continuation of the mission after charging (undocking). In general, the following remarks on docking,
+undocking, and charging refer to the integrated base station and charging infrastructure as well as the state machines for docking and undocking presented in section
+\ref{sec:docking_solution}. Initially, it should be pointed out again that the failure cases identified in this thesis are not always strictly separated from each other. For instance,
+based on their nature, (un-)docking errors could sometimes already be covered by navigation error monitoring, such as sustained recovery (cf. section \ref{sec:sim_and_mon_navigation_failures}).
+However, this does not cover all types of docking and undocking problems. The first type of docking error is an explicit error returned by the docking state machine and can be caused
+by various problems, such as not being able to detect the container in the laser scan of the robot's surroundings. Likewise, explicit errors can be communicated by the undocking state
+machine, which is started after the charging process is complete. Finally, there is the case that the charging process does not start after successful docking, i.e. the battery charge
+does not increase. A failed charging process can be detected based on a specific time in the state of charge without increasing the charge level of the battery.\newline
+The identified failure modes can be simulated using the following approaches. Docking errors can be easily simulated by having the robot move to an inappropriate location before
+docking so that it cannot detect the container because it is not in its environment. This exemplifies cases where the detection part of docking fails. An example that causes the
+navigation portion of the docking process to fail would be raising the ramp of the container so that there is no way for the robot to enter after successful detection. The second
+case could in principle also be detected by the navigation monitoring solution described in section \ref{sec:sim_and_mon_navigation_failures}, but such situations are also recognized
+by the docking state machine, which returns an error after several entry attempts. Therefore, it is not determined which monitoring procedure is triggered first, as this depends on
+the situation and environment, but generally one of the two solutions will be triggered and initiate resolution. Undocking errors are in principle not very diverse, since it is only
+a question of leaving the container. They can therefore be simulated simply by a raised ramp, so that the robot is locked in the container. A noteworthy aspect of this simulation is
+that the robot cannot solve the problem itself, just as in the \textquote{robot prison} scenario in section \ref{sec:sim_and_mon_navigation_failures}. Ultimately, a failed charge is
+also quite trivial to simulate based on a controllable battery consumption and recharge model.
 
 \subsection{Drastic Weather Change}
 \label{sec:sim_and_mon_drastic_weather}
