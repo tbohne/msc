@@ -1525,6 +1525,7 @@ Charge failure simulation can be enabled using the following ROS topics:
     \item \textbf{docking failure (wrong base pose)} \textrightarrow \code{/sim\_docking\_failure\_base\_pose}
     \item \textbf{charging failure} \textrightarrow \code{/sim\_charging\_failure}
 \end{itemize}
+Charging failures can be addressed with the resolution methods described in section \ref{sec:charging_failure_resolver}.
 
 \subsection{Drastic Weather Change}
 \label{sec:sim_and_mon_drastic_weather}
@@ -2538,7 +2539,7 @@ imprecise alignment in front of the inductive charging plate, it may help to rep
 may be a more complex problem beyond the robot's ability to solve, which is why the operator is notified. All resolution counters that ensure that the respective method is only
 attempted once are reset at appropriate events. The counters for docking and charging failure resolution are reset when the battery charge level increases after the docking
 error, as this is a clear indicator that the docking was finally successful and the battery is being charged. For this purpose the current state of charge is stored at the start of
-the docking resolution and later compared with the most recent state on \code{/arox/battery\_param}. The undocking resolution cout is reset when \code{move\_base\_flex} reports
+the docking resolution and later compared with the most recent state on \code{/arox/battery\_param}. The undocking resolution count is reset when \code{move\_base\_flex} reports
 \code{GoalStatus.SUCCEEDED}.
 
 \chapter{Integrated Solutions}
