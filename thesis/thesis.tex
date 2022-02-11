@@ -1487,8 +1487,14 @@ undocking, and charging refer to the integrated base station and charging infras
 based on their nature, (un-)docking errors could sometimes already be covered by navigation error monitoring, such as sustained recovery (cf. section \ref{sec:sim_and_mon_navigation_failures}).
 However, this does not cover all types of docking and undocking problems. The first type of docking error is an explicit error returned by the docking state machine and can be caused
 by various problems, such as not being able to detect the container in the laser scan of the robot's surroundings. Likewise, explicit errors can be communicated by the undocking state
-machine, which is started after the charging process is complete. Finally, there is the case that the charging process does not start after successful docking, i.e. the battery charge
-does not increase. A failed charging process can be detected based on a specific time in the state of charge without increasing the charge level of the battery.\newline
+machine, which is started after the charging process is complete. To notify the monitoring procedure of such errors, the operation state machine, which catches them as part of general
+error treatment, publishes them on the topic \code{/explicit\_charging\_failure} to which the monitoring procedure is subscribed. In this case, the monitoring node triggers a
+contingency via \code{/contingency\_preemption} and communicates the reason for the problem. Finally, there is the case that the charging process does not start after successful
+docking, i.e. the battery charge does not increase. A failed charging process can be detected based on a specific time in the state of charge without increasing the charge level
+of the battery. More specifically, the current state of charge is constantly kept track of via \code{/arox/battery\_param}. In case a charge action is performed, which is communicated
+by the operation state machine, the current charge level is stored, the procedure sleeps for a user-specified time and afterwards compares the current charging state with the
+previously stored one. If the most recent state of charge is not higher than the one stored at the start of charging, a contingency is initiated because the battery is not charging
+despite the robot being docked to the charging station.\newline
 The identified failure modes can be simulated using the following approaches. Docking errors can be easily simulated by having the robot move to an inappropriate location before
 docking so that it cannot detect the container because it is not in its environment. This exemplifies cases where the detection part of docking fails. An example that causes the
 navigation portion of the docking process to fail would be raising the ramp of the container so that there is no way for the robot to enter after successful detection. The second
