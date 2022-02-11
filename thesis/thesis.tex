@@ -1518,6 +1518,13 @@ by publishing $j = 0$ to \code{/container/ramp\_position\_controller/command} wh
 this case is simulated, the actual execution of the simulation does not follow immediately after initiation, but waits until the next \code{charge} action indicated by the operation
 state machine is executed. A noteworthy aspect of this simulation is that the robot cannot solve the problem itself, just as in the \textquote{robot prison} scenario in section
 \ref{sec:sim_and_mon_navigation_failures}. Ultimately, a failed charge is also quite trivial to simulate based on a controllable battery consumption and recharge model.
+Charge failure simulation can be enabled using the following ROS topics:
+\begin{itemize}
+    \item \textbf{undocking failure (raised ramp)} \textrightarrow \code{/sim\_undocking\_failure}
+    \item \textbf{docking failure (raised ramp)} \textrightarrow \code{/sim\_docking\_failure\_raised\_ramp}
+    \item \textbf{docking failure (wrong base pose)} \textrightarrow \code{/sim\_docking\_failure\_base\_pose}
+    \item \textbf{charging failure} \textrightarrow \code{/sim\_charging\_failure}
+\end{itemize}
 
 \subsection{Drastic Weather Change}
 \label{sec:sim_and_mon_drastic_weather}
