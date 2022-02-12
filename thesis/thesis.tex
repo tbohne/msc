@@ -2583,7 +2583,52 @@ simplified charging patch scenario, it is expected to be exactly on the patch. I
 container and pointing approximately in its direction. In either case, the robot then drives to the specified location. Afterwards, the action is completed in the simplified charging
 patch scenario. Yet, in the container scenario, \code{return\_to\_base} includes docking. Thus, docking is initiated by creating a
 \code{SimpleActionClient('dock\_to\_charging\_station', DockAction)}. After sending the docking goal via this action client, the docking state machine visualized in fig.
-\ref{fig:docking_smach} is executed.
+\ref{fig:docking_smach} is executed.\newline
+The first state is \code{CONTAINER\_PROXIMITY}, which assumes that the robot has navigated close to the container, e.g. based on GNSS (cf. fig. \ref{fig:container_view}).
+Subsequently, if this is the case, \code{DETECT\_CONTAINER} begins based on a laser scan recorded by the robot facing the container. In simple terms, it performs a Hough transform
+to detect lines in the scan and uses a large number of tailored rules to find a reasonable combination of line segments that could represent the container. Essentially, the whole
+approach is centered around the idea that the container is a relatively simple geometric shape that can be detected in a laser scan - a combination of line segments
+(cf. fig. \ref{fig:rviz_view}).
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{pics/container_view.png}
+        \caption{\textsc{Robot Facing the Container}}
+        \label{fig:container_view}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{pics/rviz_view.png}
+        \caption{\textsc{Container Perception Based on Lidar}}
+        \label{fig:rviz_view}
+    \end{subfigure}
+\caption{\textsc{Container Perception - Geometric Shape}}
+\label{fig:container_geometric_shape}
+\end{figure}
+Initially, the input \code{LaserScan} in which the container is to be detected is transformed into the parameter space constructed by spanning the space of possible parameter
+combinations, often called Hough space. Typically, when using a Hough transform for line detection, the lines are represented in normal parametrization
+$\rho = x \cos{\theta} + y \sin{\theta}$, as suggested by Duda et al. \cite{Duda:1972}. Hence, the Hough space is a $2D$ space based on the two parameters $\rho$ and $\theta$. Points
+$(x, y)$ on a line in the original Euclidean space intersect in a point, i.e. a $(\rho, \theta)$ combination, in Hough space. The basic idea is to transform each point in the laser
+scan into Hough space and count for every parameter combination $(\rho, \theta)$ the number of occurrences. A maximum corresponds to a \textquote{best} match of a line in Euclidean
+space. It is therefore reasonable to look for $(\rho, \theta)$ combinations with many hits in Hough space as promising container side candidates. Of course, it is not sufficient to
+simply detect lines, because lines occur frequently in the robot's natural environment, not just as part of the container. Nevertheless, the result of this line detection serves as
+the basis for the following container detection. It is trivial to calculate the corresponding points that are actually part of the original scan based on the detected lines, so that
+the characteristics of the actual line segments that are part of the scan can also be taken into account. Starting with the most prominent line, i.e. the line with the most hits in
+Hough space, container detection begins. The initial step is to evaluate whether this baseline candidate could really be a side of the container based on its properties. The first
+line segment that matches in this sense, starting with the line with the most hits, followed by the next best lines, is selected. Then, for this line segment, the remaining line
+segments that in combination could form the basic shape of the container are considered, in turn ordered decreasingly by their hits in Hough space. The idea is to determine if the
+detected line segments meet several criteria that support their plausibility in terms of being a possible container side. For instance, each newly considered line segment must have
+an appropriate distance to the previously recognized segments. Appropriate means that the distances do not contradict the dimensions of the container. Moreover, they must be
+orthogonal or parallel to all previously detected line segments and their length should not exceed the longest side of the container. However, it is crucial not to be too restrictive,
+for example, it must be allowed to undercut the shortest side, due to the fact that the sides may be partially covered. In addition, because of the expected geometric shape of the
+container, i.e. a combination of three to four lines, there can be only two lines with approximately the same angle. This fact is used to determine if a newly considered line segment
+could still be part of the container candidate. Furthermore, the (infinite) lines must have feasible intersections that match the dimensions of the container. Based on the
+intersections of the final set of candidate lines that could represent the container, it can be verified that there must be two segments that exactly satisfy the container width and
+two segments that exactly satisfy the container length. At this point, potentially occluded sides are irrelevant as the intersections are based on the angular orientation of the
+infinite lines, which is why the resulting dimensions should precisely match the actual known container dimensions. It is of course important to provide a certain tolerance for all
+these measurements to ensure practical functionality. There are numerous other details to the container recognition, but the broad ideas of the detection process should be clear.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\textwidth]{pics/docking_smach.png}
