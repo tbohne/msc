@@ -2585,7 +2585,7 @@ the operation state machine, which is responsible for the action execution (cf. 
 simplified charging patch scenario, it is expected to be exactly on the patch. In the more realistic container scenario, however, it is assumed to be somewhere in the proximity of the
 container and pointing approximately in its direction. In either case, the robot then drives to the specified location. Afterwards, the action is completed in the simplified charging
 patch scenario. Yet, in the container scenario, \code{return\_to\_base} includes docking. Thus, docking is initiated by creating a
-\code{SimpleActionClient('dock\_to\_charging\_station', DockAction)}. After sending the docking goal via this action client, the docking state machine visualized in fig.
+\code{SimpleActionClient(`dock\_to\_charging\_station', DockAction)}. After sending the docking goal via this action client, the docking state machine visualized in fig.
 \ref{fig:docking_smach} is executed.
 \begin{figure}[H]
     \centering
