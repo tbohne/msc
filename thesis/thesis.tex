@@ -2631,10 +2631,17 @@ orthogonal or parallel to all previously detected line segments and their length
 for example, it must be allowed to undercut the shortest side, due to the fact that the sides may be partially covered. In addition, because of the expected geometric shape of the
 container, i.e. a combination of three to four lines, there can be only two lines with approximately the same angle. This fact is used to determine if a newly considered line segment
 could still be part of the container candidate. Furthermore, the (infinite) lines must have feasible intersections that match the dimensions of the container. Based on the
-intersections of the final set of candidate lines that could represent the container, it can be verified that there must be two segments that exactly satisfy the container width and
+intersections of the final set of candidate lines (green lines in fig. \ref{fig:detection_success}) that could represent the container, it can be verified that there must be two segments that exactly satisfy the container width and
 two segments that exactly satisfy the container length. At this point, potentially occluded sides are irrelevant as the intersections are based on the angular orientation of the
 infinite lines, which is why the resulting dimensions should precisely match the actual known container dimensions. It is of course important to provide a certain tolerance for all
-these measurements to ensure practical functionality. There are numerous other details to the container recognition, but the broad ideas of the detection process should be clear.\newline
+these measurements to ensure practical functionality. There are numerous other details to the container recognition, but the broad ideas of the detection process should be clear.
+The result of a successful detection is depicted in fig. \ref{fig:detection_success} where the four blue boxes represent the corners of the detected recognized container shape.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{pics/detection_success.png}
+    \caption{\textsc{Successfully Detected Container Shape}}
+    \label{fig:detection_success}
+\end{figure}
 This docking solution could be used for both planned charge stops as well as unexpected but necessary stops detected by monitoring processes such
 as the one described in section \ref{sec:battery_monitoring}. Similar to Hawes et al. \cite{Hawes:2017} and Pinillos et al. \cite{Pinillos:2016}, one could exploit the fact that the
 robot keeps returning to the charging station by resetting the position to the location inside the container aligned in front of the charging station to avoid cumulative localization
