@@ -2583,7 +2583,13 @@ simplified charging patch scenario, it is expected to be exactly on the patch. I
 container and pointing approximately in its direction. In either case, the robot then drives to the specified location. Afterwards, the action is completed in the simplified charging
 patch scenario. Yet, in the container scenario, \code{return\_to\_base} includes docking. Thus, docking is initiated by creating a
 \code{SimpleActionClient('dock\_to\_charging\_station', DockAction)}. After sending the docking goal via this action client, the docking state machine visualized in fig.
-\ref{fig:docking_smach} is executed.\newline
+\ref{fig:docking_smach} is executed.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{pics/docking_smach.png}
+    \caption{\textsc{TODO: Docking State Machine}}
+    \label{fig:docking_smach}
+\end{figure}
 The first state is \code{CONTAINER\_PROXIMITY}, which assumes that the robot has navigated close to the container, e.g. based on GNSS (cf. fig. \ref{fig:container_view}).
 Subsequently, if this is the case, \code{DETECT\_CONTAINER} begins based on a laser scan recorded by the robot facing the container. In simple terms, it performs a Hough transform
 to detect lines in the scan and uses a large number of tailored rules to find a reasonable combination of line segments that could represent the container. Essentially, the whole
@@ -2628,13 +2634,7 @@ could still be part of the container candidate. Furthermore, the (infinite) line
 intersections of the final set of candidate lines that could represent the container, it can be verified that there must be two segments that exactly satisfy the container width and
 two segments that exactly satisfy the container length. At this point, potentially occluded sides are irrelevant as the intersections are based on the angular orientation of the
 infinite lines, which is why the resulting dimensions should precisely match the actual known container dimensions. It is of course important to provide a certain tolerance for all
-these measurements to ensure practical functionality. There are numerous other details to the container recognition, but the broad ideas of the detection process should be clear.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.3\textwidth]{pics/docking_smach.png}
-    \caption{\textsc{TODO: Docking State Machine}}
-    \label{fig:docking_smach}
-\end{figure}
+these measurements to ensure practical functionality. There are numerous other details to the container recognition, but the broad ideas of the detection process should be clear.\newline
 This docking solution could be used for both planned charge stops as well as unexpected but necessary stops detected by monitoring processes such
 as the one described in section \ref{sec:battery_monitoring}. Similar to Hawes et al. \cite{Hawes:2017} and Pinillos et al. \cite{Pinillos:2016}, one could exploit the fact that the
 robot keeps returning to the charging station by resetting the position to the location inside the container aligned in front of the charging station to avoid cumulative localization
