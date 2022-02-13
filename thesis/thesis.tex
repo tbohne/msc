@@ -2580,7 +2580,7 @@ fig. \ref{fig:container_model}).
 Thus, the power supply could be realized by integrating an autonomous docking / undocking solution that enables the robot to detect the container in a laser scan of its nearby
 surroundings, drive into it and dock to the inductive charging station. Such a docking solution has been created as part of the PORTAL project and will be integrated into the
 framework developed in this thesis to provide the robot with autonomous recharging capability. The part where the (un-)docking solution is integrated into the presented framework is
-the operation state machine, which is responsible for the action execution. Essentially, two of the available actions are extended: \code{return\_to\_base} and \code{charge}. First,
+the operation state machine, which is responsible for the action execution (cf. section \ref{sec:execution_monitoring_smach_architecture}). Essentially, two of the available actions are extended: \code{return\_to\_base} and \code{charge}. First,
 \code{return\_to\_base} must select the correct base pose specified by the user, i.e. the position to which it is supposed to move before charging its battery. In the case of the
 simplified charging patch scenario, it is expected to be exactly on the patch. In the more realistic container scenario, however, it is assumed to be somewhere in the proximity of the
 container and pointing approximately in its direction. In either case, the robot then drives to the specified location. Afterwards, the action is completed in the simplified charging
@@ -2638,7 +2638,7 @@ intersections of the final set of candidate lines (green lines in fig. \ref{fig:
 two segments that exactly satisfy the container length. At this point, potentially occluded sides are irrelevant as the intersections are based on the angular orientation of the
 infinite lines, which is why the resulting dimensions should precisely match the actual known container dimensions. It is of course important to provide a certain tolerance for all
 these measurements to ensure practical functionality. There are numerous other details to the container recognition, but the broad ideas of the detection process should be clear.
-The result of a successful detection is depicted in fig. \ref{fig:detection_success} where the four blue boxes represent the corners of the detected recognized container shape.
+The result of a successful detection is depicted in fig. \ref{fig:detection_success} where the four blue boxes represent the corners of the detected container shape.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\textwidth]{pics/detection_success.png}
