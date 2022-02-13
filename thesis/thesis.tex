@@ -2560,6 +2560,9 @@ as Egerstedt et al. put it, \textquote{spatially anchored}. \cite{Egerstedt:2018
 charge stops in advance, but only responds to failure cases where the robot needs to preempt the plan execution, return to its base and recharge.
 Such a battery watchdog is an example for monitoring tools relevant for addressing the challenges introduced in section \ref{sec:challenges_for_lta}.
 
+\vfill
+\pagebreak
+
 \section{Autonomous Energy Supply}
 \label{sec:docking_solution}
 
@@ -2586,8 +2589,8 @@ patch scenario. Yet, in the container scenario, \code{return\_to\_base} includes
 \ref{fig:docking_smach} is executed.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\textwidth]{pics/docking_smach.png}
-    \caption{\textsc{TODO: Docking State Machine}}
+    \includegraphics[width=0.75\textwidth]{pics/docking_smach.jpg}
+    \caption{\textsc{Docking State Machine}}
     \label{fig:docking_smach}
 \end{figure}
 The first state is \code{CONTAINER\_PROXIMITY}, which assumes that the robot has navigated close to the container, e.g. based on GNSS (cf. fig. \ref{fig:container_view}).
