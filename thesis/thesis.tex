@@ -2642,12 +2642,22 @@ The result of a successful detection is depicted in fig. \ref{fig:detection_succ
     \caption{\textsc{Successfully Detected Container Shape}}
     \label{fig:detection_success}
 \end{figure}
-This docking solution could be used for both planned charge stops as well as unexpected but necessary stops detected by monitoring processes such
-as the one described in section \ref{sec:battery_monitoring}. Similar to Hawes et al. \cite{Hawes:2017} and Pinillos et al. \cite{Pinillos:2016}, one could exploit the fact that the
+As a result of a successful execution of \code{DETECT\_CONTAINER}, either two or four corners are detected and passed to the next state. If only two corners, i.e. the entry, are
+detected, \code{ALIGN\_ROBOT\_TO\_RAMP} follows. If, on the other hand, four corners are detected (cf. fig. \ref{fig:detection_success}), this state is skipped and \code{DRIVE\_INTO\_CONTAINER} follows, since the entire
+container has already been detected. In \code{ALIGN\_ROBOT\_TO\_RAMP}, the robot is aligned in front of the container based on the detected entry. The target pose is passed as the
+output of \code{DETECT\_CONTAINER} and the robot navigates there. Subsequently, \code{DRIVE\_INTO\_CONTAINER} follows. If the transition came from \code{DETECT\_CONTAINER}, i.e. if
+\code{ALIGN\_ROBOT\_TO\_RAMP} was skipped, all four corners were already detected in the previous state, which are now utilized. If, on the other hand, it follows the state
+\code{ALIGN\_ROBOT\_TO\_RAMP}, there is no input and the robot should detect the entire container from this improved position. In both cases, based on the four detected corners,
+a pose is computed in the center, facing the entrance, and the robot is navigated there (cf. cyan arrow in fig. \ref{fig:detection_success}). Thereafter, \code{LOCALIZE\_CHARGING\_STATION} starts using the input corners detected in the
+previous state as input. As the mounting position of the charging station within the container is known, the target position for the alignment in front of it can be calculated
+relative to the detected container shape. Afterwards, the robot is moved there in \code{ALIGN\_ROBOT\_TO\_CHARGING\_STATION} and the whole execution of the state machine ends in
+\code{DOCK}. Analogously, the undocking state machine ensures that the robot leaves the container after a successful charging procedure and can continue its mission.\newline
+This (un-)docking solution can be used for both planned charge stops as well as unexpected but necessary stops detected by monitoring processes such as the one described in section
+\ref{sec:battery_monitoring}. Concluding, it is easy to configure whether the simulation should use the docking solution in combination with the container model or only the simplified
+charging patch. Similar to Hawes et al. \cite{Hawes:2017} and Pinillos et al. \cite{Pinillos:2016}, one could exploit the fact that the
 robot keeps returning to the charging station by resetting the position to the location inside the container aligned in front of the charging station to avoid cumulative localization
 errors. In contrast to the scenario considered there, however, the exact position of the container is not necessarily assumed to be known, but it must be detected within a certain
 range. Nevertheless, it will certainly be the same within a mission, so one can expect to use it as a landmark after the initial detection.\newline
-TODO: can be easily activated / deactivated in the config - either use docking + container or simplified charging patch without docking.
 
 \chapter{Experiments and Evaluation}
 
