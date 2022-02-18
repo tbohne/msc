@@ -1433,7 +1433,7 @@ From a software engineering perspective, it makes sense to create an interface f
 This interface is intended for a concrete configuration, e.g. the AROX with its sensors, the rationale being to learn from experience. The robot operates in an environment for an
 extended period of time. Therefore, it is very valuable to collect data through extensive logging. Then, for a specific sensor setup, one could use learning techniques or statistics
 to infer that a particular effect occurs experientially. For instance, experience might show that a particular sensor failure occurs repeatedly when driving $> 4$ hours at
-$> 32$\textdegree{}C in the sun. A further example could be that the robot always has a failure after passing a certain waypoint. To determine this, it would be necessary to always
+$> 32$\textdegree{}C. A further example could be that the robot always has a failure after passing a certain waypoint. To determine this, it would be necessary to always
 log the current location of the robot along with a problematic situation. This list could be arbitrarily extended.
 In general, the objective is to avoid certain behaviors that have frequently led to failures in the past. Information about such effects can only be
 obtained through runtime experience, which shows how relevant such information are and how crucial it is to collect them. So gathering information should go along with long-term
@@ -1451,7 +1451,22 @@ the existing monitoring solutions. The broad idea of learning from experience in
 literature review. Hawes et al. \cite{Hawes:2017} also emphasize the usefulness of the information gathered in long-term autonomous operation for both learning and troubleshooting
 purposes. For information gathering, they use \code{mongodb\_store}\footnote{https://wiki.ros.org/mongodb\_store}, a ROS tool for storing data from a ROS system (messages,
 configurations, etc.) in a \textit{MongoDB} instance, i.e., a document-oriented database. To achieve systematic and reusable logging and general data acquisition, this tool is also
-used in this thesis. For this purpose, a \code{data\_accumulator} node was written to capture the relevant data during LTA missions and store it in the database. The path for the
+used in this thesis. For this purpose, a \code{data\_accumulator} node was written to capture the relevant data during LTA missions and store it in the database. Initially, a
+\code{MessageStoreProxy} object is created to enable updating and maintenance of the \textit{MongoDB} database. Various logging categories are available to semantically group the
+collected data. Each component of the monitoring framework, i.e. each node, can initiate logging to the database under a specific category based on ROS topics provided by the
+\code{data\_accumulator}. To store an entry under a category or name, the \code{insert\_named("name", entry)} method of the \code{MessageStoreProxy} is used. It is obviously relevant
+to log contingency and catastrophe situations, which is why \code{/contingency\_preemption} and \code{/catastrophe\_preemption} lead directly to a database entry under the categories
+\code{contingency} and \code{catastrophe} respectively. The content of this entry is in each case the message describing the problem that occurred. Whenever a contingency or
+catastrophe situation is logged, the node triggers a method \code{log\_failure\_circumstances()} because, as mentioned earlier, the particular circumstances of a problematic
+situation, i.e., the potential factors leading to the problem, can be very revealing. For the moment, the specific additional contextual information comprises, in addition to the
+information logged anyway, the position of the robot in longitude and latitude obtained from \code{/fix}, as well as the number of tasks completed and the current operating time. This
+list can be extended in the future as needed. All this information is stored summarized in a JSON dump under the category \code{failure\_circumstances}. Numerous insightful but less
+critical information about the robot and its environment is logged under the category \code{robot\_info}, received as messages on a topic with the same name. In simulated experiments,
+it is also critical to know exactly when error situations have been simulated. Therefore, all nodes simulating problem situations can report under the \code{/sim\_info} topic when they
+do so, and the messages are stored under the same category in the database. The \code{/action\_info} topic is responsible for the also very relevant information about the currently
+executed action, which is stored under the name \code{action\_info}. Moreover, there are \code{/operator\_communication} and \code{/resolution} that store any logged message between
+the operator and the robot as well as any executed resolution methods under the same names. Finally, for debugging purposes, there is a \code{/show\_db\_entries} topic that can list
+all database entries for the current LTA mission or the entries under a particular category specified by the string message published to the topic. The path for the
 database can be configured in the launch file. Once a \textit{MongoDB} server is running with the generated database, ie. \code{mongod --dbpath ROS\_db --storageEngine=wiredTiger},
 a \textit{MongoDB} client can connect and examine the logged data. It can be visualized and queried in JSON, for example, as shown in fig. \ref{fig:database_entries}.
 \begin{figure}[H]
