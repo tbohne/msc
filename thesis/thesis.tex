@@ -2635,14 +2635,13 @@ solution, and section \ref{sec:docking_solution} presents a system that enables 
 \section{Battery Monitoring}
 \label{sec:battery_monitoring}
 
-One solution that could be worth integrating is a watchdog module that observes the battery state and acts as a fail-safe. In principle, the charge stops should
-be part of the plan, i.e. be considered at planning time. Thus, there has to be resource planning for the missions that includes to be back at the base station before
-the robot runs out of battery. However, if it fails, there could be a monitoring process at execution time that is able to react to wrong plans, i.e. the battery is
-depleted before expected and the robot has to return to its base. The module essentially checks the distance from the robot's current position to the base station, 
-the expected battery consumption to get there, and the remaining battery charge. The base station essentially restricts the robot's radius of motion; the robot is,
-as Egerstedt et al. put it, \textquote{spatially anchored}. \cite{Egerstedt:2018} In summary, the module is running at execution time, it does not schedule the
-charge stops in advance, but only responds to failure cases where the robot needs to preempt the plan execution, return to its base and recharge.
-Such a battery watchdog is an example for monitoring tools relevant for addressing the challenges introduced in section \ref{sec:challenges_for_lta}.
+One solution that is worth integrating is a watchdog module that observes the battery state and acts as a fail-safe. In principle, the charge stops are part of the plan, i.e. are
+considered at planning time. Thus, there is resource planning for the missions that includes to be back at the base station before the robot runs out of battery. However, if it fails,
+there should be a monitoring process at execution time that is able to react to wrong plans, i.e. the battery is depleted before expected and the robot has to return to its base.
+The module essentially checks the distance from the robot's current position to the base station, the expected battery consumption to get there, and the remaining battery charge.
+The base station essentially restricts the robot's radius of motion; the robot is, as Egerstedt et al. put it, \textquote{spatially anchored}. \cite{Egerstedt:2018} In summary, the
+module is running at execution time, it does not schedule the charge stops in advance, but only responds to failure cases where the robot needs to preempt the plan execution, return
+to its base and recharge. This battery watchdog is the basis for the power management failure monitoring presented in section \ref{sec:sim_and_mon_power_management}.
 
 \vfill
 \pagebreak
