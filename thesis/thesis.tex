@@ -1528,7 +1528,7 @@ In the following, the simulation of the selected LTA problems is presented along
 
 Power management issues are addressed based on the integrated battery watchdog module described in section \ref{sec:battery_monitoring}, which monitors the state of the battery
 and acts as a fail-safe. The integrated watchdog module constantly publishes one of three states on the topic \code{/watchdog}. \code{NORM} indicates that the energy consumption is
-as expected and no problem has been detected. In contrast, \code{CONT} and \code{CATO} represent situations where a priori planning of charge stops is no longer feasible. In the
+as expected and no problem has been detected. In contrast, \code{CONT} and \code{CATO} represent situations in which the a priori planned charge stops are no longer feasible. In the
 event of a contingency, i.e. \code{CONT}, an immediate return to the base station is required in order to still be able to reach it. Even more severe, in a catastrophe situation, ie.
 \code{CATO}, it is no longer possible to reach the base station due to the battery charge level. The monitoring node simply subscribes to the \code{/watchdog} topic and initiates
 appropriate responses based on the signals sent by the battery watchdog module. In case of a \code{CONT} message, \code{/contingency\_preemption} is used to initiate a contingency
