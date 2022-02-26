@@ -2796,7 +2796,8 @@ as long as the robot is not damaged. This is of course highly risky and can resu
 monitoring of these phenomena is necessary. However, drastic weather changes per se will never lead to a \code{CATASTROPHE}, since the robot always has the option to autonomously
 return to its base and seek shelter. Naturally, if the robot gets damaged, catastrophic situations could occur, but they would no longer fall under the category of drastic weather
 changes. Analogously, without the active monitoring, errors in sensor perception and data management would simply be disregarded and go unnoticed. The robot's mission is not affected,
-but the results are of course worthless or not even saved. The connection-related failures can be considered separately. WiFi outages do not affect the mission in the simulation, and
+but the results are of course worthless or not even saved, both in practice and in simulation. The connection-related failures can be considered separately. WiFi outages do not affect
+the mission in the simulation, and
 in practice it depends on the exact use of the connection in the considered scenario. If the RTK correction signal is sent via WiFi, localization may be compromised. Additionally, if
 the scans are transferred via WiFi, the results may be lost and the entire mission may become a futility. The same applies to an internet connection, where several parts of the system
 can be affected. Finally, GNSS-related failures can directly lead to navigation failure even in simulation. For instance, \code{/toggle\_simulated\_teleport}, which manipulates the
@@ -2804,8 +2805,8 @@ latitude or longitude estimates, can drastically falsify the robot's localizatio
 it could simply find itself in a situation that it cannot leave and, in the best case, completely discharge its battery, leading to a \code{CATASTROPHE} or to the fact that it can no
 longer perform any tasks, so that the mission fails due to the criterion introduced above. Moreover, plan distribution errors or navigation failures such as obstacles surrounding the
 robot, e.g. the \textquote{robot prison} case in section \ref{sec:sim_and_mon_navigation_failures}, are simply not detected, but the mission fails due to the timeout criterion or a
-completely discharged battery, whichever comes first, and thus \code{CATASTROPHE}. That localization errors can have dramatic consequences up to \code{CATASTROPHE} cases has already
-been shown by the example of GNSS connection issues.
+completely discharged battery, whichever comes first, and thus \code{CATASTROPHE}. This again holds for simulation as well as for practice. That localization errors can have dramatic
+consequences up to \code{CATASTROPHE} cases has already been shown by the example of GNSS connection issues.
 
 \chapter{Conclusion}
 
