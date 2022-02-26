@@ -2750,7 +2750,6 @@ range. Nevertheless, it will certainly be the same within a mission, so one can 
 
 \chapter{Experiments and Evaluation}
 
-TBD.
 Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: the total system lifetime and the autonomy percentage. \cite{Hawes:2017} The
 first measures the time the robot was in autonomous operation and is reset when an unrecoverable failure or an unrequested intervention of the human operator is required. However,
 it does not make sense to evaluate this time when it certainly depends on the frequency with which the failures that are considered in this work are simulated. The second metric
@@ -2759,7 +2758,54 @@ total system lifetime if the system does nothing}}. \cite{Hawes:2017}
 Steinberg et al. \cite{Steinberg:2016} introduce the metric of time between undesired human interventions. By undesired situations, they mean situations in which the robot should
 in principle be able to recover itself, as opposed to situations in which human intervention is expected. Applied to this work, this could refer to LTA failures for which specific
 solutions or workarounds have been proposed but do not succeed (cf. \ref{sec:solutions_for_lta_challenges}). Furthermore, they propose a metric for information sharing, i.e. the
-percentage of time the robot communicates meaningful information to the operator.
+percentage of time the robot communicates meaningful information to the operator.\newline
+
+TODO: Hardware + real-time factor information\newline
+
+\textit{Classification of the Selected LTA Problems.}\newline
+
+The classification of the selected LTA problems is based on their evaluation in the simulation. The very first step is to show that, without simulating any of the identified LTA
+problems, the mission runs error-free for an extended period of time (reference time), e.g., $4$ hours, in simulation. This also verifies that the sample plan is reasonable, i.e.,
+that the charge stops are sufficient, etc. Basically a demonstration that the simulation and the whole setup work in principle in the absence of unexpected problematic events. For
+evaluation purposes, let a failed mission be defined as a mission that exceeds a user-configurable timeout $t = 600s$ without publishing a message to \code{arox/ongoing\_operation},
+although the previous message contained a value of \code{total\_tasks} that is greater than one, indicating that the current plan is not completed and thus that the robot has been
+stuck in that task for a time greater than $t$. Obviously, a \code{hard\_failure} in the low-level state machine leading to a \code{CATASTROPHE} state followed by a system
+shutdown is also considered a failed mission.\newline
+In a demonstration of the baseline scenario in simulation without the developed monitoring procedures and without simulated failures, the robot successfully performed $84$ tasks in
+$4$ hours with no failures. To endow this test of basic functionality with some significance, it was repeated three times. On average, the robot successfully completed $n$ tasks in
+$4$ hours and had no failures or interruptions of the mission based on the defined timeout [TODO]. The slight discrepancy in the number of successfully completed tasks between runs
+results from the fact that, for instance, the docking procedure does not always detect the container at the same speed. In general, the simulation has certain non-deterministic
+aspects in the sense that the combination of all the ROS nodes, their communication, possible effects in the simulation, and execution times mean that two runs of such an experiment
+in simulation will certainly not be exact reproductions of the same states.\newline
+Now the aim is to classify the identified LTA problems in the simulation according to their severity, i.e., which LTA problem can lead to which outcome (\code{CONTINGENCY} / 
+\code{CATASTROPHE}). By definition, all of the identified problems can lead to contingencies, as outlined in the corresponding sections (cf. section \ref{sec:sim_and_mon_of_lta_challenges}). Yet not all of them can lead to
+catastrophes. As a brief recap, contingencies are situations in which the robot's ability to act is essentially preserved so that it can attempt to solve the problem itself.
+Catastrophes, on the other hand, definitely require human intervention. The first category is LTA problems that, when they occur, prevent the successful continuation of the mission in
+the simulation. Despite the fact that it is evident for some of the identified problems for LTA operation (e.g. power management failures) that they are capable of interrupting the
+mission, it is investigated how the system in simulation responds to these failure cases without the developed monitoring procedures. This is critical to verify the correct and
+expected functioning of the simulated fault cases. Power management failures are the first case considered. When simulating a power management failure, e.g. by publishing on
+\code{/sim\_power\_management\_contingency}, the battery discharge rate is increased without the robot noticing, so it simply runs out of battery and normal operation ends with a
+\code{hard\_failure}, leading to a transition to \code{CATASTROPHE} and then a system shutdown. Thus, the simulation of power management failure works as expected. That the general
+error class of charging failures can result in a failed mission can be demonstrated by simulating a docking error that results in not being able to recharge and also ends in a
+\code{CATASTROPHE}. Hence, without active monitoring, \code{/sim\_docking\_failure\_raised\_ramp} is used to verify this. As expected, this also ends with a completely discharged
+battery and thus a failure of the mission. Evidently, both cases lead to a failed deployment in practice with the real robot as well, and since there is no monitoring for this so far,
+this would go unnoticed. The first example that cannot interfere with the operation in the simulation is drastic weather changes. Since these phenomena are not explicitly simulated in
+\textit{Gazebo}, but are only indicated by corresponding messages on the weather monitoring channels, without active monitoring for these messages, the robot simply does not recognize
+this. The same is true in practice: the robot would continue its mission without detecting a change in circumstances. Therefore, the mission would continue as long as possible, i.e.,
+as long as the robot is not damaged. This is of course highly risky and can result in the robot being damaged or the sensor data being worthless. Consequently, it is apparent that the
+monitoring of these phenomena is necessary. However, drastic weather changes per se will never lead to a \code{CATASTROPHE}, since the robot always has the option to autonomously
+return to its base and seek shelter. Naturally, if the robot gets damaged, catastrophic situations could occur, but they would no longer fall under the category of drastic weather
+changes. Analogously, without the active monitoring, errors in sensor perception and data management would simply be disregarded and go unnoticed. The robot's mission is not affected,
+but the results are of course worthless or not even saved. The connection-related failures can be considered separately. WiFi outages do not affect the mission in the simulation, and
+in practice it depends on the exact use of the connection in the considered scenario. If the RTK correction signal is sent via WiFi, localization may be compromised. Additionally, if
+the scans are transferred via WiFi, the results may be lost and the entire mission may become a futility. The same applies to an internet connection, where several parts of the system
+can be affected. Finally, GNSS-related failures can directly lead to navigation failure even in simulation. For instance, \code{/toggle\_simulated\_teleport}, which manipulates the
+latitude or longitude estimates, can drastically falsify the robot's localization and cause arbitrarily severe failures. The robot could travel in dangerous or unsuitable places, or
+it could simply find itself in a situation that it cannot leave and, in the best case, completely discharge its battery, leading to a \code{CATASTROPHE} or to the fact that it can no
+longer perform any tasks, so that the mission fails due to the criterion introduced above. Moreover, plan distribution errors or navigation failures such as obstacles surrounding the
+robot, e.g. the \textquote{robot prison} case in section \ref{sec:sim_and_mon_navigation_failures}, are simply not detected, but the mission fails due to the timeout criterion or a
+completely discharged battery, whichever comes first, and thus \code{CATASTROPHE}. That localization errors can have dramatic consequences up to \code{CATASTROPHE} cases has already
+been shown by the example of GNSS connection issues.
 
 \chapter{Conclusion}
 
