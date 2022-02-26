@@ -17,10 +17,17 @@
 
 \usepackage{gensymb}
 
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\cmark}{\ding{51}}%
+
 \usepackage{mathtools}
 
 \usepackage{algorithm, algorithmic}  % for pseudo code (cf. documentation)
 \renewcommand{\algorithmiccomment}[1]{\qquad{\small // \textit{#1}}}
+
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
 % for code keywords within the text
 \usepackage{xcolor}
@@ -2807,7 +2814,27 @@ it could simply find itself in a situation that it cannot leave and, in the best
 longer perform any tasks, so that the mission fails due to the criterion introduced above. Moreover, plan distribution errors or navigation failures such as obstacles surrounding the
 robot, e.g. the \textquote{robot prison} case in section \ref{sec:sim_and_mon_navigation_failures}, are simply not detected, but the mission fails due to the timeout criterion or a
 completely discharged battery (\code{CATASTROPHE}), whichever comes first. This again holds for simulation as well as for practice. That localization errors can have dramatic
-consequences up to \code{CATASTROPHE} cases has already been shown by the example of GNSS connection issues.
+consequences up to \code{CATASTROPHE} cases has already been shown by the example of GNSS connection issues. The findings of the classification are summarized in fig.
+\ref{fig:lta_classification}.
+\begin{figure}[H]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{| c | c | c | c | c |}
+        \hline
+        \textbf{problem} & \specialcell{\textbf{contingency} \\ \small{\textit{(no contingencies without monitoring)}} \\ sim + prac} & \specialcell{\textbf{catastrophe} \\ \small{\textit{((\cmark) \textrightarrow indirectly)}} \\ sim \quad\quad\quad\quad prac} & \specialcell{\textbf{potential to render mission worthless} \\ sim \quad\quad\quad\quad prac} \\ \hline
+        power\_management & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        charging\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        drastic\_weather\_change & \cmark & \thinspace\thinspace \xmark \quad\quad\quad\quad\quad (\cmark) & \xmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        sensor\_failure & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        data\_management & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        lost\_connection & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        plan\_deployment\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        navigation\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        incorrect\_localization & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+    \end{tabular}}
+\caption{\textsc{Classification of LTA Problems in Terms of Severity}}
+\label{fig:lta_classification}
+\end{figure}
 
 \chapter{Conclusion}
 
