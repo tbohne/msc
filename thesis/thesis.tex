@@ -1861,11 +1861,12 @@ detected and a contingency is initiated. If $d < 40$ Mb/s, an information is sen
 checked. An upload speed of $u < 1$ Mb/s causes a contingency, and $u < 10$ Mb/s initiates an information of a rather poor upload speed in the communication channel with the human
 operator. As always, in all contingency cases, the monitoring node publishes a message on \code{/contingency\_preemption} that specifies the particular nature of the connection
 problem. In cases of a failed connection to the \code{speedtest-cli} API, the monitoring itself does not work properly, so the connection is reinitialized after the problem is fixed.\newline
-Simulating internet connectivity problems has three components. First, a total disconnect, which can be simulated by simply cutting the connection.
+Simulating internet connectivity problems has three components. First, a total disconnect, which can be simulated by simply cutting the connection or publishing on a prepared topic.
 The other two options are again simulated by publishing user-configurable problematic values for the respective download and upload speed components.
 By default, a poor download as well as upload speed is simulated by publishing corresponding values of $0.5$ Mb/s.
-The simulation of poor download and upload speed cases can be enabled / disabled via the following ROS topics:
+The simulation of poor download and upload speed cases as well as a total failure can be enabled / disabled via the following ROS topics:
 \begin{itemize}
+    \item \textbf{disconnect} \textrightarrow \code{/sim\_internet\_connection\_failure}
     \item \textbf{poor download speed} \textrightarrow \code{/toggle\_simulated\_bad\_download}
     \item \textbf{poor upload speed} \textrightarrow \code{/toggle\_simulated\_bad\_upload}
 \end{itemize}
