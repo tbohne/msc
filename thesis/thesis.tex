@@ -2764,7 +2764,8 @@ TODO: Hardware + real-time factor information\newline
 
 \textit{Classification of the Selected LTA Problems.}\newline
 
-The classification of the selected LTA problems is based on their evaluation in the simulation. The very first step is to show that, without simulating any of the identified LTA
+The classification of the selected LTA problems is based on their evaluation in the simulation together with a comparative contextualization in the practical case.
+The very first step is to show that, without simulating any of the identified LTA
 problems, the mission runs error-free for an extended period of time (reference time), e.g., $4$ hours, in simulation. This also verifies that the sample plan is reasonable, i.e.,
 that the charge stops are sufficient, etc. Basically a demonstration that the simulation and the whole setup work in principle in the absence of unexpected problematic events. For
 evaluation purposes, let a failed mission be defined as a mission that exceeds a user-configurable timeout $t = 600s$ without publishing a message to \code{arox/ongoing\_operation},
@@ -2793,9 +2794,9 @@ this would go unnoticed. The first example that cannot interfere with the operat
 \textit{Gazebo}, but are only indicated by corresponding messages on the weather monitoring channels, without active monitoring for these messages, the robot simply does not recognize
 this. The same is true in practice: the robot would continue its mission without detecting a change in circumstances. Therefore, the mission would continue as long as possible, i.e.,
 as long as the robot is not damaged. This is of course highly risky and can result in the robot being damaged or the sensor data being worthless. Consequently, it is apparent that the
-monitoring of these phenomena is necessary. However, drastic weather changes per se will never lead to a \code{CATASTROPHE}, since the robot always has the option to autonomously
-return to its base and seek shelter. Naturally, if the robot gets damaged, catastrophic situations could occur, but they would no longer fall under the category of drastic weather
-changes. Analogously, without the active monitoring, errors in sensor perception and data management would simply be disregarded and go unnoticed. The robot's mission is not affected,
+monitoring of these phenomena is necessary. However, drastic weather changes per se will never lead to a \code{CATASTROPHE}. Naturally, if the robot gets damaged, catastrophic
+situations could occur, indirectly caused by drastic weather changes. 
+Analogously, without the active monitoring, errors in sensor perception and data management would simply be disregarded and go unnoticed. The robot's mission is not affected,
 but the results are of course worthless or not even saved, both in practice and in simulation. The connection-related failures can be considered separately. WiFi outages do not affect
 the mission in the simulation, and
 in practice it depends on the exact use of the connection in the considered scenario. If the RTK correction signal is sent via WiFi, localization may be compromised. Additionally, if
@@ -2805,7 +2806,7 @@ latitude or longitude estimates, can drastically falsify the robot's localizatio
 it could simply find itself in a situation that it cannot leave and, in the best case, completely discharge its battery, leading to a \code{CATASTROPHE} or to the fact that it can no
 longer perform any tasks, so that the mission fails due to the criterion introduced above. Moreover, plan distribution errors or navigation failures such as obstacles surrounding the
 robot, e.g. the \textquote{robot prison} case in section \ref{sec:sim_and_mon_navigation_failures}, are simply not detected, but the mission fails due to the timeout criterion or a
-completely discharged battery, whichever comes first, and thus \code{CATASTROPHE}. This again holds for simulation as well as for practice. That localization errors can have dramatic
+completely discharged battery (\code{CATASTROPHE}), whichever comes first. This again holds for simulation as well as for practice. That localization errors can have dramatic
 consequences up to \code{CATASTROPHE} cases has already been shown by the example of GNSS connection issues.
 
 \chapter{Conclusion}
