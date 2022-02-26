@@ -1472,7 +1472,8 @@ critical information about the robot and its environment is logged under the cat
 it is also critical to know exactly when error situations have been simulated. Therefore, all nodes simulating problem situations can report under the \code{/sim\_info} topic when they
 do so, and the messages are stored under the same category in the database. The \code{/action\_info} topic is responsible for the also very relevant information about the currently
 executed action, which is stored under the name \code{action\_info}. Moreover, there are \code{/operator\_communication} and \code{/resolution} that store any logged message between
-the operator and the robot as well as any executed resolution methods under the same names. Finally, for debugging purposes, there is a \code{/show\_db\_entries} topic that allows to list
+the operator and the robot as well as any executed resolution methods under the same names. It is furthermore important to keep track of missions, which is why new messages via
+\code{arox/ongoing\_operation} are also logged. Finally, for debugging purposes, there is a \code{/show\_db\_entries} topic that allows to list
 all database entries for the current LTA mission or the entries under a particular category specified by the string message published to the topic. The path for the
 database can be configured in the launch file. Once a \textit{MongoDB} server is running with the generated database, ie. \code{mongod --dbpath ROS\_db --storageEngine=wiredTiger},
 a \textit{MongoDB} client can connect and examine the logged data. It can be visualized and queried in JSON, for example, as shown in fig. \ref{fig:database_entries}.
@@ -2780,7 +2781,7 @@ although the previous message contained a value of \code{total\_tasks} that is g
 stuck in that task for a time greater than $t$. Obviously, a \code{hard\_failure} in the low-level state machine leading to a \code{CATASTROPHE} state followed by a system
 shutdown is also considered a failed mission.\newline
 In a demonstration of the baseline scenario in simulation without the developed monitoring procedures and without simulated failures, the robot successfully performed $84$ tasks in
-$4$ hours with no failures. To endow this test of basic functionality with some significance, it was repeated three times. On average, the robot successfully completed $n$ tasks in
+$4$ hours with no failures [TODO: add more statistics - analyze, e.g. num of performed actions]. To endow this test of basic functionality with some significance, it was repeated three times. On average, the robot successfully completed $n$ tasks in
 $4$ hours and had no failures or interruptions of the mission based on the defined timeout [TODO]. The slight discrepancy in the number of successfully completed tasks between runs
 results from the fact that, for instance, the docking procedure does not always detect the container at the same speed. In general, the simulation has certain non-deterministic
 aspects in the sense that the combination of all the ROS nodes, their communication, possible effects in the simulation, and execution times mean that two runs of such an experiment
