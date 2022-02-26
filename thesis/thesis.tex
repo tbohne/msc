@@ -1775,8 +1775,9 @@ require additional knowledge of the specific circumstances, it would violate the
 the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability.\newline
 It is not a big challenge to simulate the occurrence of the data management problems presented in section \ref{sec:challenges_for_lta}. To simulate a ``full disk''-failure,
 i.e. a full memory of the drive on which the scans are to be logged, one could simply prepare a full USB flash drive and configure the path to be monitored accordingly,
-e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR\_DRIVE = /mnt/usb}. The second and more scenario-specific type of error is the scan logging error, which
-can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
+e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR\_DRIVE = /mnt/usb}. It is also implemented in such a way that one can simply prepare the flash drive and later publish
+to \code{/sim\_full\_disk\_failure}, which will then set the \code{MONITOR\_DRIVE} to \code{/mnt/usb}. The second and more scenario-specific type of error is the scan logging error,
+which can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
 of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_scan\_logging\_failure}.\newline
 
 \subsection{Lost Connection}
