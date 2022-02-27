@@ -846,7 +846,9 @@ of time and log any information that might somehow be relevant and indicative of
 Some of the problems from the above list result from attempts of this type or the coincidental occurrence in other experiments. Others are obviously potential problems that may occur
 and do not require further evidence or justification. The last group is the result of extensive literature research, i.e. challenges encountered in long-term autonomous experiments
 presented in the literature. For each potential problem identified, its relevance and consequences, i.e. a brief description of why it might be problematic, is provided below.
-A more detailed consideration as well as monitoring and simulation approaches for each selected problem are presented in section \ref{sec:sim_and_mon_of_lta_challenges}.\newline
+A more detailed consideration as well as monitoring and simulation approaches for each selected problem are presented in section \ref{sec:sim_and_mon_of_lta_challenges}.
+
+\subsection{Brief Descriptions of the Identified LTA Problem Categories}
 
 \noindent
 \textbf{Power Management}\newline
@@ -1019,7 +1021,10 @@ Wang et al. \cite{Wang:2018}, who identified localization and execution errors a
 They identify unexpected changes in the robot's position estimates as a useful method for predicting / detecting localization problems.
 Of course, it can also be a problem for localization if the GNSS signal itself is inaccurate or non-existent \cite{Churchill:2013}, but that is another topic (cf. \textit{Lost Connection} section).
 There are arbitrary many potential localization problems (e.g. slipping in sand, getting stuck, jammed wheels) and the correct functioning of the system always assumes an accurate
-position estimate. \cite{Goldberg:2002}\newline
+position estimate. \cite{Goldberg:2002}
+
+\vfill
+\pagebreak
 
 \noindent
 \textbf{Mapping Issues}\newline
@@ -1037,6 +1042,9 @@ The problem then is that the robot is unable to drive through these ``virtual'' 
 The last type of problem is rather trivial again. If the plan distribution node does not provide a plan for the robot to execute, it remains idle until a human operator 
 notices and takes care of it. It might therefore be useful to let the operator know if a plan has still not arrived after a certain time.
 Furthermore, faulty plans that are not executable could also be reported.\newline
+
+\noindent
+\textit{Concluding Remarks.}\newline
 
 \noindent
 The idea is to tackle a subset of this list of issues that is realistically solvable in the scope of the work.
@@ -1525,10 +1533,10 @@ Depending on the nature of the problem, the information about the required solut
 Thus, the long-term goal is to have a resolver node for each of the potential failures, which is executed in \code{CONTINGENCY} or \code{CATASTROPHE} depending on the
 failure case at hand. It is useful to distinguish between internal and external exceptional situations that require special treatment, i.e. issues concerning the robotic
 system itself or the environmental conditions. \cite{Hawes:2017}
-The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation. 
-Initially, it will be demonstrated that in the prototypical scenario, the mission can no longer be completed successfully if these errors occur.
-After launching the monitoring nodes, the problems should be detected and either resolved by the robot or reported to the operator so that the mission can continue.
-The simulated failures are usually implemented in such a way that they can be triggered by publishing to a certain topic.
+The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation. Initially, it will be demonstrated that in the
+prototypical scenario, the mission can no longer be completed successfully if these errors occur (cf. section \ref{sec:experiments}). After launching the monitoring nodes, the
+problems should be detected and either resolved by the robot or reported to the operator so that the mission can continue. All of the simulated failures are implemented in a way that
+allows them to be triggered by publishing to a certain topic in order to enable automation of these failure cases in subsequent experiments (cf. section \ref{sec:experiments}).
 In the following, the simulation of the selected LTA problems is presented along with the monitoring solutions developed for each.
 
 \subsection{Power Management}
@@ -1743,6 +1751,7 @@ and can be enabled / disabled via the following ROS topics:
     \item \textbf{predominantly impermissible values} \textrightarrow \code{/toggle\_simulated\_impermissible\_ranges}
     \item \textbf{repeated scan} \textrightarrow \code{/toggle\_simulated\_scan\_repetition}\newline
 \end{itemize}
+Sensor failures of this kind can be addressed with the resolution methods described in section \ref{sec:sensor_failure_resolver}.
 
 \subsection{Data Management}
 \label{sec:sim_and_mon_data_management}
@@ -1778,7 +1787,8 @@ i.e. a full memory of the drive on which the scans are to be logged, one could s
 e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR\_DRIVE = /mnt/usb}. It is also implemented in such a way that one can simply prepare the flash drive and later publish
 to \code{/sim\_full\_disk\_failure}, which will then set the \code{MONITOR\_DRIVE} to \code{/mnt/usb}. The second and more scenario-specific type of error is the scan logging error,
 which can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
-of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_scan\_logging\_failure}.\newline
+of error can be enabled / disabled via the ROS topic \code{/toggle\_simulated\_scan\_logging\_failure}. Data management issues can be addressed with the resolution methods described
+in section \ref{sec:data_management_resolver}.
 
 \subsection{Lost Connection}
 \label{sec:sim_and_mon_lost_connections}
@@ -1787,6 +1797,7 @@ Monitoring and simulation of the specific types of considered connection failure
 (\ref{sec:sim_and_mon_internet_connection_problems}) and GNSS (\ref{sec:sim_and_mon_gnss_connection_problems}) connection problems (cf. \ref{sec:sim_and_mon_wifi_connection_problems}),
 are part of the following sections. However, there is also one monitoring aspect that works identically for all three, namely timeout monitoring. There is a continuously running
 procedure that checks the time since the last message from either connection. If a user-specified time limit for one of the connections is exceeded, a contingency case is initiated.
+In general, connection problems can be addressed with the resolution methods described in section \ref{sec:connection_resolver}.
 
 \subsubsection{WiFi Connection Failures}
 \label{sec:sim_and_mon_wifi_connection_problems}
@@ -2116,7 +2127,7 @@ remains in the \code{IDLE} state. Analogously, a plan with an empty list of acti
 reported. The detection of actions of an unknown type is based on a configurable list of actions that are expected, e.g.. \code{drive\_to}, \code{return\_to\_base}, \code{charge}
 and \code{scan} in the considered scenario. In order to allow the monitoring node to initiate the contingency without the operational state machine immediately transitioning back
 to \code{IDLE} and repeatedly requesting a plan, a short delay (e.g. $1s$) is introduced for each detected problem to avoid unnecessary timing conflicts during transitions.
-Plan deployment failures obviously never cause catastrophes.
+Plan deployment failures obviously never cause catastrophes, at least not directly.
 For simulation, it is quite obvious that it is reasonable to simulate the failures where they occur, i.e. in the plan generator (cf. section \ref{sec:plan_generation}). The
 situation of an extended idle time is simulated by simply blocking the plan fetch for a configurable period of time, which must be greater than or equal to the threshold defined
 in \code{PlanDeploymentMonitor}. The simulation of an unavailable plan service is done by temporarily shutting down the service using the \code{shutdown} method provided by ROS services.
@@ -2575,6 +2586,21 @@ cases above, such a re-initialization is not performed arbitrarily often, but th
 repeated failure. In summary, for all potential contingencies arising from problems in the deployment of the plan, the robot has a strategy to solve them itself. As always, when it
 fails, it passes the problem on to the human operator.
 
+\subsection{Sensor (Perception) Failure}
+\label{sec:sensor_failure_resolver}
+
+TBD.
+
+\subsection{Data Management}
+\label{sec:data_management_resolver}
+
+TBD.
+
+\subsection{Lost Connection}
+\label{sec:connection_resolver}
+
+TBD.
+
 \subsection{Navigation Failure}
 \label{sec:nav_fail_resolver}
 
@@ -2760,6 +2786,7 @@ errors. In contrast to the scenario considered there, however, the exact positio
 range. Nevertheless, it will certainly be the same within a mission, so one can expect to use it as a landmark after the initial detection.\newline
 
 \chapter{Experiments and Evaluation}
+\label{sec:experiments}
 
 Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: the total system lifetime and the autonomy percentage. \cite{Hawes:2017} The
 first measures the time the robot was in autonomous operation and is reset when an unrecoverable failure or an unrequested intervention of the human operator is required. However,
