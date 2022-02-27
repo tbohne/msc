@@ -1287,15 +1287,16 @@ delivering long-term robustness is the monitoring of system behavior, from the i
 system elements on demand}}. \cite{Hawes:2017} Likewise, Furgale et al. assert that long-term autonomous robots need introspection capabilities to recognize internal problems in
 the interest of safety. \cite{Furgale:2015} Ingrand et al. perfectly summarize the view of monitoring in this work: \textquote{\textit{Compares what is predicted regarding the robot
 activities to what is observed in the world. It detects and interprets discrepancies, performs diagnosis and triggers recovery actions when needed.}} \cite{Ingrand:2017}
-The potential problems identified in section \ref{sec:challenges_for_lta}, and their subtypes, are generally classified into two categories in this thesis according to their
-severity: Those that cause contingencies and those that lead to catastrophes. Contingencies refer to cases where the robot is confronted with an unexpected event or problem, but
-its ability to act is basically preserved, so it can try to solve the problem itself, return to base, call the operator, etc. Catastrophes, on the other hand, refer to cases in which
-the robot is no longer capable of acting and definitely requires human intervention. It is roughly equivalent to the definition of Ross et al. described in \cite{Honig:2018}, where
+The potential problems identified in section \ref{sec:challenges_for_lta}, and their subtypes, are generally classified into two categories in this thesis according to their severity:
+Those that cause contingencies and those that lead to catastrophes. The essence of these two categories has already been anticipated by the first two classes of problems in the
+concluding remarks of section \ref{sec:challenges_for_lta}. Contingencies refer to cases where the robot is confronted with an unexpected event or problem, but its ability to act is
+basically preserved, so that it can try to solve the problem itself, e.g. by returning to base. Catastrophes, on the other hand, refer to cases where the robot is no longer capable of
+acting or solving the problem, necessitating human intervention. It is roughly equivalent to the definition of Ross et al. described in \cite{Honig:2018}, where
 failures are divided into anticipated errors, exceptional errors, and unrecoverable errors based on the recoverability of the system. The ideas are more based on a high-level planning
 perspective, as the first two refer to simple backtracking and replanning, respectively, while the last refers to cases where the plan is no longer feasible and replanning is not an
 option. Nevertheless, the first two in combination correspond quite well to the view of contingencies in this thesis - contingencies can be dealt with. Similarly, unrecoverable errors
-correspond to catastrophes in this work. They also consider socially recoverable failures where the robot relies on assistance from other operators (humans or other robots), which is
-also addressed in this work, both in contingency and catastrophy cases (cf. section \ref{sec:fallback_solution}).
+correspond to catastrophes in this work. They also consider socially recoverable failures where the robot relies on assistance from other operators (humans or other robots), which
+is also encountered in this work, namely in the case of the catastrophe situations (cf. section \ref{sec:fallback_solution}).
 
 \section{Plan Generation and Format}
 \label{sec:plan_generation}
