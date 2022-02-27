@@ -2516,10 +2516,14 @@ Localization-related challenges for LTA can be addressed using the resolver desc
 \section{Solutions for LTA Challenges}
 \label{sec:solutions_for_lta_challenges}
 
-As anticipated, the focus of the work is on detection, and an initial solution adopted for all the issues identified in section \ref{sec:challenges_for_lta} will be 
-to communicate the problem to a human operator. In general, the idea of recovery is to transform an erroneous or problematic state into one without any issues. \cite{Brodskiy:2011}
-Requesting the help of the human operator not only serves as an initial solution, but is always acting as fallback
-solution when other solution attempts are unsuccessful. The idea is to have the monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} that 
+As anticipated, the focus of this work is on detection, and an initial solution adopted for all the issues identified in section \ref{sec:challenges_for_lta} is to communicate the
+problem to a human operator. However, as can be concluded from section \ref{sec:sim_and_mon_of_lta_challenges}, there is only one identified problem that explicitly causes a
+catastrophe condition and thus relies on the fallback option of requesting the help of the human operator.
+This problem is the power management failure, where it is determined that the robot is definitely no longer able to reach the base station to recharge its
+battery. This is the only case where the robot is definitely no longer able to solve the problem and immediately calls the operator for help. All other problems start with a
+contingency and therefore launch at least a simple heuristic or workaround that attempts to resolve the issue before transitioning to the catastrophe state in case  all other solution
+attempts are unsuccessful. In general, the idea of recovery is to transform an erroneous or problematic state into one without any issues. \cite{Brodskiy:2011}
+The idea is to have the monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} that
 look for the specific types of issues and initiate an appropriate response. Kunz et al. \cite{Kunz:2009} emphasize that the robustness of a system can be maximized by
 providing fail-safe procedures. Although they are dealing with AUVs, the general problem remains the same.\newline
 Whenever a monitoring solution described in section \ref{sec:sim_and_mon_of_lta_challenges} causes a transition to the \code{CONTINGENCY} or \code{CATASTROPHE} states
