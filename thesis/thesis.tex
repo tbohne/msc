@@ -2596,17 +2596,26 @@ fails, it passes the problem on to the human operator.
 \subsection{Sensor (Perception) Failure}
 \label{sec:sensor_failure_resolver}
 
-TBD.
+The solution approaches for sensor (perception) failures are rather trivial. There is once again a counter for resolution attempts. If it is the first sensor failure, the scan is
+simply repeated. However, if it fails repeatedly, a catastrophe condition is initiated, i.e. the operator is notified and the system is shut down. The counter is reset at appropriate
+times, e.g. when the scan was successful.
 
 \subsection{Data Management}
 \label{sec:data_management_resolver}
 
-TBD.
+Data management problems are a special case as there is one case where the robot is definitely not able to solve the problem itself, namely the case of a full memory. However, this is
+not a problem in principle. For instance, the robot could upload the scans instead of storing them on its drive, but for the prototypical scenario considered in this work, the robot
+will store the scans on its drive, so this is a problem that must be solved by the human operator. Nevertheless, it is not a direct catastrophe case like the power management problem
+where the robot cannot return to the base station due to its battery charge, but there is a useful step that can be taken before the catastrophe case is initiated. The robot can
+return to its base and seek shelter before waiting for the human operator to take care of the problem. The second type of data management problem, i.e. an improperly logged scan, is
+again addressed by a retry and count-based attempt before a catastrophe is triggered if necessary.
 
 \subsection{Lost Connection}
 \label{sec:connection_resolver}
 
-TBD.
+Dealing with WiFi and GNSS connectivity issues is once again based on retries, counting them, and potential aggravation. Internet connection issues, however, are resolved by
+reinitializing the internet monitoring node, as this could fix a failed connection to the \code{speedtest} API. Of course, this is also not done arbitrarily often and in case of
+repeated failure, the human operator is notified.
 
 \subsection{Navigation Failure}
 \label{sec:nav_fail_resolver}
