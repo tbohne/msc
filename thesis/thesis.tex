@@ -2532,7 +2532,8 @@ by publishing on the respective topics \code{contigency\_preemption} or \code{ca
 transmitted via a ROS message. Based on this cause, the corresponding resolver class is selected and executed. The idea is that each general problem class, e.g.
 connection problems, provides a resolution method for each potential specific problem in that class, e.g. poor WiFi link quality. The \code{CONTINGENCY} state in turn
 communicates the failure reason to the resolver classes. If available, the specific resolving method will be executed. Afterwards, the outcome is reported back to the
-high-level state machine, which either continues normal operation if the problem is successfully solved, or aggravates to catastrophe, for example. If the specific resolver
+high-level state machine, which either continues normal operation if the problem is successfully solved, or aggravates to catastrophe. To this end, each monitoring node publishes on
+a topic \code{/aggravate}, which then initiates the transition from \code{CONTINGENCY} to \code{CATASTROPHE}. Thus, if the specific resolver
 method is not able to handle the problem, or if there is not even a specific resolver method for the failure case, the problem is handed over to the fallback resolver,
 which passes the problem to the human operator and awaits resolution. If the respective failure was caused by a simulation, the corresponding flag must be reset to restore
 normal operation, which is done by publishing on the particular toggle topic described in section \ref{sec:sim_and_mon_of_lta_challenges}.
