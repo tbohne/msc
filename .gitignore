@@ -6,6 +6,7 @@
 *.toc
 *.snm
 *.nav
+pres.md
 thesis.pdf
 slides.pdf
 */named/*
