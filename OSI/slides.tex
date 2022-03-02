@@ -147,7 +147,8 @@
 \author{Tim Bohne}
 \institute[]
 {
-\textit{AG Knowledge-Based Systems}
+\textit{AG Knowledge-Based Systems}\newline
+\textit{DFKI Plan-Based Robot Control Group}
 \medskip
 }
 \date{\today}
@@ -175,7 +176,57 @@
 % %------------------------------------------------
 
 \begin{frame}
-  \frametitle{TEST}
+  \frametitle{Langzeit-Autonome Mobile Roboter}
+  \textbf{Langzeit}\newline
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/mars_rover.jpg}
+      \caption*{$\approx$ Jahre \cite{PixelMatrix}}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/waveglider.jpg}
+      \caption*{$\approx$ Monate \cite{Convolution}}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/service_robot.jpg}
+      \caption*{$\approx$ Wochen \cite{Convolution}}
+    \end{subfigure}
+  \end{figure}
+  \begin{itemize}
+    \item Keine strikte Definition \textrightarrow \thinspace \textbf{kontextabhängig}
+    \item Hier: \textbf{Zeitlicher Handlungsradius des Roboters}
+    \begin{itemize}
+      \item Ladezyklus
+      \item Missionszyklus
+    \end{itemize}
+    \item \textbf{LB}: Prozesse, die eine Reihe solcher Zyklen erfordern
+    \item \textbf{UB}: Wartungsintervalle
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Langzeit-Autonome Mobile Roboter}
+  \textbf{Autonomie}
+  \begin{itemize}
+    \item Ebenfalls nicht scharf definiert und \textbf{kontextabhängig}
+    \item \textbf{Kooperation} nicht prinzipiell ausgeschlossen
+    \item Hier: \textbf{Vollautonom} - Inanspruchnahme menschlicher Hilfe ausschließlich im Fehlerfall
+  \end{itemize}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/autonomy_spectrum.png}
+    \caption*{Spektrum der Autonomie}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Langzeit-Autonome Mobile Roboter}
+  \textbf{Mobil}\newline
+  System, das in der Lage ist, sich innerhalb bestimmter Grenzen frei in einer Umgebung zu bewegen.
 \end{frame}
 
 % % %------------------------------------------------
