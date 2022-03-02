@@ -4,6 +4,9 @@
 *.bbl
 *.blg
 *.toc
+*.snm
+*.nav
 thesis.pdf
+slides.pdf
 */named/*
 .idea/
