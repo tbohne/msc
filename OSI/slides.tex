@@ -32,6 +32,11 @@
 % \usepackage{algpseudocode}
 % \usepackage[linesnumbered,ruled]{algorithm2e}
 
+% for code keywords within the text
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
 \usepackage{lmodern}
 \usepackage{subcaption}
 \usepackage{textcomp}
@@ -183,17 +188,17 @@
     \begin{subfigure}[b]{0.32\textwidth}
       \centering
       \includegraphics[width=\textwidth]{img/mars_rover.jpg}
-      \caption*{$\approx$ Jahre \cite{PixelMatrix}}
+      \caption*{$\approx$ Jahre \cite{MarsRover}}
     \end{subfigure}
     \begin{subfigure}[b]{0.32\textwidth}
       \centering
       \includegraphics[width=\textwidth]{img/waveglider.jpg}
-      \caption*{$\approx$ Monate \cite{Convolution}}
+      \caption*{$\approx$ Monate \cite{WaveGlider}}
     \end{subfigure}
     \begin{subfigure}[b]{0.32\textwidth}
       \centering
       \includegraphics[width=\textwidth]{img/service_robot.jpg}
-      \caption*{$\approx$ Wochen \cite{Convolution}}
+      \caption*{$\approx$ Wochen \cite{ServiceRobot}}
     \end{subfigure}
   \end{figure}
   \begin{itemize}
@@ -227,6 +232,39 @@
   \frametitle{Langzeit-Autonome Mobile Roboter}
   \textbf{Mobil}\newline
   System, das in der Lage ist, sich innerhalb bestimmter Grenzen frei in einer Umgebung zu bewegen.
+\end{frame}
+
+\begin{frame}
+  \frametitle{AROX - Autonomous Robotic Experimentation Platform}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/AROX.jpg}
+    \caption*{}
+  \end{figure}
+  \begin{itemize}
+    \item \textbf{Lokalisierung}: \code{robot\_localization} \cite{Moore:2014}\newline \textrightarrow \thinspace Sensorfusion von IMU-, Odometrie- und RTK-GNSS-Daten
+    \item \textbf{Navigation}: \code{move\_base\_flex} \cite{Puetz:2018}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Szenario in der Simulation}
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/prototype_scenario.jpg}
+      \caption*{Prototypisches Layout}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/example_path.png}
+      \caption*{Beisiel Scan-Route}
+    \end{subfigure}
+  \end{figure}
+  \begin{frame}
+    \item Simulation der Testfeld-Umgebung in \textit{Gazebo} inkl. AROX-Modell (URDF)
+  \end{frame}
 \end{frame}
 
 % % %------------------------------------------------
