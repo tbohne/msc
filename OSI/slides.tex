@@ -289,7 +289,61 @@
     \item \textbf{Navigationsfehler}
     \item \textbf{Fehlerhafte / ungenaue Lokalisierung}
     \item \textbf{Planverteilungsfehler}
-\end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Herausforderungen für Langzeitautonomie}
+  \textbf{Klassifikation:}
+  \begin{enumerate}
+    \item Roboter detektiert ein Problem und ist in der Lage, es selbstständig zu lösen
+    \item Roboter detektiert ein Problem, ist jedoch nicht in der Lage, es zu lösen \textrightarrow \thinspace ruft menschlichen Operator
+    \item Roboter hat Störung / Problem, detektiert es jedoch nicht und kann es daher nicht lösen / kommunizieren
+  \end{enumerate}
+  \textrightarrow \thinspace initial wird jedes potenzielle Problem als Typ $3$ eingestuft
+\end{frame}
+
+\begin{frame}
+  \frametitle{Abstrakte Architektur autonomer Akteure}
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/GNT_actor_new.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/MSC_actor_new.png}
+    \end{subfigure}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Execution Monitoring State Machine Architecture}
+  Architecture of the Hierarchical State Machine (High-Level)
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/SMACH_high_level.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Execution Monitoring State Machine Architecture}
+  Architecture of the Embedded State Machine (Low-Level)
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/SMACH_low_level.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Black Box to Learn from Experience}
+  Database Entries Shown in MongoDB Client
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/database_entries.png}
+  \end{figure}
 \end{frame}
 
 % % %------------------------------------------------
