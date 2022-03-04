@@ -72,6 +72,9 @@
 \newcommand{\xmark}{\ding{55}}  % xmark
 \newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
 
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
 \setbeamerfont{bibliography item}{size=\footnotesize}
 \setbeamerfont{bibliography entry author}{size=\footnotesize}
 \setbeamerfont{bibliography entry title}{size=\footnotesize}
@@ -345,6 +348,211 @@
     \includegraphics[width=0.8\textwidth]{img/database_entries.png}
   \end{figure}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Plan Generation and Format}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/plan_example.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Interrupt and Resume Normal Operation}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemplarisch: GNSS Connection Failures}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/GNSS_comm.png}
+  \end{figure}
+  \begin{itemize}
+    \item \textcolor{blue}{Praxis} / \textcolor{red}{Simulation}
+    \item Resultat: \code{NavSatFix}-Daten auf \code{/fix} Topic
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemplarisch: GNSS Connection Failures}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/navsatfix.png}
+  \end{figure}
+  \begin{itemize}
+    \item \textbf{Kovarianzmatrix}: $c_{ij} \in C_{3 \times 3}$ with $i, j \in \{E, N, U\}$
+    \item \textbf{Standardabweichung} in $m$: $\sqrt{c_{ii}} \thinspace \forall \thinspace i \in \{E, N, U\}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemplarisch: GNSS Connection Failures}
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.75\textwidth]{img/GNSS_cov_low.png}
+        \caption{\textsc{Relativ geringe Unsicherheit}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.75\textwidth]{img/GNSS_cov_high.png}
+        \caption{\textsc{Hohe Unsicherheit}}
+    \end{subfigure}
+    \begin{itemize}
+      \item (a): ENU: $(\sqrt{6}m, \sqrt{6}m, \sqrt{6}m)$
+      \item (b): ENU: $(\sqrt{101}m, \sqrt{6}m, \sqrt{6}m)$
+    \end{itemize}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemplarisch: GNSS Connection Failures}
+  \textbf{Qualitative Bewertung einer prinzipiell funktionierenden GNSS-Verbindung}
+  \begin{itemize}
+    \item gut: \code{STATUS\_GBAS\_FIX}, $\geq$ \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN}, $\sqrt{c_{ii}} \leq d_{max} \thinspace \forall \thinspace i \in \{E, N, U\}$, $d_{max} \in \mathbb{R}_{0}^{+}$
+    \item medium: $\geq$ \code{STATUS\_FIX}, $\geq$ \code{COVARIANCE\_TYPE\_APPROXIMATED}, Standardabweichungen $\leq d_{max}$
+    \item schlecht: $\geq$ \code{STATUS\_FIX}, Kovarianztyp unbekannt
+    \item Information via \code{/robot\_info}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemplarisch: GNSS Connection Failures}
+  \textbf{Problemfall: Nachricht auf \code{/contingency\_preemption}}
+  \begin{itemize}
+    \item Verbindungsabbruch
+    \item Status unzulässig bzw. \code{STATUS\_NO\_FIX}
+    \item Längen- und Breitengrad-Informationen nicht vorhanden bzw. unzulässig
+    \item Standardabweichungen
+    \begin{itemize}
+      \item absolute Werte (zulässig / zu groß)
+      \item Entwicklung über die Zeit
+    \end{itemize}
+  \end{itemize}
+  \textbf{Lösung}: Kurze Auszeit + erneuter Test, bei wiederholtem Misserfolg Kommunikation des Problems
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemplarisch: Navigationsfehler}
+  \textbf{Fall 1}: Es existiert ein Pfad, \code{move\_base\_flex} findet ihn jedoch nicht (direkt)
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/nav_fail_wrong_route_0.png}
+        \caption{\code{move\_base\_flex}\textsc{Route (rviz)}}
+        \label{fig:nav_fail_rviz}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/nav_fail_wrong_route_1.png}
+        \caption{\textsc{Feasible Route (Gazebo)}}
+        \label{fig:nav_fail_gazebo}
+    \end{subfigure}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemplarisch: Navigationsfehler}
+  \textbf{Fall 2}: Es existiert kein Pfad
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{img/robot_prison.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemplarisch: Navigationsfehler}
+  Simulation statischer Hindernisse
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/static_1.png}
+        \caption{\textsc{Szenario $1$}}
+        \label{fig:static_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/static_2.png}
+        \caption{\textsc{Szenario $2$}}
+        \label{fig:static_2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/static_3.png}
+        \caption{\textsc{Szenario $3$}}
+        \label{fig:static_3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/static_4.png}
+        \caption{\textsc{Szenario $4$}}
+        \label{fig:static_4}
+    \end{subfigure}
+  \end{figure}
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/succ_1.png}
+        \caption{\textsc{}}
+        \label{fig:succ_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/succ_2.png}
+        \caption{\textsc{}}
+        \label{fig:succ_2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/succ_3.png}
+        \caption{\textsc{}}
+        \label{fig:succ_3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/succ_4.png}
+        \caption{\textsc{}}
+        \label{fig:succ_4}
+    \end{subfigure}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Klassifikation der Probleme in Bezug auf ihren potenziellen Schaden}
+  \begin{figure}[H]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{| c | c | c | c | c |}
+        \hline
+        \textbf{problem} & \specialcell{\textbf{contingency} \\ \small{\textit{(no contingencies without monitoring)}} \\ sim + prac} & \specialcell{\textbf{catastrophe} \\ \small{\textit{((\cmark) \textrightarrow indirectly)}} \\ sim \quad\quad\quad\quad prac} & \specialcell{\textbf{potential to render mission worthless} \\ sim \quad\quad\quad\quad prac} \\ \hline
+        power\_management & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        charging\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        drastic\_weather\_change & \cmark & \thinspace\thinspace \xmark \quad\quad\quad\quad\quad (\cmark) & \xmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        sensor\_failure & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        data\_management & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        lost\_connection & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        plan\_deployment\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        navigation\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        incorrect\_localization & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+    \end{tabular}}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fallback Solution - Requesting Help of a Human Operator}
+\end{frame}
+
+
 
 % % %------------------------------------------------
 % % \section{Graph Neural Networks (GNNs)}
