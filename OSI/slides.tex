@@ -390,12 +390,17 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Black Box to Learn from Experience}
-  Database Entries Shown in MongoDB Client
-  \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{img/database_entries.png}
-  \end{figure}
+  \frametitle{Experimente - Grundsätzliches Vorgehen}
+  (\textbf{Problem-Simulation} \textrightarrow) \thinspace \textbf{Monitoring} \textrightarrow \thinspace \textbf{Lösung}
+  \begin{itemize}
+    \item \textbf{Simulation:} Auslösbar durch Nachricht auf jeweiligem Topic, z.B. \code{rostopic pub -1 /sim\_docking\_failure\_raised\_ramp std\_msgs/String fail}
+    \item \textbf{Monitoring:} Erkennt Problem + unterbricht \code{NORMAL\_OPERATION} + initiiert geeignete Lösung / Kommunikation
+    \item \textbf{Lösung:}
+    \begin{itemize}
+      \item Löst das Problem + Übergang zu \code{NORMAL\_OPERATION}
+      \item Löst das Problem nicht + Übergang zu \code{CATASTROPHE}
+    \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -589,7 +594,14 @@
   \frametitle{Fallback Solution - Requesting Help of a Human Operator}
 \end{frame}
 
-
+\begin{frame}
+  \frametitle{Black Box to Learn from Experience}
+  Database Entries Shown in MongoDB Client
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/database_entries.png}
+  \end{figure}
+\end{frame}
 
 % % %------------------------------------------------
 % % \section{Graph Neural Networks (GNNs)}
