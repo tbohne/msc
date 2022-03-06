@@ -273,6 +273,19 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{Plangenerierung und Bereitstellung}
+  \begin{itemize}
+    \item \textbf{ROS-Service}, der manuell erstellte Pläne (CSV) parst und bereitstellt
+    \item \textbf{Aktionsmenge}:\newline $\{$\code{drive\_to($lat$, $lng$, $\theta$)}, \code{return\_to\_base}, \code{charge}, \code{scan}$\}$
+  \end{itemize}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/plan_example.png}
+    \caption*{Beispielplan}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
   \frametitle{Abstrakte Architektur autonomer Akteure}
   \begin{figure}[H]
     \centering
@@ -325,12 +338,13 @@
     \item Roboter detektiert ein Problem, ist jedoch nicht in der Lage, es zu lösen \textrightarrow \thinspace informiert (menschlichen) Operator
     \item Roboter hat Störung / Problem, detektiert es jedoch nicht und kann es daher nicht lösen / kommunizieren
   \end{enumerate}
-  \textrightarrow \thinspace \textbf{initial wird jedes potenzielle Problem als Typ $(3)$ eingestuft}
+  \textrightarrow \thinspace \textbf{initial wird jedes potenzielle Problem als Typ $(3)$ eingestuft}\newline
+  \textbf{Ziel}: Sämtliche Probleme in Kategorie $(1)$ / $(2)$ verschieben
 \end{frame}
 
 \begin{frame}
-  \frametitle{Execution Monitoring State Machine Architecture}
-  Architecture of the Hierarchical State Machine (High-Level)
+  \frametitle{Execution Monitoring State Machine}
+  \textbf{High-Level Architektur der hierarchischen \textquote{State Machine} (ROS-SMACH)}
   \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/SMACH_high_level.png}
@@ -338,12 +352,41 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Execution Monitoring State Machine Architecture}
-  Architecture of the Embedded State Machine (Low-Level)
+  \frametitle{Execution Monitoring State Machine}
+  \textbf{Architektur der eingebetteten \textquote{State Machine}}
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/SMACH_low_level.png}
   \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Unterbrechung und Wiederaufnahme des normalen Betriebs}
+  \textbf{Zwei Fälle:}
+  \begin{enumerate}
+    \item \code{IDLE} \textrightarrow \thinspace trivial
+    \item \code{EXECUTE\_PLAN} \textrightarrow \thinspace Plan $\pi$ im \code{userdata}-Feld des Zustands gespeichert
+    \begin{itemize}
+      \item Aktion $a \in \pi$ erfolgreich ausgeführt\newline \textrightarrow \thinspace $\pi := \pi \backslash \{a\}$ Input der nächsten Iteration
+      \item Problem \textrightarrow \thinspace Unterbrechung der Planausführung
+      \item Problem gelöst \textrightarrow \thinspace \code{IDLE} 
+      \begin{itemize}
+        \item $\pi \in \code{userdata.input\_plan}, \pi \neq \emptyset$ \textrightarrow \thinspace \textbf{Plan $\pi$ fortsetzen}
+        \item $\code{userdata.input\_plan} = \emptyset$ \textrightarrow \thinspace \textbf{neuen Plan anfordern}
+      \end{itemize}
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Unterbrechung und Wiederaufnahme des normalen Betriebs}
+  \textbf{Planausführung fortsetzen}
+  \begin{itemize}
+    \item Geplante Ladestopps nicht notwendigerweise weiterhin zulässig
+    \item \textbf{Unterbrechung mit Rückkehr zur Basis-Station} \textrightarrow \thinspace Planausführung \textbf{zulässig}
+    \item \textbf{Unterbrechung ohne Rückkehr zur Basis-Station} \textrightarrow \thinspace Roboter verbraucht ungeplante Ressourcen, sodass a-priori Ladestopp-Planung
+    \textbf{unzulässig} wird \textrightarrow \thinspace Batterie-Monitoring
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -353,18 +396,6 @@
     \centering
     \includegraphics[width=0.8\textwidth]{img/database_entries.png}
   \end{figure}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Plan Generation and Format}
-  \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\textwidth]{img/plan_example.png}
-  \end{figure}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Interrupt and Resume Normal Operation}
 \end{frame}
 
 \begin{frame}
