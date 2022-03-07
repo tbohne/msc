@@ -392,20 +392,6 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Experimente - Grundsätzliches Vorgehen}
-  (\textbf{Problem-Simulation} \textrightarrow) \thinspace \textbf{Monitoring} \textrightarrow \thinspace \textbf{Lösung}
-  \begin{itemize}
-    \item \textbf{Simulation:} Auslösbar durch Nachricht auf jeweiligem Topic, z.B. \code{rostopic pub -1 /sim\_docking\_failure\_raised\_ramp std\_msgs/String fail}
-    \item \textbf{Monitoring:} Erkennt Problem + unterbricht \code{NORMAL\_OPERATION} + initiiert geeignete Lösung / Kommunikation
-    \item \textbf{Lösung:}
-    \begin{itemize}
-      \item Löst das Problem + Übergang zu \code{NORMAL\_OPERATION}
-      \item Löst das Problem nicht + Übergang zu \code{CATASTROPHE}
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
   \frametitle{Exemplarisch: GNSS-Verbindungsprobleme}
   \begin{figure}[H]
     \centering
@@ -612,7 +598,40 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Klassifikation der Probleme in Bezug auf ihren potenziellen Schaden}
+  \frametitle{Experimente - Grundsätzliches Vorgehen}
+  (\textbf{Problem-Simulation} \textrightarrow) \thinspace \textbf{Monitoring} \textrightarrow \thinspace \textbf{Lösung}
+  \begin{itemize}
+    \item \textbf{Simulation:} Auslösbar durch Nachricht auf Topic, z.B. \code{rostopic pub -1 /toggle\_snow\_sim std\_msgs/String fail}
+    \item \textbf{Monitoring:} Erkennt Problem, unterbricht \code{NORMAL\_OPERATION}, initiiert geeignete Lösung
+    \item \textbf{Lösung:}
+    \begin{itemize}
+      \item Problem gelöst \textrightarrow \thinspace Übergang zu \code{NORMAL\_OPERATION}
+      \item Problem nicht gelöst \textrightarrow \thinspace Übergang zu \code{CATASTROPHE}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Experimente}
+  \textbf{S1:} Zeigen, dass die Mission ohne Simulation eines der identifizierten Probleme über einen längeren Zeitraum in der Simulation fehlerfrei läuft
+  \begin{itemize}
+    \item \textbf{Verifiziert Zulässigkeit des Beispielplans}
+    \item \textbf{Demonstration der grundsätzlichen Funktionalität}
+    \item \textbf{Def. gescheiterte Mission:}
+    \begin{itemize}
+      \item $> 600s$ ohne Nachricht auf \code{arox/ongoing\_operation} mit offenen Tasks
+      \item \code{hard\_failure} in \code{OPERATION} \textrightarrow \thinspace \code{CATASTROPHE}
+    \end{itemize}
+  \end{itemize}
+  \textbf{$3$ Durchläufe á $4$ Stunden:}
+  \begin{itemize}
+    \item \O $84$ Tasks, keine Fehler
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Experimente}
+  \textbf{S2: Klassifikation der Problemkategorien in Bezug auf ihren potenziellen (worst-case) Schaden}
   \begin{figure}[H]
     \centering
     \resizebox{\textwidth}{!}{
@@ -625,11 +644,17 @@
         sensor\_failure & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         data\_management & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         lost\_connection & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        plan\_deployment\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        plan\_deployment\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         navigation\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         incorrect\_localization & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
     \end{tabular}}
   \end{figure}
+  \textquote{catastrophe}-Spalte (ohne Monitoring):
+  \begin{itemize}
+    \item \cmark \textrightarrow \thinspace \textbf{Scheitern der Mission sicher}
+    \item (\cmark) \textrightarrow \thinspace \textbf{Scheitern der Mission möglich}
+    \item \xmark \textrightarrow \thinspace \textbf{Wertlose Ergebnisse} (Ausnahme Extremwetter)
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
