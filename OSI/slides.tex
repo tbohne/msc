@@ -649,7 +649,7 @@
         incorrect\_localization & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
     \end{tabular}}
   \end{figure}
-  \textquote{catastrophe}-Spalte (ohne Monitoring):
+  \underline{\textquote{catastrophe}-Spalte (ohne Monitoring):}
   \begin{itemize}
     \item \cmark \textrightarrow \thinspace \textbf{Scheitern der Mission sicher}
     \item (\cmark) \textrightarrow \thinspace \textbf{Scheitern der Mission möglich}
@@ -662,12 +662,16 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Black Box to Learn from Experience}
-  Database Entries Shown in MongoDB Client
+  \frametitle{Aus Erfahrung lernen..}
+  \code{mongodb\_store}
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/database_entries.png}
   \end{figure}
+  \begin{itemize}
+    \item Ausführliche \textbf{Protokollierung der LTA-Missionen} (insbesondere Fehlerkontext)
+    \item Gesammelte \textbf{Daten semantisch gruppiert}
+  \end{itemize}
 \end{frame}
 
 % % %------------------------------------------------
