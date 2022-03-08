@@ -184,6 +184,28 @@
 % %------------------------------------------------
 
 \begin{frame}
+  \frametitle{Szenario in der Simulation}
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/prototype_scenario.jpg}
+      \caption*{Prototypisches Layout}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/example_path.png}
+      \caption*{Beisiel Scan-Route}
+    \end{subfigure}
+  \end{figure}
+  \begin{itemize}
+    \item 3D-Lidar-Scans / Hyperspektralaufnahmen von Pflanzen \textrightarrow \thinspace \textbf{Wachstum überwachen / Merkmale erkennen}
+    \item \textbf{Dynamische, unstrukturierte Umgebung}
+    \item \textbf{$2.5D$-Simulation der Testfeld-Umgebung} in \textit{Gazebo} inkl. AROX-Modell (URDF)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
   \frametitle{Langzeit-Autonome Mobile Roboter}
   \textbf{Langzeit}\newline
   \begin{figure}[H]
@@ -247,28 +269,6 @@
   \begin{itemize}
     \item \textbf{Lokalisierung}: \code{robot\_localization} \cite{Moore:2014}\newline \textrightarrow \thinspace Sensorfusion von IMU-, Odometrie- und RTK-GNSS-Daten
     \item \textbf{Navigation}: \code{move\_base\_flex} \cite{Puetz:2018}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Szenario in der Simulation}
-  \begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.49\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{img/prototype_scenario.jpg}
-      \caption*{Prototypisches Layout}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{img/example_path.png}
-      \caption*{Beisiel Scan-Route}
-    \end{subfigure}
-  \end{figure}
-  \begin{itemize}
-    \item 3D-Lidar-Scans / Hyperspektralaufnahmen von Pflanzen \textrightarrow \thinspace Wachstumsfortschritt überwachen / Merkmale erkennen
-    \item Dynamische, unstrukturierte Umgebung
-    \item $2.5D$-Simulation der Testfeld-Umgebung in \textit{Gazebo} inkl. AROX-Modell (URDF)
   \end{itemize}
 \end{frame}
 
