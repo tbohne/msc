@@ -15,11 +15,35 @@ gen_plot(ggplot(data = input, aes(x = correct_no_contingency, y = experiment, co
 gen_plot(ggplot(data = input, aes(x = unexpected_contingencies, y = experiment, color = completed, group = completed)), "unexpected contingencies", "experiment", "unexpected_contingencies.png")
 gen_plot(ggplot(data = input, aes(x = completed_tasks, y = experiment, color = completed, group = completed)), "completed tasks", "experiment", "completed_tasks.png")
 gen_plot(ggplot(data = input, aes(x = charge_cycles, y = experiment, color = completed, group = completed)), "charge cycles", "experiment", "charge_cycles.png")
-gen_plot(ggplot(data = input, aes(x = (correct_contingencies + correct_no_contingency) / (correct_contingencies + correct_no_contingency + false_positives + false_negatives + unexpected_contingencies) * 100, y = experiment, color = completed, group = completed)), "expected response to fail sim (%)", "experiment", "expected_res.png")
+gen_plot(ggplot(data = input, aes(
+    x = (correct_contingencies + correct_no_contingency) / (correct_contingencies + correct_no_contingency + false_positives + false_negatives + unexpected_contingencies) * 100,
+    y = experiment, color = completed, group = completed)
+), "expected response to fail sim (%)", "experiment", "expected_res.png")
 
 compute_avg_duration <- function() {
     costs <- subset(input, select = c(duration))
     return(round(mean(as.numeric(as.character(costs[["duration"]]))), digits = 2))
 }
 
+compute_avg_completed_tasks <- function() {
+    costs <- subset(input, select = c(completed_tasks))
+    return(round(mean(as.numeric(as.character(costs[["completed_tasks"]]))), digits = 2))
+}
+
+compute_avg_charge_cycles <- function() {
+    costs <- subset(input, select = c(charge_cycles))
+    return(round(mean(as.numeric(as.character(costs[["charge_cycles"]]))), digits = 2))
+}
+
+compute_avg_percentage_expected_response <- function() {
+    costs <- subset(input, select = c(correct_contingencies, correct_no_contingency, false_negatives, false_positives, unexpected_contingencies))
+    return(round(mean(as.numeric(as.character((
+        (costs[["correct_contingencies"]] + costs[["correct_no_contingency"]]) /
+        (costs[["correct_contingencies"]] + costs[["correct_no_contingency"]] + costs[["false_negatives"]] + costs[["false_positives"]] + costs[["unexpected_contingencies"]])
+    ) * 100))), digits = 2))
+}
+
 paste("avg duration: ", compute_avg_duration())
+paste("avg num of completed tasks: ", compute_avg_completed_tasks())
+paste("avg num of charge cycles: ", compute_avg_charge_cycles())
+paste("avg expected response to fail sim: ", compute_avg_percentage_expected_response())
