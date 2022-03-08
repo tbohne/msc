@@ -43,7 +43,7 @@ compute_avg_percentage_expected_response <- function() {
     ) * 100))), digits = 2))
 }
 
-paste("avg duration: ", compute_avg_duration())
-paste("avg num of completed tasks: ", compute_avg_completed_tasks())
-paste("avg num of charge cycles: ", compute_avg_charge_cycles())
-paste("avg expected response to fail sim: ", compute_avg_percentage_expected_response())
+paste("avg duration: ", compute_avg_duration(), "h")
+paste("avg #completed_tasks: ", compute_avg_completed_tasks())
+paste("avg #charge_cycles: ", compute_avg_charge_cycles())
+paste("avg expected response to fail sim: ", compute_avg_percentage_expected_response(), "%")
