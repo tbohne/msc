@@ -305,11 +305,11 @@
 
 \begin{frame}
   \frametitle{Herausforderungen für Langzeitautonomie}
-  \textbf{Bedingungen:}
+  \textbf{\underline{Bedingungen:}}
   \begin{enumerate}
-    \item Kann im betrachteten Szenario praktisch auftreten
-    \item Kann das reibungslose Funktionieren des Systems bzw. die Qualität der Ergebnisse beeinträchtigen
-    \item Kann durch Monitoring-Methoden detektiert (gelöst / kommuniziert) werden
+    \item Kann im betrachteten Szenario \textbf{praktisch auftreten}
+    \item Kann das reibungslose \textbf{Funktionieren des Systems} bzw. die \textbf{Qualität} der Ergebnisse \textbf{beeinträchtigen}
+    \item Kann \textbf{durch Monitoring-Methoden detektiert} (gelöst / kommuniziert) werden
   \end{enumerate}
 \end{frame}
 
@@ -336,7 +336,7 @@
 
 \begin{frame}
   \frametitle{Herausforderungen für Langzeitautonomie}
-  \textbf{Klassifikation:}
+  \textbf{\underline{Klassifikation:}}
   \begin{enumerate}
     \item Roboter detektiert ein Problem und ist in der Lage, es selbstständig zu lösen
     \item Roboter detektiert ein Problem, ist jedoch nicht in der Lage, es zu lösen \textrightarrow \thinspace informiert (menschlichen) Operator
@@ -424,13 +424,13 @@
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=0.75\textwidth]{img/GNSS_cov_low.png}
-        \caption*{\textsc{Relativ geringe Unsicherheit}}
+        \caption{\textsc{Relativ geringe Unsicherheit}}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=0.75\textwidth]{img/GNSS_cov_high.png}
-        \caption*{\textsc{Hohe Unsicherheit bzgl.} $E$}
+        \caption{\textsc{Hohe Unsicherheit bzgl.} $E$}
     \end{subfigure}
     \begin{itemize}
       \item (a): $(\sqrt{6}m, \sqrt{6}m, \sqrt{6}m)$
@@ -544,6 +544,66 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{Experimente - Grundsätzliches Vorgehen}
+  (\textbf{Problem-Simulation} \textrightarrow) \thinspace \textbf{Monitoring} \textrightarrow \thinspace \textbf{Lösung}
+  \begin{itemize}
+    \item \textbf{Simulation:} Auslösbar durch Nachricht auf Topic, z.B. \code{rostopic pub -1 /toggle\_snow\_sim std\_msgs/String fail}
+    \item \textbf{Monitoring:} Erkennt Problem, unterbricht \code{NORMAL\_OPERATION}, initiiert geeignete Lösung
+    \item \textbf{Lösung:}
+    \begin{itemize}
+      \item Problem gelöst \textrightarrow \thinspace Übergang zu \code{NORMAL\_OPERATION}
+      \item Problem nicht gelöst \textrightarrow \thinspace Übergang zu \code{CATASTROPHE}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Experimente}
+  \textbf{S1:} Zeigen, dass die Mission ohne Simulation eines der identifizierten Probleme über einen längeren Zeitraum fehlerfrei läuft
+  \begin{itemize}
+    \item \textbf{Verifiziert Zulässigkeit des Beispielplans}
+    \item \textbf{Demonstration der grundsätzlichen Funktionalität}
+    \item \textbf{Def. gescheiterte Mission:}
+    \begin{itemize}
+      \item $> 600s$ ohne Nachricht auf \code{arox/ongoing\_operation} mit offenen Tasks
+      \item \code{hard\_failure} in \code{OPERATION} \textrightarrow \thinspace \code{CATASTROPHE}
+    \end{itemize}
+  \end{itemize}
+  \textbf{$3$ Durchläufe á $4$ Stunden:}
+  \begin{itemize}
+    \item \O $84$ Tasks, keine Fehler
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Experimente}
+  \textbf{Klassifikation der Problemkategorien in Bezug auf ihren potenziellen (worst-case) Schaden}
+  \begin{figure}[H]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{| c | c | c | c | c |}
+        \hline
+        \textbf{problem} & \specialcell{\textbf{contingency} \\ \small{\textit{(no contingencies without monitoring)}} \\ sim + prac} & \specialcell{\textbf{catastrophe} \\ \small{\textit{((\cmark) \textrightarrow indirectly)}} \\ sim \quad\quad\quad\quad prac} & \specialcell{\textbf{potential to render mission worthless} \\ sim \quad\quad\quad\quad prac} \\ \hline
+        power\_management & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        charging\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        drastic\_weather\_change & \cmark & \thinspace\thinspace \xmark \quad\quad\quad\quad\quad (\cmark) & \xmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        sensor\_failure & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        data\_management & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        lost\_connection & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        plan\_deployment\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        navigation\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        incorrect\_localization & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+    \end{tabular}}
+  \end{figure}
+  \underline{\textquote{catastrophe}-Spalte (ohne Monitoring):}
+  \begin{itemize}
+    \item \cmark \textrightarrow \thinspace \textbf{Scheitern der Mission sicher}
+    \item (\cmark) \textrightarrow \thinspace \textbf{Scheitern der Mission möglich}
+    \item \xmark \textrightarrow \thinspace \textbf{Wertlose Ergebnisse} (Ausnahme Extremwetter)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
   \frametitle{Exemplarisch: Navigationsfehler}
   \textbf{Simulation statischer Hindernisse} (mit Ausweg)
   \begin{figure}[H]
@@ -597,66 +657,6 @@
     \end{subfigure}
   \caption*{\textsc{Erfolgreiche Bewältigung von Szenario $1$}}
   \end{figure}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Experimente - Grundsätzliches Vorgehen}
-  (\textbf{Problem-Simulation} \textrightarrow) \thinspace \textbf{Monitoring} \textrightarrow \thinspace \textbf{Lösung}
-  \begin{itemize}
-    \item \textbf{Simulation:} Auslösbar durch Nachricht auf Topic, z.B. \code{rostopic pub -1 /toggle\_snow\_sim std\_msgs/String fail}
-    \item \textbf{Monitoring:} Erkennt Problem, unterbricht \code{NORMAL\_OPERATION}, initiiert geeignete Lösung
-    \item \textbf{Lösung:}
-    \begin{itemize}
-      \item Problem gelöst \textrightarrow \thinspace Übergang zu \code{NORMAL\_OPERATION}
-      \item Problem nicht gelöst \textrightarrow \thinspace Übergang zu \code{CATASTROPHE}
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Experimente}
-  \textbf{S1:} Zeigen, dass die Mission ohne Simulation eines der identifizierten Probleme über einen längeren Zeitraum in der Simulation fehlerfrei läuft
-  \begin{itemize}
-    \item \textbf{Verifiziert Zulässigkeit des Beispielplans}
-    \item \textbf{Demonstration der grundsätzlichen Funktionalität}
-    \item \textbf{Def. gescheiterte Mission:}
-    \begin{itemize}
-      \item $> 600s$ ohne Nachricht auf \code{arox/ongoing\_operation} mit offenen Tasks
-      \item \code{hard\_failure} in \code{OPERATION} \textrightarrow \thinspace \code{CATASTROPHE}
-    \end{itemize}
-  \end{itemize}
-  \textbf{$3$ Durchläufe á $4$ Stunden:}
-  \begin{itemize}
-    \item \O $84$ Tasks, keine Fehler
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Experimente}
-  \textbf{S2: Klassifikation der Problemkategorien in Bezug auf ihren potenziellen (worst-case) Schaden}
-  \begin{figure}[H]
-    \centering
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{| c | c | c | c | c |}
-        \hline
-        \textbf{problem} & \specialcell{\textbf{contingency} \\ \small{\textit{(no contingencies without monitoring)}} \\ sim + prac} & \specialcell{\textbf{catastrophe} \\ \small{\textit{((\cmark) \textrightarrow indirectly)}} \\ sim \quad\quad\quad\quad prac} & \specialcell{\textbf{potential to render mission worthless} \\ sim \quad\quad\quad\quad prac} \\ \hline
-        power\_management & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        charging\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        drastic\_weather\_change & \cmark & \thinspace\thinspace \xmark \quad\quad\quad\quad\quad (\cmark) & \xmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        sensor\_failure & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        data\_management & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        lost\_connection & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        plan\_deployment\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        navigation\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        incorrect\_localization & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-    \end{tabular}}
-  \end{figure}
-  \underline{\textquote{catastrophe}-Spalte (ohne Monitoring):}
-  \begin{itemize}
-    \item \cmark \textrightarrow \thinspace \textbf{Scheitern der Mission sicher}
-    \item (\cmark) \textrightarrow \thinspace \textbf{Scheitern der Mission möglich}
-    \item \xmark \textrightarrow \thinspace \textbf{Wertlose Ergebnisse} (Ausnahme Extremwetter)
-  \end{itemize}
 \end{frame}
 
 \begin{frame}
