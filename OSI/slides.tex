@@ -211,7 +211,7 @@
 
 \begin{frame}
   \frametitle{Langzeit-autonome mobile Roboter}
-  \textbf{Langzeit}\newline
+  \textbf{Langfristigkeit}
   \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.32\textwidth}
@@ -232,7 +232,7 @@
   \end{figure}
   \begin{itemize}
     \item Keine strikte Definition \textrightarrow \thinspace \textbf{kontextabhängig}
-    \item Hier:
+    \item \underline{Hier:}
     \begin{itemize}
       \item \textbf{Ladezyklus} - zeitlicher Handlungsradius des Roboters
       \item \textbf{Missionszyklus} - repetitiver Charakter der Mission
@@ -248,7 +248,7 @@
   \begin{itemize}
     \item Ebenfalls nicht scharf definiert und \textbf{kontextabhängig}
     \item \textbf{Kooperation} nicht prinzipiell ausgeschlossen
-    \item Hier: \textbf{Vollautonom} - Inanspruchnahme menschlicher Hilfe ausschließlich im Fehlerfall
+    \item \underline{Hier:} \textbf{Vollautonom} - Inanspruchnahme menschlicher Hilfe ausschließlich im Fehlerfall
   \end{itemize}
   \begin{figure}[H]
     \centering
@@ -259,8 +259,8 @@
 
 \begin{frame}
   \frametitle{Langzeit-autonome mobile Roboter}
-  \textbf{Mobil}\newline
-  System, das in der Lage ist, sich innerhalb bestimmter Grenzen frei in einer Umgebung zu bewegen. \cite{Hertzberg:2012}
+  \textbf{Mobilität}\newline
+  System, das in der Lage ist, sich innerhalb bestimmter Grenzen frei in einer Umgebung zu bewegen \cite{Hertzberg:2012}
 \end{frame}
 
 \begin{frame}
@@ -268,23 +268,19 @@
   \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/AROX.jpg}
-    \caption*{}
   \end{figure}
-  \begin{itemize}
-    \item \textbf{Lokalisierung}: \code{robot\_localization} \cite{Moore:2014}\newline \textrightarrow \thinspace Sensorfusion von IMU-, Odometrie- und RTK-GNSS-Daten
-    \item \textbf{Navigation}: \code{move\_base\_flex} \cite{Puetz:2018}
-  \end{itemize}
+  \textbf{Lokalisierung}: \code{robot\_localization} \cite{Moore:2014}\newline \textrightarrow \thinspace Sensorfusion von IMU-, Odometrie- und RTK-GNSS-Daten\newline
+  \textbf{Navigation}: \code{move\_base\_flex} \cite{Puetz:2018}
 \end{frame}
 
 \begin{frame}
   \frametitle{Plangenerierung und -bereitstellung}
-  \begin{itemize}
-    \item \textbf{ROS-Service}, der manuell erstellte Pläne (CSV) parst und bereitstellt
-    \item \textbf{Aktionsmenge}:\newline $\{$\code{drive\_to($lat$, $lng$, $\theta$)}, \code{return\_to\_base}, \code{charge}, \code{scan}$\}$
-  \end{itemize}
+  \textbf{ROS-Service} parst manuell erstellte Pläne (CSV)\newline
+  
+  \textbf{Aktionsmenge}:\newline $\{$\code{drive\_to($lat$,$lng$,$\theta$)}, \code{return\_to\_base}, \code{charge}, \code{scan}$\}$
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/plan_example.png}
+    \includegraphics[width=0.85\textwidth]{img/plan_example.png}
     \caption*{\textsc{Beispielplan}}
   \end{figure}
 \end{frame}
