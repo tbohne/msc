@@ -1,24 +1,33 @@
 library(ggplot2)
 
-gen_plot <- function(plotPointsPre, x_name, y_name, filename) {
-    finalPlot <- plotPointsPre + geom_point() + xlab(x_name) + ylab(y_name) + scale_color_manual(values=c("#fa9f27", "#5428ff", "#f5503b", "#28bd5a"))
+######################################################################
+################################ PLOTS ###############################
+######################################################################
+
+gen_plot <- function(plotPointsPre, y_name, x_name, filename) {
+    finalPlot <- plotPointsPre + geom_bar(stat="identity", fill = c(rgb(32, 43, 50, maxColorValue = 255)), width=0.75) + coord_flip() + xlab(x_name) + ylab(y_name) + scale_color_manual(values=c("#d44345", "#7094c8"))
     ggsave(finalPlot, file = filename, width=6, height=4)
 }
 
 input <- read.csv(file = "placeholder.csv", header = TRUE, sep = ",")
 
-gen_plot(ggplot(data = input, aes(x = duration, y = experiment, color = completed, group = completed)), "duration (h)", "experiment", "duration.png")
-gen_plot(ggplot(data = input, aes(x = correct_contingencies, y = experiment, color = completed, group = completed)), "correct_contingencies", "experiment", "corr_cont.png")
-gen_plot(ggplot(data = input, aes(x = false_positives, y = experiment, color = completed, group = completed)), "false positive contingencies", "experiment", "false_positives.png")
-gen_plot(ggplot(data = input, aes(x = false_negatives, y = experiment, color = completed, group = completed)), "false negative contingencies", "experiment", "false_negatives.png")
-gen_plot(ggplot(data = input, aes(x = correct_no_contingency, y = experiment, color = completed, group = completed)), "correct NO contingencies", "experiment", "correct_no_contingencies.png")
-gen_plot(ggplot(data = input, aes(x = unexpected_contingencies, y = experiment, color = completed, group = completed)), "unexpected contingencies", "experiment", "unexpected_contingencies.png")
-gen_plot(ggplot(data = input, aes(x = completed_tasks, y = experiment, color = completed, group = completed)), "completed tasks", "experiment", "completed_tasks.png")
-gen_plot(ggplot(data = input, aes(x = charge_cycles, y = experiment, color = completed, group = completed)), "charge cycles", "experiment", "charge_cycles.png")
+gen_plot(ggplot(data = input, aes(x = experiment, y = duration, color = completed, group = completed)), "duration (h)", "experiment", "duration.png")
+gen_plot(ggplot(data = input, aes(x = experiment, y = correct_contingencies, color = completed, group = completed)), "correct_contingencies", "experiment", "corr_cont.png")
+gen_plot(ggplot(data = input, aes(x = experiment, y = false_positives, color = completed, group = completed)), "false positive contingencies", "experiment", "false_positives.png")
+gen_plot(ggplot(data = input, aes(x = experiment, y = false_negatives, color = completed, group = completed)), "false negative contingencies", "experiment", "false_negatives.png")
+gen_plot(ggplot(data = input, aes(x = experiment, y = correct_no_contingency, color = completed, group = completed)), "correct NO contingencies", "experiment", "correct_no_contingencies.png")
+gen_plot(ggplot(data = input, aes(x = experiment, y = unexpected_contingencies, color = completed, group = completed)), "unexpected contingencies", "experiment", "unexpected_contingencies.png")
+gen_plot(ggplot(data = input, aes(x = experiment, y = completed_tasks, color = completed, group = completed)), "completed tasks", "experiment", "completed_tasks.png")
+gen_plot(ggplot(data = input, aes(x = experiment, y = charge_cycles, color = completed, group = completed)), "charge cycles", "experiment", "charge_cycles.png")
 gen_plot(ggplot(data = input, aes(
-    x = (correct_contingencies + correct_no_contingency) / (correct_contingencies + correct_no_contingency + false_positives + false_negatives + unexpected_contingencies) * 100,
-    y = experiment, color = completed, group = completed)
+        x = experiment, color = completed, group = completed,
+        y = (correct_contingencies + correct_no_contingency) / (correct_contingencies + correct_no_contingency + false_positives + false_negatives + unexpected_contingencies) * 100
+    )
 ), "expected response to fail sim (%)", "experiment", "expected_res.png")
+
+######################################################################
+############################## ANALYSIS ##############################
+######################################################################
 
 compute_avg_duration <- function() {
     costs <- subset(input, select = c(duration))
