@@ -577,7 +577,7 @@
 
 \begin{frame}
   \frametitle{Experimente}
-  \textbf{Klassifikation der Problemkategorien in Bezug auf ihren potenziellen (worst-case) Schaden}
+  \textbf{S2: Klassifikation der Problemkategorien in Bezug auf ihren potenziellen (worst-case) Schaden}
   \begin{figure}[H]
     \centering
     \resizebox{\textwidth}{!}{
@@ -604,7 +604,33 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Exemplarisch: Navigationsfehler}
+  \frametitle{Experimente}
+  \textbf{S3: Evaluation der Monitoring-Ansätze}
+  \begin{itemize}
+    \item $10$ Durchläufe á $4$ Stunden
+    \item Zufälliger Fehlerfall alle $250s$
+    \item \textbf{\underline{Betrachtete Aspekte:}}
+    \begin{itemize}
+      \item Erfolgreich abgeschlossene Mission
+      \item \textbf{Erwartete Reaktionen} auf Fehlerfälle
+      \begin{itemize}
+        \item Korrekte \code{CONTINGENCY}-Situationen
+        \item Korrekte \textquote{Nicht-\code{CONTINGENCY}-Situationen}
+      \end{itemize}
+      \item \textbf{Unerwartete Reaktionen} auf Fehlerfälle
+      \begin{itemize}
+        \item Falsch-positiv
+        \item Falsch-negativ
+        \item Falsche Reaktion (Problemidentifikation)
+      \end{itemize}
+      \item Erfolgreich abgeschlossene Tasks
+      \item Lade- und Missionszyklen
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Korrekte \textquote{Nicht-\textsc{CONTINGENCY}-Situationen}}
   \textbf{Simulation statischer Hindernisse} (mit Ausweg)
   \begin{figure}[H]
     \centering
@@ -635,6 +661,7 @@
         \label{fig:static_4}
     \end{subfigure}
   \end{figure}
+  \code{/spawn\_static\_obstacles} mit \code{msg} $scene_n$, $n \in \{1, 2, 3, 4\}$
   \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.24\textwidth}
@@ -657,14 +684,6 @@
     \end{subfigure}
   \caption*{\textsc{Erfolgreiche Bewältigung von Szenario $1$}}
   \end{figure}
-\end{frame}
-
-\begin{frame}
-  \frametitle{S3: Evaluation der Monitoring-Ansätze}
-  \begin{itemize}
-    \item $10$ Durchläufe á $4$ Stunden
-    \item zufälliger Fehlerfall alle $250s$
-  \end{itemize}
 \end{frame}
 
 \begin{frame}
