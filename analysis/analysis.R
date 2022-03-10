@@ -5,7 +5,7 @@ library(ggplot2)
 ######################################################################
 
 gen_plot <- function(plotPointsPre, y_name, x_name, filename) {
-    finalPlot <- plotPointsPre + geom_bar(stat="identity", fill = c(rgb(32, 43, 50, maxColorValue = 255)), width=0.75) + coord_flip() + xlab(x_name) + ylab(y_name) + scale_color_manual(values=c("#d44345", "#7094c8"))
+    finalPlot <- plotPointsPre + geom_bar(stat="identity", fill = c(rgb(32, 43, 50, maxColorValue = 255)), width=0.75) + coord_flip() + xlab(x_name) + ylab(y_name) + scale_color_manual(values=c("#d44345", "#0bc986"))
     ggsave(finalPlot, file = filename, width=6, height=4)
 }
 
