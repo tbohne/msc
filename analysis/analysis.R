@@ -25,6 +25,18 @@ gen_plot(ggplot(data = input, aes(
     )
 ), "expected response to fail sim (%)", "experiment", "expected_res.png")
 
+gen_plot(ggplot(data = input, aes(
+        x = experiment, color = completed, group = completed,
+        y = (traverse_time + scan_time + charge_time + dock_time + undock_time) / (traverse_time + scan_time + charge_time + dock_time + undock_time + wait_time + cata_time + cont_time) * 100
+    )
+), "autonomy (%)", "experiment", "autonomy_percentage.png")
+
+gen_plot(ggplot(data = input, aes(
+        x = experiment, color = completed, group = completed,
+        y = (cata_time + cont_time) / (traverse_time + scan_time + charge_time + dock_time + undock_time + wait_time + cata_time + cont_time) * 100
+    )
+), "recovery time (%)", "experiment", "recovery_percentage.png")
+
 ######################################################################
 ############################## ANALYSIS ##############################
 ######################################################################
