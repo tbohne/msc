@@ -321,18 +321,18 @@
 \begin{frame}
   \frametitle{Herausforderungen für Langzeitautonomie}
   \begin{itemize}
-    \item Energiemanagement
-    \item Fehlgeschlagener Ladevorgang
-    \item Extreme Wetterbedingungen
-    \item Sensorausfall (Wahrnehmung)
-    \item Datenmanagement
-    \item Verbindungsabbruch
-    \item Navigationsfehler
-    \item Fehlerhafte / ungenaue Lokalisierung
-    \item Planverteilungsfehler
+    \item \textbf{Energiemanagement}
+    \item \textbf{Fehlgeschlagener Ladevorgang}
+    \item \textbf{Extreme Wetterbedingungen}
+    \item \textbf{Sensorausfall (Wahrnehmung)}
+    \item \textbf{Datenmanagement}
+    \item \textbf{Verbindungsabbruch}
+    \item \textbf{Navigationsfehler}
+    \item \textbf{Fehlerhafte bzw. ungenaue Lokalisierung}
+    \item \textbf{Planverteilungsfehler}
   \end{itemize}
-  \textrightarrow \thinspace \textbf{$48$ konkret behandelte Problemfälle}\newline
-  \textrightarrow \thinspace \textbf{viele weitere implizit abgedeckt}
+  \textrightarrow \thinspace $48$ konkret behandelte Problemfälle\newline
+  \textrightarrow \thinspace Viele weitere implizit abgedeckt
   % \begin{figure}[H]
   %   \raggedleft
   %   \includegraphics[width=0.3\textwidth]{img/AROX_fall.png}
@@ -347,7 +347,7 @@
     \item Roboter detektiert ein Problem, ist jedoch nicht in der Lage, es zu lösen \textrightarrow \thinspace informiert (menschlichen) Operator
     \item Roboter hat Störung / Problem, detektiert es jedoch nicht und kann es entsprechend weder lösen noch kommunizieren
   \end{enumerate}
-  \textrightarrow \thinspace \textbf{initial wird jedes potenzielle Problem als Typ $(3)$ eingestuft}\newline
+  \textrightarrow \thinspace \textbf{Initial wird jedes potenzielle Problem als Typ $(3)$ eingestuft}\newline
   \textbf{Ziel}: Sämtliche Probleme in Kategorie $(1)$ / $(2)$ verschieben
 \end{frame}
 
@@ -375,7 +375,7 @@
 
 \begin{frame}
   \frametitle{Unterbrechung und Wiederaufnahme des normalen Betriebs}
-  \textbf{Zwei Fälle:}
+  \underline{\textbf{Zwei Fälle:}}
   \begin{enumerate}
     \item \code{IDLE} \textrightarrow \thinspace trivial
     \item \code{EXECUTE\_PLAN} \textrightarrow \thinspace Plan $\pi$ im \code{userdata}-Feld des Zustands gespeichert
@@ -385,7 +385,7 @@
       \item Problem gelöst \textrightarrow \thinspace \code{IDLE} 
       \begin{itemize}
         \item $\pi \in \code{userdata.input\_plan}, \pi \neq \emptyset$ \textrightarrow \thinspace \textbf{Plan $\pi$ fortsetzen}
-        \item $\code{userdata.input\_plan} = \emptyset$ \textrightarrow \thinspace \textbf{neuen Plan anfordern}
+        \item $\code{userdata.input\_plan} = \emptyset$ \textrightarrow \thinspace \textbf{Neuen Plan anfordern}
       \end{itemize}
     \end{itemize}
   \end{enumerate}
@@ -393,24 +393,26 @@
 
 \begin{frame}
   \frametitle{Unterbrechung und Wiederaufnahme des normalen Betriebs}
-  \textbf{Planausführung fortsetzen}
+  \underline{\textbf{Planausführung fortsetzen}}
   \begin{itemize}
     \item Geplante Ladestopps nicht notwendigerweise weiterhin zulässig
     \item \textbf{Unterbrechung mit Rückkehr zur Basis-Station} \textrightarrow \thinspace Planausführung \textbf{zulässig}
-    \item \textbf{Unterbrechung ohne Rückkehr zur Basis-Station} \textrightarrow \thinspace Roboter verbraucht ungeplante Ressourcen, sodass a-priori Ladestopp-Planung
+    \item \textbf{Unterbrechung ohne Rückkehr zur Basis-Station} \textrightarrow \thinspace Roboter verbraucht ungeplante Ressourcen, sodass a priori Ladestopp-Planung
     \textbf{unzulässig} wird \textrightarrow \thinspace Batterie-Monitoring
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Exemplarisch: GNSS-Verbindungsprobleme}
+  \definecolor{myred}{rgb}{0.95,0.29,0.18}
+  \definecolor{myblue}{rgb}{0.28,0.31,0.71}
   \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{img/GNSS_comm.png}
   \end{figure}
   \begin{itemize}
-    \item \textbf{\textcolor{blue}{Praxis}} / \textbf{\textcolor{red}{Simulation}}
-    \item \textbf{Resultat:} \code{NavSatFix}-Daten auf \code{/fix} Topic
+    \item \textbf{\textcolor{myblue}{Praxis}} / \textbf{\textcolor{myred}{Simulation}}
+    \item \textbf{Resultat:} \code{NavSatFix}-Daten auf \code{/fix}-Topic
   \end{itemize}
 \end{frame}
 
@@ -421,7 +423,7 @@
     \includegraphics[width=\textwidth]{img/navsatfix.png}
   \end{figure}
   \begin{itemize}
-    \item \textbf{Kovarianzmatrix}: $c_{ij} \in C_{3 \times 3}$ with $i, j \in \{E, N, U\}$
+    \item \textbf{Kovarianzmatrix}: $c_{ij} \in C_{3 \times 3}$, $i, j \in \{E, N, U\}$
     \item \textbf{Standardabweichung ($m$)}: $\sqrt{c_{ii}} \thinspace \forall \thinspace i \in \{E, N, U\}$
   \end{itemize}
 \end{frame}
@@ -487,7 +489,7 @@
       \item Entwicklung über die Zeit
     \end{itemize}
   \end{itemize}
-  \textbf{Lösung}: Kurze Auszeit \textrightarrow \thinspace erneuter Verbindungstest \textrightarrow \thinspace bei wiederholtem Misserfolg Kommunikation des Problems
+  \textbf{Lösung}: Kurze Auszeit \textrightarrow \thinspace Erneuter Verbindungstest \textrightarrow \thinspace Kommunikation des Problems bei wiederholtem Misserfolg
 
   \textbf{Kompatibel mit sämtlichen Systemen, die \code{NavSatFix} verwenden!}
 \end{frame}
@@ -553,7 +555,7 @@
 % \end{frame}
 
 %------------------------------------------------
-\section{Experimente \& Evaluation}
+\section{Experimente / Evaluation}
 %------------------------------------------------
 
 \begin{frame}
@@ -561,7 +563,7 @@
   (\textbf{Problem-Simulation} \textrightarrow) \thinspace \textbf{Monitoring} \textrightarrow \thinspace \textbf{Lösung}
   \begin{itemize}
     \item \textbf{Simulation:} Auslösbar durch Nachricht auf Topic, z.B. \code{rostopic pub -1 /toggle\_snow\_sim std\_msgs/String fail}
-    \item \textbf{Monitoring:} Erkennt Problem, unterbricht \code{NORMAL\_OPERATION}, initiiert geeignete Lösung
+    \item \textbf{Monitoring:} Detektiert Problem, unterbricht \code{NORMAL\_OPERATION}, initiiert geeignete Lösung
     \item \textbf{Lösung:}
     \begin{itemize}
       \item Problem gelöst \textrightarrow \thinspace Übergang zu \code{NORMAL\_OPERATION}
@@ -572,20 +574,18 @@
 
 \begin{frame}
   \frametitle{Experimente}
-  \textbf{S1:} Zeigen, dass die Mission ohne Simulation eines der identifizierten Probleme über einen längeren Zeitraum fehlerfrei läuft
+  \textbf{S1:} Zeigen, dass die Missionen \textbf{ohne Simulation eines der identifizierten Probleme} über einen längeren Zeitraum fehlerfrei läuft
   \begin{itemize}
-    \item \textbf{Verifiziert Zulässigkeit des Beispielplans}
+    \item \textbf{Verifikation des Beispielplans}
     \item \textbf{Demonstration der grundsätzlichen Funktionalität}
-    \item \textbf{Def. gescheiterte Mission:}
-    \begin{itemize}
-      \item $> 600s$ ohne Nachricht auf \code{arox/ongoing\_operation} mit offenen Tasks
-      \item \code{hard\_failure} in \code{OPERATION} \textrightarrow \thinspace \code{CATASTROPHE}
-    \end{itemize}
   \end{itemize}
-  \textbf{$3$ Durchläufe á $4$ Stunden:}
-  \begin{itemize}
-    \item \O $84$ Tasks, keine Fehler
-  \end{itemize}
+  \underline{\textbf{Def. gescheiterte Mission:}}
+  \begin{enumerate}
+    \item $> 900s$ keine Nachricht auf \code{arox/ongoing\_operation} trotz offener Tasks
+    \item \code{hard\_failure} in \code{OPERATION} \textrightarrow \thinspace \code{CATASTROPHE}
+  \end{enumerate}
+  \textbf{$3$ Durchläufe á $4$ Stunden:}\newline
+  \textrightarrow \thinspace \O $84$ Tasks, keine gescheiterte Mission
 \end{frame}
 
 \begin{frame}
@@ -618,32 +618,30 @@
 
 \begin{frame}
   \frametitle{Experimente}
-  \textbf{S3: Evaluation der Monitoring-Ansätze}
+  \textbf{S3: Evaluation der Monitoring-Ansätze}\newline
+  $10$ Durchläufe á $5$ Stunden\newline
+  Zufälliger Fehlerfall alle $250s$\newline
+  \textbf{\underline{Betrachtete Aspekte:}}
   \begin{itemize}
-    \item $10$ Durchläufe á $4$ Stunden
-    \item Zufälliger Fehlerfall alle $250s$
-    \item \textbf{\underline{Betrachtete Aspekte:}}
+    \item Erfolgreich abgeschlossene Mission
+    \item \textbf{Erwartete Reaktionen} auf Fehlerfälle
     \begin{itemize}
-      \item Erfolgreich abgeschlossene Mission
-      \item \textbf{Erwartete Reaktionen} auf Fehlerfälle
-      \begin{itemize}
-        \item Korrekte \code{CONTINGENCY}-Situationen
-        \item Korrekte \textquote{Nicht-\code{CONTINGENCY}-Situationen}
-      \end{itemize}
-      \item \textbf{Unerwartete Reaktionen} auf Fehlerfälle
-      \begin{itemize}
-        \item Falsch-positiv
-        \item Falsch-negativ
-        \item Falsche Reaktion (Problemidentifikation)
-      \end{itemize}
-      \item Erfolgreich abgeschlossene Tasks
-      \item Lade- und Missionszyklen
+      \item Korrekte \code{CONTINGENCY}-Situationen
+      \item Korrekte \textquote{$\lnot$\code{CONTINGENCY}-Situationen}
     \end{itemize}
+    \item \textbf{Unerwartete Reaktionen}
+    \begin{itemize}
+      \item Falsch-positiv / falsch-negativ
+      \item Falsche Reaktion (Problemidentifikation)
+    \end{itemize}
+    \item Erfolgreich abgeschlossene Tasks
+    \item Lade- und Missionszyklen
+    \item Zurückgelegte Distanz
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Korrekte \textquote{Nicht-\textsc{CONTINGENCY}-Situationen}}
+  \frametitle{Korrekte \textquote{$\lnot$\textsc{CONTINGENCY}-Situationen}}
   \textbf{Simulation statischer Hindernisse} (mit Ausweg)
   \begin{figure}[H]
     \centering
@@ -709,14 +707,46 @@
   \frametitle{Ergebnisse}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/expected_res.png}\linebreak\newline
-    \centering
-    Laufzeit: \O $\thinspace \boldsymbol{3.85 h}$ / Ausgeführte Tasks: \O $\thinspace \boldsymbol{62.5}$\linebreak
-    \centering
-    Ladezyklen: \O $\thinspace \boldsymbol{7.3}$ / Missionszyklen: \O $\thinspace \boldsymbol{4.3}$\linebreak
-    \centering
-    Erwartete Reaktion: \O $\thinspace \boldsymbol{90.31 \%}$
+    \begin{subfigure}[b]{0.49\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/expected_res.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{img/autonomy_percentage.png}
+    \end{subfigure}
   \end{figure}
+  \centering
+  Laufzeit: \O $\thinspace \boldsymbol{3.85 h}$ / Ausgeführte Tasks: \O $\thinspace \boldsymbol{62.5}$\linebreak
+  \centering
+  Ladezyklen: \O $\thinspace \boldsymbol{7.3}$ / Missionszyklen: \O $\thinspace \boldsymbol{4.3}$\linebreak
+  \centering
+  Sim. Problemfälle: \O $\thinspace \boldsymbol{10}$ / Erwartete Reaktion: \O $\thinspace \boldsymbol{90.31 \%}$\linebreak
+  \centering
+  Zurückgelegte Distanz: \O $\thinspace \boldsymbol{1.4 km}$
+\end{frame}
+
+\begin{frame}
+  \frametitle{Aktivitätsverteilung}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/mode_times.png}
+  \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\section{Fazit / Ausblick}
+%------------------------------------------------
+
+\begin{frame}
+  \frametitle{Fazit}
+  \begin{itemize}
+    \item \textbf{Funktionalität} des integrierten Systems \textbf{demonstriert}
+    \item Praktisch relevante \textbf{Probleme identifiziert und klassifiziert}
+    \item \textbf{Generisches Monitoring(-Resolution)-Framework} entwickelt
+    \item \textbf{Sämtliche Problemtypen in Kategorie $(1)$ / $(2)$ verschoben}
+  \end{itemize}
+  \textrightarrow \thinspace Erheblich \textbf{verbesserte Robustheit} bzgl. der identifizierten Herausforderungen
 \end{frame}
 
 \begin{frame}
@@ -730,14 +760,6 @@
     \item Ausführliche \textbf{Protokollierung der LTA-Missionen} (insbesondere Fehlerkontext)
     \item Gesammelte \textbf{Daten semantisch gruppiert}
   \end{itemize}
-\end{frame}
-
-%------------------------------------------------
-\section{Fazit / Ausblick}
-%------------------------------------------------
-
-\begin{frame}
-  \frametitle{Fazit}
 \end{frame}
 
 \begin{frame}
