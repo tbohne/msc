@@ -1488,7 +1488,8 @@ to log contingency and catastrophe situations, which is why \code{/contingency\_
 \code{contingency} and \code{catastrophe} respectively. The content of this entry is in each case the message describing the problem that occurred. Whenever a contingency or
 catastrophe situation is logged, the node triggers a method \code{log\_failure\_circumstances()} because, as mentioned earlier, the particular circumstances of a problematic
 situation, i.e., the potential factors leading to the problem, can be very revealing. For the moment, the specific additional contextual information comprises, in addition to the
-information logged anyway, the position of the robot in longitude and latitude obtained from \code{/fix}, as well as the number of tasks completed and the current operating time. This
+information logged anyway, the position of the robot in longitude and latitude obtained from \code{/fix}, as well as the number of tasks completed, the current operating time,
+the charge level and the current charge cycle. This
 list can be extended in the future as needed. All this information is stored summarized in a JSON dump under the category \code{failure\_circumstances}. Numerous insightful but less
 critical information about the robot and its environment is logged under the category \code{robot\_info}, received as messages on a topic with the same name. In simulated experiments,
 it is also critical to know exactly when error situations have been simulated. Therefore, all nodes simulating problem situations can report under the \code{/sim\_info} topic when they
