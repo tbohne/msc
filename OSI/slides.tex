@@ -410,10 +410,8 @@
     \centering
     \includegraphics[width=\textwidth]{img/GNSS_comm.png}
   \end{figure}
-  \begin{itemize}
-    \item \textbf{\textcolor{myblue}{Praxis}} / \textbf{\textcolor{myred}{Simulation}}
-    \item \textbf{Resultat:} \code{NavSatFix}-Daten auf \code{/fix}-Topic
-  \end{itemize}
+  \textbf{\textcolor{myblue}{Praxis}} / \textbf{\textcolor{myred}{Simulation}}\linebreak
+  \textbf{Resultat:} \code{NavSatFix}-Daten auf \code{/fix}-Topic
 \end{frame}
 
 \begin{frame}
@@ -422,10 +420,9 @@
     \centering
     \includegraphics[width=\textwidth]{img/navsatfix.png}
   \end{figure}
-  \begin{itemize}
-    \item \textbf{Kovarianzmatrix}: $c_{ij} \in C_{3 \times 3}$, $i, j \in \{E, N, U\}$
-    \item \textbf{Standardabweichung ($m$)}: $\sqrt{c_{ii}} \thinspace \forall \thinspace i \in \{E, N, U\}$
-  \end{itemize}
+  \textbf{Kovarianzmatrix}: $c_{ij} \in C_{3 \times 3}$, $i, j \in \{E, N, U\}$
+
+  \textbf{Standardabweichung ($m$)}: $\sqrt{c_{ii}} \thinspace \forall \thinspace i \in \{E, N, U\}$
 \end{frame}
 
 \begin{frame}
@@ -443,12 +440,11 @@
         \includegraphics[width=0.75\textwidth]{img/GNSS_cov_high.png}
         \caption{\textsc{Hohe Unsicherheit bzgl.} $E$}
     \end{subfigure}
-    \begin{itemize}
-      \item (a): $(\sqrt{6}m, \sqrt{6}m, \sqrt{6}m)$
-      \item (b): $(\sqrt{101}m, \sqrt{6}m, \sqrt{6}m)$
-      \item \textbf{Beide nicht ideal - kein RTK!}
-    \end{itemize}
   \end{figure}
+  \centering
+  (a): $(\sqrt{6}m, \sqrt{6}m, \sqrt{6}m)$\linebreak
+  (b): $(\sqrt{101}m, \sqrt{6}m, \sqrt{6}m)$\linebreak
+  \textbf{Beide nicht ideal - kein RTK!}
 \end{frame}
 
 \begin{frame}
