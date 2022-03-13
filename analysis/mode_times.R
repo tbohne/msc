@@ -9,4 +9,4 @@ input <- read.csv(file = "modes.csv", header = TRUE, sep = ",")
 
 ggp <- ggplot(input, aes(x = experiment, y = mode_time, fill = mode)) + geom_bar(position = "stack", stat = "identity")
 
-gen_plot(ggp, "mode times", "experiment", "mode_times.png")
+gen_plot(ggp, "mode times (s)", "experiment", "mode_times.png")
