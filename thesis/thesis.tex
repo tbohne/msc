@@ -2830,22 +2830,33 @@ percentage of time the robot communicates meaningful information to the operator
 
 TODO: Hardware + real-time factor information\newline
 
+\textit{Demonstration of the Basic Functionality of the Integrated System.}\newline
+
+The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for an extended period of time, e.g., $5$ hours. This also
+verifies that the sample plan is reasonable, i.e., that the charge stops are sufficient if everything works as expected. Basically a demonstration that the simulation and the whole
+integrated system work in principle in the absence of unexpected problematic events. For evaluation purposes, let a failed mission be defined as a mission that exceeds a
+user-configurable timeout $t = 900s$ without publishing a message to \code{arox/ongoing\_operation}, although the previous message contained a value of \code{total\_tasks} that is
+greater than one, indicating that the current plan is not completed and thus that the robot has been stuck in that task for a time greater than $t$. Obviously, a \code{severe\_failure}
+in the low-level state machine leading to a \code{CATASTROPHE} state followed by a system shutdown is also considered a failed mission. This would be the result of a completely
+discharged battery. To endow this test of basic functionality with some significance, it was performed three times. Most importantly, all runs were completed without failure. Thus,
+unsurprisingly, the average runtime was $5.03$ hours. In this time, the robot has completed an average of $2.4$ missions and $62.2$ tasks. The robot required an average of $4.3$
+charge cycles and the average total distance traveled was $1.03 km$. It is also interesting to look at the mode distribution, i.e. how long the robot was in which mode during the LTA
+episodes, which is shown in Fig. \ref{fig:mode_times_basic}. [TODO: Explain real mode dist]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{pics/mode_times_basic.png}
+    \caption{\textsc{Mode Distribution}}
+    \label{fig:mode_times_basic}
+\end{figure}
+The slight discrepancy in the number of successfully completed tasks between runs results from the fact that, for instance, the docking procedure does not always detect the container
+at the same speed. In general, the simulation has certain non-deterministic aspects in the sense that the combination of all the ROS nodes, their communication, possible effects in
+the simulation, and execution times mean that two runs of such an experiment in simulation will certainly not be exact reproductions of the same states. Although the three runs do not
+guarantee a fundamentally error-free use of the system, they demonstrate that the basic expected stable functionality is given.
+The detailed results can be found in the appendix (cf. \ref{}).\newline
+
 \textit{Classification of the Selected LTA Problems.}\newline
 
 The classification of the selected LTA problems is based on their evaluation in the simulation together with a comparative contextualization in the practical case.
-The very first step is to show that, without simulating any of the identified LTA
-problems, the mission runs error-free for an extended period of time (reference time), e.g., $5$ hours, in simulation. This also verifies that the sample plan is reasonable, i.e.,
-that the charge stops are sufficient, etc. Basically a demonstration that the simulation and the whole setup work in principle in the absence of unexpected problematic events. For
-evaluation purposes, let a failed mission be defined as a mission that exceeds a user-configurable timeout $t = 900s$ without publishing a message to \code{arox/ongoing\_operation},
-although the previous message contained a value of \code{total\_tasks} that is greater than one, indicating that the current plan is not completed and thus that the robot has been
-stuck in that task for a time greater than $t$. Obviously, a \code{severe\_failure} in the low-level state machine leading to a \code{CATASTROPHE} state followed by a system
-shutdown is also considered a failed mission.\newline
-In a demonstration of the baseline scenario in simulation without the developed monitoring procedures and without simulated failures, the robot successfully performed $84$ tasks in
-$4$ hours with no failures [TODO: add more statistics - analyze, e.g. num of performed actions]. To endow this test of basic functionality with some significance, it was repeated three times. On average, the robot successfully completed $n$ tasks in
-$4$ hours and had no failures or interruptions of the mission based on the defined timeout [TODO]. The slight discrepancy in the number of successfully completed tasks between runs
-results from the fact that, for instance, the docking procedure does not always detect the container at the same speed. In general, the simulation has certain non-deterministic
-aspects in the sense that the combination of all the ROS nodes, their communication, possible effects in the simulation, and execution times mean that two runs of such an experiment
-in simulation will certainly not be exact reproductions of the same states.
 Now the aim is to classify the identified LTA problems in the simulation according to their severity, i.e., which LTA problem can lead to which outcome (\code{CONTINGENCY} / 
 \code{CATASTROPHE}). By definition, all of the identified problems can lead to contingencies, as outlined in the corresponding sections (cf. section \ref{sec:sim_and_mon_of_lta_challenges}). Yet not all of them can lead to
 catastrophes. As a brief recap, contingencies are situations in which the robot's ability to act is essentially preserved so that it can attempt to solve the problem itself.
