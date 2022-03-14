@@ -2857,10 +2857,13 @@ The detailed results can be found in the appendix (cf. \ref{}).\newline
 \textit{Classification of the Selected LTA Problems.}\newline
 
 The classification of the selected LTA problems is based on their evaluation in the simulation together with a comparative contextualization of the practical case. The aim is to
-classify the identified problem categories in the simulation according to their severity, i.e., which LTA problem can lead to which worst-case outcome (\code{CONTINGENCY} / \code{CATASTROPHE}).
-By definition, all identified problems can lead to contingencies, as outlined in the corresponding sections (cf. section \ref{sec:sim_and_mon_of_lta_challenges}). Yet not all of them
-can lead to catastrophes. As a brief recap, contingencies are situations in which the robot's ability to act is essentially preserved, so that it can attempt to solve the problem
-itself. Catastrophes, on the other hand, definitely require human intervention. The first category is LTA problems that, when they occur, prevent the successful continuation of the
+classify the identified problem categories in the simulation according to their severity, i.e., which LTA problem can lead to which worst-case outcome. By definition, all identified
+problems can lead to contingencies, as outlined in the corresponding sections (cf. section \ref{sec:sim_and_mon_of_lta_challenges}). Additionally, all of them can lead to
+catastrophes, at least as a fallback option in case of resolution failures. However, this implies monitoring to detect the problems. As a brief recap, contingencies are situations in
+which the robot's ability to act is essentially preserved, so that it can attempt to solve the problem itself. Catastrophes, on the other hand, definitely require human intervention.
+Hence, when the proposed monitoring framework is active, each problem category can potentially lead to the worst case outcome of \code{CATASTROPHE}. More interesting in terms of
+classification is the present state of the AROX system, i.e. no monitoring for the identified issues. In this case, \code{CATASTROPHE} refers to one of the two aforementioned
+conditions - battery failure or timeout - and is thus equivalent to mission abort. The first category is LTA problems that, when they occur, prevent the successful continuation of the
 mission in the simulation. Despite the fact that it is evident for some of the identified problems for LTA operations (e.g. power management failures) that they are capable of
 interrupting the mission, it is investigated how the system in simulation responds to these failure cases without the developed monitoring procedures. This is critical to verify the
 correct and expected behavior of the simulated fault cases. Power management failures are the first case to be considered. When simulating a power management failure, e.g. by
@@ -2886,11 +2889,13 @@ due to the timeout criterion introduced above. Moreover, plan distribution error
 case in section \ref{sec:sim_and_mon_navigation_failures}, are simply not detected, but the mission fails due to the timeout criterion or a completely discharged battery
 (\code{CATASTROPHE}), whichever comes first. This again holds for simulation as well as for practice. That localization errors can have dramatic consequences up to \code{CATASTROPHE}
 cases has already been shown by the example of GNSS connection issues. The findings of the classification are summarized in fig. \ref{fig:lta_classification}. Crucially, any problem
-category that has a \textquote{\cmark} or \textquote{(\cmark)} in the catastrophe column will abort the mission in $100 \%$ of the cases without monitoring solutions. Furthermore,
-the remaining problems of drastic weather changes, sensor failures, and data management issues do not interrupt the mission, but they do invalidate the results and thus have the
-potential to render the mission worthless both in practice and in simulation. There is only one exception: drastic weather changes in the simulation. As already anticipated,
-the actual occurrence of such events is not simulated, only the information of their presence. However, since the practical relevance is obvious, there is no need for further
-simulation of e.g. impaired scans due to bad weather conditions.
+category that has a \textquote{\cmark} or \textquote{(\cmark)} in the catastrophe column has the potential to abort the mission without monitoring solutions. Assuming persistent
+failures, \textquote{\cmark} means that mission abort is a certainty, while \textquote{(\cmark)} stands for the possibility. Another perspective is that \textquote{\cmark} refers to
+catastrophes caused directly by the problem, the problem itself causes the failure, not some effect on another aspect of the system, whereas \textquote{(\cmark)} stands for indirect
+causation. Furthermore, the remaining problems of drastic weather changes, sensor failures, and data management issues do not interrupt the mission, but they do invalidate the results
+and thus have the potential to render the mission worthless both in practice and in simulation. There is only one exception: drastic weather changes in the simulation. As already
+anticipated, the actual occurrence of such events is not simulated, only the information of their presence. However, since the practical relevance is obvious, there is no need for
+further simulation of e.g. impaired scans due to bad weather conditions.
 \begin{figure}[H]
     \centering
     \resizebox{\textwidth}{!}{
