@@ -56,6 +56,16 @@ compute_avg_charge_cycles <- function() {
     return(round(mean(as.numeric(as.character(costs[["charge_cycles"]]))), digits = 2))
 }
 
+compute_avg_mission_cycles <- function() {
+    costs <- subset(input, select = c(mission_cycles))
+    return(round(mean(as.numeric(as.character(costs[["mission_cycles"]]))), digits = 2))
+}
+
+compute_avg_total_dist <- function() {
+    costs <- subset(input, select = c(total_dist))
+    return(round(mean(as.numeric(as.character(costs[["total_dist"]]))), digits = 2))
+}
+
 compute_avg_percentage_expected_response <- function() {
     costs <- subset(input, select = c(correct_contingencies, correct_no_contingency, false_negatives, false_positives, unexpected_contingencies))
     return(round(mean(as.numeric(as.character((
@@ -67,4 +77,6 @@ compute_avg_percentage_expected_response <- function() {
 paste("avg duration: ", compute_avg_duration(), "h")
 paste("avg #completed_tasks: ", compute_avg_completed_tasks())
 paste("avg #charge_cycles: ", compute_avg_charge_cycles())
+paste("avg #mission_cycles: ", compute_avg_mission_cycles())
+paste("avg total distance: ", compute_avg_total_dist(), "m")
 paste("avg expected response to fail sim: ", compute_avg_percentage_expected_response(), "%")
