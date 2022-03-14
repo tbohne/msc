@@ -1408,7 +1408,7 @@ executed again with the reduced plan $\pi := \pi \backslash \{a\}$, i.e. the res
 plan $\pi$ has been successfully processed, i.e. $\pi = \emptyset$, and causes a transition back to the \code{IDLE} state.
 These were the possible outcomes that cause a transition to another state. Now there are the three remaining outcomes that cause a return to the parent state machine. 
 First, \code{soft\_failure}, which means that something went wrong, e.g. an action $a \in \pi$ was not performed successfully, but the robot should be able to handle the problem. 
-Second, there is the potential outcome \code{hard\_failure}, which represents situations where the robot is unable to solve the problem itself.
+Second, there is the potential outcome \code{severe\_failure}, which represents situations where the robot is unable to solve the problem itself.
 Finally, the last potential outcome is again \code{preempted} based on some external issue detected by \code{CONTINGENCY\_MONITORING} or \code{CATASTROPHE\_MONITORING}.
 \begin{figure}[H]
     \centering
@@ -1425,7 +1425,7 @@ Essentially, in a long-term episode in the considered scenario, the robot should
 long as the episode is running or an error / problem has occurred, either an error that it is able to deal with itself or even a more severe problem that requires the 
 intervention of a human operator. Accordingly, if \code{NORMAL\_OPERATION}, i.e. the embedded state machine together with the parallel running monitoring states has the outcome 
 \code{minor\_complication}, the robot enters the state \code{CONTINGENCY}, which means that it has detected a soft failure, e.g. a sensor failure, but its ability to act
-is preserved, it is for example able to drive back to the base in safety mode. However, if \code{NORMAL\_OPERATION} returns \code{critical\_complication}, there is a hard 
+is preserved, it is for example able to drive back to the base in safety mode. However, if \code{NORMAL\_OPERATION} returns \code{critical\_complication}, there is a severe 
 failure that is unsolvable for the robot, perhaps even for the operator, and the robot transitions to \code{CATASTROPHE}. If it is still possible, the robot saves the current 
 state of the plan execution, sends an emergency signal, e.g. communicates the problem to the operator, and shuts down, i.e. transitions to \code{SHUTDOWN}.
 There are, of course, situations in which the robot can no longer do anything, such as when the battery is completely discharged.
@@ -2834,11 +2834,11 @@ TODO: Hardware + real-time factor information\newline
 
 The classification of the selected LTA problems is based on their evaluation in the simulation together with a comparative contextualization in the practical case.
 The very first step is to show that, without simulating any of the identified LTA
-problems, the mission runs error-free for an extended period of time (reference time), e.g., $4$ hours, in simulation. This also verifies that the sample plan is reasonable, i.e.,
+problems, the mission runs error-free for an extended period of time (reference time), e.g., $5$ hours, in simulation. This also verifies that the sample plan is reasonable, i.e.,
 that the charge stops are sufficient, etc. Basically a demonstration that the simulation and the whole setup work in principle in the absence of unexpected problematic events. For
-evaluation purposes, let a failed mission be defined as a mission that exceeds a user-configurable timeout $t = 600s$ without publishing a message to \code{arox/ongoing\_operation},
+evaluation purposes, let a failed mission be defined as a mission that exceeds a user-configurable timeout $t = 900s$ without publishing a message to \code{arox/ongoing\_operation},
 although the previous message contained a value of \code{total\_tasks} that is greater than one, indicating that the current plan is not completed and thus that the robot has been
-stuck in that task for a time greater than $t$. Obviously, a \code{hard\_failure} in the low-level state machine leading to a \code{CATASTROPHE} state followed by a system
+stuck in that task for a time greater than $t$. Obviously, a \code{severe\_failure} in the low-level state machine leading to a \code{CATASTROPHE} state followed by a system
 shutdown is also considered a failed mission.\newline
 In a demonstration of the baseline scenario in simulation without the developed monitoring procedures and without simulated failures, the robot successfully performed $84$ tasks in
 $4$ hours with no failures [TODO: add more statistics - analyze, e.g. num of performed actions]. To endow this test of basic functionality with some significance, it was repeated three times. On average, the robot successfully completed $n$ tasks in
@@ -2854,7 +2854,7 @@ the simulation. Despite the fact that it is evident for some of the identified p
 mission, it is investigated how the system in simulation responds to these failure cases without the developed monitoring procedures. This is critical to verify the correct and
 expected functioning of the simulated fault cases. Power management failures are the first case considered. When simulating a power management failure, e.g. by publishing on
 \code{/sim\_power\_management\_contingency}, the battery discharge rate is increased without the robot noticing, so it simply runs out of battery and normal operation ends with a
-\code{hard\_failure}, leading to a transition to \code{CATASTROPHE} and then a system shutdown. Thus, the simulation of power management failure works as expected. That the general
+\code{severe\_failure}, leading to a transition to \code{CATASTROPHE} and then a system shutdown. Thus, the simulation of power management failure works as expected. That the general
 error class of charging failures can result in a failed mission can be demonstrated by simulating a docking error that results in not being able to recharge and also ends in a
 \code{CATASTROPHE}. Hence, without active monitoring, \code{/sim\_docking\_failure\_raised\_ramp} is used to verify this. As expected, this also ends with a completely discharged
 battery and thus a failure of the mission. Evidently, both cases lead to a failed deployment in practice with the real robot as well, and since there is no monitoring for this so far,
