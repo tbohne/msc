@@ -2857,14 +2857,14 @@ The detailed results can be found in the appendix (cf. \ref{}).\newline
 \textit{Classification of the Selected LTA Problems.}\newline
 
 The classification of the selected LTA problems is based on their evaluation in the simulation together with a comparative contextualization of the practical case. The aim is to
-classify the identified problems in the simulation according to their severity, i.e., which LTA problem can lead to which worst-case outcome (\code{CONTINGENCY} / \code{CATASTROPHE}).
+classify the identified problem categories in the simulation according to their severity, i.e., which LTA problem can lead to which worst-case outcome (\code{CONTINGENCY} / \code{CATASTROPHE}).
 By definition, all identified problems can lead to contingencies, as outlined in the corresponding sections (cf. section \ref{sec:sim_and_mon_of_lta_challenges}). Yet not all of them
 can lead to catastrophes. As a brief recap, contingencies are situations in which the robot's ability to act is essentially preserved, so that it can attempt to solve the problem
 itself. Catastrophes, on the other hand, definitely require human intervention. The first category is LTA problems that, when they occur, prevent the successful continuation of the
 mission in the simulation. Despite the fact that it is evident for some of the identified problems for LTA operations (e.g. power management failures) that they are capable of
 interrupting the mission, it is investigated how the system in simulation responds to these failure cases without the developed monitoring procedures. This is critical to verify the
 correct and expected behavior of the simulated fault cases. Power management failures are the first case to be considered. When simulating a power management failure, e.g. by
-publishing on \code{/sim\_power\_management\_contingency}, the battery discharge rate is increased without the robot noticing, so it simply runs out of battery and normal operation
+publishing on \code{/sim\_power\_management\_catastrophe}, the battery discharge rate is increased without the robot noticing, so it simply runs out of battery and normal operation
 ends with a \code{severe\_failure}, leading to a transition to \code{CATASTROPHE} and then a system shutdown. Thus, the simulation of power management failure works as expected. That
 the general error class of charging failures can lead to a failed mission can be demonstrated by simulating a docking error that results in not being able to recharge and also
 ends in \code{CATASTROPHE}. Hence, without active monitoring, \code{/sim\_docking\_failure\_raised\_ramp} is used to verify this. As expected, this also ends with a completely
@@ -2896,14 +2896,14 @@ simulation of e.g. impaired scans due to bad weather conditions.
     \resizebox{\textwidth}{!}{
     \begin{tabular}{| c | c | c | c | c |}
         \hline
-        \textbf{problem} & \specialcell{\textbf{contingency} \\ \small{\textit{(no contingencies without monitoring)}} \\ sim + prac} & \specialcell{\textbf{catastrophe} \\ \small{\textit{((\cmark) \textrightarrow indirectly)}} \\ sim \quad\quad\quad\quad prac} & \specialcell{\textbf{potential to render mission worthless} \\ sim \quad\quad\quad\quad prac} \\ \hline
+        \textbf{problem} & \specialcell{\textbf{contingency \& catastrophe} \\ \small{\textit{(with monitoring)}} \\ sim / prac} & \specialcell{\textbf{catastrophe} \\ \small{\textit{(without monitoring)}} \\ sim \quad\quad\quad\quad prac} & \specialcell{\textbf{potential to render mission worthless} \\ sim \quad\quad\quad\quad prac} \\ \hline
         power\_management & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         charging\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         drastic\_weather\_change & \cmark & \thinspace\thinspace \xmark \quad\quad\quad\quad\quad (\cmark) & \xmark \quad\quad\quad\quad\quad \cmark \\ \hline
         sensor\_failure & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         data\_management & \cmark & \xmark \thinspace\thinspace\quad\quad\quad\quad\quad \xmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         lost\_connection & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
-        plan\_deployment\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
+        plan\_deployment\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         navigation\_failure & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         incorrect\_localization & \cmark & (\cmark) \quad\quad\quad\quad (\cmark) & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
     \end{tabular}}
