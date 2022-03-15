@@ -578,9 +578,9 @@
   \underline{\textbf{Def. gescheiterte Mission:}}
   \begin{enumerate}
     \item $> 900s$ keine Nachricht auf \code{arox/ongoing\_operation} trotz offener Tasks
-    \item \code{hard\_failure} in \code{OPERATION} \textrightarrow \thinspace \code{CATASTROPHE}
+    \item \code{severe\_failure} in \code{OPERATION} \textrightarrow \thinspace \code{CATASTROPHE}
   \end{enumerate}
-  \textbf{$3$ Durchläufe á $4$ Stunden:}\newline
+  \textbf{$3$ Durchläufe à $5$ Stunden:}\newline
   \textrightarrow \thinspace \O $84$ Tasks, keine gescheiterte Mission
 \end{frame}
 
@@ -590,9 +590,9 @@
   \begin{figure}[H]
     \centering
     \resizebox{\textwidth}{!}{
-    \begin{tabular}{| c | c | c | c | c |}
+      \begin{tabular}{| c | c | c | c | c |}
         \hline
-        \textbf{problem} & \specialcell{\textbf{contingency} \\ \small{\textit{(no contingencies without monitoring)}} \\ sim + prac} & \specialcell{\textbf{catastrophe} \\ \small{\textit{((\cmark) \textrightarrow indirectly)}} \\ sim \quad\quad\quad\quad prac} & \specialcell{\textbf{potential to render mission worthless} \\ sim \quad\quad\quad\quad prac} \\ \hline
+        \textbf{problem} & \specialcell{\textbf{contingency \& catastrophe} \\ \small{\textit{(with monitoring)}} \\ sim / prac} & \specialcell{\textbf{catastrophe} \\ \small{\textit{(without monitoring)}} \\ sim \quad\quad\quad\quad prac} & \specialcell{\textbf{potential to render mission worthless} \\ sim \quad\quad\quad\quad prac} \\ \hline
         power\_management & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         charging\_failure & \cmark & \cmark \quad\quad\quad\quad\quad \cmark & \cmark \quad\quad\quad\quad\quad \cmark \\ \hline
         drastic\_weather\_change & \cmark & \thinspace\thinspace \xmark \quad\quad\quad\quad\quad (\cmark) & \xmark \quad\quad\quad\quad\quad \cmark \\ \hline
@@ -608,15 +608,15 @@
   \begin{itemize}
     \item \cmark \textrightarrow \thinspace \textbf{Scheitern der Mission sicher}
     \item (\cmark) \textrightarrow \thinspace \textbf{Scheitern der Mission möglich}
-    \item \xmark \textrightarrow \thinspace \textbf{Wertlose Ergebnisse} (Ausnahme Extremwetter)
   \end{itemize}
+  \textrightarrow \thinspace \textbf{Sämtliche Kategorien sind missionskritisch}
 \end{frame}
 
 \begin{frame}
   \frametitle{Experimente}
   \textbf{S3: Evaluation der Monitoring-Ansätze}\newline
-  $10$ Durchläufe á $5$ Stunden\newline
-  Zufälliger Fehlerfall alle $250s$\newline
+  $10$ Durchläufe à $5h$\newline
+  Zufälliger Fehlerfall alle $\approx 20min$\newline
   \textbf{\underline{Betrachtete Aspekte:}}
   \begin{itemize}
     \item Erfolgreich abgeschlossene Mission
