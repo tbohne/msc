@@ -27,7 +27,7 @@ gen_plot(ggplot(data = input, aes(
 
 gen_plot(ggplot(data = input, aes(
         x = experiment, color = completed, group = completed,
-        y = (traverse_time + scan_time + charge_time + dock_time + undock_time) / (traverse_time + scan_time + charge_time + dock_time + undock_time + wait_time + cata_time + cont_time) * 100
+        y = (traverse_time + scan_time + cont_time + dock_time + undock_time) / (traverse_time + scan_time + charge_time + dock_time + undock_time + wait_time + cata_time + cont_time) * 100
     )
 ), "autonomy (%)", "experiment", "autonomy_percentage.png")
 
