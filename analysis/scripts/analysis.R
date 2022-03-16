@@ -9,7 +9,7 @@ gen_plot <- function(plotPointsPre, y_name, x_name, filename) {
     ggsave(finalPlot, file = filename, width=6, height=4)
 }
 
-input <- read.csv(file = "placeholder.csv", header = TRUE, sep = ",")
+input <- read.csv(file = "../experiments/monitoring_eval/final_res.csv", header = TRUE, sep = ",")
 
 gen_plot(ggplot(data = input, aes(x = experiment, y = duration, color = completed, group = completed)), "duration (h)", "experiment", "duration.png")
 gen_plot(ggplot(data = input, aes(x = experiment, y = correct_contingencies, color = completed, group = completed)), "correct_contingencies", "experiment", "corr_cont.png")
@@ -42,27 +42,27 @@ gen_plot(ggplot(data = input, aes(
 ######################################################################
 
 compute_avg_duration <- function() {
-    costs <- subset(input, select = c(duration))
+    costs <- subset(input, select = c(duration), completed == "True")
     return(round(mean(as.numeric(as.character(costs[["duration"]]))), digits = 2))
 }
 
 compute_avg_completed_tasks <- function() {
-    costs <- subset(input, select = c(completed_tasks))
+    costs <- subset(input, select = c(completed_tasks), completed == "True")
     return(round(mean(as.numeric(as.character(costs[["completed_tasks"]]))), digits = 2))
 }
 
 compute_avg_charge_cycles <- function() {
-    costs <- subset(input, select = c(charge_cycles))
+    costs <- subset(input, select = c(charge_cycles), completed == "True")
     return(round(mean(as.numeric(as.character(costs[["charge_cycles"]]))), digits = 2))
 }
 
 compute_avg_mission_cycles <- function() {
-    costs <- subset(input, select = c(mission_cycles))
+    costs <- subset(input, select = c(mission_cycles), completed == "True")
     return(round(mean(as.numeric(as.character(costs[["mission_cycles"]]))), digits = 2))
 }
 
 compute_avg_total_dist <- function() {
-    costs <- subset(input, select = c(total_dist))
+    costs <- subset(input, select = c(total_dist), completed == "True")
     return(round(mean(as.numeric(as.character(costs[["total_dist"]]))), digits = 2))
 }
 
