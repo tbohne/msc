@@ -1063,7 +1063,7 @@ The idea is to tackle a subset of this list of issues that is realistically solv
 Generally, the potential barriers for long-term autonomy can be classified into three categories of increasing impact on the system:
 \begin{enumerate}
     \item The robot recognizes a problem and is able to solve it by itself.
-    \item The robot recognizes a problem, is unable to solve it, and calls a human operator for help.
+    \item The robot recognizes a problem, is unable to solve it, and calls a (human) operator for help.
     \item The robot has a malfunction / problem, but does not recognize it and is therefore unable to solve or communicate it.
 \end{enumerate}
 In the baseline scenario, i.e. the running prototype of an integrated solution, each potential issue in the above list is classified as type $(3)$.
@@ -1323,14 +1323,16 @@ In order for the node to parse the plans, they must be formulated in the followi
 Let $A := \{$\code{drive\_to($lat$, $lng$, $\theta$)}, \code{return\_to\_base}, \code{charge}, \code{scan}$\}$ be the set of available actions in the considered scenario
 described in section \ref{sec:prototype_scenario}.
 Each line in a provided CSV file represents one action $a \in A$ of a plan $\pi$. The actions \code{return\_to\_base}, \code{charge} and \code{scan} have no parameters,
-but \code{drive\_to$(lat, lng, \theta)$} needs the additional arguments latitude ($lat$), longitude ($lng$), and orientation ($\theta$) of the target pose.
+but \code{drive\_to$(lat, lng, \theta)$} needs the additional arguments latitude ($lat$), longitude ($lng$), and orientation ($\theta$) of the target pose. Leaving aside the
+simplifying assumption of charging at the charging patch presented in section \ref{sec:prototype_scenario} and considering the realistic case with the container infrastructure (cf. 
+\ref{sec:docking_solution}), there are two other implicit actions - \code{dock} always follows \code{return\_to\_base} and \code{undock} follows \code{scan}.
 An example for a simple plan is shown in figure \ref{fig:plan_example}. 
 When the robot executes this plan, it drives to the four specified locations in sequence and records scans.
 Afterwards, it returns to the base and recharges its battery. However, acting requirers a lot more than only processing abstract actions provided by a plan (cf. 
 \ref{sec:execution_monitoring_smach_architecture}). \cite{Ingrand:2017}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{pics/plan_example.png}
+    \includegraphics[width=0.5\textwidth]{pics/plan_example.png}
     \caption{\textsc{Sample Plan}}
     \label{fig:plan_example}
 \end{figure}
@@ -1529,13 +1531,15 @@ must be handled. If a plan execution is interrupted during the execution of an a
 by the latest \textit{pop} operation and since the execution of $a$ must be repeated when the normal operation resumes, $a$ must be reattached to $\pi$ before transitioning
 to \code{CONTINGENCY} or \code{CATASTROPHE}. Thus, $\pi := a.\pi$.
 Of course, when the robot transitions back to \code{NORMAL\_OPERATION} after solving a contingency, it starts again in \code{IDLE}, which is why \code{IDLE}
-always looks for existing unfinished plans $\pi$ in the \code{userdata} first. If there is one, it does not prompt the plan generator for a new plan, but continues the previously
-preempted plan $\pi$. The catastrophe case works analogously to the \code{IDLE} state.\newline
+always looks for existing unfinished plans $\pi$ in the \code{userdata} first. If there is one, i.e. $\pi \in$ \code{userdate.input\_plan}, $\pi \neq \emptyset$, it does not prompt the
+plan generator for a new plan, but continues the previously preempted and only partially completed plan $\pi$.
+The catastrophe case works analogously to the \code{IDLE} state.\newline
 Of course, it is not necessarily always feasible to simply execute the rest of the plan afterwards, since the planned charge stops may no longer be sufficient. However, if the
-interruption of the plan involves returning to the base and seeking shelter, this should not be a problem, since such a task can always be accompanied by recharging, so that the
-battery is fully charged when the robot resumes its operation. In such a case, it might even be feasible to remove some of the next planned charge stops, but plan modification is out
-of the scope of this work. Nevertheless, there may be cases when the robot needs to consume unplanned resources, so that the pre-planned charge stops are rendered insufficient.
-This problem, though, is addressed by the integrated battery monitoring module described in  section \ref{sec:battery_monitoring}.
+interruption of the plan involves returning to the base and seeking shelter, this is not a problem, since such a recovery can always be accompanied by recharging, so that the
+battery is fully charged when the robot resumes its operation. In such a case, it might even be feasible to remove some of the next planned charge stops. If a charge stop is one
+of the actions immediately following, this simple plan modification is performed. Nevertheless, there are cases in which the robot does not return to the base and has to consume
+unplanned resources, so that the pre-planned charge stops are rendered insufficient. This problem, though, is addressed by the integrated battery monitoring module described in
+section \ref{sec:battery_monitoring}.
 
 \section{Simulation and Monitoring of LTA-Challenges}
 \label{sec:sim_and_mon_of_lta_challenges}
@@ -2996,12 +3000,14 @@ found in the appendix (cf. \ref{}).
 \vfill
 \pagebreak
 
-\chapter{Conclusion}
+\chapter{Conclusion and Future Work}
 
 TBD.\newline
 The idea is that the goal of the work was to shift the selected subset of problems into another category, i.e. solve them or at least detect them in order to communicate them.
 Very good to evaluate in the end whether the goal was reached. Did it work out, can I detect all of the problems in the selected subset such that the robot is always able to call
-for help? TODO..
+for help? TODO..\newline
+
+Overall, there are $48$ concretely treated problem cases, but many more are implicitly covered. e.g...
 
 \bibliography{papers}
 
