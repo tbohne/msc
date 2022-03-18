@@ -295,9 +295,8 @@
     %
     \begin{center}
       \vspace{4mm}
-      \includegraphics[height=1.5cm]{unilogo}
+      \includegraphics[height=2cm]{unilogo}
     \end{center}
-    \vspace{-4mm}
     %
     \LARGE{\textsc{\@dept}}
     
