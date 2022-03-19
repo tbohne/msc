@@ -29,13 +29,17 @@
 \newcommand{\specialcell}[2][c]{%
   \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
+% COLORS
+\definecolor{solarized_bg}{HTML}{FDF6E3}
+\definecolor{myred}{rgb}{0.95,0.29,0.18}
+\definecolor{myblue}{rgb}{0.28,0.31,0.71}
+
 % for code keywords within the text
 % \usepackage{xcolor}
 % \definecolor{light-gray}{gray}{0.95}
 % \newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
 \usepackage{newverbs}
 \usepackage[skins]{tcolorbox}
-\definecolor{solarized_bg}{HTML}{FDF6E3}
 \newtcbox{\codebox}[0]{
     fontupper=\ttfamily,
     on line,
@@ -1479,7 +1483,8 @@ to recover. The extreme case, where nothing can be done, would be that the batte
 
 From a software engineering perspective, it makes sense to create an interface for machine learning or general analysis in the architecture, even if it is not yet explicitly used.
 This interface is intended for a concrete configuration, e.g. the AROX system with its sensors (cf. section \ref{sec:robotic_system}), the rationale being to learn from experience. The robot operates in an environment for an
-extended period of time. Therefore, it is very valuable to collect data through extensive logging. Then, for a specific sensor setup, one could use learning techniques or statistics
+extended period of time. Therefore, it is very valuable to collect data through extensive logging with special emphasis on failure context.
+Then, for a specific sensor setup, one could use learning techniques or statistics
 to infer that a particular effect occurs experientially. For instance, experience might show that a particular sensor failure occurs repeatedly when driving $> 4$ hours at
 $> 32$\textdegree{}C. A further example could be that the robot always has a failure after passing a certain waypoint. To determine this, it would be necessary to always
 log the current location of the robot along with a problematic situation. This list could be arbitrarily extended.
@@ -1555,8 +1560,8 @@ Of course, it is not necessarily always feasible to simply execute the rest of t
 interruption of the plan involves returning to the base and seeking shelter, this is not a problem, since such a recovery can always be accompanied by recharging, so that the
 battery is fully charged when the robot resumes its operation. In such a case, it might even be feasible to remove some of the next planned charge stops. If a charge stop is one
 of the actions immediately following, this simple plan modification is performed. Nevertheless, there are cases in which the robot does not return to the base and has to consume
-unplanned resources, so that the pre-planned charge stops are rendered insufficient. This problem, though, is addressed by the integrated battery monitoring module described in
-section \ref{sec:battery_monitoring}.
+unplanned resources, so that the a priori planned charge stops are rendered insufficient. This problem, though, is addressed by the integrated battery monitoring module described
+in section \ref{sec:battery_monitoring}.
 
 \section{Simulation and Monitoring of LTA-Challenges}
 \label{sec:sim_and_mon_of_lta_challenges}
@@ -1832,8 +1837,8 @@ in section \ref{sec:data_management_resolver}.
 Monitoring and simulation of the specific types of considered connection failures, i.e. WiFi (\ref{sec:sim_and_mon_wifi_connection_problems}), internet
 (\ref{sec:sim_and_mon_internet_connection_problems}) and GNSS (\ref{sec:sim_and_mon_gnss_connection_problems}) connection problems (cf. \ref{sec:sim_and_mon_wifi_connection_problems}),
 are part of the following sections. However, there is also one monitoring aspect that works identically for all three, namely timeout monitoring. There is a continuously running
-procedure that checks the time since the last message from either connection. If a user-specified time limit for one of the connections is exceeded, a contingency case is initiated.
-In general, connection problems can be addressed with the resolution methods described in section \ref{sec:connection_resolver}.
+procedure that checks the time since the last message from either connection. If a user-specified time limit for one of the connections is exceeded, a contingency 
+due to a disconnection is initiated. In general, connection problems can be addressed with the resolution methods described in section \ref{sec:connection_resolver}.
 
 \subsubsection{WiFi Connection Failures}
 \label{sec:sim_and_mon_wifi_connection_problems}
@@ -1943,7 +1948,7 @@ data is real or simulated, the result is the same.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/GNSS_comm.png}
-    \caption{\textsc{Processing of GNSS data}}
+    \caption{\textsc{Processing of GNSS Data (\textbf{\textcolor{myblue}{Practice}} / \textbf{\textcolor{myred}{Simulation}})}}
     \label{fig:gnss_communication}
 \end{figure}
 \noindent
@@ -2030,10 +2035,10 @@ $\sqrt{101}m$ in the east direction, resulting in a fairly high uncertainty in t
 Nevertheless, in both cases shown in fig. \ref{fig:uncertainty_shape}, the standard deviations are in the meter range, which is not optimal. With RTK available, the deviations,
 i.e. the purple shape, should be much smaller in the centimeter or even millimeter range. It is of some importance to detect and report such changes in position accuracy.
 The monitoring for GNSS failures works as follows. First, there is a quality estimation for the currently received GNSS data based on the information in the \code{NavSatFix} message.
-The quality is rated as good, if the status is \code{STATUS\_GBAS\_FIX}, i.e. with ground-based augmentation such as RTK, the covariance type is $\geq$ 
+The quality is rated as high, if the status is \code{STATUS\_GBAS\_FIX}, i.e. with ground-based augmentation such as RTK, the covariance type is $\geq$ 
 \code{COVARIANCE\_TYPE\_DIAGONAL\_KNOWN} (diagonal known or entirely known), and each standard deviation satisfies a user-defined upper bound $d_{max} \in \mathbb{R}_{0}^{+}$,
 i.e. $\sqrt{c_{ii}} \leq d_{max} \thinspace \forall \thinspace i \in \{E, N, U\}$. The last entry of the matrix, i.e. $c_{UU} \in C$ , may not always be present, so
-$c_{UU} \in \mathbb{R}_{0}^{+} \cup \emptyset$. It is classified as medium if the status is $\geq$ \code{STATUS\_FIX}, the covariance type is $\geq$
+$c_{UU} \in \mathbb{R}_{0}^{+} \cup \emptyset$. It is classified as tolerable if the status is $\geq$ \code{STATUS\_FIX}, the covariance type is $\geq$
 \code{COVARIANCE\_TYPE\_APPROXIMATED}, and the standard deviations in turn satisfy $d_{max}$. 
 Finally, it is classified as low if it provides a position belief state ($\geq$ \code{STATUS\_FIX}), but the covariance
 type is unknown. So much for the qualitative assessment of a GNSS link that works in principle.\newline
@@ -2064,7 +2069,8 @@ If the type is \code{COVARIANCE\_TYPE\_APPROXIMATED}, the variances can be consi
 The standard deviations $\sqrt{c_{ii}} \in C \thinspace \forall \thinspace i \in \{E, N, U\}$ are checked, but high values exceeding the threshold do not cause a contingency, only a message on \code{/robot\_info}.
 In principle, it would also be useful to monitor the off-diagonal elements of the covariance matrix, i.e. the actual covariances, since these elements provide information about the
 reciprocal relationship of the directions under consideration. For instance, if $c_{NE} < 0$, a negative deviation in the north direction is likely to be matched by a positive deviation in
-the east direction, and vice versa. However, in the scope of this work, the monitoring of the covariance matrix will be limited to the above cases.\newline
+the east direction, and vice versa. However, in the scope of this work, the monitoring of the covariance matrix will be limited to the above cases. It is crucial that the approaches
+are essentially compatible with all systems using \code{NavSatFix} and are not limited to the AROX system or the present scenario.\newline
 As before, evaluation of potential problem cases as well as monitoring procedures requires simulation of such cases, which is performed in the \code{GNSS Simulator} described above.
 The timeout failure can be easily simulated by unsubscribing the \code{/fix\_plugin} topic for a period of time that exceeds the time limit. Quality estimation can be evaluated by
 simply configuring the status, covariance information, and service according to the above definition. Monitoring of status, service and position belief state can be simulated by
@@ -2348,7 +2354,7 @@ Nevertheless, if they are, it will be detected by the aforementioned monitoring 
         \caption{\textsc{}}
         \label{fig:succ_4}
     \end{subfigure}
-\caption{\textsc{Successfully Dealing with Static Obstacle Scenario One.}}
+\caption{\textsc{Successful Overcoming of Static Obstacle Scenario One.}}
 \label{fig:obstacle_success}
 \end{figure}
 Unfortunately, it is not trivial to
@@ -2648,7 +2654,8 @@ again addressed by a retry and count-based attempt before a catastrophe is trigg
 \subsection{Lost Connection}
 \label{sec:connection_resolver}
 
-Dealing with WiFi and GNSS connectivity issues is once again based on retries, counting them, and potential aggravation. Internet connection issues, however, are resolved by
+Dealing with WiFi and GNSS connectivity issues is once again based on retries, counting them, and potential aggravation. The rationale is to have a short timeout, followed by a
+reconnection attempt and notification of the problem in the event of a repeated failure. Internet connection issues, however, are resolved by
 reinitializing the internet monitoring node, as this could fix a failed connection to the \code{speedtest} API. Of course, this is also not done arbitrarily often and in case of
 repeated failure, the human operator is notified.
 
@@ -2839,6 +2846,9 @@ range. Nevertheless, it will certainly be the same within a mission, so one can 
 \chapter{Experiments and Evaluation}
 \label{sec:experiments}
 
+The general idea behind the upcoming experiments is the following simple scheme: problem simulation by publishing on the respective topic, followed by a triggered monitoring
+procedure that should detect the problem, interrupt normal operation, and initiate an appropriate resolution. Either it succeeds and \code{NORMAL_OPERATION} continues, or it cannot be
+resolved and execution ends in \code{CATASTROPHE}.\newline
 Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: the total system lifetime and the autonomy percentage. \cite{Hawes:2017} The
 first measures the time the robot was in autonomous operation and is reset when an unrecoverable failure or an unrequested intervention of the human operator is required. However,
 it does not make sense to evaluate this time when it certainly depends on the frequency with which the failures that are considered in this work are simulated. The second metric
@@ -2853,9 +2863,9 @@ TODO: Hardware + real-time factor information\newline
 
 \textit{Demonstration of the Basic Functionality of the Integrated System.}\newline
 
-The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for an extended period of time, e.g., $5$ hours. This also
-verifies that the sample plan is reasonable, i.e., that the charge stops are sufficient if everything works as expected. Basically a demonstration that the simulation and the whole
-integrated system work in principle in the absence of unexpected problematic events. For evaluation purposes, let a failed mission be defined as a mission that exceeds a
+The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for an extended period of time, e.g., $5$ hours. This serves as
+a verification of the sample plan, i.e. it shows that the charging stops are sufficient if everything works as expected. Furthermore, it is a demonstration of the fundamental
+functionality of the entire integrated system in the absence of unexpected problematic events. For evaluation purposes, let a failed mission be defined as a mission that exceeds a
 user-configurable timeout $t = 900s$ without publishing a message to \code{arox/ongoing\_operation}, although the previous message contained a value of \code{total\_tasks} that is
 greater than one, indicating that the current plan is not completed and thus that the robot has been stuck in that task for a time greater than $t$. Obviously, a \code{severe\_failure}
 in the low-level state machine leading to a \code{CATASTROPHE} state followed by a system shutdown is also considered a failed mission. This would be the result of a completely
@@ -2972,7 +2982,9 @@ is not detected by the monitoring nodes, and finally unexpected contingencies, w
 type of problem is detected. Correct $\lnot$\code{CONTINGENCY} situations refer to cases where the simulated problem is so minor that it should be handled by the robot without
 initiating a contingency or catastrophe. A good example of such a case are the simulated static obstacles with an escape route displayed in fig. \ref{fig:obstacle_scenarios}. In this
 particular case, the purpose is to test that navigation error monitoring is not configured too aggressively and does not trigger \code{CONTINGENCY} in the event of a sustained
-recovery with progress. In general, across the problem categories, there are some cases that are somewhat problematic but do not cross the boundary of \code{CONTINGENCY}, i.e., do not
+recovery with progress. Figure \ref{fig:obstacle_success} shows how the robot successfully deals with the obstacles by iteratively approaching the goal. In such a situation, there
+should be no interruption of the normal operation.
+In general, across the problem categories, there are some cases that are somewhat problematic but do not cross the boundary of \code{CONTINGENCY}, i.e., do not
 require interruption of the normal operation. Thus, the $\lnot$\code{CONTINGENCY} category is used to verify that the monitoring solutions are not configured too restrictively
 to ensure that the robot does not constantly try to solve some imaginary problems. It is very crucial to note that false positives and unexpected contingencies are not necessarily a
 fault of the monitoring framework or its configuration. A significant majority of the cases is related to problems in the simulation that were not simulated as part of an experiment,
@@ -3019,12 +3031,45 @@ found in the appendix (cf. \ref{}).
 
 \chapter{Conclusion and Future Work}
 
+\section{Conclusion}
+
 TBD.\newline
 The idea is that the goal of the work was to shift the selected subset of problems into another category, i.e. solve them or at least detect them in order to communicate them.
 Very good to evaluate in the end whether the goal was reached. Did it work out, can I detect all of the problems in the selected subset such that the robot is always able to call
 for help? TODO..\newline
 
 Overall, there are $48$ concretely treated problem cases, but many more are implicitly covered. e.g...
+
+Functionality of the integrated system demonstrated
+
+Practically relevant challenges identified, classified and implemented in simulation
+
+Generic monitoring (resolution) framework developed and evaluated for reliability.
+
+All problem types have been moved to category (1) / (2)
+
+Significantly improved robustness with regard to the identified
+challenges
+
+\section{Future Work}
+
+Learn from experience.. ref mongo-db section
+
+Detailed logging of LTA missions (especially error context)
+
+Collected data semantically grouped
+
+Field test with the AROX system
+
+Further experiments (seed, runtime, error frequency, etc.)
+
+Using database entries: Learning from LTA Missions
+
+More elaborate solution methods (focus here detection)
+
+Web interface: remote access to sensors / control
+
+Usability: Integration / reconfiguration of the framework
 
 \bibliography{papers}
 
