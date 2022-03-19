@@ -9,7 +9,11 @@ gen_plot <- function(plotPointsPre, y_name, x_name, filename) {
     ggsave(finalPlot, file = filename, width=6, height=4)
 }
 
+# monitoring evaluation
 input <- read.csv(file = "../experiments/monitoring_eval/final_res.csv", header = TRUE, sep = ",")
+
+# prototype evaluation
+# input <- read.csv(file = "../experiments/prototype_eval/final_res.csv", header = TRUE, sep = ",")
 
 gen_plot(ggplot(data = input, aes(x = experiment, y = duration, color = completed, group = completed)), "duration (h)", "experiment", "duration.png")
 gen_plot(ggplot(data = input, aes(x = experiment, y = correct_contingencies, color = completed, group = completed)), "correct_contingencies", "experiment", "corr_cont.png")
