@@ -1,0 +1,4 @@
+experiment,duration,correct_contingencies,false_positives,false_negatives,correct_no_contingency,unexpected_contingencies,completed,completed_tasks,charge_cycles,mission_cycles,total_dist,simulated_problems,traverse_time,scan_time,wait_time,cata_time,cont_time,charge_time,dock_time,undock_time
+250_42_0,5.085189315,0,0,0,0,0,True,100,9,3,1036.38681822,0,13751.423663,1075.849715,0.102978,0,0,501.252346,1330.157053,1461.298396
+250_42_1,5.03763761,0,0,0,0,0,True,110,10,4,1131.85707001,0,12121.066698,1060.316489,0.167128,0,0,514.193838,1966.062301,1770.598786
+250_42_2,5.14109739556,0,0,0,0,0,True,110,10,4,1139.7960375,0,12118.704666,1038.164341,0.141814,0,0,493.295175,1840.952448,1940.002593
