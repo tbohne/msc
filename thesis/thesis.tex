@@ -1104,11 +1104,16 @@ In addition, faulty plans that are not executable should also be reported, which
 \noindent
 The idea is to tackle a subset of this list of issues that is realistically solvable in the scope of the work.
 Generally, the potential barriers for long-term autonomy can be classified into three categories of increasing negative impact on the system:
+\begin{figure}[H]
+\centering
 \begin{enumerate}
     \item The robot recognizes a problem and is able to solve it by itself.
     \item The robot recognizes a problem, is unable to solve it, and calls a (human) operator for help.
     \item The robot has a malfunction / problem, but does not recognize it and is therefore unable to solve or communicate it.
 \end{enumerate}
+\caption{Classification of Problems in Terms of Impact}
+\label{fig:problem_types}
+\end{figure}
 Type $(1)$ is the ideal case and accordingly the ultimate goal of all efforts to implement long-term autonomy in practice. Type $(2)$ is already a step forward, because problems
 are at least recognized and can be communicated, which is the minimum requirement to guarantee a certain robustness with respect to the problems.
 In the baseline scenario, i.e. the running prototype of an integrated solution, each potential issue in the above list is classified as type $(3)$.
@@ -1438,11 +1443,20 @@ to start sensor monitoring, i.e. to check whether this operation results in a re
 \end{figure}
 \noindent
 As depicted in figure \ref{fig:high_level_smach}, the robot starts in the state \code{NORMAL_OPERATION} in the high-level hierarchical state machine \code{EXECUTION_MONITORING}.
+\code{EXECUTION_MONITORING} coordinates the entire operation and is composed of the states \code{NORMAL_OPERATION}, \code{CONTINGENCY}, \code{CATASTROPHE}, and \code{SHUTDOWN}.
+\code{CONTINGENCY} and \code{CATASTROPHE} essentially refer to type $(1)$ and type $(2)$ in fig. \ref{fig:problem_types}, respectively.
 \code{NORMAL_OPERATION} is represented by an embedded state machine named \code{OPERATION}, visualized in figure \ref{fig:low_level_smach}, as well as the two
 parallel running execution monitoring states (cf. ROS \code{MonitorState} \cite{monitor_state}) \code{CONTINGENCY_MONITORING} and \code{CATASTROPHE_MONITORING}, 
 implemented as a concurrence container (cf. SMACH \code{Concurrence} \cite{concurrence_container}).
 These parallel running states are used to monitor the robot's operation and to interrupt it when a problematic situation requiring special treatment is detected
 (see the dashed arrows in figure \ref{fig:high_level_smach}).
+When this case occurs, based on how severe the problem is, the respective procedure will interrupt \code{OPERATION} and provide for the outcome \code{critical_complication} or
+\code{minor_complication}, which will then result in a state transition to the appropriate states in which the problem will be addressed. There is quite a bit behind
+\code{CONTINGENCY}, namely the handling of the problem based on the problem type that is communicated along with the message of the interruption.
+If \code{CONTINGENCY} is able to solve the problem, the \code{NORMAL_OPERATION} will resume (cf. top arrow). In case of \code{critical_complication} or if the robot was not able to
+solve the problem, it ends up in the \code{CATASTROPHE} state, the human operator is notified, a backup is made if necessary, etc., and then the robot shuts down.
+The interrupts of \code{OPERATION} are initiated by the monitoring nodes, which are shown on the right in fig. \ref{fig:high_level_smach}, and which detect problems as generally
+as possible for each identified problem category.
 Although a monitoring solution could in principle also be implemented sequentially, it seems more natural to choose a parallel approach, since a sequential option
 would have the disadvantage that no monitoring takes place while a task / algorithm is being executed, but only afterwards.
 It is desirable to be able to intervene at any time during the execution of a task when a monitoring procedure running in parallel is triggered and causes a change of state.
@@ -1502,13 +1516,20 @@ An example for a catastrophic case would be that the robot falls over. It is the
 and save the state, in full possession of its ``mental'' powers, so to speak. Whereas a lightning strike, as an extreme example, could cause the robot to have a 
 complete breakdown and nothing to work at all. The boundaries there are not quite sharp, there are many edge cases.
 The following somewhat more mundane example, considering the robot's battery, will illustrate the concepts.
-In \code{NORMAL_OPERATION}, the battery discharges according to the plan. There may be some fluctuations due to temperature, for example, but it works roughly as expected.
-It would transition to the state \code{CONTINGENCY} when it detects that the battery is already too low to complete the plan, but it is still able to recover,
-i.e. drive back to its base, recharge, and continue the plan execution. However, it would proceed to \code{CATASTROPHE} if it detects that the battery is so low
-that it can already tell that it is not possible to reach the base and recharge. It is then still able to communicate the problem and save the state, but it is not able
-to recover. The extreme case, where nothing can be done, would be that the battery suddenly just breaks.
+In \code{NORMAL_OPERATION} the battery does not discharge precisely according to the plan. There may be some fluctuations due to temperature, for example.
+The power management monitoring node would initiate a transition to the state \code{CONTINGENCY} when it detects that the battery is already too low to complete the plan until the
+next charge stop, but it is still able to recover, i.e. drive back to its base, recharge, and continue the plan execution. However, it would proceed to \code{CATASTROPHE} if it
+detects that the battery is so low that it can already tell that it is not possible to reach the base and recharge. It is then still able to communicate the problem and save the
+state, but it is definitely not able to recover. This leads to a message to \code{CATASTROPHE_MONITORING}, then to an external failure, which interrupts \code{OPERATION} with a
+\code{critical_complication} and causes the high-level state machine to transition to \code{CATASTROPHE}. The problem is communicated and the robot shuts down. The extreme case,
+where nothing can be done, would be that the battery suddenly just breaks. Finally, there is also the case that first a \code{CONTINGENCY} is launched as the problem still seems to be
+solvable based on current estimations and then it turns out that it in fact is not. For instance, when the discharge rate is furthermore increased. In such a case, it turns out during
+the solution that it does not work anymore, i.e. the assumption was wrong, it is no longer solvable, then it comes to the \textquote{aggravated} case, i.e. the problem worsens and then
+becomes a \code{CATASTROPHE}. Additionally shown in fig. \ref{fig:high_level_smach} is the data accumulator that logs all relevant information from the execution and monitoring nodes.
+On the one hand for debugging purposes, but also to be able to learn from it later on, which will be discussed in section \ref{sec:black_box}.
 
 \section{Black Box to Learn from Experience}
+\label{sec:black_box}
 
 From a software engineering perspective, it makes sense to create an interface for machine learning or general analysis in the architecture, even if it is not yet explicitly used.
 This interface is intended for a concrete configuration, e.g. the AROX system with its sensors (cf. section \ref{sec:robotic_system}), the rationale being to learn from experience. The robot operates in an environment for an
