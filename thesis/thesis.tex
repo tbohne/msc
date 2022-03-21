@@ -1476,6 +1476,10 @@ These were the possible outcomes that cause a transition to another state. Now t
 First, \code{soft_failure}, which means that something went wrong, e.g. an action $a \in \pi$ was not performed successfully, but the robot should be able to handle the problem. 
 Second, there is the potential outcome \code{severe_failure}, which represents situations where the robot is unable to solve the problem itself.
 Finally, the last potential outcome is again \code{preempted} based on some external issue detected by \code{CONTINGENCY_MONITORING} or \code{CATASTROPHE_MONITORING}.
+In summary, there are two types of problems, low-level problems that are detected directly at this level, e.g. by simple error treatment, which then lead to an interruption based
+on the severity of the problem, in this case \code{soft_failure} or \code{severe_failure}, which is then passed up to the high-level SMACH and handled accordingly.
+The other, much more common case is that a problem is detected by the monitoring nodes. The consequence is that the execution is simply interrupted here and the problem is solved
+at a higher level. Then \code{OPERATION} is restarted (cf. \code{external_problem} in fig. \ref{fig:low_level_smach}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{pics/SMACH_low_level.png}
@@ -1589,11 +1593,12 @@ In order to handle unexpected problematic situations, the robot must be able to 
 and plan execution in particular, i.e. to save the current state of the plan execution and resume exactly that state after the reason
 for the interruption has been resolved. The idea is that whenever the monitoring procedures \code{CONTINGENCY_MONITORING} and \code{CATASTROPHE_MONITORING} 
 introduced in section \ref{sec:execution_monitoring_smach_architecture}, or the plan execution itself, detect a problem, they should trigger such an interruption.
-As seen in the last section, there are two states in \code{OPERATION} that the robot can be in during a long-term episode without any problems
+As seen in section \ref{sec:execution_monitoring_smach_architecture}, there are two states in \code{OPERATION} that the robot can be in during a long-term episode without any problems
 - \code{IDLE} or \code{EXECUTE_PLAN}. In the \code{IDLE} state, where it waits for the plan generator described in section \ref{sec:plan_generation} to provide a plan $\pi$,
 it is straightforward, the normal operation is interrupted, the high-level state machine transitions to \code{CONTINGENCY} or \code{CATASTROPHE} depending
 on the severity of the problem, and then, i.e. when the minor problem is resolved, it transitions back to \code{IDLE} or, in the case of \code{CATASTROPHE},
 it shuts down. The more interesting case, of course, is such an interruption of normal operation when the robot is in the low-level state \code{EXECUTE_PLAN}.
+In this case, a plan execution must be interrupted.
 During the \code{EXECUTE_PLAN} state, the currently executed plan $\pi$ is always stored in the \code{userdata} field of the state.
 SMACH states always provide so-called \code{userdata} fields, which are essentially the input and output data of a SMACH state.
 Initially, when \code{IDLE} receives a plan $\pi$ from the plan generator, it passes it as \code{userdata} to the \code{EXECUTE_PLAN} state. Then, whenever \code{EXECUTE_PLAN}
@@ -1611,7 +1616,7 @@ interruption of the plan involves returning to the base and seeking shelter, thi
 battery is fully charged when the robot resumes its operation. In such a case, it might even be feasible to remove some of the next planned charge stops. If a charge stop is one
 of the actions immediately following, this simple plan modification is performed. Nevertheless, there are cases in which the robot does not return to the base and has to consume
 unplanned resources, so that the a priori planned charge stops are rendered insufficient. This problem, though, is addressed by the integrated battery monitoring module described
-in section \ref{sec:battery_monitoring}.
+in section \ref{sec:battery_monitoring}, which detects this and initiates a return to base. In conclusion, the continuation of plan execution works either way.
 
 \section{Simulation and Monitoring of LTA-Challenges}
 \label{sec:sim_and_mon_of_lta_challenges}
