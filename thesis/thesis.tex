@@ -1002,7 +1002,7 @@ i.e. are connected to the GNSS service. Bargoti et al. \cite{Bargoti:2015} and B
 for detection failures in their tree monitoring scenario, which highlights the value of being able to detect poor GNSS links.
 In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
 to the base station or external servers for further processing. Whether LTE is behind it or the internet connection is provided via the WiFi connection, it would make sense
-to monitor the robot's internet connection in any case.\newline
+to monitor the robot's internet connection in any case. For all connections it is not only about complete disconnects, but also about qualitative estimations.\newline
 
 \noindent
 \textbf{Obstacles Blocking the Planned Path}\newline
@@ -1033,8 +1033,9 @@ This problem should be considered separately, since in such a case the robot wil
 \textbf{Navigation Failure}\newline
 
 \noindent
-Another potential LTA problem that has already been encountered in experiments conducted as part of this work is navigation errors, which are particularly challenging in
-highly dynamic real-world environments. \cite{DelDuchetto:2018} For example, the local planner configured in \code{move_base_flex} (e.g. DWA, EBand) provides a path that
+Another potential LTA problem category, under which a whole range of concrete problems are subsumed, and which have already been encountered in experiments conducted as part of
+this work, are navigation errors, which pose a particular challenge in highly dynamic real-world environments. \cite{DelDuchetto:2018}
+For example, the local planner configured in \code{move_base_flex} (e.g. DWA, EBand) provides a path that
 is infeasible, e.g. tries to drive around a field,  although there is no way. Del Duchetto et al. encounter similar problems in an indoor LTA scenario where valid navigation
 trajectories cannot be generated from time to time.
 They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018} As Hawes
@@ -1045,7 +1046,7 @@ The authors define the errors as follows: \textquote{\textit{[...] situation in 
 moving or it is performing some counterproductive behavior}}. \cite{DelDuchetto:2018}
 As introduced in section \ref{sec:robotic_system}, the navigation system used is \code{move_base_flex}, an extension of the common ROS navigation framework \code{move_base}.
 Navigation issues in practice can be due to a variety of reasons, such as sensor noise, dynamic obstacles, or inaccurate controls \cite{DelDuchetto:2018} and some of them are already
-detected by \code{move_base_flex}.\newline
+detected by \code{move_base_flex}. Nevertheless, even if this is the case, this information must still be used and processed appropriately by the system in order to be dealt with.\newline
 
 \noindent
 \textbf{Sustained Recovery}\newline
@@ -1095,7 +1096,7 @@ The problem then is that the robot is unable to drive through these ``virtual'' 
 \noindent
 The last type of problem is rather trivial again. If the plan distribution node does not provide a plan for the robot to execute, it remains idle until a human operator 
 notices and takes care of it. It might therefore be useful to let the operator know if a plan has still not arrived after a certain time.
-Furthermore, faulty plans that are not executable could also be reported.\newline
+In addition, faulty plans that are not executable should also be reported, which requires some kind of content plausibility check.\newline
 
 \noindent
 \textit{Concluding Remarks.}\newline
@@ -3064,7 +3065,8 @@ The idea is that the goal of the work was to shift the selected subset of proble
 Very good to evaluate in the end whether the goal was reached. Did it work out, can I detect all of the problems in the selected subset such that the robot is always able to call
 for help? TODO..\newline
 
-Overall, there are $48$ concretely treated problem cases, but many more are implicitly covered. e.g...
+In total, there are $48$ specifically addressed problem cases that are identified through monitoring and resolved or communicated accordingly, but many more are implicitly covered. e.g...
+The cases are not all strictly separated from each other, the transitions are sometimes fluid.
 
 Functionality of the integrated system demonstrated
 
