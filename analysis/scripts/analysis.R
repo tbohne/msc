@@ -78,6 +78,14 @@ compute_avg_percentage_expected_response <- function() {
     ) * 100))), digits = 2))
 }
 
+compute_avg_autonomy_percentage <- function() {
+    costs <- subset(input, select = c(traverse_time, scan_time, cont_time, dock_time, undock_time, charge_time, wait_time, cata_time))
+    return(round(mean(as.numeric(as.character((
+        (costs[["traverse_time"]] + costs[["scan_time"]] + costs[["cont_time"]] + costs[["dock_time"]] + costs[["undock_time"]]) /
+        (costs[["traverse_time"]] + costs[["scan_time"]] + costs[["charge_time"]] + costs[["dock_time"]] + costs[["undock_time"]] + costs[["wait_time"]] + costs[["cata_time"]] + costs[["cont_time"]])
+    ) * 100))), digits = 2))
+}
+
 compute_avg_sim_probs_dist <- function() {
     costs <- subset(input, select = c(simulated_problems), completed == "True")
     return(round(mean(as.numeric(as.character(costs[["simulated_problems"]]))), digits = 2))
@@ -90,3 +98,4 @@ paste("avg #mission_cycles: ", compute_avg_mission_cycles())
 paste("avg total distance: ", compute_avg_total_dist(), "m")
 paste("avg expected response to fail sim: ", compute_avg_percentage_expected_response(), "%")
 paste("avg #simulated_problems: ", compute_avg_sim_probs_dist())
+paste("avg autonomy_percentage: ", compute_avg_autonomy_percentage())
