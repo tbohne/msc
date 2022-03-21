@@ -1103,12 +1103,14 @@ In addition, faulty plans that are not executable should also be reported, which
 
 \noindent
 The idea is to tackle a subset of this list of issues that is realistically solvable in the scope of the work.
-Generally, the potential barriers for long-term autonomy can be classified into three categories of increasing impact on the system:
+Generally, the potential barriers for long-term autonomy can be classified into three categories of increasing negative impact on the system:
 \begin{enumerate}
     \item The robot recognizes a problem and is able to solve it by itself.
     \item The robot recognizes a problem, is unable to solve it, and calls a (human) operator for help.
     \item The robot has a malfunction / problem, but does not recognize it and is therefore unable to solve or communicate it.
 \end{enumerate}
+Type $(1)$ is the ideal case and accordingly the ultimate goal of all efforts to implement long-term autonomy in practice. Type $(2)$ is already a step forward, because problems
+are at least recognized and can be communicated, which is the minimum requirement to guarantee a certain robustness with respect to the problems.
 In the baseline scenario, i.e. the running prototype of an integrated solution, each potential issue in the above list is classified as type $(3)$.
 Part of the goal of this work is to shift the problems of the selected subset to another category and thereby improve the utility of the system, 
 i.e. to solve them completely $(1)$, or at least to enable the robot to recognize them with execution monitoring approaches and request help $(2)$.
