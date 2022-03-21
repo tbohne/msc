@@ -1537,9 +1537,9 @@ On the one hand for debugging purposes, but also to be able to learn from it lat
 
 From a software engineering perspective, it makes sense to create an interface for machine learning or general analysis in the architecture, even if it is not yet explicitly used.
 This interface is intended for a concrete configuration, e.g. the AROX system with its sensors (cf. section \ref{sec:robotic_system}), the rationale being to learn from experience. The robot operates in an environment for an
-extended period of time. Therefore, it is very valuable to collect data through extensive logging with special emphasis on failure context.
-Then, for a specific sensor setup, one could use learning techniques or statistics
-to infer that a particular effect occurs experientially. For instance, experience might show that a particular sensor failure occurs repeatedly when driving $> 4$ hours at
+extended period of time. Therefore, it is very valuable to collect data about the robot, its interaction with the environment, faults, etc. through extensive logging, with special
+emphasis on fault context. Whenever something goes wrong, it is interesting to learn the reason for this problem. For a specific sensor setup, one could use learning techniques or
+statistical methods in general to infer that a particular effect occurs experientially. For instance, experience might show that a particular sensor failure occurs repeatedly when driving $> 4$ hours at
 $> 32$\textdegree{}C. A further example could be that the robot always has a failure after passing a certain waypoint. To determine this, it would be necessary to always
 log the current location of the robot along with a problematic situation. This list could be arbitrarily extended.
 In general, the objective is to avoid certain behaviors that have frequently led to failures in the past. Information about such effects can only be
@@ -1578,6 +1578,9 @@ the operator and the robot as well as any executed resolution methods under the 
 all database entries for the current LTA mission or the entries under a particular category specified by the string message published to the topic. The path for the
 database can be configured in the launch file. Once a \textit{MongoDB} server is running with the generated database, ie. \code{mongod --dbpath ROS_db --storageEngine=wiredTiger},
 a \textit{MongoDB} client can connect and examine the logged data. It can be visualized and queried in JSON, for example, as shown in fig. \ref{fig:database_entries}.
+This shows, for instance, a contingency due to a failed docking attempt. This is immediately followed by the explicit error conditions, e.g. state of charge, tasks completed, charge
+cycle, position and operating time. Besides, many aspects that are logged at the same time under \code{robot_info} are not displayed here. Subsequently, the resolution follows, the
+charging failure resolver is started together with the information describing the problem.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/database_entries.png}
@@ -3117,14 +3120,15 @@ The cases are not all strictly separated from each other, the transitions are so
 
 Functionality of the integrated system demonstrated
 
-Practically relevant challenges identified, classified and implemented in simulation
+Practically relevant challenges for LTA identified, classified in terms of potential impact and implemented in simulation
 
 Generic monitoring (resolution) framework developed and evaluated for reliability.
 
-All problem types have been moved to category (1) / (2)
+All problem types have been moved to category (1) / (2) - The goal was to detect all problem types at least reliably and, if possible, also to solve them directly
 
-Significantly improved robustness with regard to the identified
-challenges
+Significantly improved robustness with regard to the identified challenges (Reliability at least in the simulation was experimentally substantiated
+
+before the system was not able to handle these problems at all)
 
 \section{Future Work}
 
@@ -3134,17 +3138,24 @@ Detailed logging of LTA missions (especially error context)
 
 Collected data semantically grouped
 
-Field test with the AROX system
+Field tests with the real AROX system, after it performs well in simulation, the next step would be to demonstrate it on the real platform.
 
 Further experiments (seed, runtime, error frequency, etc.)
+Then further experiments, I have now initialized the 10 runs always with the same seed, so also always the same sequence of problems that are simulated, to have some comparability between the runs.
+in the long term, however, you would naturally want to test the entire set
+then runtime and error frequency can of course also vary and provide interesting insights
 
-Using database entries: Learning from LTA Missions
+Using database entries: Learning from LTA Missions (as described in section \ref{})
 
 More elaborate solution methods (focus here detection)
+then more elaborate solution methods would be interesting, the focus in my work is on the monitoring and I have always implemented only simple workarounds, there is of course still great potential.
 
 Web interface: remote access to sensors / control
+It would be nice if human operators had remote access to the robot and could simply access the sensors in the event of minor problems or control the robot remotely, things like that.
+or in the simplest case an improvement of the communication with the operator, which I implemented in pure text form and there one could imagine of course graphically prepared sensor, weather and further information over a web interface well
 
 Usability: Integration / reconfiguration of the framework
+I have always indicated that I put a lot of emphasis on generality and generic solutions, so one of my next goals would be to improve and simplify the integration of the monitoring framework and reconfigure certain aspects of it.
 
 \bibliography{papers}
 
