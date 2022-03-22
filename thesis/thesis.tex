@@ -2589,7 +2589,11 @@ active to passive states and vice versa, there is a short timeout that blocks mo
 issues that are monitored are actually erroneous localizations. When the robot is subjected to a certain forward acceleration even though it has no active navigation target, this is
 not necessarily wrong, just unexpected. A slip on an icy surface that causes a position change without an active navigation target may be unexpected, but it is still true that the
 position has changed. Nonetheless, this can cause problems with localization, since, for example, the odometry data no longer matches the GNSS data, which makes re-initialization of
-the localization advisable.\newline
+the localization advisable. In order for a system to make use of the localization monitoring node, its localization must be based on sensor fusion of IMU, odometry, and GNSS data,
+and it must provide the corresponding sensor information on the aforementioned topics. Additionally, it requires a navigation based on \code{actionlib_msgs/GoalStatus.msg}, e.g.
+\code{move_base} or \code{move_base_flex}. Kinematics also play a role; in general, it should be a wheeled robot with differential drive. While an Ackermann drive would also be
+permissible, others, such as omni-drive robots, are not compatible because they would violate certain assumptions used in the monitoring approaches, such as in the orientation
+interpolation based on GNSS data.\newline
 
 \noindent
 As previously, the evaluation of localization problems as well as the corresponding monitoring procedures demands the simulation of such cases. For this purpose a
