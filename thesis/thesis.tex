@@ -1767,7 +1767,9 @@ topic where the resolver provides its results. If successful, the weather monito
 Similarly, the information that does not require interruption of the mission is transmitted via the \code{/robot_info} topic. Aside from the
 information relevant to monitoring, there is some other information that may be of interest to the operator. Therefore, a full weather report can be configured to be communicated
 to the operator at specified intervals, e.g. once a day. Beyond those already discussed, this information includes observation time, a general status description, the cloudiness
-percentage, the humidity, the atmospheric pressure and the wind direction.\newline
+percentage, the humidity, the atmospheric pressure and the wind direction. In order for a system to utilize the weather monitoring node, it should provide \code{NavSatFix} data on
+the \code{/fix} topic, as the weather information is based on the current location of the robot. Alternatively, the values for latitude and longitude can be configured explicitly.
+Furthermore, an internet connection is required to connect to the \textit{OpenWeatherMap} API.\newline
 
 \noindent
 As always, in order to evaluate the monitoring procedures, a simulation of the various scenarios must be provided. This simulation takes place in the parser for
