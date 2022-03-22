@@ -1642,14 +1642,14 @@ In the following, the simulation of the selected LTA problems is presented along
 \label{sec:sim_and_mon_power_management}
 
 Power management issues are addressed based on the integrated battery watchdog module described in section \ref{sec:battery_monitoring}, which monitors the state of the battery
-and acts as a fail-safe. The integrated watchdog module constantly publishes one of three states on the topic \code{/watchdog}. \code{NORM} indicates that the energy consumption is
-as expected and no problem has been detected. In contrast, \code{CONT} and \code{CATO} represent situations in which the a priori planned charge stops are no longer feasible. In the
-event of a contingency, i.e. \code{CONT}, an immediate return to the base station is required in order to still be able to reach it. Even more severe, in a catastrophe situation, ie.
-\code{CATO}, it is no longer possible to reach the base station due to the battery charge level. The monitoring node simply subscribes to the \code{/watchdog} topic and initiates
-appropriate responses based on the signals sent by the battery watchdog module. In case of a \code{CONT} message, \code{/contingency_preemption} is used to initiate a contingency
-and communicate the specific reason. Likewise, in case of \code{CATO}, a catastrophe is triggered with \code{/catastrophe_preemption}. The node distinguishes between catastrophe
-and contingency monitoring, since a contingency can be followed by a catastrophe situation. Thus, when a contingency occurs, active monitoring is suspended for \code{CONT} messages,
-but the node continues to check for \code{CATO}. In fact, it is quite natural for a contingency to precede a catastrophe, since it is rather rare for the battery to suddenly drop in
+and acts as a fail-safe. The integrated watchdog module constantly publishes one of three states on the topic \code{/watchdog}. \code{"NORM"} indicates that the energy consumption is
+as expected and no problem has been detected. In contrast, \code{"CONT"} and \code{"CATO"} represent situations in which the a priori planned charge stops are no longer feasible. In the
+event of a contingency, i.e. \code{"CONT"}, an immediate return to the base station is required in order to still be able to reach it. Even more severe, in a catastrophe situation, ie.
+\code{"CATO"}, it is no longer possible to reach the base station due to the battery charge level. The monitoring node simply subscribes to the \code{/watchdog} topic and initiates
+appropriate responses based on the signals sent by the battery watchdog module. In case of a \code{"CONT"} message, \code{/contingency_preemption} is used to initiate a contingency
+and communicate the specific reason. Likewise, in case of \code{"CATO"}, a catastrophe is triggered with \code{/catastrophe_preemption}. The node distinguishes between catastrophe
+and contingency monitoring, since a contingency can be followed by a catastrophe situation. Thus, when a contingency occurs, active monitoring is suspended for \code{"CONT"} messages,
+but the node continues to check for \code{"CATO"}. In fact, it is quite natural for a contingency to precede a catastrophe, since it is rather rare for the battery to suddenly drop in
 such a way as to eliminate the possibility of returning to base. Therefore, catastrophe events should be able to interrupt contingencies, so monitoring must remain active during
 contingencies. Monitoring for both is re-enabled when the robot is fully charged, indicated by a message on \code{/fully_charged}.\newline
 Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will. Both cases are simulated by creating a
