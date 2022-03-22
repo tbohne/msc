@@ -1681,10 +1681,16 @@ machine, which is started after the charging process is complete. To notify the 
 error treatment, publishes them on the topic \code{/explicit_charging_failure} to which the monitoring procedure is subscribed. In this case, the monitoring node triggers a
 contingency via \code{/contingency_preemption} and communicates the reason for the problem. Finally, there is the case that the charging process does not start after successful
 docking, i.e. the battery charge does not increase. A failed charging process can be detected based on a specific time in the state of charge without increasing the charge level
-of the battery. More specifically, the current state of charge is constantly kept track of via \code{/arox/battery_param}. In case a charge action is performed, which is communicated
-by the operation state machine, the current charge level is stored, the procedure sleeps for a user-specified time and afterwards compares the current charging state with the
-previously stored one. If the most recent state of charge is not higher than the one stored at the start of charging, a contingency is initiated because the battery is not charging
-despite the robot being docked to the charging station.\newline
+of the battery. Specifically, the current state of charge is constantly tracked via \code{/arox/battery_param}, on which messages of type \code{arox_battery_params.msg} appear,
+containing the fields \code{std_msgs/header header}, \code{float64 charge}, \code{int64 charging_cycle}, \code{string battery_operation}, \code{float64 operation_time}, and
+\code{int8 env_condition}. In case a charge action is performed, which is communicated by the operation state machine via \code{/charge_action}, the current charge level is stored,
+the procedure sleeps for a user-specified time and afterwards compares the current charging state with the previously stored one. If the most recent state of charge is not higher
+than the one stored at the start of charging, a contingency is initiated because the battery is not charging despite the robot being docked to the charging station. For a system to
+use the charging failure monitoring node, it must either use the docking solution described in section \ref{sec:docking_solution} for explicit docking failures, or, if it uses a
+different docking solution, communicate its explicit docking failures via \code{/explicit_charging_failure}. Moreover, to use actual charge monitoring, it must employ the battery
+watchdog described in section \ref{sec:battery_monitoring} or publish its own system's data in the expected format, i.e. as \code{arox_battery_params.msg}. The naming scheme, which
+includes references to the AROX system, is somewhat misleading given the idea of a certain universality, but is retained at this point to remain compatible with the battery watchdog
+module.\newline
 
 \noindent
 The identified failure modes can be simulated using the following approaches. Docking errors can be easily simulated by having the robot move to an inappropriate location before
