@@ -1652,6 +1652,8 @@ and contingency monitoring, since a contingency can be followed by a catastrophe
 but the node continues to check for \code{"CATO"}. In fact, it is quite natural for a contingency to precede a catastrophe, since it is rather rare for the battery to suddenly drop in
 such a way as to eliminate the possibility of returning to base. Therefore, catastrophe events should be able to interrupt contingencies, so monitoring must remain active during
 contingencies. Monitoring for both is re-enabled when the robot is fully charged, indicated by a message on \code{/fully_charged}.\newline
+
+\noindent
 Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will. Both cases are simulated by creating a
 \code{dynamic_reconfigure}\footnote{https://wiki.ros.org/dynamic\_reconfigure} client and manipulating the discharge rate of the robot's battery. Depending on the simulation case, i.e. contingency or catastrophe, different
 user-configurable discharge rates are set. After the expected event is triggered, the discharge rate is reset to the default value. This is particularly relevant for contingency
@@ -1681,6 +1683,8 @@ of the battery. More specifically, the current state of charge is constantly kep
 by the operation state machine, the current charge level is stored, the procedure sleeps for a user-specified time and afterwards compares the current charging state with the
 previously stored one. If the most recent state of charge is not higher than the one stored at the start of charging, a contingency is initiated because the battery is not charging
 despite the robot being docked to the charging station.\newline
+
+\noindent
 The identified failure modes can be simulated using the following approaches. Docking errors can be easily simulated by having the robot move to an inappropriate location before
 docking so that it cannot detect the container because it is not in its environment. For this purpose, the user-configurable location to which the robot supposed to move when
 executing an action \code{return_to_base} is exchanged with an inappropriate destination. The idea of this location is generally that it is roughly in front of the base station so
@@ -1756,6 +1760,8 @@ Similarly, the information that does not require interruption of the mission is 
 information relevant to monitoring, there is some other information that may be of interest to the operator. Therefore, a full weather report can be configured to be communicated
 to the operator at specified intervals, e.g. once a day. Beyond those already discussed, this information includes observation time, a general status description, the cloudiness
 percentage, the humidity, the atmospheric pressure and the wind direction.\newline
+
+\noindent
 As always, in order to evaluate the monitoring procedures, a simulation of the various scenarios must be provided. This simulation takes place in the parser for
 \textit{OpenWeatherMap} data. Based on the developed weather monitoring node, it is failry trivial to simulate the occurrence of such extreme weather conditions by simply setting
 the attributes to extreme values, e.g. a heavy rain scenario can be simulated by setting the corresponding rain volume $r_v = 8$. Likewise, a heavy snow situation can be simulated
@@ -1837,6 +1843,8 @@ in order to make them reusable for others. One hurdle standing in the way of thi
 Nevertheless, the underlying data is likely to be very similar. To provide some generality, the developed monitoring approaches will be able to handle the two data 
 types commonly used in the ROS ecosystem, \code{LaserScan} and \code{PointCloud2}. In all cases, the sensor monitoring node publishes on the topic
 \code{/contingency_preemption} with a message that specifies the particular kind of sensor failure and causes a transition to the \code{CONTINGENCY} state.\newline
+
+\noindent
 The evaluation of a total sensor failure is straightforward, as it can be easily simulated by interrupting the publication of laser scans in the dummy scanning node
 described in section \ref{sec:dummy_scanning_node}. The second identified type of sensor failure, i.e. an empty list of range values, is again rather trivial to simulate
 by clearing the list of range values before republishing a scan in the dummy scanning node. Scans consisting mainly of impermissible range values can be realized by 
@@ -1881,6 +1889,8 @@ operation, i.e. writing the scan to the log file, worked. Moreover, it is worth 
 but this should already be detected by the sensor monitoring procedure. Of course, more checks could be made for scenario-specific logs on the drive, etc., but since this would
 require additional knowledge of the specific circumstances, it would violate the goal of being as general as possible. Nevertheless, it is possible to extend data management in
 the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability.\newline
+
+\noindent
 It is not a big challenge to simulate the occurrence of the data management problems presented in section \ref{sec:challenges_for_lta}. To simulate a ``full disk''-failure,
 i.e. a full memory of the drive on which the scans are to be logged, one could simply prepare a full USB flash drive and configure the path to be monitored accordingly,
 e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR_DRIVE = /mnt/usb}. It is also implemented in such a way that one can simply prepare the flash drive and later publish
@@ -1937,6 +1947,8 @@ which has no operating system coupling at all. There is a layer of abstraction t
 following: There is a node that publishes the WiFi connectivity for the system every $10$s int the \code{WiFi.msg} format. If someone wants to use the execution monitoring
 framework on Windows, for example, there is no need to modify the framework's code, there just has to be an equivalent WiFi monitoring node for a Windows system that replaces
 the Ubuntu-specific one.\newline
+
+\noindent
 The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described in the monitoring section
 below. The idea is to simply publish problematic values for each of the considered attributes of the WiFi connection,
 i.e. link quality, signal level and bit rate. The simplest case of a complete disconnection is simulated by setting all three values to $0$.
@@ -1972,6 +1984,8 @@ detected and a contingency is initiated. If $d < 40$ Mb/s, an information is sen
 checked. An upload speed of $u < 1$ Mb/s causes a contingency, and $u < 10$ Mb/s initiates an information of a rather poor upload speed in the communication channel with the human
 operator. As always, in all contingency cases, the monitoring node publishes a message on \code{/contingency_preemption} that specifies the particular nature of the connection
 problem. In cases of a failed connection to the \code{speedtest-cli} API, the monitoring itself does not work properly, so the connection is reinitialized after the problem is fixed.\newline
+
+\noindent
 Simulating internet connectivity problems has three components. First, a total disconnect, which can be simulated by simply cutting the connection or publishing on a prepared topic.
 The other two options are again simulated by publishing user-configurable problematic values for the respective download and upload speed components.
 By default, a poor download as well as upload speed is simulated by publishing corresponding values of $0.5$ Mb/s.
@@ -2132,6 +2146,8 @@ In principle, it would also be useful to monitor the off-diagonal elements of th
 reciprocal relationship of the directions under consideration. For instance, if $c_{NE} < 0$, a negative deviation in the north direction is likely to be matched by a positive deviation in
 the east direction, and vice versa. However, in the scope of this work, the monitoring of the covariance matrix will be limited to the above cases. It is crucial that the approaches
 are essentially compatible with all systems using \code{NavSatFix} and are not limited to the AROX system or the present scenario.\newline
+
+\noindent
 As before, evaluation of potential problem cases as well as monitoring procedures requires simulation of such cases, which is performed in the \code{GNSS Simulator} described above.
 The timeout failure can be easily simulated by unsubscribing the \code{/fix_plugin} topic for a period of time that exceeds the time limit. Quality estimation can be evaluated by
 simply configuring the status, covariance information, and service according to the above definition. Monitoring of status, service and position belief state can be simulated by
@@ -2230,7 +2246,9 @@ remains in the \code{IDLE} state. Analogously, a plan with an empty list of acti
 reported. The detection of actions of an unknown type is based on a configurable list of actions that are expected, e.g.. \code{drive_to}, \code{return_to_base}, \code{charge}
 and \code{scan} in the considered scenario. In order to allow the monitoring node to initiate the contingency without the operational state machine immediately transitioning back
 to \code{IDLE} and repeatedly requesting a plan, a short delay (e.g. $1s$) is introduced for each detected problem to avoid unnecessary timing conflicts during transitions.
-Plan deployment failures obviously never cause catastrophes, at least not directly.
+Plan deployment failures obviously never cause catastrophes, at least not directly.\newline
+
+\noindent
 For simulation, it is quite obvious that it is reasonable to simulate the failures where they occur, i.e. in the plan generator (cf. section \ref{sec:plan_generation}). The
 situation of an extended idle time is simulated by simply blocking the plan fetch for a configurable period of time, which must be greater than or equal to the threshold defined
 in \code{PlanDeploymentMonitor}. The simulation of an unavailable plan service is done by temporarily shutting down the service using the \code{shutdown} method provided by ROS services.
@@ -2313,8 +2331,9 @@ and the recovery process can be continued.
 It is important to note that monitoring is kept as generic as possible to be compatible with other scenarios and applications involving autonomous mobile robots.
 For instance, it is easy to switch to the common navigation framework \code{move_base} by simply changing the topic configuration.
 The counting of transitions etc. should still work, because \code{move_base} works with the same \code{GoalStatus} information.
-Essentially, any navigation framework that is compatible with the general \code{actionlib_msgs/GoalStatus} is compatible with the introduced monitoring solution.
-\newline
+Essentially, any navigation framework that is compatible with the general \code{actionlib_msgs/GoalStatus} is compatible with the introduced monitoring solution.\newline
+
+\noindent
 Sustained recoveries as well as explicit \code{move_base_flex} failures can be evaluated in simulation by inducing situations where recovery is not possible, e.g., when the
 path to the destination is blocked and there is no other way, i.e., by specially constructed examples that are particularly difficult for the navigation algorithms to solve.
 The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized positions that could potentially block
@@ -2322,7 +2341,7 @@ the robot's path. However, as mentioned earlier, dynamic obstacles are generally
 spot, and after that, in most cases, the obstacle has already disappeared and the robot can continue its mission. If this is not the case, it could be treated as static anyway.
 Therefore, only the harder case of unexpected static obstacles is considered here, since this is the case to which the robot actually has to adapt. The most extreme case of an
 unexpected static obstacle would be one that blocks all paths between the robot and its navigation target, so that it simply cannot reach it. In order to simulate certain scenarios
-with obstacles systematically, the \code{ObstacleSpawner} was developed. The obstacle models used must be stored in \code{\textasciitilde/.gazebo/models} and are all freely available
+with obstacles systematically, the \code{ObstacleSpawner} was developed. The obstacle models used must be stored in \code{home/.gazebo/models} and are all freely available
 \footnote{http://models.gazebosim.org/}. The ROS service \code{/gazebo/spawn_sdf_model} is used to spawn the obstacle models. The service must be called with the model name,
 the XML model read from file, an initial pose and a reference frame. The extreme case is simulated by spawning a \textquote{robot prison} (cf. fig. \ref{fig:robot_prison}). Any
 navigation target outside the prison leads to an error situation, which should be recognized. The idea is to dynamically spawn obstacles around the robot's current location encircling
@@ -2552,6 +2571,8 @@ issues that are monitored are actually erroneous localizations. When the robot i
 not necessarily wrong, just unexpected. A slip on an icy surface that causes a position change without an active navigation target may be unexpected, but it is still true that the
 position has changed. Nonetheless, this can cause problems with localization, since, for example, the odometry data no longer matches the GNSS data, which makes re-initialization of
 the localization advisable.\newline
+
+\noindent
 As previously, the evaluation of localization problems as well as the corresponding monitoring procedures demands the simulation of such cases. For this purpose a
 \code{PhysicsController} node was written. The general idea of the \code{PhysicsController} is to manipulate certain aspects of the physics in the \textit{Gazebo} simulation to
 provoke the circumstances that lead to localization problems. The ROS services \code{/gazebo/pause_physics} and \code{/gazebo/unpause_physics} are used to pause and unpause the
