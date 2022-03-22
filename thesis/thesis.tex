@@ -1852,7 +1852,9 @@ In general, it is crucial to keep the monitoring solutions as general as possibl
 in order to make them reusable for others. One hurdle standing in the way of this claim is the fact that many sensor manufacturers use their own proprietary data types.
 Nevertheless, the underlying data is likely to be very similar. To provide some generality, the developed monitoring approaches will be able to handle the two data 
 types commonly used in the ROS ecosystem, \code{LaserScan} and \code{PointCloud2}. In all cases, the sensor monitoring node publishes on the topic
-\code{/contingency_preemption} with a message that specifies the particular kind of sensor failure and causes a transition to the \code{CONTINGENCY} state.\newline
+\code{/contingency_preemption} with a message that specifies the particular kind of sensor failure and causes a transition to the \code{CONTINGENCY} state.
+For a system to use the sensor monitoring node, it must indicate a scan action by publishing on the \code{/scan_action} topic. Additionally, the topic under which the
+\code{LaserScan} or \code{PointCloud2} is expected must be configured.\newline
 
 \noindent
 The evaluation of a total sensor failure is straightforward, as it can be easily simulated by interrupting the publication of laser scans in the dummy scanning node
