@@ -1651,7 +1651,9 @@ and communicate the specific reason. Likewise, in case of \code{"CATO"}, a catas
 and contingency monitoring, since a contingency can be followed by a catastrophe situation. Thus, when a contingency occurs, active monitoring is suspended for \code{"CONT"} messages,
 but the node continues to check for \code{"CATO"}. In fact, it is quite natural for a contingency to precede a catastrophe, since it is rather rare for the battery to suddenly drop in
 such a way as to eliminate the possibility of returning to base. Therefore, catastrophe events should be able to interrupt contingencies, so monitoring must remain active during
-contingencies. Monitoring for both is re-enabled when the robot is fully charged, indicated by a message on \code{/fully_charged}.\newline
+contingencies. Monitoring for both is re-enabled when the robot is fully charged, indicated by a message on \code{/fully_charged}. For the power management monitoring node to be
+applicable, a system must either incorporate the integrated battery watchdog module presented in section \ref{sec:battery_monitoring} or provide a similar module that publishes the
+three expected states on the \code{/watchdog} topic.\newline
 
 \noindent
 Power management problems can be simulated quite easily based on a controllable battery consumption model that can be manipulated at will. Both cases are simulated by creating a
