@@ -3110,25 +3110,20 @@ found in the appendix (cf. \ref{}).
 
 \section{Conclusion}
 
-TBD.\newline
-The idea is that the goal of the work was to shift the selected subset of problems into another category, i.e. solve them or at least detect them in order to communicate them.
-Very good to evaluate in the end whether the goal was reached. Did it work out, can I detect all of the problems in the selected subset such that the robot is always able to call
-for help? TODO..\newline
-
-In total, there are $48$ specifically addressed problem cases that are identified through monitoring and resolved or communicated accordingly, but many more are implicitly covered. e.g...
-The cases are not all strictly separated from each other, the transitions are sometimes fluid.
-
-Functionality of the integrated system demonstrated
-
-Practically relevant challenges for LTA identified, classified in terms of potential impact and implemented in simulation
-
-Generic monitoring (resolution) framework developed and evaluated for reliability.
-
-All problem types have been moved to category (1) / (2) - The goal was to detect all problem types at least reliably and, if possible, also to solve them directly
-
-Significantly improved robustness with regard to the identified challenges (Reliability at least in the simulation was experimentally substantiated
-
-before the system was not able to handle these problems at all)
+Since this work is at least partly integrative in nature, the first important aspect is that the functionality of the overall integrated system has been demonstrated.
+Practically relevant challenges to the long-term autonomy of mobile outdoor robots were identified, classified in terms of their potential impact, and implemented in simulation.
+As anticipated in section \ref{sec:challenges_for_lta}, the goal of the work with respect to the identified problems was to shift the selected subset of problems into category
+$(1)$ or $(2)$ based on the classification in fig. \ref{fig:problem_types}, i.e. to enable the robot to solve or at least recognize them in order to communicate them.
+Since monitoring approaches have been proposed for each of these categories (cf. section \ref{sec:sim_and_mon_of_lta_challenges}), this goal can be considered achieved.
+These monitoring approaches are incorporated into a generic monitoring and resolution framework that was developed as part of this thesis.
+Furthermore, the reliability of the framework has been experimentally endorsed, at least in simulation. In total, there are $48$ problem instances that can be explicitly triggered
+through simulation by publishing on a topic, as presented in section \ref{sec:sim_and_mon_of_lta_challenges}. Beyond that, there are many other problem cases that are explicitly
+covered by the monitoring procedures. However, there are also numerous potential problem cases that are not explicitly considered by the monitoring nodes, but are nevertheless
+implicitly covered and thus detected. For instance, a situation in which the robot falls over is neither explicitly recognized nor communicated. Yet at the latest when the expected
+battery consumption no longer matches the actual situation, i.e. the robot has to recharge, a problem is detected and communicated. This also illustrates the fact that the problems
+identified are not strictly separated, but that the transitions are somewhat fluid. Since the considered system was previously not able to deal with the identified problems at all
+and each of these problems has the potential to make the mission fail, it is evident that the proposed approaches significantly improve the robustness of the system with respect to
+the identified challenges.
 
 \section{Future Work}
 
