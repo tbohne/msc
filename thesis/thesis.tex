@@ -3110,13 +3110,20 @@ found in the appendix (cf. \ref{}).
 
 \section{Conclusion}
 
+
 Since this work is at least partly integrative in nature, the first important aspect is that the functionality of the overall integrated system has been demonstrated.
 Practically relevant challenges to the long-term autonomy of mobile outdoor robots were identified, classified in terms of their potential impact, and implemented in simulation.
 As anticipated in section \ref{sec:challenges_for_lta}, the goal of the work with respect to the identified problems was to shift the selected subset of problems into category
 $(1)$ or $(2)$ based on the classification in fig. \ref{fig:problem_types}, i.e. to enable the robot to solve or at least recognize them in order to communicate them.
-Since monitoring approaches have been proposed for each of these categories (cf. section \ref{sec:sim_and_mon_of_lta_challenges}), this goal can be considered achieved.
-These monitoring approaches are incorporated into a generic monitoring and resolution framework that was developed as part of this thesis.
-Furthermore, the reliability of the framework has been experimentally endorsed, at least in simulation. In total, there are $48$ problem instances that can be explicitly triggered
+Since monitoring approaches have been proposed for each of these categories (cf. section \ref{sec:sim_and_mon_of_lta_challenges}), this goal can be considered achieved. These
+monitoring approaches are incorporated into a generic monitoring and resolution framework developed as part of this thesis, with an emphasis on a certain degree of universality.
+This is manifested in the fact that as few assumptions about specific systems and scenarios were made as possible. One requirement, though, was that the system is conclusively usable
+in practice in the considered context, which presupposes that not only abstract high-level architectures are defined, but that a compromise is found between the greatest possible
+universality and simultaneous applicability in the scenario under consideration. This results in the fact that the universality ends when leaving the ROS cosmos, i.e. the system is
+exclusively designed for ROS systems. While certain lines of reasoning and observations in this thesis may apply to non-ROS systems as well, there is at least no practical
+applicability of the developed framework to these systems. Due to the high prevalence of ROS coupled with the requirement to be practically applicable, the restriction to
+compatibility with ROS systems seems reasonable.
+The reliability of the framework has been experimentally endorsed, at least in simulation. In total, there are $48$ problem instances that can be explicitly triggered
 through simulation by publishing on a topic, as presented in section \ref{sec:sim_and_mon_of_lta_challenges}. Beyond that, there are many other problem cases that are explicitly
 covered by the monitoring procedures. However, there are also numerous potential problem cases that are not explicitly considered by the monitoring nodes, but are nevertheless
 implicitly covered and thus detected. For instance, a situation in which the robot falls over is neither explicitly recognized nor communicated. Yet at the latest when the expected
