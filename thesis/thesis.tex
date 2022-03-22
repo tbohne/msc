@@ -1900,7 +1900,9 @@ the file system, it would be superfluous to check the data again for plausibilit
 operation, i.e. writing the scan to the log file, worked. Moreover, it is worth noting that a total sensor failure always implies a data management failure of the second type,
 but this should already be detected by the sensor monitoring procedure. Of course, more checks could be made for scenario-specific logs on the drive, etc., but since this would
 require additional knowledge of the specific circumstances, it would violate the goal of being as general as possible. Nevertheless, it is possible to extend data management in
-the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability.\newline
+the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability. For a system to use the data management monitoring node,
+it must indicate scan actions via \code{/scan_action} and their completion via \code{/scan_completed}. Furthermore, \code{MONITOR_DRIVE} as well as \code{SCAN_PATH} need to be
+configured.\newline
 
 \noindent
 It is not a big challenge to simulate the occurrence of the data management problems presented in section \ref{sec:challenges_for_lta}. To simulate a ``full disk''-failure,
@@ -1956,9 +1958,9 @@ rather low bit rate is transmitted. As soon as a malfunction is detected, monito
 cases, the high-level WiFi monitoring node publishes on the topic \code{/contingency_preemption} with a message that specifies the particular kind of connection problem.\newline
 In summary, the problem of actually detecting the WiFi connectivity on the system in question is completely external to the execution monitoring framework,
 which has no operating system coupling at all. There is a layer of abstraction that separates the two views. The assumption of the high-level monitoring framework is the
-following: There is a node that publishes the WiFi connectivity for the system every $10$s int the \code{WiFi.msg} format. If someone wants to use the execution monitoring
-framework on Windows, for example, there is no need to modify the framework's code, there just has to be an equivalent WiFi monitoring node for a Windows system that replaces
-the Ubuntu-specific one.\newline
+following: There is a node that publishes the WiFi connectivity for the system every $10$s int the \code{WiFi.msg} format on \code{/wifi_connectivity_info}. If someone wants to use
+the execution monitoring framework on Windows, for example, there is no need to modify the framework's code, there just has to be an equivalent WiFi monitoring node for a Windows
+system that replaces the Ubuntu-specific one.\newline
 
 \noindent
 The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described in the monitoring section
@@ -2157,7 +2159,8 @@ The standard deviations $\sqrt{c_{ii}} \in C \thinspace \forall \thinspace i \in
 In principle, it would also be useful to monitor the off-diagonal elements of the covariance matrix, i.e. the actual covariances, since these elements provide information about the
 reciprocal relationship of the directions under consideration. For instance, if $c_{NE} < 0$, a negative deviation in the north direction is likely to be matched by a positive deviation in
 the east direction, and vice versa. However, in the scope of this work, the monitoring of the covariance matrix will be limited to the above cases. It is crucial that the approaches
-are essentially compatible with all systems using \code{NavSatFix} and are not limited to the AROX system or the present scenario.\newline
+are essentially compatible with all systems using \code{NavSatFix} and are not limited to the AROX system or the present scenario. Hence, for a system to use GNSS monitoring, it simply needs
+to publish \code{NavSatFix} messages on \code{/fix}.\newline
 
 \noindent
 As before, evaluation of potential problem cases as well as monitoring procedures requires simulation of such cases, which is performed in the \code{GNSS Simulator} described above.
