@@ -2261,7 +2261,8 @@ remains in the \code{IDLE} state. Analogously, a plan with an empty list of acti
 reported. The detection of actions of an unknown type is based on a configurable list of actions that are expected, e.g.. \code{drive_to}, \code{return_to_base}, \code{charge}
 and \code{scan} in the considered scenario. In order to allow the monitoring node to initiate the contingency without the operational state machine immediately transitioning back
 to \code{IDLE} and repeatedly requesting a plan, a short delay (e.g. $1s$) is introduced for each detected problem to avoid unnecessary timing conflicts during transitions.
-Plan deployment failures obviously never cause catastrophes, at least not directly.\newline
+Thus, in order for other systems to be able to use the plan deployment monitoring, the mentioned topics and the action list must be configured. Moreover, explicit errors can be
+communicated via \code{/plan_retrieval_failure} using the described error codes.\newline
 
 \noindent
 For simulation, it is quite obvious that it is reasonable to simulate the failures where they occur, i.e. in the plan generator (cf. section \ref{sec:plan_generation}). The
@@ -2346,7 +2347,10 @@ and the recovery process can be continued.
 It is important to note that monitoring is kept as generic as possible to be compatible with other scenarios and applications involving autonomous mobile robots.
 For instance, it is easy to switch to the common navigation framework \code{move_base} by simply changing the topic configuration.
 The counting of transitions etc. should still work, because \code{move_base} works with the same \code{GoalStatus} information.
-Essentially, any navigation framework that is compatible with the general \code{actionlib_msgs/GoalStatus} is compatible with the introduced monitoring solution.\newline
+Essentially, any navigation framework that is compatible with the general \code{actionlib_msgs/GoalStatus} is compatible with the introduced monitoring solution.
+For a system to use the navigation monitoring node, it simply needs to specify the \code{GOAL_STATUS_TOPIC} under which the \code{GoalStatusArray} messages appear. Additionally,
+\code{NavSatFix} messages are again expected to appear on \code{/fix} to track progress in cases of sustained recovery. As described, the topic \code{/explicit_nav_failure} can be
+used to report explicit navigation errors.\newline
 
 \noindent
 Sustained recoveries as well as explicit \code{move_base_flex} failures can be evaluated in simulation by inducing situations where recovery is not possible, e.g., when the
