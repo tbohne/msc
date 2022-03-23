@@ -3152,8 +3152,7 @@ found in the appendix (cf. \ref{}).
 
 \chapter{Conclusion and Future Work}
 
-\section{Conclusion}
-
+\section{Conclusion and Discussion}
 
 Since this work is at least partly integrative in nature, the first important aspect is that the functionality of the overall integrated system has been demonstrated.
 Practically relevant challenges to the long-term autonomy of mobile outdoor robots were identified, classified in terms of their potential impact, and implemented in simulation.
@@ -3174,7 +3173,26 @@ implicitly covered and thus detected. For instance, a situation in which the rob
 battery consumption no longer matches the actual situation, i.e. the robot has to recharge, a problem is detected and communicated. This also illustrates the fact that the problems
 identified are not strictly separated, but that the transitions are somewhat fluid. Since the considered system was previously not able to deal with the identified problems at all
 and each of these problems has the potential to make the mission fail, it is evident that the proposed approaches significantly improve the robustness of the system with respect to
-the identified challenges.
+the identified challenges.\newline
+
+\noindent
+As outlined in the introduction of monitoring techniques in section \ref{sec:sim_and_mon_of_lta_challenges}, monitoring is in principle applicable to other ROS systems as well.
+However, the tight coupling between the deliberation functions of \textit{acting} and \textit{monitoring}, which is not a mere by-product but is intended in this work, results
+in the framework not being usable \textquote{out-of-the-box} for other systems. It should not be considered a weaknesses, though, as this coupling is necessary for the two functions to be
+mutually beneficial, so \textit{acting} provides context to \textit{monitoring} and \textit{monitoring} is able to directly intervene in \textit{acting} when necessary. Furthermore,
+it should be relatively simple to establish this coupling with the operational models of other systems as well. In order to be able to achieve this without too much effort and also
+quite intuitively, the architecture proposed in this work was built in a modular way. Thus, in order for another robotic system to use the monitoring framework without using the
+operational model used in this thesis, the embedded \code{OPERATION} state machine shown in fig. \ref{fig:high_level_smach} would have to be replaced by the system's own operational
+state machine, which is either also implemented as \code{SMACH} or at least wrapped by one. There are some assumptions that such an operational state machine must satisfy. First, it
+must communicate information about the mode of the system via \code{arox/ongoing_operation} in the form of \code{arox_operational_param.msg}. Once again, the naming scheme is somewhat
+misleading in terms of universality, but is retained for the moment for the sake of compatibility with the integrated battery watchdog module. The available modes are \code{scanning},
+\code{traversing}, \code{waiting}, \code{docking}, \code{undocking}, \code{charging}, \code{dead}, \code{contingency} and \code{catastrophe}. Most of them should be useful in any
+context where the monitoring framework is to be used. However, not all of them need to be adopted. Another crucial aspect is that all active goals should be interruptible via a
+message on \code{/interrupt_active_goals}, e.g. by using \code{actionlib.SimpleActionClient} and \code{cancel_all_goals()} for the tasks. To utilize resolution attempts during
+navigation failures, extreme weather conditions, and power management failures, the topics \code{/introduce_intermediate_nav_goal}, \code{introduce_intermediate_recharge_goal},
+\code{introduce_intermediate_shelter_goal}, and \code{stop_waiting} should be provided. Most of them are self-explanatory, \code{stop_waiting} is used to stop waiting in the
+shelter, e.g. after extreme weather situations. Eventually, the outcomes must be compatible with the architecture shown in fig. \ref{fig:high_level_smach}, i.e.
+\code{minor_complication}, \code{critical_complication}, \code{end_of_episode}, and \code{preempted}.
 
 \section{Future Work}
 
