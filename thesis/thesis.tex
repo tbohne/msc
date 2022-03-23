@@ -3192,7 +3192,10 @@ message on \code{/interrupt_active_goals}, e.g. by using \code{actionlib.SimpleA
 navigation failures, extreme weather conditions, and power management failures, the topics \code{/introduce_intermediate_nav_goal}, \code{introduce_intermediate_recharge_goal},
 \code{introduce_intermediate_shelter_goal}, and \code{stop_waiting} should be provided. Most of them are self-explanatory, \code{stop_waiting} is used to stop waiting in the
 shelter, e.g. after extreme weather situations. Eventually, the outcomes must be compatible with the architecture shown in fig. \ref{fig:high_level_smach}, i.e.
-\code{minor_complication}, \code{critical_complication}, \code{end_of_episode}, and \code{preempted}.
+\code{minor_complication}, \code{critical_complication}, \code{end_of_episode}, and \code{preempted}. A further important note with regard to the general applicability of the
+framework is that each monitoring node can easily be removed, i.e. deactivated. Presently, this can be achieved by simply removing the option from the framework's launch file.
+For instance, if a mobile outdoor robot is used without a Lidar scanner, the sensor monitoring node can simply be removed. Analogously, custom monitoring nodes can be added to the
+framework by simply adding the nodes to the launch file and supporting the described architecture by publishing to \code{contingency_preemption}, etc.
 
 \section{Future Work}
 
