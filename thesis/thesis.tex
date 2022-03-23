@@ -188,9 +188,11 @@ one goal of this thesis is to make as few assumptions as possible about specific
 about generic data structures and information required for a concrete solution, but the claim is to solve general problems of outdoor robots and abstract from specific sensor models,
 etc. This is the broad line of thought behind many aspects of this thesis - the developed solutions should be generalizable to other systems, but still useful for the specific
 system considered in this work. The idea behind this universality is that the same problem can be studied with a different robotic system or sensor setup and, in principle, still
-work. In summary, this work attempts to reduce the barriers towards long-term
-autonomy of mobile field monitoring robots by demonstrating a fully integrated solution capable of addressing some of the typical problems for such systems.
-Although the work deals specifically with an agricultural context, the approaches are developed with the aspiration of a certain universality.\newline
+work. In summary, this work attempts to reduce the barriers towards long-term autonomy of mobile outdoor robots by demonstrating a fully integrated solution capable of
+addressing some of the typical problems for such systems. For this purpose, an execution monitoring architecture is designed and implemented. Although the work deals specifically with
+an agricultural context, the approaches are developed with the aspiration of a certain universality. A thorough literature search revealed that such a system, which attempts to
+systematically address common problems for long-term autonomous mobile outdoor robots, does not appear to exist yet, making it a meaningful contribution. Already the compilation of
+a list of common problems in such contexts is valuable, as such a compilation and joint consideration of these problems does not yet seem to exist in the literature.\newline
 
 \textbf{Approach}\newline
 
@@ -3178,12 +3180,16 @@ implicitly covered and thus detected. For instance, a situation in which the rob
 battery consumption no longer matches the actual situation, i.e. the robot has to recharge, a problem is detected and communicated. This also illustrates the fact that the problems
 identified are not strictly separated, but that the transitions are somewhat fluid. Since the considered system was previously not able to deal with the identified problems at all
 and each of these problems has the potential to make the mission fail, it is evident that the proposed approaches significantly improve the robustness of the system with respect to
-the identified challenges. In conclusion, all identified problems are detected with indications of quite high reliability and some of them can even be solved by the robot itself.
+the identified challenges. Since the purpose of this work was not only to identify and deal with the problem categories, but also to define an architecture that allows systematic
+handling of such situations, it should be noted that the overall architecture has proven to be suitable for this type of non-nominal plan execution. In particular, due to the parallel
+running monitoring nodes, the tight coupling of \textit{acting} and \textit{monitoring} in general, and the modularity that enables extensibility and reconfigurability.
+In conclusion, all identified problems are detected with indications of quite high reliability and some of them can even be solved by the robot itself.
 It is crucial to mention that even if an episode fails, as in the two cases of experimental evaluation in section \ref{sec:experiments}, catastrophe cases are always communicated to
 the human operator, which is a huge improvement over the situation without the developed framework, where a total failure would go unnoticed.\newline
 
 \noindent
-As outlined in the introduction of monitoring techniques in section \ref{sec:sim_and_mon_of_lta_challenges}, monitoring is in principle applicable to other ROS systems as well.
+As outlined in the introduction of monitoring techniques in section \ref{sec:sim_and_mon_of_lta_challenges}, monitoring is in principle applicable to other ROS systems if the
+introduced slight constraints in terms of information provision based on the defined ROS messages and topics are met.
 However, the tight coupling between the deliberation functions of \textit{acting} and \textit{monitoring}, which is not a mere by-product but is intended in this work, results
 in the framework not being usable \textquote{out-of-the-box} for other systems. It should not be considered a weaknesses, though, as this coupling is necessary for the two functions to be
 mutually beneficial, so \textit{acting} provides context to \textit{monitoring} and \textit{monitoring} is able to directly intervene in \textit{acting} when necessary. Furthermore,
@@ -3202,7 +3208,8 @@ shelter, e.g. after extreme weather situations. Eventually, the outcomes must be
 \code{minor_complication}, \code{critical_complication}, \code{end_of_episode}, and \code{preempted}. A further important note with regard to the general applicability of the
 framework is that each monitoring node can easily be removed, i.e. deactivated. Presently, this can be achieved by simply removing the option from the framework's launch file.
 For instance, if a mobile outdoor robot is used without a Lidar scanner, the sensor monitoring node can simply be removed. Analogously, custom monitoring nodes can be added to the
-framework by simply adding the nodes to the launch file and supporting the described architecture by publishing to \code{contingency_preemption}, etc.
+framework by simply adding the nodes to the launch file and supporting the described architecture by publishing to \code{contingency_preemption}, etc. Thus, the idea is that
+context-dependent special solutions can be easily added, removed and replaced by other specific solutions.
 
 \section{Future Work}
 
