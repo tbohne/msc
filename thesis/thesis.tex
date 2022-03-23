@@ -3178,7 +3178,9 @@ implicitly covered and thus detected. For instance, a situation in which the rob
 battery consumption no longer matches the actual situation, i.e. the robot has to recharge, a problem is detected and communicated. This also illustrates the fact that the problems
 identified are not strictly separated, but that the transitions are somewhat fluid. Since the considered system was previously not able to deal with the identified problems at all
 and each of these problems has the potential to make the mission fail, it is evident that the proposed approaches significantly improve the robustness of the system with respect to
-the identified challenges.\newline
+the identified challenges. To conclude, it is crucial to mention that even if an episode fails, as in the two cases of experimental evaluation in section \ref{sec:experiments},
+catastrophe cases are always communicated to the human operator, which is a huge improvement over the situation without the developed framework, where a total failure
+would go unnoticed.\newline
 
 \noindent
 As outlined in the introduction of monitoring techniques in section \ref{sec:sim_and_mon_of_lta_challenges}, monitoring is in principle applicable to other ROS systems as well.
