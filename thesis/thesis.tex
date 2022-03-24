@@ -3022,7 +3022,7 @@ The slight discrepancy in the number of successfully completed tasks between run
 at the same speed. In general, the simulation has certain non-deterministic aspects in the sense that the combination of all the ROS nodes, their communication, possible effects in
 the simulation, and execution times mean that two runs of such an experiment in simulation will certainly not be exact reproductions of the same states. Although the three runs do not
 guarantee a fundamentally error-free use of the system, they demonstrate that the basic expected stable functionality is given.
-The detailed results can be found in the appendix (cf. \ref{}).\newline
+The detailed results can be found in the appendix (cf. fig. \ref{fig:detailed_functionality_res}).\newline
 
 \textit{Classification of the Selected LTA Problems.}\newline
 
@@ -3285,6 +3285,24 @@ to this focus, there is still much room for improving and simplifying the integr
     \caption{\textsc{Results of the Questionnaire (cf. section \ref{sec:relevance_assessment})}}
     \label{fig:detailed_res}
     \end{figure}
+
+    \chapter{Detailed Results of Experimental Evaluation}
+    \label{sec:detailed_experiments_results}
+
+    \begin{figure}[H]
+        \centering
+        \resizebox{\textwidth}{!}{
+        \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
+            \hline
+            \textbf{exp.} & \textbf{duration (h)} & \textbf{comp.} & \textbf{tasks} & \textbf{charge cycles} & \textbf{missions} & \textbf{total dist. (m)} & \textbf{traverse (s)} & \textbf{scan (s)} & \textbf{wait (s)} & \textbf{charge (s)} & \textbf{dock (s)} & \textbf{undock (s)} \\ \hline
+            250\_42\_0 & $5.09$ & True & $100$ & $9$ & $3$ & $1036.39$ & $13751.42$ & $1075.85$ & $0.10$ & $501.25$ & $1330.16$ & $1461.30$ \\ \hline
+            250\_42\_1 & $5.04$ & True & $110$ & $10$ & $4$ & $1131.86$ & $12121.07$ & $1060.32$ & $0.17$ & $514.19$ & $1966.06$ & $1770.60$ \\ \hline
+            250\_42\_2 & $5.14$ & True & $110$ & $10$ & $4$ & $1139.80$ & $12118.70$ & $1038.16$ & $0.14$ & $493.30$ & $1840.95$ & $1940.00$ \\ \hline
+        \end{tabular}}
+    \caption{\textsc{Results of the Basic Functionality Experiments (cf. section \ref{sec:experiments})}}
+    \label{fig:detailed_functionality_res}
+    \end{figure}
+
 \end{appendices}
 
 \closing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
