@@ -1345,8 +1345,8 @@ The problems described can be evaluated in simulation by having the robot travel
 \label{sec:plan_execution_and_monitoring}
 
 Ghallab et al. point out several types of deliberation functions required for the successful deployment of autonomous artificial agents in diverse environments,
-such as planning, acting, monitoring, goal reasoning, reasoning about sensing and information gathering, and learning. \cite{GNT:2016} This chapter deals with arguably the most
-fundamental - planning, acting and monitoring. Although, this is not about the planning itself, but rather about the handling and execution of given plans.
+such as \textit{planning}, \textit{acting}, \textit{monitoring}, \textit{goal reasoning}, \textit{reasoning about sensing and information gathering}, and \textit{learning}. \cite{GNT:2016} This chapter deals with arguably the most
+fundamental - \textit{planning}, \textit{acting} and \textit{monitoring}. Although, it is not about the plan generation itself, but rather about the handling and execution of given plans.
 A key aspect of dealing with some of the potential issues introduced in section \ref{sec:challenges_for_lta} is going to be that the robot will not be able to
 complete its missions without preempting the plan execution from time to time. Either due to insufficient battery capacity or other unmanageable conditions such as 
 drastic weather changes that force the robot to interrupt its task. As Harris et al. remark: \textquote{\textit{Fixed plans may fail if states encountered during execution do not
@@ -1360,7 +1360,8 @@ recognize and classify failure situations caused by unexpected internal (robot) 
 The idea is that the robot executes a given plan and is somehow capable of realizing that it has to interrupt the execution due to some unexpected condition.
 In such a case, the robot needs to be able to save the current state of the plan execution and continue precisely with this state after the reason 
 for the interruption has been resolved. Consequently, the robot has to be prepared to pause and resume the execution of a given plan, which is far from 
-trivial, since the original plan may no longer be applicable for various reasons. In this work, \textit{monitoring} is not meant to monitor plan execution in the sense of evaluating
+trivial, since the original plan may no longer be applicable for various reasons. This aspect is discussed further in section \ref{sec:plan_interruption_section}.
+In this work, \textit{monitoring} is not meant to monitor plan execution in the sense of evaluating
 pre- and post-conditions of specific high-level actions and the like, but is to be understood in a more general sense to monitor aspects of the robot system as well as its environment
 that have been identified as critical to successful long-term autonomous deployment (cf. \ref{sec:challenges_for_lta}). Essentially, the things that are implicitly part of the plan,
 like working sensors and a reasonable battery state of charge. \cite{Ingrand:2017} Based on the challenges identified in section \ref{sec:challenges_for_lta}, this includes the use of
@@ -1369,6 +1370,11 @@ delivering long-term robustness is the monitoring of system behavior, from the i
 system elements on demand}}. \cite{Hawes:2017} Likewise, Furgale et al. assert that long-term autonomous robots need introspection capabilities to recognize internal problems in
 the interest of safety. \cite{Furgale:2015} Ingrand et al. perfectly summarize the view of monitoring in this work: \textquote{\textit{Compares what is predicted regarding the robot
 activities to what is observed in the world. It detects and interprets discrepancies, performs diagnosis and triggers recovery actions when needed.}} \cite{Ingrand:2017}
+As with planning, monitoring always raises the question of the level of the robot architecture at which it is carried out. The idea of this thesis is essentially to do it at an abstract level
+defined by the rough notion of being as universal as possible to achieve some form of reusability while being applicable and useful in the context under consideration. Obviously,
+monitoring also takes place at other levels of abstraction, such as monitoring WiFi signal strength or monitoring within \code{move_base_flex}, which reports errors. There is simply
+no fundamental answer to the question of where monitoring should take place. Presumably, one could break it down to the fact that monitoring is necessary at all levels of abstraction,
+at least in the sense of error treatment.
 The potential problems identified in section \ref{sec:challenges_for_lta}, and their subtypes, are generally classified into two categories in this thesis according to their severity:
 Those that cause contingencies and those that lead to catastrophes. The essence of these two categories has already been anticipated by the first two classes of problems in the
 concluding remarks of section \ref{sec:challenges_for_lta}. Contingencies refer to cases where the robot is confronted with an unexpected event or problem, but its ability to act is
@@ -1608,6 +1614,7 @@ charging failure resolver is started together with the information describing th
 \end{figure}
 
 \section{Interrupt and Resume Normal Operation}
+\label{sec:plan_interruption_section}
 
 \textquote{\textit{Plans must be executed according to some strategy. This must account for action failure, plan failure due to ignorance or change in a dynamic environment [...].}}
 \cite{Cashmore:2015}
