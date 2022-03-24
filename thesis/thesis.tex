@@ -2124,7 +2124,7 @@ a notification is sent to the operator, but of course not a contingency, as this
 precisely, the standard deviations, i.e. the square root of the diagonal values, because they actually provide information about the accuracy of the estimated position.
 As for the actual standard deviation values, two things can be observed: The absolute values (appropriate / too high) and their progression over time.
 The latter is implemented as a variance history in the form of a fixed-length list that always stores the diagonals of the last $n \in \mathbb{N}$
-covariance matrices and replaces the oldest one when a new one arrives. The length $n$ is again configurable by the user. In the analysis of the variance
+covariance matrices and performs a list shift in which the oldest one is removed when a new one arrives. The length $n$ is again configurable by the user. In the analysis of the variance
 history, the square roots, i.e. the standard deviations, are considered, since, as mentioned, these are the crucial values provided by many GNSS receivers.
 Whenever the covariance type of an incoming \code{NavSatFix} message is $\geq$ \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, the history is updated. On the arrival of new feasible 
 messages, the deviation progression is analyzed. Such an analysis primarily examines the standard deviations of the east and north components, but also those of the upward component,
