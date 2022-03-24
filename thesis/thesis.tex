@@ -2384,7 +2384,8 @@ The counting of transitions etc. should still work, because \code{move_base} wor
 Essentially, any navigation framework that is compatible with the general \code{actionlib_msgs/GoalStatus} is compatible with the introduced monitoring solution.
 For a system to use the navigation monitoring node, it simply needs to specify the \code{GOAL_STATUS_TOPIC} under which the \code{GoalStatusArray} messages appear. Additionally,
 \code{NavSatFix} messages are again expected to appear on \code{/fix} to track progress in cases of sustained recovery. As described, the topic \code{/explicit_nav_failure} can be
-used to report explicit navigation errors.\newline
+used to report explicit navigation errors. Of course, it would be possible to simply extend the \code{move_base_flex} state machine to perform this type of monitoring, but doing so
+would only solve the problem for a specific framework, which would contradict the claim of achieving some generality.\newline
 
 \noindent
 Sustained recoveries as well as explicit \code{move_base_flex} failures can be evaluated in simulation by inducing situations where recovery is not possible, e.g., when the
