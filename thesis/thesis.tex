@@ -1891,47 +1891,6 @@ and can be enabled / disabled via the following ROS topics:
 \end{itemize}
 Sensor failures of this kind can be addressed with the resolution methods described in section \ref{sec:sensor_failure_resolver}.
 
-\subsection{Data Management}
-\label{sec:sim_and_mon_data_management}
-
-Similar to sensor (perception) monitoring, executing a \code{scan} action launches the data monitoring procedure, which looks for the potential data management issues presented in
-section \ref{sec:challenges_for_lta}. To perform the drive capacity check, i.e. to determine whether the drive on which scan logging or data storage in general takes place has enough
-free space, the cross-platform library \code{psutil}\footnote{https://pypi.org/project/psutil/} is used. It provides a function \code{disk_usage()} which returns the load of the
-specified disk, e.g. the one configured in \code{MONITOR_DRIVE}. Unlike WiFi connection monitoring, where the actual low-level network connectivity checks are outsourced
-from the monitoring framework due to its operating system coupling, disk capacity checks can be part of the framework itself because of the cross-platform nature of \code{psutil}.
-If the result of \code{disk_usage(MONITOR_DRIVE)} exceeds $99\%$, the node detects a full memory and causes an interruption of the robot's mission and a transition to the
-\code{CONTINGENCY} state. Additionally, notifications are sent to the operator when the disk load exceeds $95\%$ and $90\%$, with an indication that the data should be backed up
-externally soon. So much for very general data management monitoring, which in principle can be used for all types of data acquisition tasks, since the type of data is irrelevant
-to capacity testing. There is also a more scenario-specific part based on certain assumptions and dependencies that is optional and can be enabled or disabled by the user.
-This is the specific scan logging monitoring that assumes that the data acquisition task at hand is a scanning task, such as the one described in section
-\ref{sec:lta_plant_observation}, and that the scans are written to a user-configured directory in a file published by the dummy scanning node described in section
-\ref{sec:dummy_scanning_node}. Since the data format of the scans written by the dummy scanner is well-known, i.e. \code{LaserScan} or \code{PointCloud2}, the entries logged in
-this log file can be easily evaluated. The idea is that there should be an additional scan entry in the log file after a successful scan action. If that is not the case,
-a data management error has been detected and a transition to \code{CONTINGENCY} is initiated. It would also be possible to implement some sort of exception escalation system
-based on sensor logging errors, but since this would require in-depth knowledge of implementation details of the sensors used, it was renounced.\newline
-General capacity monitoring is based on the idea of not having dependencies on specific scenarios or configurations, and instead just monitor the configured path and communicate
-when certain thresholds are exceeded, which, as mentioned, basically works for any data acquisition task. However, the goal of ensuring a certain level of generality applies to
-both cases. Of course, the second case is only suitable for laser scanning tasks, but it is not limited to one specific sensor. It can deal with all kinds of sensors that provide
-results in the form of \code{LaserScan} or \code{PointCloud2}, which covers quite some generality. Therefore, a specific sensor such as the \textit{RIEGL} (cf. fig.
-\ref{fig:arox_system}) can be replaced by another model without any problems, and data monitoring should continue to work based on the slight constraint of producing data of the
-two mentioned types. General capacity monitoring works either way. Since the logging of the data always follows the scanning and the scanner is the module that writes the scans to
-the file system, it would be superfluous to check the data again for plausibility, as this is already part of the sensor monitoring. It suffices to verify whether the storing
-operation, i.e. writing the scan to the log file, worked. Moreover, it is worth noting that a total sensor failure always implies a data management failure of the second type,
-but this should already be detected by the sensor monitoring procedure. Of course, more checks could be made for scenario-specific logs on the drive, etc., but since this would
-require additional knowledge of the specific circumstances, it would violate the goal of being as general as possible. Nevertheless, it is possible to extend data management in
-the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability. For a system to use the data management monitoring node,
-it must indicate scan actions via \code{/scan_action} and their completion via \code{/scan_completed}. Furthermore, \code{MONITOR_DRIVE} as well as \code{SCAN_PATH} need to be
-configured.\newline
-
-\noindent
-It is not a big challenge to simulate the occurrence of the data management problems presented in section \ref{sec:challenges_for_lta}. To simulate a ``full disk''-failure,
-i.e. a full memory of the drive on which the scans are to be logged, one could simply prepare a full USB flash drive and configure the path to be monitored accordingly,
-e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR_DRIVE = /mnt/usb}. It is also implemented in such a way that one can simply prepare the flash drive and later publish
-to \code{/sim_full_disk_failure}, which will then set the \code{MONITOR_DRIVE} to \code{/mnt/usb}. The second and more scenario-specific type of error is the scan logging error,
-which can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
-of error can be enabled / disabled via the ROS topic \code{/toggle_simulated_scan_logging_failure}. Data management issues can be addressed with the resolution methods described
-in section \ref{sec:data_management_resolver}.
-
 \subsection{Lost Connection}
 \label{sec:sim_and_mon_lost_connections}
 
@@ -2258,6 +2217,47 @@ The simulation of the GNSS failure cases can be enabled / disabled via the follo
     \item \textbf{variance history failure} \textrightarrow \code{/toggle_simulated_variance_history_failure}
     \item \textbf{high deviation} \textrightarrow \code{/toggle_simulated_high_deviation}
 \end{itemize}
+
+\subsection{Data Management}
+\label{sec:sim_and_mon_data_management}
+
+Similar to sensor (perception) monitoring, executing a \code{scan} action launches the data monitoring procedure, which looks for the potential data management issues presented in
+section \ref{sec:challenges_for_lta}. To perform the drive capacity check, i.e. to determine whether the drive on which scan logging or data storage in general takes place has enough
+free space, the cross-platform library \code{psutil}\footnote{https://pypi.org/project/psutil/} is used. It provides a function \code{disk_usage()} which returns the load of the
+specified disk, e.g. the one configured in \code{MONITOR_DRIVE}. Unlike WiFi connection monitoring, where the actual low-level network connectivity checks are outsourced
+from the monitoring framework due to its operating system coupling, disk capacity checks can be part of the framework itself because of the cross-platform nature of \code{psutil}.
+If the result of \code{disk_usage(MONITOR_DRIVE)} exceeds $99\%$, the node detects a full memory and causes an interruption of the robot's mission and a transition to the
+\code{CONTINGENCY} state. Additionally, notifications are sent to the operator when the disk load exceeds $95\%$ and $90\%$, with an indication that the data should be backed up
+externally soon. So much for very general data management monitoring, which in principle can be used for all types of data acquisition tasks, since the type of data is irrelevant
+to capacity testing. There is also a more scenario-specific part based on certain assumptions and dependencies that is optional and can be enabled or disabled by the user.
+This is the specific scan logging monitoring that assumes that the data acquisition task at hand is a scanning task, such as the one described in section
+\ref{sec:lta_plant_observation}, and that the scans are written to a user-configured directory in a file published by the dummy scanning node described in section
+\ref{sec:dummy_scanning_node}. Since the data format of the scans written by the dummy scanner is well-known, i.e. \code{LaserScan} or \code{PointCloud2}, the entries logged in
+this log file can be easily evaluated. The idea is that there should be an additional scan entry in the log file after a successful scan action. If that is not the case,
+a data management error has been detected and a transition to \code{CONTINGENCY} is initiated. It would also be possible to implement some sort of exception escalation system
+based on sensor logging errors, but since this would require in-depth knowledge of implementation details of the sensors used, it was renounced.\newline
+General capacity monitoring is based on the idea of not having dependencies on specific scenarios or configurations, and instead just monitor the configured path and communicate
+when certain thresholds are exceeded, which, as mentioned, basically works for any data acquisition task. However, the goal of ensuring a certain level of generality applies to
+both cases. Of course, the second case is only suitable for laser scanning tasks, but it is not limited to one specific sensor. It can deal with all kinds of sensors that provide
+results in the form of \code{LaserScan} or \code{PointCloud2}, which covers quite some generality. Therefore, a specific sensor such as the \textit{RIEGL} (cf. fig.
+\ref{fig:arox_system}) can be replaced by another model without any problems, and data monitoring should continue to work based on the slight constraint of producing data of the
+two mentioned types. General capacity monitoring works either way. Since the logging of the data always follows the scanning and the scanner is the module that writes the scans to
+the file system, it would be superfluous to check the data again for plausibility, as this is already part of the sensor monitoring. It suffices to verify whether the storing
+operation, i.e. writing the scan to the log file, worked. Moreover, it is worth noting that a total sensor failure always implies a data management failure of the second type,
+but this should already be detected by the sensor monitoring procedure. Of course, more checks could be made for scenario-specific logs on the drive, etc., but since this would
+require additional knowledge of the specific circumstances, it would violate the goal of being as general as possible. Nevertheless, it is possible to extend data management in
+the future to include application-specific monitoring aspects that can be easily disabled to maintain general applicability. For a system to use the data management monitoring node,
+it must indicate scan actions via \code{/scan_action} and their completion via \code{/scan_completed}. Furthermore, \code{MONITOR_DRIVE} as well as \code{SCAN_PATH} need to be
+configured.\newline
+
+\noindent
+It is not a big challenge to simulate the occurrence of the data management problems presented in section \ref{sec:challenges_for_lta}. To simulate a ``full disk''-failure,
+i.e. a full memory of the drive on which the scans are to be logged, one could simply prepare a full USB flash drive and configure the path to be monitored accordingly,
+e.g. mount flash drive to \code{/mnt/usb} and set \code{MONITOR_DRIVE = /mnt/usb}. It is also implemented in such a way that one can simply prepare the flash drive and later publish
+to \code{/sim_full_disk_failure}, which will then set the \code{MONITOR_DRIVE} to \code{/mnt/usb}. The second and more scenario-specific type of error is the scan logging error,
+which can be simulated by simply not writing the scan to the file system in the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}. Simulation of this type
+of error can be enabled / disabled via the ROS topic \code{/toggle_simulated_scan_logging_failure}. Data management issues can be addressed with the resolution methods described
+in section \ref{sec:data_management_resolver}.
 
 \subsection{Plan Deployment Failure}
 \label{sec:sim_and_mon_plan_deployment_failures}
