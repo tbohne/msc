@@ -2324,9 +2324,22 @@ reach it.
 \caption{\textsc{Navigation Failure - Unable to Find a Path to the Goal}}
 \label{fig:nav_fail}
 \end{figure}
-Despite the fact that such examples seem somewhat contrived, it is not
-unrealistic that the robot will be confronted with such situations from time to time in practice, i.e., it is important to recognize them and thus enable the system to cope with
-them. In the second case (obstacles block every single path), however, it should be detected and communicated in any case, because the robot can not solve it itself. If the robot is unable to successfully generate a
+Such examples are by no means contrived, it is not unrealistic that the robot will regularly face such situations in practice, i.e. it is important to recognize them and enable
+the system to cope with them. To give an example from the scenario under consideration: An unexpected obstacle could block the path of the robot, e.g. a large agricultural machine. 
+If the local costmap, which is usually between $3 \times 3$ and $5 \times 5$ meters, is smaller than the obstacle, this problem arises. The keyword here is \textit{sensor horizon},
+if it is too small it can lead to problems like this. On the other hand, it should be as small as possible to save runtime and increase efficiency. In general, the problem arises
+from the fact that \code{move_base} and \code{move_base_flex} work with two layers, i.e. two maps, the global map where everything is static and known, and the local map for dynamic
+obstacles, which is initially empty. Now back to the example of the agricultural machine blocking the robot's path. Since this machine is not a static object that is part of the
+global map, it can only be recognized as part of the local map. However, the local costmap shows a section of the machine that is at most as large as the local costmap. Moreover,
+everything that leaves the local costmap is \textquote{forgotten} by the robot. This leads to absurd situations in which the robot drives along the obstacle and forgets about it when
+parts of it leave the sensor horizon, so that the path behind it appears clear again. Thus, the robot oscillates back and forth in an endless loop. A simple workaround, which is not
+a panacea but is practically used in the considered scenario, is to simply copy information from the local map to the global map so that the local obstacles can be taken into
+account in the global planning (\code{move_base_flex}). This assumes that everything the robot perceives locally is transferred to the static global costmap so that it is henceforth
+considered static. This approach misuses the global static map as a knowledge store for local sensor information. However, not persistently, but only as working memory, only during
+the runtime of the robot. An obvious problem is that this assumption does not hold, since in this approach dynamic obstacles such as people can be erroneously entered into the global
+map and henceforth be considered static obstacles. This happens when a person remains stationary until leaving the sensor horizon of the robot. Nevertheless, since such cases are much
+rarer compared to the first issue, this workaround proved to be practically useful in this particular context. In the long term, of course, a more sensible solution must be developed.\newline
+So much for situations that can be solved in principle. In the other case (obstacles block every single path), however, it should be detected and communicated in any case, because the robot can not solve it itself. If the robot is unable to successfully generate a
 path, there are essentially two different outcomes, regardless of whether this is because there is no path or because it simply cannot find it. First, it results in a sustained
 recovery. Second, it simply fails with an error and aborts the navigation target. Both cases should be recognized. During practical experiments in this work, there were many
 situations where \code{move_base_flex} was unable to find a correct path and simply ended up in a loop of failed recoveries without ever returning to normal operation. In this
