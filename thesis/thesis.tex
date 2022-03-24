@@ -3177,7 +3177,7 @@ Beyond that, (un)docking and charging naturally takes some time as well.
 \end{figure}
 Based on the results, in can be concluded that the proposed framework drastically improves the resilience with respect to the identified challenges. The initial goal of assigning each
 of the identified problem categories to a different category was achieved, and the experiments demonstrate a certain level of reliability in doing so. The detailed results can be
-found in the appendix (cf. \ref{}).
+found in the appendix (cf. fig. \ref{fig:detailed_monitoring_eval_res}).
 
 \vfill
 \pagebreak
@@ -3294,13 +3294,34 @@ to this focus, there is still much room for improving and simplifying the integr
         \resizebox{\textwidth}{!}{
         \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
             \hline
-            \textbf{exp.} & \textbf{duration (h)} & \textbf{comp.} & \textbf{tasks} & \textbf{charge cycles} & \textbf{missions} & \textbf{total dist. (m)} & \textbf{traverse (s)} & \textbf{scan (s)} & \textbf{wait (s)} & \textbf{charge (s)} & \textbf{dock (s)} & \textbf{undock (s)} \\ \hline
+            \textbf{exp.} & \textbf{duration (h)} & \textbf{comp.} & \textbf{tasks} & \textbf{charge cycles} & \textbf{missions} & \textbf{dist. (m)} & \textbf{traverse (s)} & \textbf{scan (s)} & \textbf{wait (s)} & \textbf{charge (s)} & \textbf{dock (s)} & \textbf{undock (s)} \\ \hline
             250\_42\_0 & $5.09$ & True & $100$ & $9$ & $3$ & $1036.39$ & $13751.42$ & $1075.85$ & $0.10$ & $501.25$ & $1330.16$ & $1461.30$ \\ \hline
             250\_42\_1 & $5.04$ & True & $110$ & $10$ & $4$ & $1131.86$ & $12121.07$ & $1060.32$ & $0.17$ & $514.19$ & $1966.06$ & $1770.60$ \\ \hline
             250\_42\_2 & $5.14$ & True & $110$ & $10$ & $4$ & $1139.80$ & $12118.70$ & $1038.16$ & $0.14$ & $493.30$ & $1840.95$ & $1940.00$ \\ \hline
         \end{tabular}}
     \caption{\textsc{Results of the Basic Functionality Experiments (cf. section \ref{sec:experiments})}}
     \label{fig:detailed_functionality_res}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \resizebox{\textwidth}{!}{
+        \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c |}
+            \hline
+            \textbf{exp.} & \textbf{duration (h)} & \textbf{sim. probs.} & \textbf{correct cont.} & \textbf{correct no-cont.} & \textbf{false pos.} & \textbf{false neg.} & \textbf{unexp. cont.} & \textbf{comp.} & \textbf{tasks} & \textbf{charge cycles} & \textbf{missions} & \textbf{dist. (m)} \\ \hline
+            250\_42\_0 & $5.06$ & $13$ & $12$ & $1$ & $0$ & $0$ & $0$ & True & $88$ & $11$ & $3$ & $904.09$ \\ \hline
+            250\_42\_1 & $5.02$ & $15$ & $12$ & $2$ & $0$ & $1$ & $1$ & True & $72$ & $9$ & $2$ & $872.58$ \\ \hline
+            250\_42\_2 & $5.03$ & $12$ & $11$ & $1$ & $1$ & $0$ & $0$ & True & $93$ & $12$ & $3$ & $1014.08$ \\ \hline
+            250\_42\_3 & $5.05$ & $13$ & $12$ & $1$ & $0$ & $0$ & $0$ & True & $90$ & $10$ & $3$ & $991.41$ \\ \hline
+            250\_42\_4 & $5.14$ & $15$ & $12$ & $2$ & $0$ & $1$ & $0$ & True & $99$ & $10$ & $4$ & $1043.19$ \\ \hline
+            250\_42\_5 & $3.11$ & $8$ & $7$ & $1$ & $0$ & $0$ & $0$ & False & $45$ & $5$ & $2$ & $543.86$ \\ \hline
+            250\_42\_6 & $5.03$ & $14$ & $12$ & $2$ & $0$ & $0$ & $0$ & True & $82$ & $10$ & $3$ & $944.71$ \\ \hline
+            250\_42\_7 & $2.30$ & $5$ & $4$ & $1$ & $0$ & $0$ & $0$ & False & $34$ & $5$ & $2$ & $393.04$ \\ \hline
+            250\_42\_8 & $5.07$ & $12$ & $10$ & $1$ & $0$ & $1$ & $0$ & True & $83$ & $11$ & $3$ & $908.25$ \\ \hline
+            250\_42\_9 & $5.04$ & $16$ & $14$ & $2$ & $0$ & $0$ & $1$ & True & $103$ & $10$ & $3$ & $1058.45$ \\ \hline
+        \end{tabular}}
+    \caption{\textsc{Results of the Evaluation of the Monitoring Framework (cf. section \ref{sec:experiments})}}
+    \label{fig:detailed_monitoring_eval_res}
     \end{figure}
 
 \end{appendices}
