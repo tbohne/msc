@@ -1912,7 +1912,9 @@ the connection in practice. One realistic problem is an overall poor link qualit
 the link quality assessment, but due to its practical importance, it is also worth to be considered in isolation. Furthermore, the bit rate, i.e. the speed at which
 information is transmitted, gives a good indication of the overall connection quality, and it should be recognized when it falls below a certain threshold, which is a
 lower limit for practical use. In order to ensure communication with the base station at all times (RTK correction signals, scan storage, etc.), such problems should be
-detected and reported or corrected immediately.\newline
+detected and reported or corrected immediately. Of course, the WiFi connection is context-dependent and should be very strong in the proximity of the base station, while it can
+be arbitrarily weak out in the field. Nevertheless, for the scenario under consideration, it is assumed that it is available at all times in a certain quality. If this is not the
+case in other scenarios, the thresholds can be reconfigured and, if WiFi is not expected to be available at all, the monitoring node can be disabled.\newline
 Monitoring for WiFi connectivity problems takes place at two levels of abstraction. From the perspective of the high-level execution monitoring framework developed in this work,
 the monitoring is completely independent of hardware and operating system details. However, monitoring the WiFi connection of a particular system depends heavily on such details,
 so it is also necessary to provide low-level monitoring for network interfaces. The idea is that the high-level monitoring node expects the information that are evaluated as part 
