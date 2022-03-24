@@ -2732,6 +2732,41 @@ operator and the robot is restarted. All the monitoring modules described in sec
 able to communicate relevant information. The more critical topic for catastrophe cases can be triggered directly by the power management monitoring node and additionally as a result
 of a failed resolution attempt by the resolver methods described in the following sections.
 
+\subsection{Power Management}
+\label{sec:power_management_resolver}
+
+Of the two types of power management faults considered (cf. section \ref{sec:sim_and_mon_power_management}), one can be solved by the robot autonomously, namely the case in which it
+must immediately return to the charging station to prevent a total failure. The solution to this problem is based on the introduction of two intermediate goals into the plan
+- \code{return_to_base} and \code{charge}. For this purpose, the operation state machine provides the topic \code{/introduce_intermediate_recharge_goal}. Messages on this topic
+cause these two actions to be inserted at the front of the plan, i.e. as the next actions to be executed. Compared to implementing the return to base and recharge procedure as part of
+the resolution, this method of augmenting the plan and returning to normal operation has the distinct advantage of having all monitoring procedures active again and allowing for any
+necessary handling of other contingencies, such as docking or charging failures. Generally, this plan modification and subsequent continuation of normal operations is much more elegant.
+The other type of failure, i.e., a catastrophe, as defined in this thesis, is not solvable by the robot itself. The resolver node reports the problem to the human operator and
+initiates a graceful shutdown of the robot.
+
+\subsection{Charging Failure}
+\label{sec:charging_failure_resolver}
+
+There are plenty of cases where the robot can remedy charging faults on its own. Docking failures, regardless of whether they are due to detection or navigation problems, are tackled
+in the same simple and often effective way: Simply repeating the \code{return_to_base} action. Obviously, this solves the problem of an unsuitable destination. However, it
+furthermore often solves problems with detection, as a slight change in position often realigns the perspective on the container, which can be helpful. This autonomous resolution is
+performed only once. There is a counter, and if one docking failure is followed by another, it is not worth trying repeatedly, but to notify the human operator immediately. This
+covers all cases where the robot is not able to solve the problem, e.g. if the ramp is raised and the robot cannot drive in. Since the natural solution that a human would perform in
+such a case would be to lower the ramp and thus open the container, this is what is done in this case, in a sense as a predefined reaction of a human operator. For this purpose, a
+value of $j = \frac{\pi}{2}$ is sent to \code{/container/ramp_position_controller/command} (cf. section \ref{sec:sim_and_mon_charging_failures}). In principle, it would also be
+reasonable to equip the robot with a resolution function for lowering the ramp, but the real version of the container in the considered scenario does not yet provide automated ramp
+lowering. Additionally, the local and global costmaps are cleared so that the robot can immediately perceive the open container. The clearing of costmaps is already described in
+detail in section \ref{sec:nav_fail_resolver}. The resolution of undocking failures is based on the premise that they are often due to slightly inappropriate positioning of the robot.
+Hence, the resolver moves it back and forth a bit by publishing linear twists to \code{/cmd_vel}, which practically solves the problem in some cases. As in the case of docking
+failure, this is attempted only once. If the robot still fails to undock, the human operator is notified, including a potential lowering of the ramp and clearing of the costmaps
+if necessary. Eventually, to the third type of charging failure, i.e. the explicit non-functioning of the battery charging, despite successful docking. As this is often due to
+imprecise alignment in front of the inductive charging plate, it may help to repeat the alignment process. Again, this resolution is performed only once. If it still fails, it
+may be a more complex problem beyond the robot's ability to solve, which is why the operator is notified. All resolution counters that ensure that the respective method is only
+attempted once are reset at appropriate events. The counters for docking and charging failure resolution are reset when the battery charge level increases after the docking
+error, as this is a clear indicator that the docking was finally successful and the battery is being charged. For this purpose the current state of charge is stored at the start of
+the docking resolution and later compared with the most recent state on \code{/arox/battery_param}. The undocking resolution count is reset when \code{move_base_flex} reports
+\code{GoalStatus.SUCCEEDED}.
+
 \subsection{Drastic Weather Change}
 \label{sec:weather_resolver}
 
@@ -2747,16 +2782,30 @@ which then reports back successful resolution, and the high-level state machine 
 back to active monitoring. In summary, the robot seeks shelter in extreme weather situations, uses the time to recharge its battery, and waits until conditions are moderate before
 continuing to execute the plan.
 
-\subsection{Incorrect or Inaccurate Localization}
-\label{sec:localization_resolver}
+\subsection{Sensor (Perception) Failure}
+\label{sec:sensor_failure_resolver}
 
-The approach to resolving localization problems described below is not a panacea, but merely a workaround that can, however, help in many practical situations. Whenever the robot's
-normal operation is interrupted due to localization issues detected by the monitoring procedures described in section \ref{sec:sim_and_mon_incorrect_localization}, the same resolution
-approach is initiated: The robot is moved back and forth a few meters to recalibrate the localization using different GNSS positions. This is realized by publishing appropriate linear
-twists to the \code{/cmd_vel} topic. Afterwards, the localization monitoring node is reinitialized, clearing all previously collected data, etc. Furthermore, the local costmap is
-cleared to remove potential mapping anomalies resulting from the localization failure. This is achieved by sending a \code{clear_costmap} \code{RecoveryGoal} to the
-\code{SimpleActionServer} for recoveries provided by \code{move_base_flex} as well as plain \code{move_base}. As usual, if something goes wrong during the resolution attempt,
-the fallback solution of asking the operator for help is executed (cf. section \ref{sec:fallback_solution}).
+The solution approaches for sensor (perception) failures are rather trivial. There is once again a counter for resolution attempts. If it is the first sensor failure, the scan is
+simply repeated. However, if it fails repeatedly, a catastrophe condition is initiated, i.e. the operator is notified and the system is shut down. The counter is reset at appropriate
+times, e.g. when the scan was successful.
+
+\subsection{Lost Connection}
+\label{sec:connection_resolver}
+
+Dealing with WiFi and GNSS connectivity issues is once again based on retries, counting them, and potential aggravation. The rationale is to have a short timeout, followed by a
+reconnection attempt and notification of the problem in the event of a repeated failure. Internet connection issues, however, are resolved by
+reinitializing the internet monitoring node, as this could fix a failed connection to the \code{speedtest} API. Of course, this is also not done arbitrarily often and in case of
+repeated failure, the human operator is notified.
+
+\subsection{Data Management}
+\label{sec:data_management_resolver}
+
+Data management problems are a special case as there is one case where the robot is definitely not able to solve the problem itself, namely the case of a full memory. However, this is
+not a problem in principle. For instance, the robot could upload the scans instead of storing them on its drive, but for the prototypical scenario considered in this work, the robot
+will store the scans on its drive, so this is a problem that must be solved by the human operator. Nevertheless, it is not a direct catastrophe case like the power management problem
+where the robot cannot return to the base station due to its battery charge, but there is a useful step that can be taken before the catastrophe case is initiated. The robot can
+return to its base and seek shelter before waiting for the human operator to take care of the problem. The second type of data management problem, i.e. an improperly logged scan, is
+again addressed by a retry and count-based attempt before a catastrophe is triggered if necessary.
 
 \subsection{Plan Deployment Failure}
 \label{sec:plan_deployment_resolver}
@@ -2772,31 +2821,6 @@ Thus, in case of an unavailable service failure, the resolver simply publishes o
 cases above, such a re-initialization is not performed arbitrarily often, but there is a counter and a limit that cause the problem to be forwarded to the human operator in case of
 repeated failure. In summary, for all potential contingencies arising from problems in the deployment of the plan, the robot has a strategy to solve them itself. As always, when it
 fails, it passes the problem on to the human operator.
-
-\subsection{Sensor (Perception) Failure}
-\label{sec:sensor_failure_resolver}
-
-The solution approaches for sensor (perception) failures are rather trivial. There is once again a counter for resolution attempts. If it is the first sensor failure, the scan is
-simply repeated. However, if it fails repeatedly, a catastrophe condition is initiated, i.e. the operator is notified and the system is shut down. The counter is reset at appropriate
-times, e.g. when the scan was successful.
-
-\subsection{Data Management}
-\label{sec:data_management_resolver}
-
-Data management problems are a special case as there is one case where the robot is definitely not able to solve the problem itself, namely the case of a full memory. However, this is
-not a problem in principle. For instance, the robot could upload the scans instead of storing them on its drive, but for the prototypical scenario considered in this work, the robot
-will store the scans on its drive, so this is a problem that must be solved by the human operator. Nevertheless, it is not a direct catastrophe case like the power management problem
-where the robot cannot return to the base station due to its battery charge, but there is a useful step that can be taken before the catastrophe case is initiated. The robot can
-return to its base and seek shelter before waiting for the human operator to take care of the problem. The second type of data management problem, i.e. an improperly logged scan, is
-again addressed by a retry and count-based attempt before a catastrophe is triggered if necessary.
-
-\subsection{Lost Connection}
-\label{sec:connection_resolver}
-
-Dealing with WiFi and GNSS connectivity issues is once again based on retries, counting them, and potential aggravation. The rationale is to have a short timeout, followed by a
-reconnection attempt and notification of the problem in the event of a repeated failure. Internet connection issues, however, are resolved by
-reinitializing the internet monitoring node, as this could fix a failed connection to the \code{speedtest} API. Of course, this is also not done arbitrarily often and in case of
-repeated failure, the human operator is notified.
 
 \subsection{Navigation Failure}
 \label{sec:nav_fail_resolver}
@@ -2823,40 +2847,16 @@ removal function is implemented as part of the navigation failure monitoring nod
 keeps track of all spawned obstacle models. If a resolution was successful, obstacle removal is initiated via a topic \code{/clear_spawned_obstacles}, which causes the
 \code{ObstacleSpawner} to despawn all models via the \code{gazebo/delete_model} service. Finally, after successful resolution, the active monitoring mode is reactivated via a topic.
 
-\subsection{Charging Failure}
-\label{sec:charging_failure_resolver}
+\subsection{Incorrect or Inaccurate Localization}
+\label{sec:localization_resolver}
 
-There are plenty of cases where the robot can remedy charging faults on its own. Docking failures, regardless of whether they are due to detection or navigation problems, are tackled
-in the same simple and often effective way: Simply repeating the \code{return_to_base} action. Obviously, this solves the problem of an unsuitable destination. However, it
-furthermore often solves problems with detection, as a slight change in position often realigns the perspective on the container, which can be helpful. This autonomous resolution is
-performed only once. There is a counter, and if one docking failure is followed by another, it is not worth trying repeatedly, but to notify the human operator immediately. This
-covers all cases where the robot is not able to solve the problem, e.g. if the ramp is raised and the robot cannot drive in. Since the natural solution that a human would perform in
-such a case would be to lower the ramp and thus open the container, this is what is done in this case, in a sense as a predefined reaction of a human operator. For this purpose, a
-value of $j = \frac{\pi}{2}$ is sent to \code{/container/ramp_position_controller/command} (cf. section \ref{sec:sim_and_mon_charging_failures}). In principle, it would also be
-reasonable to equip the robot with a resolution function for lowering the ramp, but the real version of the container in the considered scenario does not yet provide automated ramp
-lowering. Additionally, the local and global costmaps are cleared so that the robot can immediately perceive the open container. The clearing of costmaps is already described in
-detail in section \ref{sec:nav_fail_resolver}. The resolution of undocking failures is based on the premise that they are often due to slightly inappropriate positioning of the robot.
-Hence, the resolver moves it back and forth a bit by publishing linear twists to \code{/cmd_vel}, which practically solves the problem in some cases. As in the case of docking
-failure, this is attempted only once. If the robot still fails to undock, the human operator is notified, including a potential lowering of the ramp and clearing of the costmaps
-if necessary. Eventually, to the third type of charging failure, i.e. the explicit non-functioning of the battery charging, despite successful docking. As this is often due to
-imprecise alignment in front of the inductive charging plate, it may help to repeat the alignment process. Again, this resolution is performed only once. If it still fails, it
-may be a more complex problem beyond the robot's ability to solve, which is why the operator is notified. All resolution counters that ensure that the respective method is only
-attempted once are reset at appropriate events. The counters for docking and charging failure resolution are reset when the battery charge level increases after the docking
-error, as this is a clear indicator that the docking was finally successful and the battery is being charged. For this purpose the current state of charge is stored at the start of
-the docking resolution and later compared with the most recent state on \code{/arox/battery_param}. The undocking resolution count is reset when \code{move_base_flex} reports
-\code{GoalStatus.SUCCEEDED}.
-
-\subsection{Power Management}
-\label{sec:power_management_resolver}
-
-Of the two types of power management faults considered (cf. section \ref{sec:sim_and_mon_power_management}), one can be solved by the robot autonomously, namely the case in which it
-must immediately return to the charging station to prevent a total failure. The solution to this problem is based on the introduction of two intermediate goals into the plan
-- \code{return_to_base} and \code{charge}. For this purpose, the operation state machine provides the topic \code{/introduce_intermediate_recharge_goal}. Messages on this topic
-cause these two actions to be inserted at the front of the plan, i.e. as the next actions to be executed. Compared to implementing the return to base and recharge procedure as part of
-the resolution, this method of augmenting the plan and returning to normal operation has the distinct advantage of having all monitoring procedures active again and allowing for any
-necessary handling of other contingencies, such as docking or charging failures. Generally, this plan modification and subsequent continuation of normal operations is much more elegant.
-The other type of failure, i.e., a catastrophe, as defined in this thesis, is not solvable by the robot itself. The resolver node reports the problem to the human operator and
-initiates a graceful shutdown of the robot.
+The approach to resolving localization problems described below is not a panacea, but merely a workaround that can, however, help in many practical situations. Whenever the robot's
+normal operation is interrupted due to localization issues detected by the monitoring procedures described in section \ref{sec:sim_and_mon_incorrect_localization}, the same resolution
+approach is initiated: The robot is moved back and forth a few meters to recalibrate the localization using different GNSS positions. This is realized by publishing appropriate linear
+twists to the \code{/cmd_vel} topic. Afterwards, the localization monitoring node is reinitialized, clearing all previously collected data, etc. Furthermore, the local costmap is
+cleared to remove potential mapping anomalies resulting from the localization failure. This is achieved by sending a \code{clear_costmap} \code{RecoveryGoal} to the
+\code{SimpleActionServer} for recoveries provided by \code{move_base_flex} as well as plain \code{move_base}. As usual, if something goes wrong during the resolution attempt,
+the fallback solution of asking the operator for help is executed (cf. section \ref{sec:fallback_solution}).
 
 \chapter{Integrated Solutions}
 
