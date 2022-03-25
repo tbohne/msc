@@ -88,6 +88,13 @@
 \titleformat{\subsubsection}[block]
     {\sffamily\large\bfseries}{\thesubsubsection}{1em}{}
 
+% refine "itemize"
+\usepackage{relsize}
+\usepackage{enumitem}
+\setlist[itemize,1]{
+    label={\raisebox{.5mm}{\footnotesize$\blacktriangleright$}}
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
