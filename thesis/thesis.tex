@@ -588,7 +588,7 @@ reparability of such cases. Also useful is their discussion of failure categorie
 \cite{Khalastchi:2018}. The authors themselves focus on the distinction between technical failures (hardware / software) and interaction failures (environment / other actors).
 Of crucial importance to this work is the authors' finding that the involvement of a human operator in certain critical situations is computationally cheaper than comparatively
 costly and often unreliable other approaches. To do this in the most effective way, the problem should be communicated as precisely as possible. \cite{Honig:2018}\newline
-In 2019, Mauro et al. \cite{Mauro:2019} introduce a high-level deep learning and vision based approach to execution monitoring for robot tasks. Monitoring is again limited to the execution of the
+In 2019, Mauro et al. \cite{Mauro:2019} introduce a high-level deep learning and vision-based approach to execution monitoring for robot tasks. Monitoring is again limited to the execution of the
 plan and not to the operation of the robot in an environment in general. They evaluate their approach with a humanoid assistant robot in a warehouse environment and report some
 promising results. However, as mentioned, it is only considering very specific tasks and high-level actions.\newline
 Recently (2021), Harris et al. \cite{Harris:2021} presented an execution monitoring and online plan modification approach that considers aspects such as resource availability
@@ -612,55 +612,55 @@ relies on replanning.\newline
 \textit{Environment Monitoring and Agricultural Robotics.}\newline
 
 \noindent
-An early example of automated crop monitoring in its broadest sense is forest inventory. Lalonde et al. \cite{Lalonde:2006} address the task of automatic and accurate tree counting and
+An early example of automated crop monitoring in its broadest sense is forest inventory. In 2006, Lalonde et al. \cite{Lalonde:2006} address the task of automatic and accurate tree counting and
 diameter estimation based on $3D$ point cloud processing. The motivation in this area is similar to the classic field scenarios: Optimizing efficiency and reducing manual labor.\newline
-Singh et al. \cite{Singh:2010} present their results and findings from operating a reconfigurable autonomous driving system on a farm. Their overall goal is to integrate technologies
+Singh et al. \cite{Singh:2010} (2010) present their results and findings from operating a reconfigurable autonomous driving system on a farm. Their overall goal is to integrate technologies
 from the field of robotics with plant science to increase production efficiency. Based on the reconfigurable tool and sensor setup, they aim to use the systems to improve the
 efficiency of various agricultural operations such as harvesting, spraying, plant inspection, tree counting, etc. The vehicle drives autonomously in the sense that it detects and
 follows rows of trees in an orchard based on laser scans. One of the most important insights, which may also be relevant to this work, is that it is crucial to keep the project
 consistent with the actual requirements of the intended users and real-world applications. Only then can the result actually be of use to practitioners.\newline
-Xue et al. \cite{Xue:2010} present a vision-based system also capable of guiding a mobile robotic platform trhough crop rows in a field, thus enabling autonomous navigation
+Xue et al. \cite{Xue:2010} present a vision-based system also capable of guiding a mobile robotic platform through crop rows in a field, thus enabling autonomous navigation
 in a field. The work stresses the need for reconfigurable platforms that can, in principle, be used for various agricultural tasks, depending on the particular sensor equipment.
 \newline
-A comprehensive overview of robotic systems (AUVs, AGVs, UAVs) for environmental monitoring, e.g. deep-sea or volcano exploration, is provided by Dunbabin et al. \cite{Dunbabin:2012}.
+A comprehensive overview of robotic systems (AUVs, AGVs, UAVs) for environmental monitoring, e.g. deep-sea or volcano exploration, is provided by Dunbabin et al. \cite{Dunbabin:2012} in 2012.
 The authors underscore the urgent need for long-term autonomous environmental monitoring systems to cope with natural catastrophes such as earthquakes, tsunamis, forest fires, volcanic
 eruptions, etc. In a nutshell: \textquote{\textit{[...] scientists see robotics as a promising tool with the capacity to improve their current means to observe and collect
 data about natural processes or phenomena at vast spatial and temporal scales.}} \cite{Dunbabin:2012} They view robots essentially as mobile sensors that are used to understand
 the environment. Although there is an undeniable demand for such systems, the authors note that there is a lack of robustness, reliability, and security for a widespread use,
 which could be addressed by fault-tolerant systems and redundant hardware components. \cite{Dunbabin:2012}\newline
-Dong et al. \cite{Dong:2014} present an imaging method for crop monitoring based on both AGVs and UAVs. Traditionally, manual labor has been required to collect samples, which is
+In 2014, Dong et al. \cite{Dong:2014} present an imaging method for crop monitoring based on both AGVs and UAVs. Traditionally, manual labor has been required to collect samples, which is
 obviously not suitable for monitoring large areas over long periods of time. \cite{Dong:2014} Therefore, as the authors point out, imaging methods have been developed to enable
 remote sensing and reduce the human effort required for data acquisition. Originally, hyper-spectral satellite imagery was used with the disadvantage of limited spatial and temporal
 resolution. \cite{Dong:2014} Thus, they introduce a crop monitoring approach that uses UAVs or AGVs and methods from computer vision to increase the efficiency of crop imaging.
 The goal of the work is to create a $4D$ representation of plant development based on high-resolution imagery and GPS / IMU data. The overall goal of the work is to increase the
 efficiency of agricultural production by replacing time-consuming and costly human labor with highly efficient autonomous monitoring systems.
-As an early work, however, it is still limited to manually operated vehicles and therefore disregards the aspect of autonomy.\newline
+As an early work, however, it is still limited to manually operated vehicles and therefore disregards the aspect of autonomy in this sense.\newline
 Bargoti et al. \cite{Bargoti:2015} introduce a system for automated tree detection on an apple orchard that combines image data and laser scans. The work highlights that information
 acquisition and processing is becoming increasingly relevant for farmers trying to optimize the efficiency of their processes. The developed system is a UGV capable of autonomous
 operation via intrarow nagivation. However, the authors point out issues regarding localization reliability and GPS connectivity that need to be addressed in future work.
 This is a strong motivation for two of the challenges discussed in section \ref{sec:challenges_for_lta}.\newline
-Carlone et al. \cite{Carlone:2015} highlight that recent advances in mobile robotics, particularly UGVs and UAVs, are increasingly providing a realistic alternative to
+In 2015, Carlone et al. \cite{Carlone:2015} highlight that recent advances in mobile robotics, particularly UGVs and UAVs, are increasingly providing a realistic alternative to
 inefficient, labor-intensive manual work in the task of continuous crop monitoring. They target a specific aspect of crop monitoring and create $3D$ representations over time,
 resulting in an overall $4D$ model of plant evolution. \newline
 Virlet et al. \cite{Virlet:2016} choose a completely different approach of automating plant phenotyping. They are developing an automated field phenotyping platform, but instead of
 relying on (autonomous) vehicles, they are building a sensor array mounted on stationary rails above the rows of plants to be monitored. They argue that such a system has the
 advantage of completely eliminating the need for human supervision, which is not yet the case with vehicles. A further disadvantage of vehicle-based monitoring systems is their
-impact on the soil structure and their potential damage, especially because of the continuous nature of the operations. \cite{Virlet:2016} Thus, they provide an interesting
+impact on the soil structure and its potential damage, especially because of the continuous nature of the operations. \cite{Virlet:2016} Thus, they provide an interesting
 alternative to autonomous monitoring using AGVs, which arguably has a higher initial effort to set up such a monitoring structure, but may be more reliable and soil-protecting,
 at least with the current state of the art of AGVs. However, one could argue that such an approach may not scale for very large field areas.\newline 
 Another semi-autonomous mobile ground vehicle for crop monitoring is presented by Bietresato et al. \cite{Bietresato:2016}.\newline
-Bechar et al. \cite{Bechar:2016} provide an overview of the current state of the art of agricultural robots for field work. The authors particularly emphasize that the various
+In 2016, Bechar et al. \cite{Bechar:2016} provide an overview of the current state of the art of agricultural robots for field work. The authors particularly emphasize that the various
 components that make up a robotic system must be integrated and synchronized to create a holistic system capable of performing in unstructured dynamic environments at least as
 well and reliably as previously used methods, such as manual human labor. Successful systems that are rarely available on the market must be economically viable, safe and robust.
 \cite{Bechar:2016} In specific, the authors stress the necessity of researching human-in-the-loop systems, as they see great potential in them for increased robustness and
 reliability. The paper summarizes the extensive research that has demonstrated the potential of robots to address current and future problems in agriculture, particularly in terms
 of production efficiency and environmental sustainability. As one of the biggest challenges in agricultural scenarios, they identify the unstructured and dynamic nature of the
-environment, which changes over time and implies myriad unpredictable contingencies. Bechar et al. classify applications of robotic systems into four groups:
+environment, which changes over time and implies myriad unpredictable contingencies. Bechar et al. classify applications of robotic systems in general into four groups:
 \begin{itemize}
-    \item environment and objects structured
-    \item environment unstructured and objects structured
-    \item environment structured and objects unstructured
-    \item environment and objects unstructured
+    \item Environment and objects structured
+    \item Environment unstructured and objects structured
+    \item Environment structured and objects unstructured
+    \item Environment and objects unstructured
 \end{itemize}
 They place the agricultural sector in the last and arguably most difficult category, which they see as a particular hurdle to commercialization. Based on their reasoning, it is
 evident that the challenges to long-term autonomy that will be considered in this thesis are part of the barrier to commercialization. Another challenge identified in the work that
@@ -674,7 +674,7 @@ other. This is exactly the idea of this thesis, to cope with otherwise unsolvabl
 a large part of the work and a human operator only needs to intervene once in a while in unpredictable and unsolvable situations. Full autonomy may be a reasonable goal to strive for
 in the future, but it is not a requirement for improving productivity. The work also asserts that the most important aspect with respect to the numerous integrated components in a
 robot is to provide methods capable of handling unexpected events, which is a great motivation for this work.\newline
-In a later paper, Dong et al. \cite{Dong:2017} revisit autonomous crop monitoring with a focus on high temporal as well as spatial resolution. They claim that common $3D$ models do
+In a later paper (2017), Dong et al. \cite{Dong:2017} revisit autonomous crop monitoring with a focus on high temporal as well as spatial resolution. They claim that common $3D$ models do
 not acknowledge the temporal aspect of crops that are continuously growing and changing. As in the previous work, they rely on UAVs and AGVs because of their potential to collect
 data at high spatial and temporal resolution very efficiently. They present a crop monitoring method for $4D$ representation considering both space and time, as well as an algorithm
 for robust data association that can deal with heavy environment variations. The work assumes a static environment during a data acquisition process, which means that it ignores
@@ -687,7 +687,7 @@ goes hand in hand with the development of diagnostic systems. Many of the incorp
 the robotic systems that use them in practice. \cite{Ampatzidis:2017} Thus, the authors highlight the need for integrated testing and diagnosis.
 Likewise, \cite{Roucek:2021} underlines the fact that robots consist of a large number of integrated hardware and software modules that are typically developed and
 tested in isolation, which is why aspects such as system integration, interoperability, etc. often unjustly receive little attention.\newline
-Roure et al. \cite{Roure:2018} study a monitoring and protection scenario in vineyards. Typically, human workers manually go through the field and distribute pheromone dispensers
+In 2018, Roure et al. \cite{Roure:2018} study a monitoring and protection scenario in vineyards. Typically, human workers manually go through the field and distribute pheromone dispensers
 to protect the plants. \cite{Roure:2018} The authors utilize a mobile AGV and focus on the necessary integration of state of the art robotics and AI techniques required to deploy
 such a system.\newline
 Very close to the scenario in this thesis in the work of Bayati et al. \cite{Bayati:2018}, which considers a mobile robot for crop monitoring. The authors present a high-throughput
@@ -696,18 +696,18 @@ genetic research. \cite{Bayati:2018} The authors claim that in 2018, there were 
 autonomous vehicles. The goal of phenotyping is to identify desirable genetic responses to environmental stimuli in order to improve crop quality. \cite{Bayati:2018}
 In the paper, a prototype of an automated HTP based on an agricultural vehicle is presented. However, it is not yet about full autonomy and especially not about long-term autonomy.
 \newline
-A recent work on real-time detection of crops for autonomous harvesting is provided by Montes et al. \cite{Montes:2020}. The work focuses on real-time detection of broccoli crops
+A recent work on real-time detection of crops for autonomous harvesting is provided by Montes et al. \cite{Montes:2020} in 2020. The work focuses on real-time detection of broccoli crops
 in $3D$ point clouds.\newline
-Very recently, Fountas et al. \cite{Fountas:2020} gave an overview of the state of the art in robotic systems for agriculture, especially for field work. The authors distinguish
+Also very recently, Fountas et al. \cite{Fountas:2020} gave an overview of the state of the art in robotic systems for agriculture, especially for field work. The authors distinguish
 the challenges that such robots might face in general and task-specific issues. The universal issues are more related to challenges that all AGVs might face in dynamic outdoor
-environments (terrain assessment, route planning, safety etc.). \cite{Fountas:2020} Whereas task-specific issues are more related to the specific agricultural task. The authors
+environments (terrain assessment, route planning, safety, etc.). \cite{Fountas:2020} Whereas task-specific issues are more related to the specific agricultural task. The authors
 focus on problems specific to crop production, such as weed control, seeding, disease and insect detection, monitoring, phenotyping, spraying, and harvesting. Particularly relevant
 to this thesis is the section on plant monitoring, where the authors underline the potential of automation in this area. There are systematic assessment tools such as
 \textit{Ratio Vegetation Index (RVI)} and \textit{Normalized Difference Vegetation Index (NDVI)} that inform about important aspects of the overall plant health. \cite{Fountas:2020}
 In general, the authors point out that robotics in agriculture has the potential to solve some of the fundamental efficiency problems that currently exist in the field. In summary,
 they describe current research and commercialization efforts, highlight the technologies required for such systems, and hint to some potentials, particularly related to challenges
 in computer vision that are ubiquitous in agricultural application of robots.\newline
-Polvara et al. \cite{Polvara:2021} consider a specific issue related to the increasing use of autonomous mobile robots in agricultural environments where they collaborate with
+In 2021, Polvara et al. \cite{Polvara:2021} consider a specific issue related to the increasing use of autonomous mobile robots in agricultural environments where they collaborate with
 human workers. The authors present a method for identifying and tracking human workers in such environments to enable robots to become useful assistants.\newline
 Finally, Khak Pour et al. \cite{KhakPour:2021} present an implementation of an autonomous, mobile, ground-based HTPP for crop monitoring. However, autonomy refers to the
 monitoring task, but not to the entire operation, as the tractor is a semi-autonomous vehicle. Nevertheless, since the authors consider their system ready for the commercial
