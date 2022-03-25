@@ -239,7 +239,7 @@ a list of common problems in such contexts is valuable, as such a compilation an
 \noindent
 The idea is to start with the basic long-term autonomy setup described in section \ref{sec:prototype_scenario}, provide a list of potential problems that 
 stand in its way, and develop execution monitoring methods to detect a subset of these issues with the aim of increasing the robustness of such a system in a simulation
-and ideally in practice on the real hardware. Before delving into the details, it is essential to define what is actually meant by the term \textit{robust autonomy} in the
+and perspectively in practice on the real hardware. Before delving into the details, it is essential to define what is actually meant by the term \textit{robust autonomy} in the
 context of this thesis. Brodskiy et al. sum it up precisely: \textquote{\textit{[...] robust autonomy is mostly considered as ability of the system to react to changes in the
 environment, unexpected situations or special conditions. The phenomena to which the system is supposed to react can be summarised as abnormal events, happenings outside the
 normal workflow. Without special considerations the abnormal events become the cause of the system failure.}}. \cite{Brodskiy:2011}
@@ -249,32 +249,24 @@ needed to set up the initial prototype are available in principle, but it will b
 solution. After the basic scenario works in the simulation, it is going to be extended with an evaluation part. A subset of the potential barriers described in section 
 \ref{sec:challenges_for_lta} is going to be implemented and it will be shown that the system no longer works under certain conditions, i.e. that these
 barriers are indeed able to cause failure of long-term autonomous systems. Consequently, a first step is to observe how the system performs without any further 
-treatment of such problematic situations, i.e. how often the robot gets stuck in the simulation based on a specific problem case.
+treatment of such problematic situations.
 Subsequently, the goal is to develop monitoring methods capable of recognizing these problems such that they can be resolved.
 To give an example, a particular idea could be to block paths on the field in the simulation in a randomized fashion with the intent of reproducibly making things that 
-can go wrong actually go wrong. The type of the obstacles is incidental to this work, e.g. a muddy path that the robot is not able to drive through. 
+can go wrong actually go wrong.
 It is obvious that the robot must be enabled to detect such problems, in this case by some kind of obstacle detection.
 Once detected, the problem can be resolved by either incorporating solutions from the literature or finding new solutions.
 Since detection is a necessary prerequisite for overcoming these barriers, the focus will be on detection, i.e. execution monitoring,
 and an initial trivial solution adopted for all of them is to call the human operator who then takes care of the problem.\newline
 As should be clear by now, long-term autonomy, as robotics in general, is an integration problem. Many technologies have to be integrated in order to build a working system, 
 and compared to other disciplines of artificial intelligence, it is not trivial to evaluate the system and conclude, for example, that it has improved the status quo by a 
-certain percentage. Nevertheless, it is crucial to provide results that are meaningful based on scientific standards. 
-The keyword under which such attempts are summarized is scientific robotics, and a goal of this work will be to evaluate the developed system based on these standards.
+certain percentage. Nevertheless, it is crucial to provide results that are meaningful based on scientific standards.
 Since it is beyond the scope of this work to test the developed system for extended periods of time in practice, there is a need for other ways of evaluation.
 This is where the described evaluation approach in the simulation comes into play. In order to demonstrate, test and evaluate the system, there will be a sufficiently meaningful, 
-i.e. realistic, physics simulation that allows an empirical analysis based on a huge number of samples. As mentioned, the starting point will be the simulation from the 
-PORTAL project that is going to be extended as part of this work. Ultimately, there should also be a long-term test (e.g. one day) in the field with the real hardware that 
+i.e. realistic, physics simulation that allows an empirical analysis. Ultimately, there should also be a long-term test (e.g. one day) in the field with the real hardware that 
 underlines the relevance of the approaches discussed in this work for practical applications. However, since a mobile robot is a complex system, there are arbitrary 
 many technical barriers that could prevent such a long-term test in the real world. The idea is therefore to be at least able to demonstrate the system in the simulation
-without depending on the success of such a real-world experiment. In addition to serving as a backup for possible failures in real-world tests,
-a simulation naturally creates an environment that allows reproducible situations and thus permits empirical investigation.\newline
-
-TODO: put somewhere::
-Yet all this does not always work completely smoothly; on the contrary, long-term autonomy in such a dynamic outdoor scenario is associated with an incredible number of
-imponderables and potential problems, which is precisely the subject of this work.\newline
----------------\newline
-Basically everything I present here takes place in the ROS universe, the robot operating system, the standard robotics framework and ecosystem.\newline
+without depending on the success of such a real-world experiment. In addition, a simulation naturally creates an environment that allows reproducible situations and thus permits
+empirical investigation.\newline
 
 TODO: ADD CHAPTER OVERVIEW \dots\newline
 Initially, the considered scenario is introduced and it is defined how long-term autonomous mobile robots are to be understood in the context of this work.
