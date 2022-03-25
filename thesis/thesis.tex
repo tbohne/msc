@@ -531,41 +531,40 @@ robustness in order to deal with all the challenges potentially occuring in such
 \textit{Execution Monitoring.}\newline
 
 \noindent
-An early work on execution monitoring in robotics is by Pettersson \cite{Pettersson:2005}. The author attempts to transfer the knowledge of \textit{fault detection and isolation
+An early work on execution monitoring in robotics is by Pettersson \cite{Pettersson:2005} (2005). The author attempts to transfer the knowledge of \textit{fault detection and isolation
 } (FDI) commonly used in industrial control to the field of robotics. The work already highlights the requirement for execution monitoring when planning the deployment of robots in
 dynamic environments, e.g. due to lack of information, unreliable resources, or stochastic effects. Pettersson discusses several attempts to deal with uncertainty, but notes that
 there is no way to completely eliminate uncertainty in partially observable dynamic environments and that systems must tolerate some degree of uncertainty. The paper asserts that
 systems must expect faulty execution from time to time, e.g. by including execution monitoring as part of the control architecture. This is exactly what is done in this thesis
-(cf. \ref{sec:execution_monitoring_smach_architecture}). Pettersson compares several definitions for execution monitoring. A classic variation from the field of AI is the
+(cf. section \ref{sec:execution_monitoring_smach_architecture}). Pettersson compares several definitions for execution monitoring. A classic variant from the field of AI is the
 identification and classification of inconsistencies between observations and predictions, and mechanisms to recover from these inconsistencies. \cite{Pettersson:2005}
 However, according to this definition, only systems with predictive models can perform monitoring. \cite{Pettersson:2005} A second definition, which comes more from an
 industrial control perspective, defines it as a continuous process of real-time information acquisition that determines the state of the system and signals anomalies.
 \cite{Pettersson:2005} Based on the literature, Pettersson proposes three types of general functions of a monitoring procedure, the first two of which are more or less mandatory:
 \begin{enumerate}
-    \item fault detection \textrightarrow $\thinspace$ recognizing problem
-    \item fault isolation \textrightarrow $\thinspace$ classifying error type
-    \item fault identification \textrightarrow $\thinspace$ rating severity
+    \item Fault detection \textrightarrow $\thinspace$ recognizing problem
+    \item Fault isolation \textrightarrow $\thinspace$ classifying error type
+    \item Fault identification \textrightarrow $\thinspace$ rating severity
 \end{enumerate}
-Based on the definitions in the paper, the execution monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} fall under the category of data-driven
+Following the definitions in the paper, the execution monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} fall under the category of data-driven
 approaches, where fault detection and isolation are based on the (statistical) evaluation of the input data. Statistical analysis assumes that data variability changes drastically
 only in problematic situations and is otherwise relatively stable. \cite{Pettersson:2005} Many of the monitoring methods presented in this thesis involve comparing an input signal
-to a specified limit (cf. \ref{sec:sim_and_mon_of_lta_challenges}), which is called \textit{limit value checking} and is very common in industrial control. \cite{Pettersson:2005} However, the methods in this thesis are also
+to a specified limit (cf. section \ref{sec:sim_and_mon_of_lta_challenges}), which is called \textit{limit value checking} and is very common in industrial control. \cite{Pettersson:2005} However, the methods in this thesis are also
 quite well aligned with the core ideas of expert systems (knowledge-based systems), which often represent knowledge with conditional statements. \cite{Pettersson:2005} Pettersson,
 like many other authors, points out that one of the most common problems in the field of mobile robotics is that methods and solutions are developed and tailored for a specific
 system and the generalizability is rather limited, which is a motivation for developing solutions that are as general as possible but still useful.\newline
-Vechet et al. \cite{Vechet:2015} state that fault detection is underexposed in robotics research and development, but is nonetheless fundamental to the
-deployment of autonomous mobile robots. They see a demand for health monitoring to prevent system failures and present a Markov chain model for \textit{Failure Detection and
-Identification (FDI)}.\newline
+In 2014, Vechet et al. \cite{Vechet:2015} state that fault detection is underexposed in robotics research and development, but is nonetheless fundamental to the
+deployment of autonomous mobile robots. They see a demand for health monitoring to prevent system failures and present a Markov chain model for FDI.\newline
 Iocchi et al. \cite{Iocchi:2016} develop a framework for plan generation and execution with a focus on robustness by addressing certain shortcomings of classical plan execution
 monitoring approaches. They are evaluating the framework in a service robot application in public, human-populated environments such as shopping malls and offices. A critical
 challenge in such an environment, identified in the paper, arises from the fact that the robot must interact with inexperienced users. In particular, they highlight the great
 significance and need for planning under uncertainty, execution monitoring solutions, and the combined consideration of planning and execution when it comes to the use of
 autonomous robots in real-world environments populated by humans. The framework proposed in the work relies on \textit{Progressive Reasoning Units} and \textit{Petri Net Plans}
 and is, like many works in the literature considering monitoring, particularly focused on plan execution.\newline
-Winder \cite{Winder:2016} proposes an anomaly reasoning framework capable of recognizing and responding to previously unknown entities and situations, with the overall goal of
+In 2016, Winder \cite{Winder:2016} proposes an anomaly reasoning framework capable of recognizing and responding to previously unknown entities and situations, with the overall goal of
 increasing an agent's versatility and robustness in dynamic environments. The author postulates the hypothesis that such an approach requires the integration of machine learning
 methods and systematic knowledge representation.\newline
-Khalastchi et al. consider \textit{fault detection and diagnosis} (FDD) for robotic systems, which is necessary for recovery from problematic situations and thus
+Khalastchi et al. (2018) consider \textit{fault detection and diagnosis} (FDD) for robotic systems, which is necessary for recovery from problematic situations and thus
 robust long-term operation. \cite{Khalastchi:2018} The application of FDD to robotics is a relatively new field of research, but one that is very crucial
 because errors can disrupt a robot's mission, reduce its efficiency, or even pose safety problems for itself or the environment. \cite{Khalastchi:2018} The paper notes that it is
 critical that the detection of a problem is followed by some form of diagnosis that identifies the affected component and supports the recovery process. The authors provide a useful
@@ -583,18 +582,18 @@ that are quite relevant for this thesis, despite their different focus. First, l
 constantly confronted with errors and that there is still a lack of proper error management methods. Consistent with the literature, they define a \textit{failure} loosely as a
 state in which the performance provided by the robot deviates from the norm, caused by one or more \textit{errors}, which they consider system conditions that lead to such
 situations. Additionally, they consider \textit{errors} as the result of \textit{faults}, which are ultimately the reason why the system gets into such an error state.
-[TODO: Apply this terminology to the thesis?] The authors discuss numerous taxonomies for classifying failures and compare various concepts from the literature. Of particular
+The authors discuss numerous taxonomies for classifying failures and compare various concepts from the literature. Of particular
 interest to this work is the concept of terminal failures that break the current mission of the robot, non-terminal failures that merely affect the outcomes or performance and
 reparability of such cases. Also useful is their discussion of failure categories, which largely coincide with the categories of Khalastchi et al. (interaction, hardware, software).
-\cite{Khalastchi:2018}. The authors themselves focus on the distinction between technical failures (hardware + software) and interaction failures (environment + other actors).
+\cite{Khalastchi:2018}. The authors themselves focus on the distinction between technical failures (hardware / software) and interaction failures (environment / other actors).
 Of crucial importance to this work is the authors' finding that the involvement of a human operator in certain critical situations is computationally cheaper than comparatively
 costly and often unreliable other approaches. To do this in the most effective way, the problem should be communicated as precisely as possible. \cite{Honig:2018}\newline
-Mauro et al. \cite{Mauro:2019} introduce a high-level deep learning and vision based approach to execution monitoring for robot tasks. Monitoring is again limited to the execution of the
+In 2019, Mauro et al. \cite{Mauro:2019} introduce a high-level deep learning and vision based approach to execution monitoring for robot tasks. Monitoring is again limited to the execution of the
 plan and not to the operation of the robot in an environment in general. They evaluate their approach with a humanoid assistant robot in a warehouse environment and report some
 promising results. However, as mentioned, it is only considering very specific tasks and high-level actions.\newline
-Recently, Harris et al. \cite{Harris:2021} presented an execution monitoring and online plan modification approach that considers aspects such as resource availability
+Recently (2021), Harris et al. \cite{Harris:2021} presented an execution monitoring and online plan modification approach that considers aspects such as resource availability
 and goal reasoning. The approach is evaluated in a long-term AUV scenario with very limited opportunities for human intervention and a highly dynamic and uncertain environment.
-Their method is based on the idea of altering the plan as needed, e.g. adding goals when resource consumption is lower than expected and removing goals (starting with those with
+Their method is based on the idea of altering the plan as needed, e.g. adding goals when the resource consumption is lower than expected and removing goals (starting with those with
 low priority) when it is higher than expected. In order not to generate infeasible plans, the method relies on information about the causal relationship between actions. In cases
 where resources are uncertain, one approach is to provide branches in plans that allow a decision to be made between multiple options based on available resources. \cite{Harris:2021}
 The general monitoring and resolution approaches developed in this thesis are not as tethered to a plan, but the overall ideas and goals are similar.\newline
