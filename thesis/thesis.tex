@@ -907,7 +907,7 @@ can be used in a simulation.
     \label{fig:arox_system}
 \end{figure}
 
-\section{Challenges}
+\section{Challenges for Long-Term Autonomy}
 \label{sec:challenges_for_lta}
 
 Having clarified what long-term autonomy (LTA) means for this work, we now turn to potential problems that stand in its way.
@@ -950,7 +950,7 @@ and do not require further evidence or justification. The last group is the resu
 presented in the literature. For each potential problem identified, its relevance and consequences, i.e. a brief description of why it might be problematic, is provided below.
 A more detailed consideration as well as monitoring and simulation approaches for each selected problem are presented in section \ref{sec:sim_and_mon_of_lta_challenges}.
 
-\subsection{Brief Descriptions of the Identified LTA Problem Categories}
+\subsection{Brief Overview of the Identified Problem Categories}
 
 \noindent
 \textbf{Power Management}\newline
@@ -1327,7 +1327,8 @@ detail in this thesis are nevertheless potentially relevant problems for the lon
 
 \pagebreak
 
-\subsection{LTA Problems Not Considered in this Work}
+\subsection{Disregarded Problem Categories}
+
 \label{sec:lta_problems_not_considered}
 
 TODO: Clean up / refine section..\newline
@@ -1642,7 +1643,7 @@ charging failure resolver is started together with the information describing th
     \label{fig:database_entries}
 \end{figure}
 
-\section{Interrupt and Resume Normal Operation}
+\section{Interruption and Resumption of Normal Operation}
 \label{sec:plan_interruption_section}
 
 \textquote{\textit{Plans must be executed according to some strategy. This must account for action failure, plan failure due to ignorance or change in a dynamic environment [...].}}
@@ -1676,7 +1677,7 @@ of the actions immediately following, this simple plan modification is performed
 unplanned resources, so that the a priori planned charge stops are rendered insufficient. This problem, though, is addressed by the integrated battery monitoring module described
 in section \ref{sec:battery_monitoring}, which detects this and initiates a return to base. In conclusion, the continuation of plan execution works either way.
 
-\section{Simulation and Monitoring of LTA-Challenges}
+\section{Simulation and Monitoring of LTA Challenges}
 \label{sec:sim_and_mon_of_lta_challenges}
 
 Now that the overall architecture of the execution monitoring state machine has been described (cf. section \ref{sec:execution_monitoring_smach_architecture}), we can turn to the
