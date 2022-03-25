@@ -134,7 +134,7 @@
   }
 
   \ifthenelse{\value{mytype} = 1}{\type{Bachelor's thesis}}%
-             {\ifthenelse{\value{mytype} = 2}{\type{Master's thesis}}
+             {\ifthenelse{\value{mytype} = 2}{\type{Master's Thesis}}
                {\type{*** Use \texttt{\textbackslash type\{\}} command to set the type ***}}}
 }
 
