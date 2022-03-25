@@ -37,6 +37,7 @@
 \definecolor{myred}{rgb}{0.95,0.29,0.18}
 \definecolor{myblue}{rgb}{0.28,0.31,0.71}
 \definecolor{link-color}{HTML}{1e3799}
+\definecolor{caption-color}{HTML}{000000}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -87,6 +88,16 @@
     {\sffamily\Large\bfseries}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}[block]
     {\sffamily\large\bfseries}{\thesubsubsection}{1em}{}
+
+% captions
+\usepackage{subcaption}
+\usepackage{caption}
+\captionsetup{
+  margin=12pt,
+  font=small,
+  labelfont={sf,bf,color=caption-color},
+  labelsep=period,
+}
 
 % refine "itemize"
 \usepackage{relsize}
