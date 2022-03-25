@@ -814,6 +814,49 @@ The plant monitoring robot considered in this work, however, can be classified a
 i.e. during a long-term autonomy cycle as defined above, the robot should only come into contact with a human operator when it detects an error or a problematic situation
 that prevents it from continuing its task.
 
+\section{Prototype Scenario in the Simulation}
+\label{sec:prototype_scenario}
+
+As starting point serves a physics simulation in \textit{Gazebo}\footnote{Open-source 3D robotics simulator} that has been created within the research project PORTAL \cite{portal}
+and is adapted and extended as part of this work. The simulation includes the AROX model, i.e. a simulated version of the system described in section \ref{sec:robotic_system},
+as well as a 2.5D reflection of a test field environment. For the prototypical baseline scenario of this work, the layout of abstract crops as objects of interest shown in 
+figure \ref{fig:prototypical_layout} was created. Initially, the simulation works under the assumption that the robot is able to charge its battery as soon as it is located at 
+certain coordinates as a simplification of the container infrastructure. These coordinates are visualized by the charge patch displayed in figure \ref{fig:prototypical_layout}.
+In order to determine the robot's route through the field as well as the whole scanning processes, a plan is needed, i.e. when to drive to and process which parcel of the field. 
+An example of a simple scan route can be seen in figure \ref{fig:example_scan_route}. Since this work does not deal with planning algorithms, it is simply assumed that the plans
+are created by human operators. Hence, a plan is going to be a CSV file of actions. Plan generation and format are described in detail in section \ref{sec:plan_generation}, 
+but in general plans will focus on two types of actions. The first type is \code{drive_to(lat, lng, theta)}, which causes the robot to drive to the specified latitude, 
+longitude, and orientation (if possible), an action the employed robotic system AROX is capable of. The second type of action is \code{scan}, which initiates a scanning procedure
+at the robot's current position. In practice, the real robot is equipped with a high-resolution 3D-Lidar sensor (cf. RIEGL sensor in fig. \ref{fig:arox_system}) that is going 
+to be used to scan the field parcels with the aim of detecting features of the plants. To simulate the scanning procedure, some kind of dummy node is required that allows to 
+scan on command (cf. section \ref{sec:dummy_scanning_node}), i.e. to simulate scanning, since we are not actually interested in any real scanning data. Thus, the second type 
+of action will initiate a scanning procedure of the 3D-Lidar sensor or an execution of a dummy node, respectively. There are other actions, but these two are the very specific ones
+relevant to the scenario under consideration; the details are described in section \ref{sec:plan_generation}. This prototypical scenario is the implementation of a minimal 
+example of a long-term autonomous plant monitoring scenario in a simulation. Basic autonomous long-term functionality is provided, which means that the robot is able to 
+complete its plant observation missions interrupted by several necessary charge stops. It will be used later to evaluate the challenges identified in section 
+\ref{sec:challenges_for_lta} as well as the monitoring approaches presented in section \ref{sec:sim_and_mon_of_lta_challenges}.
+The overall process implemented for each of the challenges considered is to simulate the occurrence of the respective issue, detect it using
+the monitoring approaches developed in this work, interrupt the robot's normal operation, solve the problem, and transition back to normal operation to resume 
+plan execution exactly where it was preempted. In terms of mapping, it should be noted that the global map of the environment for this scenario was created manually.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/prototype_scenario.jpg}
+        \caption{\textsc{Prototypical Layout}}
+        \label{fig:prototypical_layout}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{pics/example_path.png}
+        \caption{\textsc{Example Scan Route}}
+        \label{fig:example_scan_route}
+    \end{subfigure}
+\caption{\textsc{Prototype Scenario in the Simulation}}
+\label{fig:prototype_sim}
+\end{figure}
+
 \section{Robotic System and Infrastructure}
 \label{sec:robotic_system}
 
@@ -863,73 +906,6 @@ can be used in a simulation.
     \caption{\textsc{Autonomous Robotic Experimentation Platform (AROX)}}
     \label{fig:arox_system}
 \end{figure}
-
-\pagebreak
-
-\section{Prototype Scenario in the Simulation}
-\label{sec:prototype_scenario}
-
-As starting point serves a physics simulation in \textit{Gazebo}\footnote{Open-source 3D robotics simulator} that has been created within the research project PORTAL \cite{portal}
-and is adapted and extended as part of this work. The simulation includes the AROX model, i.e. a simulated version of the system described in section \ref{sec:robotic_system},
-as well as a 2.5D reflection of a test field environment. For the prototypical baseline scenario of this work, the layout of abstract crops as objects of interest shown in 
-figure \ref{fig:prototypical_layout} was created. Initially, the simulation works under the assumption that the robot is able to charge its battery as soon as it is located at 
-certain coordinates as a simplification of the container infrastructure. These coordinates are visualized by the charge patch displayed in figure \ref{fig:prototypical_layout}.
-In order to determine the robot's route through the field as well as the whole scanning processes, a plan is needed, i.e. when to drive to and process which parcel of the field. 
-An example of a simple scan route can be seen in figure \ref{fig:example_scan_route}. Since this work does not deal with planning algorithms, it is simply assumed that the plans
-are created by human operators. Hence, a plan is going to be a CSV file of actions. Plan generation and format are described in detail in section \ref{sec:plan_generation}, 
-but in general plans will focus on two types of actions. The first type is \code{drive_to(lat, lng, theta)}, which causes the robot to drive to the specified latitude, 
-longitude, and orientation (if possible), an action the employed robotic system AROX is capable of. The second type of action is \code{scan}, which initiates a scanning procedure
-at the robot's current position. In practice, the real robot is equipped with a high-resolution 3D-Lidar sensor (cf. RIEGL sensor in fig. \ref{fig:arox_system}) that is going 
-to be used to scan the field parcels with the aim of detecting features of the plants. To simulate the scanning procedure, some kind of dummy node is required that allows to 
-scan on command (cf. section \ref{sec:dummy_scanning_node}), i.e. to simulate scanning, since we are not actually interested in any real scanning data. Thus, the second type 
-of action will initiate a scanning procedure of the 3D-Lidar sensor or an execution of a dummy node, respectively. There are other actions, but these two are the very specific ones
-relevant to the scenario under consideration; the details are described in section \ref{sec:plan_generation}. This prototypical scenario is the implementation of a minimal 
-example of a long-term autonomous plant monitoring scenario in a simulation. Basic autonomous long-term functionality is provided, which means that the robot is able to 
-complete its plant observation missions interrupted by several necessary charge stops. It will be used later to evaluate the challenges identified in section 
-\ref{sec:challenges_for_lta} as well as the monitoring approaches presented in section \ref{sec:sim_and_mon_of_lta_challenges}.
-The overall process implemented for each of the challenges considered is to simulate the occurrence of the respective issue, detect it using
-the monitoring approaches developed in this work, interrupt the robot's normal operation, solve the problem, and transition back to normal operation to resume 
-plan execution exactly where it was preempted. In terms of mapping, it should be noted that the global map of the environment for this scenario was created manually.
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{pics/prototype_scenario.jpg}
-        \caption{\textsc{Prototypical Layout}}
-        \label{fig:prototypical_layout}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{pics/example_path.png}
-        \caption{\textsc{Example Scan Route}}
-        \label{fig:example_scan_route}
-    \end{subfigure}
-\caption{\textsc{Prototype Scenario in the Simulation}}
-\label{fig:prototype_sim}
-\end{figure}
-
-\subsection{Dummy Scanning Node}
-\label{sec:dummy_scanning_node}
-
-Since the scenario described in the previous section assumes a representation of a \code{scan} action, but the work does not really depend on realistic scan data,
-a pragmatic solution is required. The result is a dummy node implementing a ROS \code{SimpleActionServer} that simulates the results of the \textit{RIEGL} scanner
-(cf. fig. \ref{fig:arox_system}). It is expected that a \code{scan} action will trigger an incoming \code{LaserScan} on the topic \code{/RIEGL}, which will then be
-written to a file to also have some form of data management. Since the \textit{Velodyne} LiDAR sensor is already part of the simulation and the nature of the incoming data
-is essentially the same, a \code{scan} action just leads to one republished \textit{Velodyne} scan under the \code{/RIEGL} topic using \code{rospy.wait_for_message()},
-which merely creates a subscription to the topic, receives one message, and then unsubscribes. The incoming data is basically a list of distance values for certain angle-height 
-combinations along with arbitrary many metadata such as minimum angle, maximum angle, scanning time, and identifier. Thus, the dummy node enables the \textit{Velodyne} sensor
-to briefly pretend to be a \textit{RIEGL} sensor. This approach has the useful side effect of making it relatively easy to simulate sensor failures by simply stopping to
-republish the \textit{Velodyne} after a \code{scan} action (cf. section \ref{sec:sim_and_mon_of_lta_challenges}).\newline
-The actual real \textit{RIEGL} sensor scans are of data type \code{PointCloud2}, and the monitoring solutions described in section \ref{sec:sim_and_mon_of_lta_challenges}
-are capable of processing incoming scans of types \code{LaserScan} as well as \code{PointCloud2}. It is configurable in which form the data should be received. The first
-option is that the sensor makes the scans available to the ROS system via a topic, i.e. the sensor publishes the scans under a topic. These scans could potentially be reduced,
-e.g. only every second value is published to reduce the overall size, because if the scans become too large, it is no longer viable. The second option is to specify a 
-directory path and write the scans to the file system, where the scanner creates \code{.ply} files containing the scans in a human-readable ASCII format.
-The two options result in the need for two different types of monitoring. If the scans are published to a specific topic, it is sensor monitoring.
-If they are written to the file system, it is data management.
-
-\pagebreak
 
 \section{Challenges}
 \label{sec:challenges_for_lta}
@@ -1867,6 +1843,28 @@ described in section \ref{sec:weather_resolver}. Simulating extreme weather even
 
 \subsection{Sensor (Perception) Failure}
 \label{sec:sim_and_mon_sensor_failures}
+
+\subsubsection{Dummy Scanning Node}
+\label{sec:dummy_scanning_node}
+
+Since the scenario described in the previous section assumes a representation of a \code{scan} action, but the work does not really depend on realistic scan data,
+a pragmatic solution is required. The result is a dummy node implementing a ROS \code{SimpleActionServer} that simulates the results of the \textit{RIEGL} scanner
+(cf. fig. \ref{fig:arox_system}). It is expected that a \code{scan} action will trigger an incoming \code{LaserScan} on the topic \code{/RIEGL}, which will then be
+written to a file to also have some form of data management. Since the \textit{Velodyne} LiDAR sensor is already part of the simulation and the nature of the incoming data
+is essentially the same, a \code{scan} action just leads to one republished \textit{Velodyne} scan under the \code{/RIEGL} topic using \code{rospy.wait_for_message()},
+which merely creates a subscription to the topic, receives one message, and then unsubscribes. The incoming data is basically a list of distance values for certain angle-height 
+combinations along with arbitrary many metadata such as minimum angle, maximum angle, scanning time, and identifier. Thus, the dummy node enables the \textit{Velodyne} sensor
+to briefly pretend to be a \textit{RIEGL} sensor. This approach has the useful side effect of making it relatively easy to simulate sensor failures by simply stopping to
+republish the \textit{Velodyne} after a \code{scan} action (cf. section \ref{sec:sim_and_mon_of_lta_challenges}).\newline
+The actual real \textit{RIEGL} sensor scans are of data type \code{PointCloud2}, and the monitoring solutions described in section \ref{sec:sim_and_mon_of_lta_challenges}
+are capable of processing incoming scans of types \code{LaserScan} as well as \code{PointCloud2}. It is configurable in which form the data should be received. The first
+option is that the sensor makes the scans available to the ROS system via a topic, i.e. the sensor publishes the scans under a topic. These scans could potentially be reduced,
+e.g. only every second value is published to reduce the overall size, because if the scans become too large, it is no longer viable. The second option is to specify a 
+directory path and write the scans to the file system, where the scanner creates \code{.ply} files containing the scans in a human-readable ASCII format.
+The two options result in the need for two different types of monitoring. If the scans are published to a specific topic, it is sensor monitoring.
+If they are written to the file system, it is data management.
+
+\subsubsection{Monitoring and Simulation}
 
 Obviously, total sensor failures are realistic in practice for any LiDAR sensor, or even any sensor in general, due to a hardware fault, an interrupted
 power supply, or a variety of other reasons. However, there are more subtle failures than just a total breakdown, and the incoming scan data should be checked for plausibility.
