@@ -36,6 +36,7 @@
 \definecolor{solarized_bg}{HTML}{FDF6E3}
 \definecolor{myred}{rgb}{0.95,0.29,0.18}
 \definecolor{myblue}{rgb}{0.28,0.31,0.71}
+\definecolor{link-color}{HTML}{1e3799}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -141,20 +142,6 @@ drastically improved resilience with respect to the identified challenges.
         \end{tabular}}
     \end{figure}
 \end{prefacesection}
-\vspace{3cm}
-\begin{prefacesection}{Source Code \& Documentation}
-    \begin{figure}[H]
-        \centering
-        \resizebox{0.8\textwidth}{!}{
-        \begin{tabular}{| c | c |}
-            \hline
-            \textbf{Description} & \textbf{URL} \\ \hline
-            Execution Monitoring Framework & \url{https://github.com/tbohne/execution_monitoring} \\ \hline
-            Plan Generation Node & \url{https://github.com/tbohne/plan_generation} \\ \hline
-            Thesis, Resources and Manual & \url{https://github.com/tbohne/msc} \\ \hline
-        \end{tabular}}
-    \end{figure}
-\end{prefacesection}
 
 \cleardoublepage
 \tableofcontents
@@ -192,6 +179,7 @@ integrated systems. Intriguingly, agricultural scenarios represent one of the mo
 planetary exploration rovers such as NASA's \textit{Curiosity} encounter manifold and demanding tasks, the environment is quite predictable and exhibits
 rather low semantic complexity, in contrast to agricultural robots, which face a richer environment populated by humans, etc. \cite{Ingrand:2017}\newline
 
+\noindent
 As the title suggests, the goal of this work is to integrate a prototypical system for long-term autonomous plant observation that is able to address 
 particular challenges for long-term autonomy in such a context through the use of execution monitoring methods. Initially, typical challenges that may stand in the way of a mobile
 robot's long-term autonomy in an agricultural setting will be identified. Afterwards, a subset of these challenges will be studied systematically in order to 
@@ -205,13 +193,12 @@ the real robot, i.e., acting. As Ghallab et al. phrase it \textquote{\textit{Pla
 integrate these activities in order to act effectively in the real world}}. \cite{GNT:2016} There is much literature that considers abstract planning, i.e. generating high-level
 task schedules, and also quite some work on integrating planning and acting. What is perhaps a bit underrepresented so far is the aspect of monitoring the execution of the generated
 plans, especially in long-term scenarios, which will be the subject of this work. In particular, little attention has been paid to a joint consistent integration of both monitoring
-and acting. \cite{Ingrand:2017} This is crucial as plans will not always work out as expected when faced with the dynamic and chaotic nature of reality.
+and acting. \cite{Ingrand:2017} This is crucial as plans will not always work out as expected when faced with the dynamic and chaotic nature of reality.\newline
 
-\vfill
-\pagebreak
+\noindent
+\textit{Expected Scientific Contribution}\newline
 
-\textbf{Expected Scientific Contribution}\newline
-
+\noindent
 Key challenges that may prevent long-term autonomous mobile robots in a field monitoring context from working properly will be identified, implemented 
 in a simulation and systematically evaluated. A major objective of this work is to address a subset of these challenges based on execution monitoring approaches,
 i.e. to propose methods that are capable of partially resolving or at least detecting such issues in order to enable the robot to communicate them to a human operator,
@@ -230,8 +217,10 @@ an agricultural context, the approaches are developed with the aspiration of a c
 systematically address common problems for long-term autonomous mobile outdoor robots, does not appear to exist yet, making it a meaningful contribution. Already the compilation of
 a list of common problems in such contexts is valuable, as such a compilation and joint consideration of these problems does not yet seem to exist in the literature.\newline
 
-\textbf{Approach}\newline
+\noindent
+\textit{Approach}\newline
 
+\noindent
 The idea is to start with the basic long-term autonomy setup described in section \ref{sec:prototype_scenario}, provide a list of potential problems that 
 stand in its way, and develop execution monitoring methods to detect a subset of these issues with the aim of increasing the robustness of such a system in a simulation
 and ideally in practice on the real hardware. Before delving into the details, it is essential to define what is actually meant by the term \textit{robust autonomy} in the
@@ -275,6 +264,16 @@ TODO: ADD CHAPTER OVERVIEW \dots\newline
 Initially, the considered scenario is introduced and it is defined how long-term autonomous mobile robots are to be understood in the context of this work.
 This is followed by a discussion of the challenges to long-term autonomy and, subsequently, by the eponymous execution monitoring, which aims to identify
 and resolve these challenges.
+
+\vfill
+
+\subsubsection*{Source Code \& Documentation}
+\begin{itemize}
+  \item Execution Monitoring Framework: \textcolor{link-color}{\url{https://github.com/tbohne/execution_monitoring}}
+  \item Plan Generation Node: \textcolor{link-color}{\url{https://github.com/tbohne/plan_generation}}
+  \item Thesis (\LaTeX{}), Resources and Manual: \textcolor{link-color}{\url{https://github.com/tbohne/msc}}
+\end{itemize}
+{\footnotesize State at the time of submission of the thesis: \code{git tag v1.0}}
 
 \chapter{Long-Term Autonomous Mobile Robots}
 
