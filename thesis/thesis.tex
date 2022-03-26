@@ -852,45 +852,46 @@ plan execution exactly where it was preempted. In terms of mapping, it should be
 \label{sec:robotic_system}
 
 The robotic system under consideration is going to be the \textit{Autonomous Robotic Experimentation Platform} (AROX) \cite{Kisliuk:2021} that is depicted in figure \ref{fig:arox_system}.
-It is assumed to integrate all the essential software and hardware required for the task at hand, i.e. processing a given plan (e.g. human provided) that causes the robot
-to autonomously drive to specified locations and record scans. As discussed, this should be possible over extended periods of time, i.e. long term, including charge stops, etc.
+It is assumed to integrate all the essential software and hardware required for the task at hand, i.e., processing a given plan (e.g. human provided) that causes the robot
+to autonomously drive to specified locations and record scans. As discussed, this should be possible over extended periods of time, i.e., long term, including charge stops, etc.
 According to Kunze et al. \cite{Kunze:2018}, different areas of AI must be brought together to enable long-term autonomous robots in practical applications.
 As essential building blocks, they identify \textit{navigation \& mapping}, \textit{perception}, \textit{knowledge representation \& reasoning}, \textit{planning},
-\textit{interaction}, and \textit{learning}. Accordingly, all these aspects are in some sense part of the AROX system, some more, some less explicit and sophisticated.
-The AROX consists of a two-axle (2WD differential drive) mobile platform based on an \textit{Innok Heros}\footnote{https://www.innok-robotics.de/produkte/heros}. \cite{Kisliuk:2021}
+\textit{interaction}, and \textit{learning}. Correspondingly, all these aspects are in some sense part of the AROX system, some more, some less explicit and sophisticated.
+The AROX consists of a two-axle (2WD differential drive) mobile platform based on an \textit{Innok Heros}\footnote{\textcolor{link-color}{\url{https://www.innok-robotics.de/produkte/heros}}}. \cite{Kisliuk:2021}
 In addition to the AROX system itself, Kisliuk et al. introduce a supporting infrastructure in the form of a mobile base station (container) at the field site,
 which provides an inductive charging station, a mobile internet connection and a WiFi network for local data exchange.
 Real-time kinematics (RTK) is used, a differential GNSS\footnote{Global Navigation Satellite System} method that results in high-precision positioning (in centimeter range)
 near a base station, such as the mobile container. The errors or inaccuracies of basic GNSS techniques are avoided in RTK solutions by transmitting correction signals based
-on carrier measurements of the base station, whose location is precisely known. \cite{RTK_fundamentals} For this purpose, the container also provides an NTRIP server.
+on carrier measurements of the base station, whose location is precisely known. \cite{RTK_fundamentals} For this purpose, the container also provides an 
+NTRIP\footnote{Networked Transport of RTCM (Radio Technical Commission for Maritime Services) via Internet Protocol} server.
 Besides these technical features of the container, it also simply serves as a shelter for the robot.
-In order to actually use RTK, a real-time communication channel (e.g. WiFi) is needed to connect the RTK base station, i.e. the mobile container, with the RTK rover,
-i.e. the AROX, to transmit the aforementioned correction signals. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals, 
-i.e. are connected to the GNSS service. The AROX also maintains WiFi or LTE connections for the purpose of transmitting the recorded scans to external servers or the base station.
+In order to actually use RTK, a real-time communication channel (e.g. WiFi) is needed to connect the RTK base station, i.e., the mobile container, with the RTK rover,
+i.e., the AROX, to transmit the aforementioned correction signals. Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals, 
+i.e., are connected to the GNSS service. The AROX also maintains WiFi or LTE connections for the purpose of transmitting the recorded scans to external servers or the base station.
 The robot's localization is multi-layered and based on sensor fusion of inertial measurement unit (IMU), odometry and RTK-GNSS data using the \code{robot_localization} \cite{Moore:2014} package.
-Several laser scanners are attached to its base and used to avoid collisions, e.g. the \textit{SICK TiM} and the \textit{Velodyne Puck} mounted at the optional sensor
+Several laser scanners are attached to its base and used to avoid collisions, e.g., the \textit{SICK TiM} and the \textit{Velodyne Puck} mounted at the optional sensor
 slots displayed in fig. \ref{fig:arox_system}. For the actual task of plant monitoring, the high-resolution $3D$ lidar sensor \textit{RIEGL VZ-$400$i} is used,
 which can be combined with a calibrated hyperspectral or RGB camera (cf. fig. \ref{fig:arox_system}). \cite{Kisliuk:2021}
 For \textit{navigation}, the ROS package \code{move_base_flex} \cite{Puetz:2018} is used, a more flexible extension of the standard ROS navigation framework \code{move_base}.
 The primarily used path planning algorithms are provided by the ROS packages \code{eband_local_planner} and \code{dwa_local_planner}.
-Effective navigation assumes knowledge of the environment, e.g. a map, so that the robot can estimate its position relative to the navigation target. \cite{Krajnik:2010}
+Effective navigation assumes knowledge of the environment, e.g., a map, so that the robot can estimate its position relative to the navigation target. \cite{Krajnik:2010}
 There are numerous approaches to representing knowledge about the environment. The map may be static and such that the robot only needs to be able to locate itself in that
 map, or the robot may need to perform simultaneous localization and mapping (SLAM). \cite{Krajnik:2010} Particularly in long-term autonomy scenarios, the robot must be able to cope
 with environmental changes over time. Santos et al. propose a way for the robot to update and refine its environment representations during long-term application. \cite{Santos:2016}
-They introduce a $4D$ environment representation, i.e. they incorporate the time domain to account for dynamic changes. As introduced in section \ref{sec:prototype_scenario}, the AROX
+They introduce a $4D$ environment representation, i.e., they incorporate the time domain to account for dynamic changes. As introduced in section \ref{sec:prototype_scenario}, the AROX
 in the basic configuration assumed in this work does not have an explicit \textit{knowledge representation}, but only a predefined static map of the environment. Moreover, the map
-is not updated, i.e. no learning takes place in this sense, and no environmental changes are taken into account. In this simple scenario, \textit{reasoning} is also disregarded.
+is not updated, i.e., no learning takes place in this sense, and no environmental changes are taken into account. In this simple scenario, \textit{reasoning} is also disregarded.
 Another interesting facet is \textit{perception}. There is a kind of perception in the form of obstacle detection based on laser scans, but it is not a particularly elaborate form
-of perception. An even less pronounced part of the system is \textit{learning}, technically this aspect also occurs somehow, e.g. in the sense that obstacles are detected and entered
+of perception. An even less pronounced part of the system is \textit{learning}, technically this aspect also occurs somehow, e.g., in the sense that obstacles are detected and entered
 into the local costmap. Of course,
 sensor information is transferred into a kind of knowledge representation, so in a way obstacles in the environment are learned. Nevertheless, this is not what is typically
 understood by machine learning. A counterexample is \textit{interaction}, which is again very explicitly part of the scenario under consideration, namely in the form of communication and
 cooperation with the human operator (cf. section \ref{sec:fallback_solution}). The \textit{planning} process itself is not part of the scenario, but it is assumed that plans are available and usable,
-e.g. handcrafted by a human operator or generated by a planner from the literature. In further extensions, all these aspects will play a more important role, as useful applications
+e.g., handcrafted by a human operator or generated by a planner from the literature. In further extensions, all these aspects will play a more important role, as useful applications
 have already been identified that could improve the long-term autonomy performance of the system in the future, but not in the minimum long-term autonomy scenario considered in this
 thesis. To sum up: Technically, all of the aspects proposed by Kunze et al. are somewhat necessary and part of the system, but in part only in a very basal fashion. Certain aspects
 are simply not explicitly part of the application. In addition to the actual physically available AROX, the system has been modeled in the unified robot description format (URDF) and
-can be used in a simulation.
+can be used in a simulation (cf. fig. \ref{fig:prototypical_layout}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/AROX.jpg}
