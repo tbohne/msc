@@ -1384,7 +1384,14 @@ failures are divided into anticipated errors, exceptional errors, and unrecovera
 perspective, as the first two refer to simple backtracking and replanning, respectively, while the last refers to cases where the plan is no longer feasible and replanning is not an
 option. Nevertheless, the first two in combination correspond quite well to the view of contingencies in this thesis - contingencies can be dealt with. Similarly, unrecoverable errors
 correspond to catastrophes in this work. They also consider socially recoverable failures where the robot relies on assistance from other operators (humans or other robots), which
-is also encountered in this work, namely in the case of the catastrophe situations (cf. sec. \ref{sec:fallback_solution}).
+is also encountered in this work, namely in the case of the catastrophe situations (cf. sec. \ref{sec:fallback_solution}).\newline
+
+\noindent
+Initially, section \ref{sec:plan_generation} introduces the plan generation and format. This is followed by section \ref{sec:execution_monitoring_smach_architecture} on the
+architecture of the developed execution monitoring state machine. Subsequently, section \ref{sec:black_box} describes a black box to learn from experience that is already part of
+the architecture. Section \ref{sec:plan_interruption_section} explains how the problem of plan interruption and resumption is addressed in this work. Eventually, section
+\ref{sec:sim_and_mon_of_lta_challenges} presents the developed monitoring and simulation approaches for the identified challenges, and section \ref{sec:solutions_for_lta_challenges}
+concludes the chapter with proposed resolutions.
 
 \section{Plan Generation and Format}
 \label{sec:plan_generation}
@@ -1412,7 +1419,7 @@ Afterwards, it returns to the base and recharges its battery. However, acting re
 \ref{sec:execution_monitoring_smach_architecture}). \cite{Ingrand:2017}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{pics/plan_example.png}
+    \includegraphics[width=0.475\textwidth]{pics/plan_example.png}
     \caption{\textsc{Sample Plan}}
     \label{fig:plan_example}
 \end{figure}
