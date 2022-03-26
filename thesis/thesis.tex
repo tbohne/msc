@@ -806,8 +806,10 @@ that prevents it from continuing its task.
 \section{Prototype Scenario in the Simulation}
 \label{sec:prototype_scenario}
 
-As starting point serves a physics simulation in \textit{Gazebo}\footnote{Open source $3D$ robotics simulator} that has been created within the research project \textit{PORTAL} \cite{portal}
-and is adapted and extended as part of this work. The simulation includes the AROX model, i.e., a simulated version of the system described in section \ref{sec:robotic_system},
+As starting point serves a physics simulation in \textit{Gazebo}\footnote{Open source $3D$ robotics simulator} that has been created within the research project
+\textit{PORTAL}\footnote{Plant breeding using robotics and AI for advanced data analysis and decision making in virtual space:\\
+\textcolor{link-color}{\url{https://www.dfki.de/web/forschung/projekte-publikationen/projekte-uebersicht/projekt/portal/}}}
+and is adapted and extended as part of this work. The simulation includes the AROX model, i.e., a simulated version of the robotic system described in section \ref{sec:robotic_system},
 as well as a $2.5D$ reflection of a test field environment. For the prototypical baseline scenario of this work, the layout of abstract crops as objects of interest shown in 
 figure \ref{fig:prototypical_layout} was created. Initially, the simulation works under the assumption that the robot is able to charge its battery as soon as it is located at 
 certain coordinates as a simplification of the container infrastructure. These coordinates are visualized by the charge patch displayed in figure \ref{fig:prototypical_layout}.
@@ -816,7 +818,7 @@ An example of a simple scan route can be seen in figure \ref{fig:example_scan_ro
 are created by human operators. Hence, a plan is going to be a CSV file of actions. Plan generation and format are described in detail in section \ref{sec:plan_generation}, 
 but in general plans will focus on two types of actions. The first type is \code{drive_to(lat, lng, theta)}, which causes the robot to drive to the specified latitude, 
 longitude, and orientation (if possible), an action the employed robotic system AROX is capable of. The second type of action is \code{scan}, which initiates a scanning procedure
-at the robot's current position. In practice, the real robot is equipped with a high-resolution $3D$ lidar sensor (cf. RIEGL sensor in fig. \ref{fig:arox_system}) that is going 
+at the robot's current position. In practice, the real robot is equipped with a high-resolution $3D$ lidar sensor (cf. \textit{RIEGL} sensor in fig. \ref{fig:arox_system}) that is going 
 to be used to scan the field parcels with the aim of detecting features of the plants. To simulate the scanning procedure, some kind of dummy node is required that allows to 
 scan on command (cf. section \ref{sec:dummy_scanning_node}), i.e., to simulate scanning, since we are not actually interested in any real scanning data. Thus, the second type 
 of action will initiate a scanning procedure of the $3D$ lidar sensor or an execution of a dummy node, respectively. There are other actions, but these two are the very specific ones
@@ -1423,7 +1425,7 @@ orientation. Analogously, \code{return_to_base} directs the robot to move to a u
 a call that charges the battery when the robot is located at the corresponding coordinates. Leaving aside the simplifying assumption of charging at the charging station presented in
 section \ref{sec:prototype_scenario} and considering the realistic case with the container infrastructure (cf. \ref{sec:docking_solution}), there are two other implicit actions
 - \code{dock} always follows \code{return_to_base} and lets the robot dock to the inductive charging station inside the container and \code{undock} follows \code{scan} and reverses
-the docking procedure. Finally, \code{scan} initiates a scanning operation at the robot's current position, using either the RIEGL sensor in practice or the dummy node (cf. section
+the docking procedure. Finally, \code{scan} initiates a scanning operation at the robot's current position, using either the \textit{RIEGL} sensor in practice or the dummy node (cf. section
 \ref{sec:dummy_scanning_node}) in simulation, which saves a simulated \code{LaserScan} or \code{PointCloud2} to disk, depending on the configuration.
 An example for a simple plan is shown in figure \ref{fig:plan_example}.
 When the robot executes this plan, it drives to the four specified locations in sequence and records scans.
