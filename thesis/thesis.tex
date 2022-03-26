@@ -733,16 +733,14 @@ for agricultural applications, whether or not it proves to be the best suited co
 \section{Long-Term Autonomous Plant Observation}
 \label{sec:lta_plant_observation}
 
-The particular scenario that is going to be considered in this work takes place in an agricultural context. Therefore, the robot will be faced with a highly dynamic unstructured
-environment. Long-term autonomy in known static environments is essentially solvable by a robust system that is able to
-stay functional for extended periods of time. \cite{Kunze:2018} Such environments are often given in an industrial context where the robot must perform well-defined, repetitive tasks
-in a stable and predictable setting. \cite{Bechar:2016}
+The particular scenario that is going to be considered in this work takes place in an agricultural context. Therefore, the robot will be faced with a highly dynamic, unstructured
+environment. Long-term autonomy in known, static environments is essentially solvable through robust systems that remain functional over extended periods of time. \cite{Kunze:2018}
+Such environments are often given in an industrial context where robots must perform well-defined, repetitive tasks in a stable and predictable setting. \cite{Bechar:2016}
 In contrast, a highly dynamic, partially unknown environment such as in this scenario poses much more difficult
 challenges, e.g., due to unexpected environmental changes that are hard, if not impossible, to anticipate.
 Such environments are often referred to in the literature as \textquote{automation-averse}.
 The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans and hyperspectral images of the plants on a field in order to monitor their growth progression and 
-to detect certain features based on the growth stage. Moreover, these recordings can be used to detect leaf diseases [TODO: refine based on literature]. It is essentially a task of
-data acquisition.
+to detect certain features based on the growth stage. Moreover, these recordings can be used to detect leaf diseases. It is essentially a task of data acquisition.
 Correspondingly, the robot has to be able to process the entire field continually without the need for human supervision,
 including the requirement for repeated charge stops. For this purpose, there is supporting infrastructure in the form of a container with an inductive charging station on site
 establishing the power supply. Since the focus of the work is not going to be the scanning task, but to establish robust long-term autonomy, the actual detection of features 
@@ -750,20 +748,20 @@ etc. will be disregarded.
 A crucial question is how to actually define ``long-term''. As Hawes et al. remark, it has no strict definition and can have various meanings depending
 on the context, e.g. NASA's rover \textit{Opportunity} has been exploring the surface of Mars autonomously for years and autonomous wave gliders are able to monitor
 ocean sections for months. Furthermore, there are mobile service robots used for extended periods of time in everyday, indoor environments like hospitals 
-as examined in the STRANDS project. \cite{Hawes:2017}
-For this work, in contrast, ``long-term'' is going to be defined in terms of the robot's temporal radius of action that is mainly based on its battery capacity, i.e. charge cycle,
+as examined in the \textit{STRANDS} project. \cite{Hawes:2017}
+For this work, in contrast, ``long-term'' is going to be defined in terms of the robot's temporal radius of action that is mainly based on its battery capacity, i.e., charge cycle,
 but may also include aspects like maintenance intervals etc. In general, all processes that require a number of such cycles are considered long-term processes.
 Accordingly, ``long-term'' can only be defined depending on the system in question. To give an example: There are systems with very limited battery capacity, 
 such as toy drones. Based on absolute time, a two-hour experiment might not be regarded as being long-term, but if it involves multiple charging cycles, it can be 
 algorithmically considered a long-term process. Consequently, ``long-term'' is relative.\newline
-In the agricultural sector, there are processes that last much longer than a charge cycle, e.g. vegetation periods.
+In the agricultural sector, there are processes that last much longer than a charge cycle, e.g., vegetation periods.
 However, the seasonal cycle is not the sort of long-term process that will be investigated in this work, as such processes already exist on a much smaller scale.
-On the one hand, there is the mission level, i.e. one processing of an entire field. 
+On the one hand, there is the mission level, i.e., one processing of an entire field.
 Such a mission can already be regarded as long-term, since based on the dimensions of the particular field under consideration, it is not guaranteed that one
 battery charge will be sufficient to process the entire field. Instead, one battery cycle will be defined as sufficient to process a certain fraction of the scan
 positions, and a planner should maximize the number of planned scan stops in a mission under the constraint that a battery safety buffer is not undercut.
 Thus, a key aspect of the scenario is going to be that the mission must be paused, the state must be saved, and the mission must be continued after recharging.
-In the meantime, the environment may have changed, e.g. weather conditions or illumination, which is relevant for certain sensors of the robot.
+In the meantime, the environment may have changed, e.g., weather conditions or illumination, which is relevant for certain sensors of the robot.
 On the other hand, there are going to be several such field processings during one vegetation period, which makes it a long-term process of repeated missions.
 Hence, it takes a number of charge cycles to process the entire field, and that mission is going to be repeated every few days,
 which means that there are two different long-term cycles that are intertwined.
@@ -771,9 +769,9 @@ These two cycles basically represent a lower bound for the length of long-term a
 consideration. Likewise, in contrast to the above examples of Mars rovers and autonomous wave gliders, which are long-term
 processes of arbitrary length, it is useful to think about natural upper bounds on the length of such episodes in agricultural
 applications. Such a natural upper bound could be a time after which a human operator will inspect the robot anyway,
-which in agriculture is certainly the case sooner than after a few months, e.g. during maintenance sessions 
+which in agriculture is certainly the case sooner than after a few months, e.g., during maintenance sessions
 when sensors such as cameras and laser scanners are cleaned, tire pressures are checked, etc.
-After such a maintenance session, the new episode begins. 
+After such a maintenance session, a new episode begins.
 Based on these bounds, it makes sense that the robot does not send every minor problem it recognizes directly to the operator,
 but keeps a list of minor issues that do not require immediate action, but should be resolved during the next maintenance
 appointment.\newline
@@ -781,7 +779,7 @@ Now that it has been sufficiently clarified how \textit{long-term} and \textit{m
 a precise definition of what is meant by the remaining attribute \textit{autonomous} follows.
 Like the concept \textit{long-term}, \textit{autonomous} is not sharply defined in the literature and can have different meaningful connotations depending
 on the context. Autonomy in the context of application-oriented robots usually has the goal of achieving a higher degree of automation in these applications,
-i.e. using technical means so that a process runs completely or partially without involvement and supervision of a human operator. \cite{Hertzberg:2015}
+i.e., using technical means so that a process runs completely or partially without involvement and supervision of a human operator. \cite{Hertzberg:2015}
 Completely or partially already indicates that autonomy is not a binary attribute, but refers to a spectrum of different degrees of autonomy,
 ranging from teleoperation at the lower end over shared and traded control up to full autonomy at the upper end. \cite{Hertzberg:2015}
 Figure \ref{fig:autonomy_spectrum} summarizes these concepts based on \cite{Hertzberg:2015}.
@@ -793,7 +791,7 @@ Figure \ref{fig:autonomy_spectrum} summarizes these concepts based on \cite{Hert
 \end{figure}
 \noindent
 Accordingly, autonomy does not necessarily mean that there is no connection to a human operator at all.
-The concept of traded control is particularly relevant for robotics in space applications, e.g. satellites or planetary rovers.
+The concept of traded control is particularly relevant for robotics in space applications, e.g., satellites or planetary rovers.
 NASA's Mars exploration rovers \textit{Spirit} and \textit{Opportunity}, for example, do not operate fully autonomously, but rely on human assistance for many tasks,
 such as plan generation and evaluation. \cite{Bresina:2005} NASA calls the concept \textit{mixed-initiative planning}. Involving humans in control has the advantage of gaining
 flexibility, which allows to dynamically react to unexpected situations. \cite{Bresina:2005}
@@ -802,7 +800,7 @@ such as when the robot is in danger and human intervention is required, or when 
 \cite{Kortenkamp:2009} There is even evidence that \textit{human initiative} systems that can switch between different autonomy levels during operation perform better than
 systems with fixed autonomy levels, at least in certain environments. \cite{Chiou:2021}
 The plant monitoring robot considered in this work, however, can be classified as fully autonomous in the sense of figure \ref{fig:autonomy_spectrum}, 
-i.e. during a long-term autonomy cycle as defined above, the robot should only come into contact with a human operator when it detects an error or a problematic situation
+i.e., during a long-term autonomous episode as defined above, the robot should only come into contact with a human operator when it detects an error or a problematic situation
 that prevents it from continuing its task.
 
 \section{Prototype Scenario in the Simulation}
