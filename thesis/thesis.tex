@@ -1321,55 +1321,25 @@ quite predictable. In addition, situations in which the robot gets stuck are not
 Of course, it is a severe problem when it happens, but the robot actually getting completely stuck is relatively rare, and due to the many possible reasons for getting stuck, 
 a very general problem class. All participants agree that the scenario where the robot topples over has a very large impact, but it is also quite difficult to detect and quite
 unlikely. It is not studied in detail itself, but might be detected as part of the sensor failure detection, e.g., if the sensor subsequently points to the sky (cf. sec.
-\ref{sec:sim_and_mon_sensor_failures}). Finally, ranked as least relevant in both evaluations, perceptual aliasing issues will be disregarded in this work. The problems not examined in
-detail in this thesis are nevertheless potentially relevant problems for the long-term autonomy of a mobile outdoor robot and are thus briefly discussed in section 
+\ref{sec:sim_and_mon_sensor_failures}). Finally, ranked as least relevant in both evaluations, perceptual aliasing issues will be disregarded in this work. The problems not examined
+in detail in this thesis are nevertheless potentially relevant problems for the long-term autonomy of a mobile outdoor robot and are thus briefly discussed in section
 \ref{sec:lta_problems_not_considered}.
 
-\pagebreak
-
 \subsection{Disregarded Problem Categories}
-
 \label{sec:lta_problems_not_considered}
 
-TODO: Clean up / refine section..\newline
-
-\noindent
-\textbf{Certain Dynamics}\newline
-
-\noindent
-There should be a monitoring solution that is able to detect twilight, stop the plan execution and postpone it to the next day.
-It should be possible to simulate twilight in the \textit{Gazebo} simulation, e.g. by simply dimming the light source.\newline
-
-\noindent
-\textbf{Perceptual Aliasing Issue}\newline
-
-\noindent
-There could be a need for monitoring methods that are capable of recognizing such situations and providing some strategies to resolve the 
-perceptual aliasing issue., e.g. by changing the position or the viewpoint in order to discriminate the objects.
-The occurrence of a perceptual aliasing issue can be simulated, for example, by placing an object similar to the container in the simulation.\newline
-
-\noindent
-\textbf{Robot Gets Stuck}\newline
-
-\noindent
-Detection should be based on \code{move_base_flex} recovery behaviors, as in the case of obstacles, but again there should be a manual implementation 
-specifically for these cases where, for example, the robot tries to rotate and reduce speed to leave the place where it got stuck.
-In simulation, such a situation could be established by providing the necessary physical conditions leading to such a problem.\newline
-
-\noindent
-\textbf{Robot Falls Over}\newline
-
-\noindent
-It could be tested in simulation by applying a force to the robot that causes it to fall over.
-It should be possible to detect the problem based on a combination of sensor information, and the robot should notify the human operator.\newline
-
-\noindent
-\textbf{Mapping Issues}\newline
-
-\noindent
-It is demanded to either pay close attention to obstacle detection when moving on uneven terrain or to clear the \textit{costmap} from time to time
-to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such ``virtual'' objects can block a path that the robot must traverse.
-The problems described can be evaluated in simulation by having the robot travel over rough terrain or by artificially creating paths with steep inclines.
+The problems that have been excluded from detailed consideration in this thesis are still potentially relevant and are therefore briefly discussed hereafter. Regarding the
+\textquote{certain dynamics} category, it primarily referred to twilight situations that are easily predictable and can be solved together with monitoring for drastic weather
+changes (cf. sec. \ref{sec:sim_and_mon_drastic_weather}). In addition, monitoring methods capable of detecting perceptual aliasing issues and providing strategies to solve them,
+e.g., by changing the position or angle of view to discriminate the objects, might be required. The occurrence of a perceptual aliasing issue could be simulated, for example, by
+placing an object similar to the container in the simulation. Detection for situations in which the robot gets stuck should be based on \code{move_base_flex} recovery behaviors,
+as in the case of obstacles, but again there should be a manual implementation specifically for these cases where, for example, the robot tries to rotate and reduce speed to leave
+the place where it got stuck. In simulation, such a situation could be established by providing the necessary physical conditions leading to such a problem. Similarly, situations
+where the robot tips over could be tested in the simulation by applying a force to the robot that causes this to happen. It should be possible to detect the problem based on a
+combination of sensor information, and the robot should notify the human operator. Finally, concerning mapping issues, it is demanded to either pay close attention to obstacle
+detection when moving on uneven terrain or to clear the costmap from time to time to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such
+``virtual'' objects can block a path that the robot must traverse. The problems described could be evaluated in simulation by having the robot travel over rough terrain or by
+artificially creating paths with steep inclines.
 
 \chapter{Plan Execution and Monitoring}
 \label{sec:plan_execution_and_monitoring}
