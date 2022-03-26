@@ -806,19 +806,19 @@ that prevents it from continuing its task.
 \section{Prototype Scenario in the Simulation}
 \label{sec:prototype_scenario}
 
-As starting point serves a physics simulation in \textit{Gazebo}\footnote{Open-source 3D robotics simulator} that has been created within the research project PORTAL \cite{portal}
-and is adapted and extended as part of this work. The simulation includes the AROX model, i.e. a simulated version of the system described in section \ref{sec:robotic_system},
-as well as a 2.5D reflection of a test field environment. For the prototypical baseline scenario of this work, the layout of abstract crops as objects of interest shown in 
+As starting point serves a physics simulation in \textit{Gazebo}\footnote{Open source $3D$ robotics simulator} that has been created within the research project \textit{PORTAL} \cite{portal}
+and is adapted and extended as part of this work. The simulation includes the AROX model, i.e., a simulated version of the system described in section \ref{sec:robotic_system},
+as well as a $2.5D$ reflection of a test field environment. For the prototypical baseline scenario of this work, the layout of abstract crops as objects of interest shown in 
 figure \ref{fig:prototypical_layout} was created. Initially, the simulation works under the assumption that the robot is able to charge its battery as soon as it is located at 
 certain coordinates as a simplification of the container infrastructure. These coordinates are visualized by the charge patch displayed in figure \ref{fig:prototypical_layout}.
-In order to determine the robot's route through the field as well as the whole scanning processes, a plan is needed, i.e. when to drive to and process which parcel of the field. 
+In order to determine the robot's route through the field as well as the whole scanning processes, a plan is needed, i.e., when to drive to and process which parcel of the field. 
 An example of a simple scan route can be seen in figure \ref{fig:example_scan_route}. Since this work does not deal with planning algorithms, it is simply assumed that the plans
 are created by human operators. Hence, a plan is going to be a CSV file of actions. Plan generation and format are described in detail in section \ref{sec:plan_generation}, 
 but in general plans will focus on two types of actions. The first type is \code{drive_to(lat, lng, theta)}, which causes the robot to drive to the specified latitude, 
 longitude, and orientation (if possible), an action the employed robotic system AROX is capable of. The second type of action is \code{scan}, which initiates a scanning procedure
 at the robot's current position. In practice, the real robot is equipped with a high-resolution $3D$ lidar sensor (cf. RIEGL sensor in fig. \ref{fig:arox_system}) that is going 
 to be used to scan the field parcels with the aim of detecting features of the plants. To simulate the scanning procedure, some kind of dummy node is required that allows to 
-scan on command (cf. section \ref{sec:dummy_scanning_node}), i.e. to simulate scanning, since we are not actually interested in any real scanning data. Thus, the second type 
+scan on command (cf. section \ref{sec:dummy_scanning_node}), i.e., to simulate scanning, since we are not actually interested in any real scanning data. Thus, the second type 
 of action will initiate a scanning procedure of the $3D$ lidar sensor or an execution of a dummy node, respectively. There are other actions, but these two are the very specific ones
 relevant to the scenario under consideration; the details are described in section \ref{sec:plan_generation}. This prototypical scenario is the implementation of a minimal 
 example of a long-term autonomous plant monitoring scenario in a simulation. Basic autonomous long-term functionality is provided, which means that the robot is able to 
@@ -1105,7 +1105,7 @@ If the localization is no longer accurate, e.g. because the robot has been moved
 trigger relocalization. In the case of such a localization error, the \textit{kidnapped robot problem} arises, because although no one has 
 physically removed the robot from its position, it appears that way from the robot's perspective. \cite{Hertzberg:2012}
 The relevance here can easily be argued based on practical experience, as this issue has already caused a lot of trouble in practice with the AROX system during 
-the work for the PORTAL project. In these situations, a major problem for localization was rotating the robot on the spot.
+the work for the \textit{PORTAL} project. In these situations, a major problem for localization was rotating the robot on the spot.
 The problems encountered consisted mostly of an incorrect orientation of the robot and rather rarely of an actual incorrect position.
 If the orientation is incorrect, the sensor records will also be incorrectly aligned, which is a major problem for the scenario under consideration.
 In addition to this practical experience, there are also numerous references in the literature to localization problems in long-term autonomous robot operations. For instance,
@@ -2919,14 +2919,14 @@ the fallback solution of asking the operator for help is executed (cf. section \
 \label{sec:integrated_solutions}
 
 In general, an integrative work benefits from many integrated solutions. Nevertheless, it should be viable in the scope of the work and robust. Essentially, there is a tradeoff
-between integrating as much as possible, thereby increasing the functionality, and staying feasible and realistic. Two solutions developed in the course of the PORTAL project that
+between integrating as much as possible, thereby increasing the functionality, and staying feasible and realistic. Two solutions developed in the course of the \textit{PORTAL} project that
 match very well with the framework proposed in this thesis are introduced in the following sections. Section \ref{sec:battery_monitoring} is concerned with a battery monitoring
 solution, and section \ref{sec:docking_solution} presents a system that enables autonomous energy supply.
 
 \section{Battery Monitoring}
 \label{sec:battery_monitoring}
 
-One solution worth integrating is a watchdog module developed as part of the PORTAL project that monitors the battery state and acts as a fail-safe. In principle, the charge stops are part of the plan, i.e. are
+One solution worth integrating is a watchdog module developed as part of the \textit{PORTAL} project that monitors the battery state and acts as a fail-safe. In principle, the charge stops are part of the plan, i.e. are
 considered at planning time. Thus, there is resource planning for the missions that includes to be back at the base station before the robot runs out of battery. However, if it fails,
 there should be a monitoring process at execution time that is able to react to wrong plans, i.e. the battery is depleted before expected and the robot has to return to its base.
 The module essentially checks the distance from the robot's current position to the base station, the expected battery consumption to get there, and the remaining battery charge.
@@ -2946,7 +2946,7 @@ state machine (cf. section \ref{sec:execution_monitoring_smach_architecture}) at
 A fundamental step towards long-term autonomy of a mobile robot is to ensure its power supply. Arvin et al. \cite{Arvin:2009} identify autonomous navigation and precise docking at
 a charging station as major problems for mobile robots, since most mobile robots require human assistance to charge. They identify three critical aspects for mobile robots that can
 recharge themselves: Awareness of the need to charge, locating and navigating to the charging station, and precise docking. For this purpose, there is an inductive charging station
-located in a mobile container on the field site. For the PORTAL project, the container providing the inductive charging station was modeled in URDF and can be used in the \textit{Gazebo} simulation (cf.
+located in a mobile container on the field site. For the \textit{PORTAL} project, the container providing the inductive charging station was modeled in URDF and can be used in the \textit{Gazebo} simulation (cf.
 fig. \ref{fig:container_model}).
 \begin{figure}[H]
     \centering
@@ -2955,7 +2955,7 @@ fig. \ref{fig:container_model}).
     \label{fig:container_model}
 \end{figure}
 Thus, the power supply could be realized by integrating an autonomous docking / undocking solution that enables the robot to detect the container in a laser scan of its nearby
-surroundings, drive into it and dock to the inductive charging station. Such a docking solution has been created as part of the PORTAL project and extended in this work by some
+surroundings, drive into it and dock to the inductive charging station. Such a docking solution has been created as part of the \textit{PORTAL} project and extended in this work by some
 error handling mechanisms to realize meaningful monitoring. The docking solution is integrated into the framework developed in this thesis to provide the robot with autonomous
 recharging capability. The part where the (un-)docking solution is integrated into the presented framework is
 the operation state machine, which is responsible for the action execution (cf. section \ref{sec:execution_monitoring_smach_architecture}). Essentially, two of the available actions are extended: \code{return_to_base} and \code{charge}. First,
