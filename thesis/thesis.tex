@@ -954,7 +954,7 @@ For each potential problem identified in the last section, its relevance and imp
 A natural requirement for LTA systems as defined in section \ref{sec:lta_plant_observation} is some form of energy management.
 The system is expected to operate autonomously for extended periods of time, which of course assumes a power supply. 
 As Hawes et al. \cite{Hawes:2017} point out, managing consumable resources such as battery charge is critical to long-term autonomous systems.
-However, the energy management estimated at planning time may not work correctly or as expected at execution time, e.g. the battery could be 
+However, the energy management estimated at planning time may not work correctly or as expected at execution time, e.g., the battery could be 
 depleted before the planned time. Or worse, there could be a complete battery failure. It would certainly be useful to enable the system to handle such issues, at least to 
 some degree. Arvin et al. point out that long-term autonomy experiments are still rare due to the limited battery capacity of robots. \cite{Arvin:2018}
 Therefore, they believe that solving power management issues is of great importance.\newline
@@ -970,7 +970,7 @@ Accordingly, docking to the charging station may fail or the charging process it
 Both cases lead to a failed charging process and thus to an abortion of the robot's LTA mission.
 There is evidence in the literature that this is a common problem in long-term autonomous operation of mobile robots. Wang et al. \cite{Wang:2018}, for instance, encountered
 this problem during the deployment of their long-term autonomous service robots when the charging port failed and the robot could not recharge and thus continue its mission.
-An evaluation of potential docking failures would require integration of the autonomous docking / undocking solution described in section \ref{sec:docking_solution}.\newline
+An evaluation of potential docking failures requires the integration of the autonomous docking / undocking solution described in section \ref{sec:docking_solution}.\newline
 
 \noindent
 \textbf{Drastic Weather Change}\newline
@@ -990,7 +990,7 @@ In addition, heavy rain should also be avoided. Finally, extreme cold could be a
 
 \noindent
 Similar to weather changes, there are other dynamics such as the natural transition from day to night. For sunlight-dependent sensors such as cameras, 
-the robot should take twilight into account and plan its operations accordingly to be back in the shelter, i.e. the mobile container, by dark.\newline
+the robot should take twilight into account and plan its operations accordingly to be back in the shelter, i.e., the mobile container, by dark.\newline
 
 \noindent
 \textbf{Sensor (Perception) Failure}\newline
@@ -1007,11 +1007,11 @@ and wasted operating time.\newline
 
 \noindent
 Place recognition can certainly be useful for LTA operation of a mobile robot. However, long-term place recognition is not trivial because 
-the appearance of places in the environment changes quite drastically over time, e.g. due to illumination, vegetation periods, or weather. \cite{Han:2018}
-A useful approach to compare two images (places) is local feature matching, e.g. based on the \textit{Scale-Invariant Feature Transform (SIFT)} and
-\textit{Speeded Up Robust Features (SURF)} algorithms. \cite{Valgren:2007} The authors discuss how such approaches can be facilitatd to address the problems related to drastic
+the appearance of places in the environment changes quite drastically over time, e.g., due to illumination, vegetation periods, or weather. \cite{Han:2018}
+A useful approach to compare two images (places) is local feature matching, e.g., based on the \textit{Scale-Invariant Feature Transform (SIFT)} and
+\textit{Speeded Up Robust Features (SURF)} algorithms. \cite{Valgren:2007} The authors discuss how such approaches can be facilitated to address the problems related to drastic
 environment changes. Another method, proposed by Neubert et al. \cite{Neubert:2013} attempts to predict environmental appearance changes based on the assumption that they are
-often systematic and repeatable. Moreover, Latif et al. tackle the task of place recognition using \textit{Generative Adversarial Networks (GANs)}, which enable them to transform the appearance, e.g. from summer
+often systematic and repeatable. Moreover, Latif et al. tackle the task of place recognition using \textit{Generative Adversarial Networks (GANs)}, which enable them to transform the appearance, e.g., from summer
 to winter, without requiring knowledge of the image correspondence beforehand, ending up with different versions of an environment snapshot in which the structure remains the same.
 \cite{Latif:2018} These versions can then be used to learn how to distinguish locations. A further approach to recognizing changes between observations is based on the idea of
 learning to separate the static and dynamic structures of an environment during long-term deployments. \cite{Ambrus:2014}
@@ -1032,22 +1032,22 @@ during such deployments. \cite{Ambrus:2014} Since the overall objective of the r
 If, for example, the robot is no longer able to save further scans due to a full memory, it should recognize and communicate this.
 In addition, there may be disturbances in the processing of the sensor data, so that the robot is no longer able to process and save the recordings correctly.
 Successful scanning is worthless if the resulting data is not saved properly, so it is important to monitor whether the scans are being written to a file correctly.
-Therefore, tt would be valuable to identify such problems as soon as possible to avoid redundant missions.\newline
+Therefore, it would be valuable to identify such problems as soon as possible to avoid redundant missions.\newline
 
 \noindent
 \textbf{Lost Connection}\newline
 
 \noindent
 For the robot to work as expected, it must maintain connections to various services. Accordingly, an interruption of one of these connections should be detected immediately.
-A real time communication channel (e.g. WiFi) is required to connect the RTK base station, i.e. the mobile container, and the RTK rover, i.e. the robot, in order to
+A real time communication channel (e.g. WiFi) is required to connect the RTK base station, i.e., the mobile container, and the RTK rover, i.e., the robot, in order to
 transmit the correction signals for high-precision positioning. In the literature, there are several examples of (semi-)autonomous mobile robots that cannot continue their
 mission as expected when they lose WiFi connectivity, such as the service robots considered by Wang et al. \cite{Wang:2018}. The authors also establish a form of network monitoring
 to deal with disconnects.
 Furthermore, it is crucial that both the robot and the base station receive their own GNSS signals,
-i.e. are connected to the GNSS service. Bargoti et al. \cite{Bargoti:2015} and Bechar et al. \cite{Bechar:2016} identify occlusions of GPS satellites leading to jumps in estimated position as one of the main reasons
+i.e., are connected to the GNSS service. Bargoti et al. \cite{Bargoti:2015} and Bechar et al. \cite{Bechar:2016} identify occlusion of GPS satellites leading to jumps in estimated position as one of the main reasons
 for detection failures in their tree monitoring scenario, which highlights the value of being able to detect poor GNSS links.
 In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
-to the base station or external servers for further processing. Whether LTE is behind it or the internet connection is provided via the WiFi connection, it would make sense
+to the base station or external servers for further processing. Whether LTE is behind it or the internet connection is provided via WiFi, it would make sense
 to monitor the robot's internet connection in any case. For all connections it is not only about complete disconnects, but also about qualitative estimations.\newline
 
 \noindent
@@ -1082,11 +1082,11 @@ This problem should be considered separately, since in such a case the robot wil
 Another potential LTA problem category, under which a whole range of concrete problems are subsumed, and which have already been encountered in experiments conducted as part of
 this work, are navigation errors, which pose a particular challenge in highly dynamic real-world environments. \cite{DelDuchetto:2018}
 For example, the local planner configured in \code{move_base_flex} (e.g. DWA, EBand) provides a path that
-is infeasible, e.g. tries to drive around a field,  although there is no way. Del Duchetto et al. encounter similar problems in an indoor LTA scenario where valid navigation
+is infeasible, e.g., tries to drive around a field,  although there is no way. Del Duchetto et al. encounter similar problems in an indoor LTA scenario where valid navigation
 trajectories cannot be generated from time to time.
 They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018} As Hawes
 et al. \cite{Hawes:2017} point out, navigation errors are a critical factor in the long-term autonomy of a mobile robot, as they can result in the robot being incapable of returning
-to the charging station (mobile container). Hence, it is imperative to guarantee a certain level of robustness against navigational flaws, i.e. to provide the robot with the
+to the charging station (mobile container). Hence, it is imperative to guarantee a certain level of robustness against navigational flaws, i.e., to provide the robot with the
 ability to detect and recover from such errors. \cite{DelDuchetto:2018}
 The authors define the errors as follows: \textquote{\textit{[...] situation in which the robot is not able to progress toward the goal, because it is not
 moving or it is performing some counterproductive behavior}}. \cite{DelDuchetto:2018}
@@ -1098,7 +1098,7 @@ detected by \code{move_base_flex}. Nevertheless, even if this is the case, this 
 \textbf{Sustained Recovery}\newline
 
 \noindent
-If the robot tries to recover from a problematic situation, e.g. obstacles on the planned path, such recovery may not be successful, i.e. the robot may not be able
+If the robot tries to recover from a problematic situation, e.g., obstacles on the planned path, such a recovery may not be successful, i.e., the robot may not be able
 to return to the normal operation state. In case of an unsuccessful recovery attempt, the robot could either give up and abort its mission or perform another recovery.
 Of course, the robot should not end up in an infinite loop of repeating the same failing recovery, but instead it should try a few different recovery attempts,
 and if none of them work, it should shut down and call the operator. Therefore, it is important to introduce monitoring solutions for recovery behaviors as well.\newline
@@ -1109,8 +1109,8 @@ and if none of them work, it should shut down and call the operator. Therefore, 
 \noindent
 It is obvious that it is a problem when the robot is not able to localize itself correctly in its environment.
 Localization is a critical factor for a robot's long-term autonomy, which should therefore not deteriorate during long-term deployments. \cite{Hawes:2017}
-In this case, it is a matter of localization within a global reference system, i.e. determining the pose (position and orientation) within a given map of the environment.
-If the localization is no longer accurate, e.g. because the robot has been moved to a different position in the map, it must detect this in order to
+In this case, it is a matter of localization within a global reference system, i.e., determining the pose (position and orientation) within a given map of the environment.
+If the localization is no longer accurate, e.g., because the robot has been moved to a different position in the map, it must detect this in order to
 trigger relocalization. In the case of such a localization error, the \textit{kidnapped robot problem} arises, because although no one has 
 physically removed the robot from its position, it appears that way from the robot's perspective. \cite{Hertzberg:2012}
 The relevance here can easily be argued based on practical experience, as this issue has already caused a lot of trouble in practice with the AROX system during 
@@ -1122,19 +1122,19 @@ Wang et al. \cite{Wang:2018}, who identified localization and execution errors a
 They identify unexpected changes in the robot's position estimates as a useful method for predicting / detecting localization problems.
 Of course, it can also be a problem for localization if the GNSS signal itself is inaccurate or non-existent \cite{Churchill:2013}, but that is another topic (cf. \textit{Lost Connection} section).
 There are arbitrary many potential localization problems (e.g. slipping in sand, getting stuck, jammed wheels) and the correct functioning of the system always assumes an accurate
-position estimate. \cite{Goldberg:2002}
-
-\vfill
-\pagebreak
+position estimate. \cite{Goldberg:2002}\newline
 
 \noindent
 \textbf{Mapping Issues}\newline
 
 \noindent
 Mapping issues can generally refer to a variety of problems. In this case, a particular issue regarding the local \textit{costmap} observed during experiments for this work is meant.
-The \textit{costmap} is a 2D occupancy grid based on sensor data of the world. It generates costs based on a user defined inflation radius.
+The \textit{costmap} is a $2D$ occupancy grid based on sensor data of the world. It generates costs based on a user defined inflation radius.
 If the robot drives over a hill and the sensors are configured in a certain way, parts of the ground may be incorrectly perceived as an obstacle and entered into the \textit{costmap}.
-The problem then is that the robot is unable to drive through these ``virtual'' obstacles. \newline
+The problem then is that the robot is unable to drive through these ``virtual'' obstacles. 
+
+\vfill
+\pagebreak
 
 \noindent
 \textbf{Plan Deployment Failure}\newline
@@ -1154,24 +1154,24 @@ Generally, the potential barriers for long-term autonomy can be classified into 
 \centering
 \begin{enumerate}
     \item The robot recognizes a problem and is able to solve it by itself.
-    \item The robot recognizes a problem, is unable to solve it, and calls a (human) operator for help.
-    \item The robot has a malfunction / problem, but does not recognize it and is therefore unable to solve or communicate it.
+    \item The robot recognizes a problem, is unable to solve it, and calls an operator for help.
+    \item The robot has a malfunction / problem, does not recognize it and therefore cannot solve or communicate it.
 \end{enumerate}
-\caption{Classification of Problems in Terms of Impact}
+\caption{\textsc{Classification of Problems in Terms of Impact}}
 \label{fig:problem_types}
 \end{figure}
 Type $(1)$ is the ideal case and accordingly the ultimate goal of all efforts to implement long-term autonomy in practice. Type $(2)$ is already a step forward, because problems
 are at least recognized and can be communicated, which is the minimum requirement to guarantee a certain robustness with respect to the problems.
-In the baseline scenario, i.e. the running prototype of an integrated solution, each potential issue in the above list is classified as type $(3)$.
+In the baseline scenario, i.e., the running prototype of an integrated solution, each potential issue in the above list is classified as type $(3)$.
 Part of the goal of this work is to shift the problems of the selected subset to another category and thereby improve the utility of the system, 
-i.e. to solve them completely $(1)$, or at least to enable the robot to recognize them with execution monitoring approaches and request help $(2)$.
-However, it is also part of the truth that not all possible external influences are solvable, i.e. a robot will not be able to solve all
+i.e., to solve them completely $(1)$, or at least to enable the robot to recognize them with execution monitoring approaches and request help $(2)$.
+However, it is also part of the truth that not all possible external influences are solvable, i.e., a robot will not be able to solve all
 conceivable problems itself. Long-term autonomy has its limits, and there are simply unpredictable situations that a mobile robot cannot be expected to handle,
-e.g. if its battery bursts into flames, or it is knocked over by something. In such a case, the only way to do damage control is to try to shut down the 
+e.g., if its battery bursts into flames, or it is knocked over by something. In such a case, the only way to do damage control is to try to shut down the 
 robot in a controlled manner (e.g. with data backup) and, if possible, communicate the problem.
 Of course, one could assign probabilities to specific incidents, which vary depending on the information available. 
 For example, if the robot detects that the battery is showing unusual discharge behavior, such information could be taken into account and 
-reported to the operator. Nevertheless, it's not feasible to cover everything that can happen, and long-term autonomy is subject to certain limits.
+reported to the operator. Nevertheless, it is not feasible to cover everything that can happen, and long-term autonomy is subject to certain limits.
 
 \subsection{Relevance Assessment}
 \label{sec:relevance_assessment}
