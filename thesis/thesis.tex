@@ -739,7 +739,7 @@ Such environments are often given in an industrial context where robots must per
 In contrast, a highly dynamic, partially unknown environment such as in this scenario poses much more difficult
 challenges, e.g., due to unexpected environmental changes that are hard, if not impossible, to anticipate.
 Such environments are often referred to in the literature as \textquote{automation-averse}.
-The idea is to enable a mobile robot to autonomously conduct 3D-Lidar scans and hyperspectral images of the plants on a field in order to monitor their growth progression and 
+The idea is to enable a mobile robot to autonomously conduct $3D$ lidar scans and hyperspectral images of the plants on a field in order to monitor their growth progression and 
 to detect certain features based on the growth stage. Moreover, these recordings can be used to detect leaf diseases. It is essentially a task of data acquisition.
 Correspondingly, the robot has to be able to process the entire field continually without the need for human supervision,
 including the requirement for repeated charge stops. For this purpose, there is supporting infrastructure in the form of a container with an inductive charging station on site
@@ -816,10 +816,10 @@ An example of a simple scan route can be seen in figure \ref{fig:example_scan_ro
 are created by human operators. Hence, a plan is going to be a CSV file of actions. Plan generation and format are described in detail in section \ref{sec:plan_generation}, 
 but in general plans will focus on two types of actions. The first type is \code{drive_to(lat, lng, theta)}, which causes the robot to drive to the specified latitude, 
 longitude, and orientation (if possible), an action the employed robotic system AROX is capable of. The second type of action is \code{scan}, which initiates a scanning procedure
-at the robot's current position. In practice, the real robot is equipped with a high-resolution 3D-Lidar sensor (cf. RIEGL sensor in fig. \ref{fig:arox_system}) that is going 
+at the robot's current position. In practice, the real robot is equipped with a high-resolution $3D$ lidar sensor (cf. RIEGL sensor in fig. \ref{fig:arox_system}) that is going 
 to be used to scan the field parcels with the aim of detecting features of the plants. To simulate the scanning procedure, some kind of dummy node is required that allows to 
 scan on command (cf. section \ref{sec:dummy_scanning_node}), i.e. to simulate scanning, since we are not actually interested in any real scanning data. Thus, the second type 
-of action will initiate a scanning procedure of the 3D-Lidar sensor or an execution of a dummy node, respectively. There are other actions, but these two are the very specific ones
+of action will initiate a scanning procedure of the $3D$ lidar sensor or an execution of a dummy node, respectively. There are other actions, but these two are the very specific ones
 relevant to the scenario under consideration; the details are described in section \ref{sec:plan_generation}. This prototypical scenario is the implementation of a minimal 
 example of a long-term autonomous plant monitoring scenario in a simulation. Basic autonomous long-term functionality is provided, which means that the robot is able to 
 complete its plant observation missions interrupted by several necessary charge stops. It will be used later to evaluate the challenges identified in section 
@@ -867,7 +867,7 @@ i.e. the AROX, to transmit the aforementioned correction signals. Furthermore, i
 i.e. are connected to the GNSS service. The AROX also maintains WiFi or LTE connections for the purpose of transmitting the recorded scans to external servers or the base station.
 The robot's localization is multi-layered and based on sensor fusion of inertial measurement unit (IMU), odometry and RTK-GNSS data using the \code{robot_localization} \cite{Moore:2014} package.
 Several laser scanners are attached to its base and used to avoid collisions, e.g. the \textit{SICK TiM} and the \textit{Velodyne Puck} mounted at the optional sensor
-slots displayed in fig. \ref{fig:arox_system}. For the actual task of plant monitoring, the high-resolution 3D-Lidar sensor \textit{RIEGL VZ-$400$i} is used,
+slots displayed in fig. \ref{fig:arox_system}. For the actual task of plant monitoring, the high-resolution $3D$ lidar sensor \textit{RIEGL VZ-$400$i} is used,
 which can be combined with a calibrated hyperspectral or RGB camera (cf. fig. \ref{fig:arox_system}). \cite{Kisliuk:2021}
 For \textit{navigation}, the ROS package \code{move_base_flex} \cite{Puetz:2018} is used, a more flexible extension of the standard ROS navigation framework \code{move_base}.
 The primarily used path planning algorithms are provided by the ROS packages \code{eband_local_planner} and \code{dwa_local_planner}.
@@ -987,7 +987,7 @@ the robot should take twilight into account and plan its operations accordingly 
 \textbf{Sensor (Perception) Failure}\newline
 
 \noindent
-Hardware issues are a very general problem class and could relate to almost arbitrary many kinds of problems. Since the correct functioning of the 3D-LiDAR sensor is
+Hardware issues are a very general problem class and could relate to almost arbitrary many kinds of problems. Since the correct functioning of the $3D$ lidar sensor is
 crucial for the long-term monitoring scenario described in section \ref{sec:lta_plant_observation}, the main focus will be on detecting hardware faults of this type. 
 Sensor failures are, of course, a failure class in which the robot can do little except attempt to restart the corresponding sensor, and therefore rarely has any choice but to 
 call the human operator for assistance. Nevertheless, it is important to identify such a malfunction as soon as possible, communicate the problem and avoid a lot of useless work 
@@ -1844,7 +1844,7 @@ The actual monitoring and simulation of sensor failures is described in the subs
 The dummy scanning node implements a ROS \code{SimpleActionServer} that simulates the results of the \textit{RIEGL} scanner
 (cf. fig. \ref{fig:arox_system}). 
 It is expected that a \code{scan} action will trigger an incoming \code{LaserScan} on the topic \code{/RIEGL}, which will then be
-written to a file to also have some form of data management. Since the \textit{Velodyne} LiDAR sensor is already part of the simulation and the nature of the incoming data
+written to a file to also have some form of data management. Since the \textit{Velodyne} lidar sensor is already part of the simulation and the nature of the incoming data
 is essentially the same, a \code{scan} action just leads to one republished \textit{Velodyne} scan under the \code{/RIEGL} topic using \code{rospy.wait_for_message()},
 which merely creates a subscription to the topic, receives one message, and then unsubscribes. The incoming data is basically a list of distance values for certain angle-height 
 combinations along with arbitrary many metadata such as minimum angle, maximum angle, scanning time, and identifier. Thus, the dummy node enables the \textit{Velodyne} sensor
@@ -1861,7 +1861,7 @@ If they are written to the file system, it is data management.
 \subsubsection{Monitoring and Simulation}
 \label{sec:sensor_mon_and_sim}
 
-Obviously, total sensor failures are realistic in practice for any LiDAR sensor, or even any sensor in general, due to a hardware fault, an interrupted
+Obviously, total sensor failures are realistic in practice for any lidar sensor, or even any sensor in general, due to a hardware fault, an interrupted
 power supply, or a variety of other reasons. However, there are more subtle failures than just a total breakdown, and the incoming scan data should be checked for plausibility.
 From a practical point of view, it is a valid assumption to receive the scans via a specific ROS topic. One issue could be an empty list of range values, i.e. a scan arrives on
 some ROS topic but is essentially vacuous. As mentioned in section \ref{sec:dummy_scanning_node}, the crucial part of a laser scan is the list of range values, which makes it 
@@ -3291,7 +3291,7 @@ navigation failures, extreme weather conditions, and power management failures, 
 shelter, e.g. after extreme weather situations. Eventually, the outcomes must be compatible with the architecture shown in fig. \ref{fig:high_level_smach}, i.e.
 \code{minor_complication}, \code{critical_complication}, \code{end_of_episode}, and \code{preempted}. A further important note with regard to the general applicability of the
 framework is that each monitoring node can easily be removed, i.e. deactivated. Presently, this can be achieved by simply removing the option from the framework's launch file.
-For instance, if a mobile outdoor robot is used without a Lidar scanner, the sensor monitoring node can simply be removed. Analogously, custom monitoring nodes can be added to the
+For instance, if a mobile outdoor robot is used without a lidar scanner, the sensor monitoring node can simply be removed. Analogously, custom monitoring nodes can be added to the
 framework by simply adding the nodes to the launch file and supporting the described architecture by publishing to \code{contingency_preemption}, etc. Thus, the idea is that
 context-dependent special solutions can be easily added, removed and replaced by other specific solutions.
 
