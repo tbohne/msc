@@ -1351,7 +1351,7 @@ A key aspect of dealing with some of the potential issues introduced in section 
 complete its missions without preempting the plan execution from time to time. Either due to insufficient battery capacity or other unmanageable conditions such as 
 drastic weather changes that force the robot to interrupt its task. As Harris et al. remark: \textquote{\textit{Fixed plans may fail if states encountered during execution do not
 sufficiently reflect the assumptions made during plan generation}}. \cite{Harris:2021} Although the overall route may always be the same for the same field, there are certain stopping
-conditions that cause the robot to interrupt its active scanning tour and possibly drive back to its base, i.e. the mobile container.
+conditions that cause the robot to interrupt its active scanning tour and possibly drive back to its base, i.e., the mobile container.
 There are generally two relevant perspectives. First, such stops have to be considered at planning time by acknowledging charge stops as crucial part of the plan.
 Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
 Therefore, a second perspective comes into play, that will be particularly relevant in this work - the execution time.
@@ -1363,7 +1363,7 @@ for the interruption has been resolved. Consequently, the robot has to be prepar
 trivial, since the original plan may no longer be applicable for various reasons. This aspect is discussed further in section \ref{sec:plan_interruption_section}.
 In this work, \textit{monitoring} is not meant to monitor plan execution in the sense of evaluating
 pre- and post-conditions of specific high-level actions and the like, but is to be understood in a more general sense to monitor aspects of the robot system as well as its environment
-that have been identified as critical to successful long-term autonomous deployment (cf. \ref{sec:challenges_for_lta}). Essentially, the things that are implicitly part of the plan,
+that have been identified as critical to successful long-term autonomous deployment (cf. sec. \ref{sec:challenges_for_lta}). Essentially, the things that are implicitly part of the plan,
 like working sensors and a reasonable battery state of charge. \cite{Ingrand:2017} Based on the challenges identified in section \ref{sec:challenges_for_lta}, this includes the use of
 proprioceptive as well exteroceptive sensors and information. As Hawes et al. put it: \textquote{\textit{A key strategy for
 delivering long-term robustness is the monitoring of system behavior, from the individual component level up to navigation and task behaviors, as well as the ability to restart
@@ -1378,13 +1378,13 @@ at least in the sense of error treatment.
 The potential problems identified in section \ref{sec:challenges_for_lta}, and their subtypes, are generally classified into two categories in this thesis according to their severity:
 Those that cause contingencies and those that lead to catastrophes. The essence of these two categories has already been anticipated by the first two classes of problems in the
 concluding remarks of section \ref{sec:challenges_for_lta}. Contingencies refer to cases where the robot is confronted with an unexpected event or problem, but its ability to act is
-basically preserved, so that it can try to solve the problem itself, e.g. by returning to base. Catastrophes, on the other hand, refer to cases where the robot is no longer capable of
+basically preserved, so that it can try to solve the problem itself, e.g., by returning to base. Catastrophes, on the other hand, refer to cases where the robot is no longer capable of
 acting or solving the problem, necessitating human intervention. It is roughly equivalent to the definition of Ross et al. described in \cite{Honig:2018}, where
 failures are divided into anticipated errors, exceptional errors, and unrecoverable errors based on the recoverability of the system. The ideas are more based on a high-level planning
 perspective, as the first two refer to simple backtracking and replanning, respectively, while the last refers to cases where the plan is no longer feasible and replanning is not an
 option. Nevertheless, the first two in combination correspond quite well to the view of contingencies in this thesis - contingencies can be dealt with. Similarly, unrecoverable errors
 correspond to catastrophes in this work. They also consider socially recoverable failures where the robot relies on assistance from other operators (humans or other robots), which
-is also encountered in this work, namely in the case of the catastrophe situations (cf. section \ref{sec:fallback_solution}).
+is also encountered in this work, namely in the case of the catastrophe situations (cf. sec. \ref{sec:fallback_solution}).
 
 \section{Plan Generation and Format}
 \label{sec:plan_generation}
