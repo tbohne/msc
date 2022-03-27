@@ -1526,7 +1526,7 @@ As mentioned, when \code{NORMAL_OPERATION} returns \code{end_of_episode}, the pa
 robot's work for that long-term episode is complete, which means that the robot performs data management and then the system is deactivated.
 Essentially, in a long-term episode in the considered scenario, the robot should stay in \code{NORMAL_OPERATION} as 
 long as the episode is running or an error / problem has occurred, either an error that it is able to deal with itself or even a more severe problem that requires the 
-intervention of a human operator. Accordingly, if \code{NORMAL_OPERATION}, i.e. the embedded state machine together with the parallel running monitoring states has the outcome 
+intervention of a human operator. Accordingly, if \code{NORMAL_OPERATION}, i.e., the embedded state machine together with the parallel running monitoring states has the outcome 
 \code{minor_complication}, the robot enters the state \code{CONTINGENCY}, which means that it has detected a soft failure, e.g. a sensor failure, but its ability to act
 is preserved, it is for example able to drive back to the base in safety mode. However, if \code{NORMAL_OPERATION} returns \code{critical_complication}, there is a severe 
 failure that is unsolvable for the robot, perhaps even for the operator, and the robot transitions to \code{CATASTROPHE}. If it is still possible, the robot saves the current 
@@ -2098,18 +2098,18 @@ in fig. \ref{fig:ICO_DFKI_ENU}, i.e. the DFKI is located $590.7 m$ east and $19.
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.8\textwidth]{pics/ICO_DFKI_map.png}
+        \includegraphics[width=\textwidth]{pics/ICO_DFKI_map.png}
         \caption{\textsc{\textit{OpenStreetMap} Section}}
         \label{fig:ICO_DFKI_map}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.8\textwidth]{pics/ICO_DFKI_ENU.png}
+        \includegraphics[width=\textwidth]{pics/ICO_DFKI_ENU.png}
         \caption{\textsc{East-North-Up (ENU) Representation}}
         \label{fig:ICO_DFKI_ENU}
     \end{subfigure}
-\caption{\textsc{ENU Example} TODO}
+\caption{\textsc{Practical ENU Example}}
 \label{fig:ENU_example}
 \end{figure}
 \noindent
