@@ -1485,33 +1485,34 @@ These parallel running states are used to monitor the robot's operation and to i
 When this case occurs, based on how severe the problem is, the respective procedure will interrupt \code{OPERATION} and provide for the outcome \code{critical_complication} or
 \code{minor_complication}, which will then result in a state transition to the appropriate states in which the problem will be addressed. There is quite a bit behind
 \code{CONTINGENCY}, namely the handling of the problem based on the problem type that is communicated along with the message of the interruption.
-If \code{CONTINGENCY} is able to solve the problem, the \code{NORMAL_OPERATION} will resume (cf. top arrow). In case of \code{critical_complication} or if the robot was not able to
-solve the problem, it ends up in the \code{CATASTROPHE} state, the human operator is notified, a backup is made if necessary, etc., and then the robot shuts down.
-The interrupts of \code{OPERATION} are initiated by the monitoring nodes, which are shown on the right in fig. \ref{fig:high_level_smach}, and which detect problems as generally
+If \code{CONTINGENCY} is able to solve the problem, \code{NORMAL_OPERATION} will resume (cf. top arrow). In case of \code{critical_complication} or if the robot is not able to
+solve the problem (cf. aggravated arrow), it ends up in the \code{CATASTROPHE} state, the human operator is notified, a backup is made if necessary, etc., and then the robot shuts down.
+The interrupts of \code{OPERATION} are initiated by the monitoring nodes, which are shown on the right in fig. \ref{fig:high_level_smach}, and which detect problems as universally
 as possible for each identified problem category.
 Although a monitoring solution could in principle also be implemented sequentially, it seems more natural to choose a parallel approach, since a sequential option
 would have the disadvantage that no monitoring takes place while a task / algorithm is being executed, but only afterwards.
 It is desirable to be able to intervene at any time during the execution of a task when a monitoring procedure running in parallel is triggered and causes a change of state.
-During the state \code{OPERATION}, i.e. in the nested state machine visualized in figure \ref{fig:low_level_smach}, the robot can be either in the state \code{IDLE}, 
-in which it is waiting for a plan $\pi$, or in \code{EXECUTE_PLAN}, in which it is executing a given plan $\pi$. The embedded state machine \code{OPERATION} has 
+During the state \code{OPERATION}, i.e., in the nested state machine visualized in figure \ref{fig:low_level_smach}, the robot can be either in the state \code{IDLE}, 
+in which it is waiting for a plan, or in \code{EXECUTE_PLAN}, in which it is executing a given plan $\pi$. The embedded state machine \code{OPERATION} has 
 four possible outcomes - \code{end_of_episode}, \code{minor_complication}, \code{critical_complication}, and \code{preempted}. 
-It starts in the \code{IDLE} state and remains there as long as no plan $\pi$ is provided via a ROS service.
+It starts in the \code{IDLE} state and remains there as long as no plan is provided via a ROS service.
 There are two common options for the robot to leave the state. The first is via a message on a ROS topic indicating that the end of the current long-term episode
 has been reached, resulting in an overall outcome of \code{end_of_episode} for \code{NORMAL_OPERATION}. The second is to receive a plan $\pi$ that results in a state
 transition to \code{EXECUTE_PLAN}. Additionally, the external parallel running monitoring states \code{CONTINGENCY_MONITORING} and \code{CATASTROPHE_MONITORING}
 are capable of interrupting the \code{IDLE} state at any time (cf. state preemption \cite{state_preemption}) due to external problems leading to the outcome \code{preempted}.
 In \code{EXECUTE_PLAN}, there are five possible outcomes, two of which result in state transitions and three of which cause \code{OPERATION} to return to the parent state machine.
 The first possible outcome is \code{action_completed}, which indicates that an action $a \in \pi$  was completed successfully and causes the same state (\code{EXECUTE_PLAN}) to be
-executed again with the reduced plan $\pi := \pi \backslash \{a\}$, i.e. the rest of the plan is executed. The next possible outcome is \code{plan_completed}, which means that the entire
-plan $\pi$ has been successfully processed, i.e. $\pi = \emptyset$, and causes a transition back to the \code{IDLE} state.
+executed again with the reduced plan $\pi \coloneqq \pi \backslash \{a\}$, i.e., the rest of the plan is executed. The next possible outcome is \code{plan_completed}, which means that the entire
+plan $\pi$ has been successfully processed, i.e., $\pi = \emptyset$, and causes a transition back to the \code{IDLE} state.
 These were the possible outcomes that cause a transition to another state. Now there are the three remaining outcomes that cause a return to the parent state machine. 
-First, \code{soft_failure}, which means that something went wrong, e.g. an action $a \in \pi$ was not performed successfully, but the robot should be able to handle the problem. 
+First, \code{soft_failure}, which means that something went wrong, e.g., an action $a \in \pi$ was not performed successfully, but the robot should be able to handle the problem. 
 Second, there is the potential outcome \code{severe_failure}, which represents situations where the robot is unable to solve the problem itself.
-Finally, the last potential outcome is again \code{preempted} based on some external issue detected by \code{CONTINGENCY_MONITORING} or \code{CATASTROPHE_MONITORING}.
-In summary, there are two types of problems, low-level problems that are detected directly at this level, e.g. by simple error treatment, which then lead to an interruption based
+Finally, the last potential outcome is again \code{preempted} based on some external issue indicated by \code{CONTINGENCY_MONITORING} or \code{CATASTROPHE_MONITORING} and
+detected by one of the monitoring nodes.
+In summary, there are two types of problems, low-level problems that are detected directly at this level, e.g., by simple error treatment, which then lead to an interruption based
 on the severity of the problem, in this case \code{soft_failure} or \code{severe_failure}, which is then passed up to the high-level SMACH and handled accordingly.
-The other, much more common case is that a problem is detected by the monitoring nodes. The consequence is that the execution is simply interrupted here and the problem is solved
-at a higher level. Then \code{OPERATION} is restarted (cf. \code{external_problem} in fig. \ref{fig:low_level_smach}).
+The other, much more common case is that a problem is detected by the monitoring nodes with the consequence that execution is simply interrupted here and the problem is solved
+superordinately. Then \code{OPERATION} is restarted (cf. \code{external_problem} in fig. \ref{fig:low_level_smach}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{pics/SMACH_low_level.png}
