@@ -1527,10 +1527,10 @@ robot's work for that long-term episode is complete, which means that the robot 
 Essentially, in a long-term episode in the considered scenario, the robot should stay in \code{NORMAL_OPERATION} as 
 long as the episode is running or an error / problem has occurred, either an error that it is able to deal with itself or even a more severe problem that requires the 
 intervention of a human operator. Accordingly, if \code{NORMAL_OPERATION}, i.e., the embedded state machine together with the parallel running monitoring states has the outcome 
-\code{minor_complication}, the robot enters the state \code{CONTINGENCY}, which means that it has detected a soft failure, e.g. a sensor failure, but its ability to act
-is preserved, it is for example able to drive back to the base in safety mode. However, if \code{NORMAL_OPERATION} returns \code{critical_complication}, there is a severe 
+\code{minor_complication}, the robot enters the state \code{CONTINGENCY}, which means that it has detected a soft failure, e.g., a sensor failure, but its ability to act
+is preserved, it is for example able to drive back to the base in safety mode or repeat the scan attempt. However, if \code{NORMAL_OPERATION} returns \code{critical_complication}, there is a severe 
 failure that is unsolvable for the robot, perhaps even for the operator, and the robot transitions to \code{CATASTROPHE}. If it is still possible, the robot saves the current 
-state of the plan execution, sends an emergency signal, e.g. communicates the problem to the operator, and shuts down, i.e. transitions to \code{SHUTDOWN}.
+state of the plan execution, sends an emergency signal, e.g., communicates the problem to the operator, and shuts down, i.e., transitions to \code{SHUTDOWN}.
 There are, of course, situations in which the robot can no longer do anything, such as when the battery is completely discharged.
 In principle, such cases also fall under the category of catastrophe, but since monitoring then no longer works, there is nothing left to do there.
 Besides, there are two more transitions depicted in figure \ref{fig:high_level_smach}: From \code{CONTINGENCY} back to \code{NORMAL_OPERATION}, after a minor problem is resolved by the robot, it can continue
@@ -1541,11 +1541,11 @@ First, a problem may occur during plan execution in the child state machine, in 
 \code{minor_complication} to the parent state machine based on the problem severity and a corresponding state transition takes place.
 In addition, there are the described parallel monitoring states, which are responsible for problems that are not directly related to plan execution, but are of a more general nature.
 If these detect a problem, they are able to interrupt \code{OPERATION} and also return \code{critical_complication} or \code{minor_complication} to the parent state machine
-\code{EXECUTION_MONITORING}. It is trivial to interrupt \code{OPERATION} when no task is currently being executed, i.e. no scan is being recorded and no navigation target 
+\code{EXECUTION_MONITORING}. It is trivial to interrupt \code{OPERATION} when no task is currently being executed, i.e., no scan is being recorded and no navigation target 
 is being approached. However, it is obvious that potential problems do not wait for the completion of such tasks, but can also occur during the execution of an action $a \in \pi$.
 Therefore, the \code{drive_to(lat, lng, theta)} and \code{scan} actions are implemented as ROS \code{SimpleActionClient}s that can be interrupted at any time
 by calling the \code{cancel_all_goals()} method, which immediately interrupts all running goals. It is quite important that the robot is able to preempt the plan 
-execution at all times, e.g. does not continue to drive to its goal, but should instantly stop the \code{move_base_flex} goal execution and start following the
+execution at all times, e.g., does not continue to drive to its goal, but should instantly stop the \code{move_base_flex} goal execution and start following the
 recovery instructions.\newline
 The general difference between the \code{CONTINGENCY} and \code{CATASTROPHE} states is the robot's ability to act. 
 In a catastrophe case, it is no longer really capable of acting in the sense of driving back to its base, managing the problem itself, etc. 
@@ -1553,15 +1553,15 @@ An example for a catastrophic case would be that the robot falls over. It is the
 and save the state, in full possession of its ``mental'' powers, so to speak. Whereas a lightning strike, as an extreme example, could cause the robot to have a 
 complete breakdown and nothing to work at all. The boundaries there are not quite sharp, there are many edge cases.
 The following somewhat more mundane example, considering the robot's battery, will illustrate the concepts.
-In \code{NORMAL_OPERATION} the battery does not discharge precisely according to the plan. There may be some fluctuations due to temperature, for example.
+In \code{NORMAL_OPERATION}, the battery does not discharge precisely according to the plan. There may be some fluctuations due to temperature, for example.
 The power management monitoring node would initiate a transition to the state \code{CONTINGENCY} when it detects that the battery is already too low to complete the plan until the
-next charge stop, but it is still able to recover, i.e. drive back to its base, recharge, and continue the plan execution. However, it would proceed to \code{CATASTROPHE} if it
-detects that the battery is so low that it can already tell that it is not possible to reach the base and recharge. It is then still able to communicate the problem and save the
+next charge stop, but the robot is still able to recover, i.e., drive back to its base, recharge, and continue the plan execution. However, it would proceed to \code{CATASTROPHE} if it
+detects that the battery is so low that it can already tell that it is not possible to reach the base and recharge. The robot is then still able to communicate the problem and save the
 state, but it is definitely not able to recover. This leads to a message to \code{CATASTROPHE_MONITORING}, then to an external failure, which interrupts \code{OPERATION} with a
 \code{critical_complication} and causes the high-level state machine to transition to \code{CATASTROPHE}. The problem is communicated and the robot shuts down. The extreme case,
 where nothing can be done, would be that the battery suddenly just breaks. Finally, there is also the case that first a \code{CONTINGENCY} is launched as the problem still seems to be
 solvable based on current estimations and then it turns out that it in fact is not. For instance, when the discharge rate is furthermore increased. In such a case, it turns out during
-the solution that it does not work anymore, i.e. the assumption was wrong, it is no longer solvable, then it comes to the \textquote{aggravated} case, i.e. the problem worsens and then
+the solution that it does not work anymore, i.e., the assumption was wrong, it is no longer solvable, then it comes to the \textquote{aggravated} case, i.e., the problem worsens and then
 becomes a \code{CATASTROPHE}. Additionally shown in fig. \ref{fig:high_level_smach} is the data accumulator that logs all relevant information from the execution and monitoring nodes.
 On the one hand for debugging purposes, but also to be able to learn from it later on, which will be discussed in section \ref{sec:black_box}.
 
