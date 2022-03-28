@@ -1428,7 +1428,7 @@ Afterwards, it returns to the base and recharges its battery. However, acting re
 \section{Execution Monitoring State Machine Architecture}
 \label{sec:execution_monitoring_smach_architecture}
 
-Before introducing the developed architecture for plan execution, i.e., acting and monitoring, it is useful to briefly consider the abstract idea of a general autonomous actor and
+Before introducing the developed architecture for plan execution, i.e., \textit{acting} and \textit{monitoring}, it is useful to briefly consider the abstract idea of a general autonomous actor and
 classify how these modules fit into the overall construction. Figure \ref{fig:GNT_actor} shows the conceptual view of such an actor based on a visualization by Ghallab et al.
 and fig. \ref{fig:MSC_actor} applies this concept to the specific scenario studied in this work.
 \begin{figure}[H]
@@ -1450,7 +1450,7 @@ and fig. \ref{fig:MSC_actor} applies this concept to the specific scenario studi
 \label{fig:abstract_actor}
 \end{figure}
 \noindent
-As anticipated before and visualized in fig. \ref{fig:abstract_actor}, the deliberation functions studied in this work are acting and monitoring. Furthermore, planning plays a role,
+As anticipated before and visualized in fig. \ref{fig:abstract_actor}, the deliberation functions studied in this work are \textit{acting} and \textit{monitoring}. Furthermore, \textit{planning} plays a role,
 but is only relevant for retrieving and executing plans that are provided by a human operator, i.e., the human operator is essentially the planning component in this scenario.
 Moreover, the human operator is the only other actor with whom the robot must interact. The communication between the robot and the operator will be discussed in detail later (cf. sec.
 \ref{sec:solutions_for_lta_challenges}), but the general idea is that it is a bidirectional channel that allows the operator to send LTA missions to the robot and, on the
@@ -1475,7 +1475,7 @@ to start sensor monitoring, i.e., to check whether this operation results in a r
 \end{figure}
 \noindent
 As depicted in figure \ref{fig:high_level_smach}, the robot starts in the state \code{NORMAL_OPERATION} in the high-level hierarchical state machine \code{EXECUTION_MONITORING}.
-\code{EXECUTION_MONITORING} coordinates the entire operation and is composed of the states \code{NORMAL_OPERATION}, \code{CONTINGENCY}, \code{CATASTROPHE}, and \code{SHUTDOWN}.
+\code{EXECUTION_MONITORING} coordinates the entire robot operation and is composed of the states \code{NORMAL_OPERATION}, \code{CONTINGENCY}, \code{CATASTROPHE}, and \code{SHUTDOWN}.
 \code{CONTINGENCY} and \code{CATASTROPHE} essentially refer to type $(1)$ and type $(2)$ in the classification in fig. \ref{fig:problem_types}, respectively.
 \code{NORMAL_OPERATION} is represented by an embedded state machine named \code{OPERATION}, visualized in figure \ref{fig:low_level_smach}, as well as the two
 parallel running execution monitoring states (cf. ROS \code{MonitorState} \cite{monitor_state}) \code{CONTINGENCY_MONITORING} and \code{CATASTROPHE_MONITORING}, 
@@ -1532,10 +1532,7 @@ is preserved, it is for example able to drive back to the base in safety mode or
 failure that is unsolvable for the robot, perhaps even for the operator, and the robot transitions to \code{CATASTROPHE}. If it is still possible, the robot saves the current 
 state of the plan execution, sends an emergency signal, e.g., communicates the problem to the operator, and shuts down, i.e., transitions to \code{SHUTDOWN}.
 There are, of course, situations in which the robot can no longer do anything, such as when the battery is completely discharged.
-In principle, such cases also fall under the category of catastrophe, but since monitoring then no longer works, there is nothing left to do there.
-Besides, there are two more transitions depicted in figure \ref{fig:high_level_smach}: From \code{CONTINGENCY} back to \code{NORMAL_OPERATION}, after a minor problem is resolved by the robot, it can continue
-its normal operation. Additionally, it is possible that something goes wrong during \code{CONTINGENCY} or that the problem actually cannot be solved by the robot,
-such that it transitions to \code{CATASTROPHE}.\newline
+In principle, such cases also fall under the category of catastrophe, but since monitoring then no longer works, there is nothing left to do there.\newline
 To be clear, \code{NORMAL_OPERATION} can manage problems in two ways.
 First, a problem may occur during plan execution in the child state machine, in such a case \code{OPERATION} returns \code{critical_complication} or 
 \code{minor_complication} to the parent state machine based on the problem severity and a corresponding state transition takes place.
@@ -1543,7 +1540,7 @@ In addition, there are the described parallel monitoring states, which are respo
 If these detect a problem, they are able to interrupt \code{OPERATION} and also return \code{critical_complication} or \code{minor_complication} to the parent state machine
 \code{EXECUTION_MONITORING}. It is trivial to interrupt \code{OPERATION} when no task is currently being executed, i.e., no scan is being recorded and no navigation target 
 is being approached. However, it is obvious that potential problems do not wait for the completion of such tasks, but can also occur during the execution of an action $a \in \pi$.
-Therefore, the \code{drive_to(lat, lng, theta)} and \code{scan} actions are implemented as ROS \code{SimpleActionClient}s that can be interrupted at any time
+Therefore, the \code{drive_to(lat, lng, theta)} and \code{scan} actions are implemented as a ROS \code{SimpleActionClient} that can be interrupted at any time
 by calling the \code{cancel_all_goals()} method, which immediately interrupts all running goals. It is quite important that the robot is able to preempt the plan 
 execution at all times, e.g., does not continue to drive to its goal, but should instantly stop the \code{move_base_flex} goal execution and start following the
 recovery instructions.\newline
