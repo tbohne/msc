@@ -71,23 +71,27 @@
 % \titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 
 % CHAPTER - STYLE OPTION TWO
-% \usepackage{lipsum}
-% \usepackage[Sonny]{fncychap}
+\usepackage{lipsum}
+\usepackage[Lenny]{fncychap}
+
+\ChNameUpperCase
+\ChNumVar{\fontsize{40}{42}\usefont{OT1}{phv}{b}{u}\selectfont}
+\ChTitleVar{\fontsize{35}{37}\usefont{OT1}{phv}{b}{u}\selectfont}
 
 % CHAPTER
-\usepackage{titlesec}
-\titleformat{\chapter}[display]
-    {\sffamily\raggedleft\fontsize{75}{0}\selectfont\bfseries}
-    {\thechapter}
-    {0.5em}
-    {\fontsize{24}{25}\selectfont\raggedright}
-    [\hrule]
-\titleformat{\section}[block]
-    {\sffamily\LARGE\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}[block]
-    {\sffamily\Large\bfseries}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}[block]
-    {\sffamily\large\bfseries}{\thesubsubsection}{1em}{}
+% \usepackage{titlesec}
+% \titleformat{\chapter}[display]
+%     {\sffamily\raggedleft\fontsize{75}{0}\selectfont\bfseries}
+%     {\thechapter}{-0.32em}
+%     {\fontsize{24}{25}\selectfont\raggedright}
+%     [\hrule]
+
+% \titleformat{\section}[block]
+%     {\sffamily\LARGE\bfseries}{\thesection}{1em}{}
+% \titleformat{\subsection}[block]
+%     {\sffamily\Large\bfseries}{\thesubsection}{1em}{}
+% \titleformat{\subsubsection}[block]
+%     {\sffamily\large\bfseries}{\thesubsubsection}{1em}{}
 
 % captions
 \usepackage{subcaption}
@@ -894,7 +898,7 @@ are simply not explicitly part of the application. In addition to the actual phy
 can be used in a simulation (cf. fig. \ref{fig:prototypical_layout}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/AROX.jpg}
+    \includegraphics[width=\textwidth]{pics/robot_description.png}
     \caption{\textsc{Autonomous Robotic Experimentation Platform (AROX)}}
     \label{fig:arox_system}
 \end{figure}
@@ -1586,18 +1590,18 @@ regularities can be implemented as advanced monitoring and resolution methods. N
 indicate problems. However, this does not help significantly, as these messages have already been logged in erroneous situations, which have thus inevitably already been detected by
 the existing monitoring solutions. The broad idea of learning from experience in long-term autonomous operation is not new, of course, and some examples have already been given in the
 literature review in section \ref{sec:literature_review}. Hawes et al. \cite{Hawes:2017} also emphasize the usefulness of the information gathered in long-term autonomous operation for both learning and troubleshooting
-purposes. For information gathering, they use \code{mongodb_store}\footnote{https://wiki.ros.org/mongodb\_store}, a ROS tool for storing data from a ROS system (messages,
+purposes. For information gathering, they use \code{mongodb_store}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/mongodb\_store}}}, a ROS tool for storing data from a ROS system (messages,
 configurations, etc.) in a \textit{MongoDB} instance, i.e., a document-oriented database. To achieve systematic and reusable logging and general data acquisition, this tool is also
 used in this thesis. For this purpose, a \code{data_accumulator} node was written to capture the relevant data during LTA missions and store it in the database. Initially, a
 \code{MessageStoreProxy} object is created to enable updating and maintenance of the \textit{MongoDB} database. Various logging categories are defined to semantically group the
-collected data. Each component of the monitoring framework, i.e. each node, can initiate logging to the database under a specific category based on ROS topics provided by the
+collected data. Each component of the monitoring framework, i.e., each node, can initiate logging to the database under a specific category based on ROS topics provided by the
 \code{data_accumulator}. To store an entry under a category or name, the \code{insert_named("name", entry)} method of the \code{MessageStoreProxy} is used. It is obviously relevant
 to log contingency and catastrophe situations, which is why \code{/contingency_preemption} and \code{/catastrophe_preemption} lead directly to a database entry under the categories
-\code{contingency} and \code{catastrophe} respectively. The content of this entry is in each case the message describing the problem that occurred. Whenever a contingency or
+\code{contingency} and \code{catastrophe}, respectively. The content of this entry is in each case the message describing the problem that occurred. Whenever a contingency or
 catastrophe situation is logged, the node triggers a method \code{log_failure_circumstances()} because, as mentioned earlier, the particular circumstances of a problematic
 situation, i.e., the potential factors leading to the problem, can be very revealing. For the moment, the specific additional contextual information comprises, in addition to the
-information logged anyway, the position of the robot in longitude and latitude obtained from \code{/fix}, as well as the number of tasks completed, the current operating time,
-the charge level and the current charge cycle. This
+information logged anyway, the position of the robot in longitude and latitude obtained from \code{/fix} (cf. sec. \ref{sec:sim_and_mon_gnss_connection_problems}), as well as the
+number of tasks completed, the current operating time, the charge level and the current charge cycle. This
 list can be extended in the future as needed. All this information is stored summarized in a JSON dump under the category \code{failure_circumstances}. Numerous insightful but less
 critical information about the robot and its environment is logged under the category \code{robot_info}, received as messages on a topic with the same name. In simulated experiments,
 it is also critical to know exactly when error situations have been simulated. Therefore, all nodes simulating problem situations can report under the \code{/sim_info} topic when they
@@ -1734,8 +1738,8 @@ accordingly by publishing a suitable value in radians to \code{/container/ramp_p
 range $j \in [0, \frac{\pi}{2}]$ of the container ramp. Accordingly, to fully raise the ramp and thus close the container, a value of $j = 0$ must be published.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{pics/joint_position_container.png}
-    \caption{\textsc{TODO: Entry Ramp Joint Positions}}
+    \includegraphics[width=0.75\textwidth]{pics/joint_position_container.png}
+    \caption{\textsc{Entry Ramp Joint Positions}}
     \label{fig:joint_positions}
 \end{figure}
 \noindent
