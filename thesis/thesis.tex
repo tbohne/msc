@@ -1566,12 +1566,12 @@ On the one hand for debugging purposes, but also to be able to learn from it lat
 \label{sec:black_box}
 
 From a software engineering perspective, it makes sense to create an interface for machine learning or general analysis in the architecture, even if it is not yet explicitly used.
-This interface is intended for a concrete configuration, e.g. the AROX system with its sensors (cf. section \ref{sec:robotic_system}), the rationale being to learn from experience. The robot operates in an environment for an
+This interface is intended for a concrete configuration, e.g., the AROX system with its sensors (cf. section \ref{sec:robotic_system}), the rationale being to learn from experience. The robot operates in an environment for an
 extended period of time. Therefore, it is very valuable to collect data about the robot, its interaction with the environment, faults, etc. through extensive logging, with special
 emphasis on fault context. Whenever something goes wrong, it is interesting to learn the reason for this problem. For a specific sensor setup, one could use learning techniques or
-statistical methods in general to infer that a particular effect occurs experientially. For instance, experience might show that a particular sensor failure occurs repeatedly when driving $> 4$ hours at
-$> 32$\textdegree{}C. A further example could be that the robot always has a failure after passing a certain waypoint. To determine this, it would be necessary to always
-log the current location of the robot along with a problematic situation. This list could be arbitrarily extended.
+statistical methods in general to infer that a particular effect occurs experientially. For instance, experience might show that a particular sensor failure occurs repeatedly when
+driving for more than $4$ hours at a temperature above $32$\textdegree{}C. A further example could be that the robot always has a failure after passing a certain waypoint.
+To determine this, it would be necessary to always log the current location of the robot along with a problematic situation. This list could be arbitrarily extended.
 In general, the objective is to avoid certain behaviors that have frequently led to failures in the past. Information about such effects can only be
 obtained through runtime experience, which shows how relevant such information are and how crucial it is to collect them. So gathering information should go along with long-term
 operation. The actual learning of such effects is beyond the scope of this thesis. Yet, the creation of an appropriate interface in the architecture and the collection of information
