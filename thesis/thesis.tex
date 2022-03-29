@@ -1642,19 +1642,19 @@ itself detect a problem, \code{CONTINGENCY_MONITORING} or \code{CATASTROPHE_MONI
 As seen in section \ref{sec:execution_monitoring_smach_architecture}, there are two states in \code{OPERATION} that the robot can be in during a long-term episode without any problems
 - \code{IDLE} or \code{EXECUTE_PLAN}. In the \code{IDLE} state, where it waits for the plan generator described in section \ref{sec:plan_generation} to provide a plan $\pi$,
 it is straightforward, the normal operation is interrupted, the high-level state machine transitions to \code{CONTINGENCY} or \code{CATASTROPHE} depending
-on the severity of the problem, and then, i.e., when the minor problem is resolved, it transitions back to \code{IDLE} or, in the case of \code{CATASTROPHE},
-it shuts down. The more interesting case, of course, is such an interruption of normal operation when the robot is in the low-level state \code{EXECUTE_PLAN}.
+on the severity of the problem, and then, i.e., when the minor problem is resolved, it transitions back to \code{IDLE} or shuts down in the case of \code{CATASTROPHE}.
+The more interesting case, of course, is such an interruption of the normal operation when the robot is in the low-level state \code{EXECUTE_PLAN}.
 In this case, a plan execution must be interrupted.
 During the \code{EXECUTE_PLAN} state, the currently executed plan $\pi$ is always stored in the \code{userdata} field of the state.
-SMACH states always provide so-called \code{userdata} fields, which are essentially the input and output data of a SMACH state.
+SMACH states always provide a so-called \code{userdata} field, which is essentially the input and output data of a SMACH state.
 Initially, when \code{IDLE} receives a plan $\pi$ from the plan generator, it passes it as \code{userdata} to the \code{EXECUTE_PLAN} state. Then, whenever \code{EXECUTE_PLAN}
-successfully completes an action $a \in \pi$, the reduced plan, i.e. $\pi := \pi \backslash \{a\}$, is passed to the next iteration of the same state.
+successfully completes an action $a \in \pi$, the reduced plan, i.e., $\pi \coloneqq \pi \backslash \{a\}$, is passed to the next iteration of the same state.
 Therefore, based on this architecture, the current state of the plan execution is always stored in the \code{userdata} of the SMACH. To comply with this fact, a certain situation
-must be handled. If a plan execution is interrupted during the execution of an action $a \in \pi$, the action $a$ is already removed from the plan $\pi$, i.e. the \code{userdata},
-by the latest \textit{pop} operation and since the execution of $a$ must be repeated when the normal operation resumes, $a$ must be reattached to $\pi$ before transitioning
-to \code{CONTINGENCY} or \code{CATASTROPHE}. Thus, $\pi := a.\pi$.
+must be handled. If a plan execution is interrupted during the execution of an action $a \in \pi$, the action $a$ is already removed from the plan $\pi$, i.e., the \code{userdata},
+by the latest \textit{pop} operation, and since the execution of $a$ must be repeated when the normal operation resumes, $a$ must be reattached to $\pi$ before transitioning
+to \code{CONTINGENCY} or \code{CATASTROPHE}. Thus, $\pi \coloneqq a.\pi$ (concatenation of action and plan).
 Of course, when the robot transitions back to \code{NORMAL_OPERATION} after solving a contingency, it starts again in \code{IDLE}, which is why \code{IDLE}
-always looks for existing unfinished plans $\pi$ in the \code{userdata} first. If there is one, i.e. $\pi \in$ \code{userdate.input_plan}, $\pi \neq \emptyset$, it does not prompt the
+always looks for existing unfinished plans $\pi$ in the \code{userdata} first. If there is one, i.e., $\pi \in$ \code{userdate.input_plan}, $\pi \neq \emptyset$, it does not prompt the
 plan generator for a new plan, but continues the previously preempted and only partially completed plan $\pi$.
 The catastrophe case works analogously to the \code{IDLE} state.\newline
 Of course, it is not necessarily always feasible to simply execute the rest of the plan afterwards, since the planned charge stops may no longer be sufficient. However, if the
