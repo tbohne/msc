@@ -1844,22 +1844,18 @@ The actual monitoring and simulation of sensor failures is described in the subs
 \subsubsection{Dummy Scanning Node}
 \label{sec:dummy_scanning_node}
 
-The dummy scanning node implements a ROS \code{SimpleActionServer} that simulates the results of the \textit{RIEGL} scanner
-(cf. fig. \ref{fig:arox_system}). 
+The dummy scanning node implements a ROS \code{SimpleActionServer}\footnote{\textcolor{link-color}{\url{http://wiki.ros.org/actionlib}}} that simulates the results of the
+\textit{RIEGL} lidar sensor (cf. fig. \ref{fig:arox_system}).
 It is expected that a \code{scan} action will trigger an incoming \code{LaserScan} on the topic \code{/RIEGL}, which will then be
-written to a file to also have some form of data management. Since the \textit{Velodyne} lidar sensor is already part of the simulation and the nature of the incoming data
+written to a file to also have some form of data management. Since the \textit{Velodyne} lidar sensor (cf. fig. \ref{fig:arox_system}) is already part of the simulation and the nature of the incoming data
 is essentially the same, a \code{scan} action just leads to one republished \textit{Velodyne} scan under the \code{/RIEGL} topic using \code{rospy.wait_for_message()},
 which merely creates a subscription to the topic, receives one message, and then unsubscribes. The incoming data is basically a list of distance values for certain angle-height 
 combinations along with arbitrary many metadata such as minimum angle, maximum angle, scanning time, and identifier. Thus, the dummy node enables the \textit{Velodyne} sensor
 to briefly pretend to be a \textit{RIEGL} sensor. This approach has the useful side effect of making it relatively easy to simulate sensor failures by simply stopping to
-republish the \textit{Velodyne} after a \code{scan} action (cf. section \ref{sec:sim_and_mon_of_lta_challenges}).\newline
-The actual real \textit{RIEGL} sensor scans are of data type \code{PointCloud2}, and the monitoring solutions described in section \ref{sec:sim_and_mon_of_lta_challenges}
-are capable of processing incoming scans of types \code{LaserScan} as well as \code{PointCloud2}. It is configurable in which form the data should be received. The first
-option is that the sensor makes the scans available to the ROS system via a topic, i.e. the sensor publishes the scans under a topic. These scans could potentially be reduced,
-e.g. only every second value is published to reduce the overall size, because if the scans become too large, it is no longer viable. The second option is to specify a 
-directory path and write the scans to the file system, where the scanner creates \code{.ply} files containing the scans in a human-readable ASCII format.
-The two options result in the need for two different types of monitoring. If the scans are published to a specific topic, it is sensor monitoring.
-If they are written to the file system, it is data management.
+republish the \textit{Velodyne} after a \code{scan} action.\newline
+The actual real \textit{RIEGL} sensor scans are of data type \code{PointCloud2}, and the monitoring solutions described in section \ref{sec:sensor_mon_and_sim}
+are capable of processing incoming scans of types \code{LaserScan} as well as \code{PointCloud2}. It is configurable in which form the data should be received. 
+Generally, the sensor can make the scans available to the ROS system via a topic, i.e., the sensor publishes the scans, e.g., on \code{/RIEGL}.
 
 \subsubsection{Monitoring and Simulation}
 \label{sec:sensor_mon_and_sim}
