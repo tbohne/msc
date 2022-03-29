@@ -1857,42 +1857,42 @@ The actual real \textit{RIEGL} sensor scans are of data type \code{PointCloud2},
 are capable of processing incoming scans of types \code{LaserScan} as well as \code{PointCloud2}. It is configurable in which form the data should be received. 
 Generally, the sensor can make the scans available to the ROS system via a topic, i.e., the sensor publishes the scans, e.g., on \code{/RIEGL}.
 
-\subsubsection{Monitoring and Simulation}
+\subsubsection{Monitoring and Simulation of Sensor Failures}
 \label{sec:sensor_mon_and_sim}
 
 Obviously, total sensor failures are realistic in practice for any lidar sensor, or even any sensor in general, due to a hardware fault, an interrupted
-power supply, or a variety of other reasons. However, there are more subtle failures than just a total breakdown, and the incoming scan data should be checked for plausibility.
-From a practical point of view, it is a valid assumption to receive the scans via a specific ROS topic. One issue could be an empty list of range values, i.e. a scan arrives on
+power supply, or a variety of other reasons. Yet, there are more subtle failures than just a total breakdown, and the incoming scan data should be checked for plausibility.
+From a practical point of view, it is a valid assumption to receive the scans via a specific ROS topic. One issue could be an empty list of range values, i.e., a scan arrives on
 some ROS topic but is essentially vacuous. As mentioned in section \ref{sec:dummy_scanning_node}, the crucial part of a laser scan is the list of range values, which makes it 
 useless if this list is empty for some reason. Its realism could be debated, and of course it is pointless to detect problems that do not occur in practice. However, since it is
 relatively easy to simulate and detect, it is treated as a basic test that can be used, for example, to detect problems due to implementation-specific errors.
-Another, more subtle problem could be a scan that mainly contains values that do not satisfy the sensor's maximum or minimum range, i.e. \code{inf}, which may indicate that
+Another, more subtle problem could be a scan that mainly contains values that do not satisfy the sensor's maximum or minimum range, i.e., \code{inf}, which may indicate that
 the robot has fallen over, or the sensor has slipped out of position. This could indicate, for example, that the sensor is pointing towards the sky, causing the values to exceed
-the maximum range. However, depending on the sensor used and the environment, in large open fields the nearest objects that could be detected may actually be farther away and exceed
-the maximum range of the sensor. Analogously, the same problem occurs if an object is too close to the sensor, i.e. the minimum range is undercut. In both cases, the sensor only
+the maximum range. Though, depending on the sensor used and the environment, in large open fields the nearest objects that could be detected may actually be farther away and exceed
+the maximum range of the sensor. Analogously, the same problem occurs if an object is too close to the sensor, i.e., the minimum range is undercut. In both cases, the sensor only
 returns \code{inf} values. It should be detected when the list of range values is predominantly filled with impermissible \code{inf} values. Finally, it could be a problem if the
 same scan is published repeatedly. It is possible that the range values between two scans where the robot has not moved are similar, although they should never be the same due to
 noise, etc. However, what should be different in each case is the metadata such as the ID.\newline
 Executing a \code{scan} action not only launches the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}, but also a monitoring procedure that
-looks for potential problems with the laser scanner. The most obvious type of sensor failure is of course a total failure, i.e. no messages arrive on the corresponding ROS topic.
+looks for potential problems with the laser scanner. The most obvious type of sensor failure is of course a total failure, i.e., no messages arrive on the corresponding ROS topic.
 A fairly trivial approach to detecting total sensor failures is therefore to use \code{rospy.wait_for_message()} with the particular topic and set a time limit $t \in \mathbb{N}$
 in seconds after which a missing scan is considered a total sensor failure. Of course, such a timeout is highly dependent on the respective application and also on the sensor 
-configuration, since a higher angular resolution naturally requires a longer runtime, e.g. a longer runtime due to a higher resolution should not be falsely identified 
+configuration, since a higher angular resolution naturally requires a longer runtime, e.g., a longer runtime due to a higher resolution should not be falsely identified 
 as sensor failure. In addition, there could be different modalities of recording with the sensor. The scan can be recorded continuously or published in parts.
 Therefore, the time limit $t$ is configurable by the user. While trivial, such a monitoring is not yet available and is critical for reasonable long-term autonomy in the 
 considered scenario described in section \ref{sec:prototype_scenario}. In summary, whenever the runtime $r \in \mathbb{N}$ of a scan recording exceeds the user-specified time
-limit, i.e. $r > t$, a total sensor failure is assumed. Nonetheless, more subtle errors should also be detected, beyond the outright absence of scans.
+limit $t$, i.e., $r > t$, a total sensor failure is assumed. Nonetheless, more subtle errors should also be detected, beyond the outright absence of scans.
 For this purpose, the incoming scans must be examined more closely and checked for plausibility. For example, if the list of range values is empty, it is as useless for
 the mission as a scan that does not arrive at all. Hence, after the arrival of a new scan, the monitoring solution verifies that the list of range values is not empty.
-Another interesting issue to detect is a list of range values that predominantly contains \code{inf} values, which, as mentioned in section
-\ref{sec:sim_and_mon_of_lta_challenges}, could indicate that the sensor is pointing towards the sky, e.g. because the robot has fallen over,
+Another interesting issue to detect is a list of range values that predominantly contains \code{inf} values, which, as mentioned before, could indicate that the sensor is
+pointing towards the sky, e.g., because the robot has fallen over,
 or the sensor has slipped. Admittedly, it would be a bit too simplistic to consider only range lists entirely filled with \code{inf} values as problematic.
 In many cases, depending on the field of view, the sensor can still receive reasonable values if it is oriented towards the sky, for example.
 In the minimal simulation scenario with the AROX (see section \ref{sec:prototype_scenario}), the \textit{Velodyne} scanner still receives about $10$\% of 
 reasonable-looking range values when the robot is tilted on its back and the sensor is pointing toward the sky, as shown in figure \ref{fig:tilted_AROX}.
 As can be seen in figure \ref{fig:straight_line}, in such a case the sensor detects parts of the ground on both sides of the robot as well as parts of the 2.5D 
 representation of a hedge in the background. Accordingly, it makes much more sense to let the user define a lower bound for reasonable-looking values (non-\code{inf}),
-e.g. that depending on the scenario and sensor configuration at least $10$\% of the detected values must be non-\code{inf} for the scan to be considered feasible.
+e.g., that depending on the scenario and sensor configuration, at least $10$\% of the detected values must be non-\code{inf} for the scan to be considered feasible.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
