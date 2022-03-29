@@ -1989,7 +1989,8 @@ optimal $-30$ dBm and $-67$ dBm can be considered very good in practice, below a
 unusable. \cite{metageek} Accordingly, the RSSI is also monitored based on three thresholds. As it becomes practically unusable for values below $-90$ dBm, $-90$ dBm acts as a
 threshold for contingency cases, i.e., a lower bound. Signal levels of $\leq -80$ dBm and $\leq -75$ dBm cause notifications of very weak and weak WiFi signals,
 respectively. Finally, the bit rate is monitored based on two cases: If it is below $1$ Mb/s, a contingency is triggered, and if it is below $20$ Mb/s, a notification of a
-rather low bit rate is transmitted. As soon as a malfunction is detected, monitoring is deactivated and resumed only when the problem has been solved. In all contingency
+rather low bit rate is transmitted. Since the question of which values are considered problematic here depends heavily on the environment and application scenario, these values
+are configurable by the user. As soon as a malfunction is detected, monitoring is deactivated and resumed only when the problem has been solved. In all contingency
 cases, the high-level WiFi monitoring node publishes on the topic \code{/contingency_preemption} with a message that specifies the particular kind of connection problem.\newline
 In summary, the problem of actually detecting the WiFi connectivity on the system in question is completely external to the execution monitoring framework,
 which has no operating system coupling at all. There is a layer of abstraction that separates the two views. The assumption of the high-level monitoring framework is the
@@ -1998,19 +1999,18 @@ the execution monitoring framework on Windows, for instance, there is no need to
 system that replaces the Ubuntu-specific one.\newline
 
 \noindent
-The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described in the monitoring section
-below. The idea is to simply publish problematic values for each of the considered attributes of the WiFi connection,
-i.e. link quality, signal level and bit rate. The simplest case of a complete disconnection is simulated by setting all three values to $0$.
-Since the question of which values are considered problematic depends heavily on the environment and application scenario, these values are configurable by the user.
-By default, a poor link is simulated by publishing a corresponding value of $2\%$, meaning that the measure of how good the link is described in section
-\ref{sec:challenges_for_lta} estimates the quality with only two percent of the optimum. 
+The simulation of WiFi connection failures is realized by the operating-system-specific implementation of a WiFi monitoring node described above.
+The idea is to simply publish problematic values for each of the considered attributes of the WiFi connection,
+i.e., link quality, signal level and bit rate. The simplest case of a complete disconnection is simulated by setting all three values to $0$.
+A poor link is simulated by publishing a corresponding value of $2\%$, meaning that the measure of how good the link is described above estimates the quality
+with only two percent of the optimum. 
 A signal level failure is simulated by publishing an RSSI value of $-90$ dBm. Finally, the default value for a simulated bit rate failure 
 is $0.1$ Mb/s. The simulation of each different WiFi fault case can be enabled / disabled via the following ROS topics:
 \begin{itemize}
-    \item \textbf{poor link quality} \textrightarrow \code{/toggle_simulated_bad_wifi_link}
-    \item \textbf{poor signal level} \textrightarrow \code{/toggle_simulated_bad_wifi_signal}
-    \item \textbf{poor bit rate} \textrightarrow \code{/toggle_simulated_bad_wifi_bit_rate}
-    \item \textbf{disconnection} \textrightarrow \code{/toggle_simulated_wifi_disconnect}
+    \item \textbf{poor link quality:} \code{/toggle_simulated_bad_wifi_link}
+    \item \textbf{poor signal level:} \code{/toggle_simulated_bad_wifi_signal}
+    \item \textbf{poor bit rate:} \code{/toggle_simulated_bad_wifi_bit_rate}
+    \item \textbf{disconnection:} \code{/toggle_simulated_wifi_disconnect}
 \end{itemize}
 
 \subsubsection{Internet Connection Failures}
