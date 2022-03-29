@@ -1632,16 +1632,17 @@ charging failure resolver is started together with the information describing th
 \section{Interruption and Resumption of Normal Operation}
 \label{sec:plan_interruption_section}
 
-\textquote{\textit{Plans must be executed according to some strategy. This must account for action failure, plan failure due to ignorance or change in a dynamic environment [...].}}
+\textquote{\textit{Plans must be executed according to some strategy. This must account for action failure, plan failure due to ignorance or change in a dynamic environment,
+and changing mission requirements.}}
 \cite{Cashmore:2015}
 In order to handle unexpected problematic situations, the robot must be able to stop and resume its normal operation in general
-and plan execution in particular, i.e. to save the current state of the plan execution and resume exactly that state after the reason
-for the interruption has been resolved. The idea is that whenever the monitoring procedures \code{CONTINGENCY_MONITORING} and \code{CATASTROPHE_MONITORING} 
-introduced in section \ref{sec:execution_monitoring_smach_architecture}, or the plan execution itself, detect a problem, they should trigger such an interruption.
+and plan execution in particular, i.e., to save the current state of the plan execution and resume exactly that state after the reason
+for the interruption has been resolved. The idea is that whenever the monitoring nodes introduced in section \ref{sec:execution_monitoring_smach_architecture} or the plan execution
+itself detect a problem, \code{CONTINGENCY_MONITORING} or \code{CATASTROPHE_MONITORING} should trigger such an interruption.
 As seen in section \ref{sec:execution_monitoring_smach_architecture}, there are two states in \code{OPERATION} that the robot can be in during a long-term episode without any problems
 - \code{IDLE} or \code{EXECUTE_PLAN}. In the \code{IDLE} state, where it waits for the plan generator described in section \ref{sec:plan_generation} to provide a plan $\pi$,
 it is straightforward, the normal operation is interrupted, the high-level state machine transitions to \code{CONTINGENCY} or \code{CATASTROPHE} depending
-on the severity of the problem, and then, i.e. when the minor problem is resolved, it transitions back to \code{IDLE} or, in the case of \code{CATASTROPHE},
+on the severity of the problem, and then, i.e., when the minor problem is resolved, it transitions back to \code{IDLE} or, in the case of \code{CATASTROPHE},
 it shuts down. The more interesting case, of course, is such an interruption of normal operation when the robot is in the low-level state \code{EXECUTE_PLAN}.
 In this case, a plan execution must be interrupted.
 During the \code{EXECUTE_PLAN} state, the currently executed plan $\pi$ is always stored in the \code{userdata} field of the state.
