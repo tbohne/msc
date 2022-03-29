@@ -1958,10 +1958,10 @@ due to a disconnection is initiated. In general, connection problems can be addr
 The most common form of WiFi failure, which is very relevant and realistic in practice, is of course a simple disconnection.
 However, there are again more subtle problems than just the complete absence of a connection, so the quality of an established connection should also be monitored.
 Generally, network monitoring can be done arbitrarily detailed, for this work it is limited to some attributes that allow a general statement about the quality of
-the connection in practice. One realistic problem is an overall poor link quality, which is a measure combining different kinds of metrics, e.g.
+the connection in practice. One realistic problem is an overall poor link quality, which is a measure combining different kinds of metrics, e.g.,
 \textit{Received Signal Strength Indication} (RSSI), \textit{Signal to Interference plus Noise Ratio} (SINR), \textit{Packet Delivery Ratio} (PDR), and
-\textit{Bit Error Rate} (BER). \cite{Vlavianos:2008} Another well-known problem with WiFi systems is a poor signal, i.e. a low RSSI value. The RSSI is already part of
-the link quality assessment, but due to its practical importance, it is also worth to be considered in isolation. Furthermore, the bit rate, i.e. the speed at which
+\textit{Bit Error Rate} (BER). \cite{Vlavianos:2008} Another well-known problem with WiFi systems is a poor signal, i.e., a low RSSI value. The RSSI is already part of
+the link quality assessment, but due to its practical importance, it is also worth to be considered in isolation. Furthermore, the bit rate, i.e., the speed at which
 information is transmitted, gives a good indication of the overall connection quality, and it should be recognized when it falls below a certain threshold, which is a
 lower limit for practical use. In order to ensure communication with the base station at all times (RTK correction signals, scan storage, etc.), such problems should be
 detected and reported or corrected immediately. Of course, the WiFi connection is context-dependent and should be very strong in the proximity of the base station, while it can
@@ -1974,17 +1974,20 @@ of the monitoring in a very specific format on the ROS topic \code{/wifi_connect
 three fields \code{float32 link_quality}, \code{float32 signal_level} and \code{float32 bit_rate}. Therefore, it is irrelevant where this information comes from, it is simply
 assumed to be provided. In order to demonstrate the WiFi monitoring in this work, the low-level operating-system-specific monitoring node that transfers this
 information to the ROS system is implemented exemplarily for an Ubuntu system. It starts the Unix tool \code{iwconfig}
-\footnote{https://manpages.debian.org/bullseye/wireless-tools/iwconfig.8.en.html} as a subprocess for a WiFi interface identifier that can be configured by the user. Subsequently,
-the relevant information, i.e. link quality, signal level and bit rate, is parsed from the \code{iwconfig} output for the respective interface and a \code{WiFi.msg} is created
+\footnote{\textcolor{link-color}{\url{https://manpages.debian.org/bullseye/wireless-tools/iwconfig.8.en.html}}} as a subprocess for a WiFi interface identifier that can be configured by the user. Subsequently,
+the relevant information, i.e., link quality, signal level and bit rate, is parsed from the \code{iwconfig} output for the respective interface and a \code{WiFi.msg} is created
 based on this. This message is then published under the \code{/wifi_connectivity_info} topic, which is subscribed by the high-level monitoring node. This process is repeated
 continuously every $10$s.\newline
-Now that it is clear how the low-level node works, the actual monitoring follows. As mentioned, the high-level monitoring node receives the WiFi information via the ROS topic
+Now that it is clear how the low-level node works, the actual monitoring follows. As mentioned, the high-level monitoring node receives the WiFi information via
 \code{/wifi_connectivity_info}. Based on this, the numerical information about the connection is evaluated. If all three provided values are $0$, it is considered
 a disconnect and the monitoring solution induces a transition to the \code{CONTINGENCY} state. The link quality is evaluated based on three thresholds: If it is below $5\%$,
 it is considered critically poor quality and a transition to \code{CONTINGENCY} follows. For the remaining two thresholds, the quality is not as bad as requiring a contingency
 case, but it is still worth notifying the operator. For a link quality of $< 25\%$ a poor quality is reported, and for values less than $50\%$ a below average quality.
-The signal level is also monitored based on three thresholds. As introduced in section \ref{sec:sim_and_mon_of_lta_challenges} it gets practically unusable for values below
-$-90$ dBm. Thus, $\leq -90$ dBm acts as the trigger for a contingency case. Signal levels of $\leq -80$ dBm and $< -75$ dBm cause notifications of very weak and weak WiFi signals,
+The second attribute, the RSSI, ranges from $-30$ dBm to $-100$ dBm, depending on various aspects, such as distance. \cite{Heurtefeux:2012} The upper bound of $-30$ dBm is the
+optimal value, which is almost impossible to achieve in practice, and $-100$ dBm basically means no signal at all. One could roughly classify it as follows: Anything between the
+optimal $-30$ dBm and $-67$ dBm can be considered very good in practice, below an RSSI of $-80$ dBm it starts to become critical, and around $-90$ dBm it becomes practically 
+unusable. \cite{metageek} The RSSI is also monitored based on three thresholds. As it gets practically unusable for values below
+$-90$ dBm, $\leq -90$ dBm acts as the trigger for a contingency case. Signal levels of $\leq -80$ dBm and $< -75$ dBm cause notifications of very weak and weak WiFi signals,
 respectively. Finally, the bit rate is monitored based on two cases: if it is below $1$ Mb/s, a contingency is triggered, and if it is below $20$ Mb/s, a notification of a
 rather low bit rate is transmitted. As soon as a malfunction is detected, monitoring is deactivated and resumed only when the problem has been solved. In all contingency
 cases, the high-level WiFi monitoring node publishes on the topic \code{/contingency_preemption} with a message that specifies the particular kind of connection problem.\newline
@@ -2000,11 +2003,8 @@ below. The idea is to simply publish problematic values for each of the consider
 i.e. link quality, signal level and bit rate. The simplest case of a complete disconnection is simulated by setting all three values to $0$.
 Since the question of which values are considered problematic depends heavily on the environment and application scenario, these values are configurable by the user.
 By default, a poor link is simulated by publishing a corresponding value of $2\%$, meaning that the measure of how good the link is described in section
-\ref{sec:challenges_for_lta} estimates the quality with only two percent of the optimum. The second attribute, the received signal strength indication (RSSI),
-ranges from $-30$ dBm to $-100$ dBm, depending on various aspects, such as distance. \cite{Heurtefeux:2012} The upper bound of $-30$ dBm is the optimal value, which
-is almost impossible to achieve in practice, and $-100$ dBm basically means no signal at all. One could roughly classify it as follows: Anything between the optimal
-$-30$ dBm and $-67$ dBm can be considered very good in practice, below an RSSI of $-80$ dBm it starts to become critical, and around $-90$ dBm it becomes practically 
-unusable. \cite{metageek} Thus, a signal level failure is simulated by publishing an RSSI value of $-90$ dBm. Finally, the default value for a simulated bit rate failure 
+\ref{sec:challenges_for_lta} estimates the quality with only two percent of the optimum. 
+A signal level failure is simulated by publishing an RSSI value of $-90$ dBm. Finally, the default value for a simulated bit rate failure 
 is $0.1$ Mb/s. The simulation of each different WiFi fault case can be enabled / disabled via the following ROS topics:
 \begin{itemize}
     \item \textbf{poor link quality} \textrightarrow \code{/toggle_simulated_bad_wifi_link}
