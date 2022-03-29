@@ -1914,12 +1914,12 @@ e.g., that depending on the scenario and sensor configuration, at least $10$\% o
 \noindent
 The monitoring solution implements this approach by calculating the ratio between feasible and infeasible values and comparing it to the lower bound.
 If the percentage of feasible range values does not exceed the lower bound, it is considered a sensor failure.
-Moreover, it should be detected when no new scans arrive, i.e. the received scan is repeatedly the same.
+Moreover, it should be detected when no new scans arrive, i.e., the received scan is repeatedly the same.
 To be able to compare the newly arrived scan with the previous one, the monitoring node always saves the last scan.
 For the actual comparison, a unique hash value is calculated for both scans based on their range values as well as various metadata such as timestamp,
 frame identifier, minimum and maximum angle, angle increment, time increment, scan time, and minimum and maximum range.
 If the newly arrived scan has the same hash value as the previous one, such a sensor error has been detected.
-In general, it is crucial to keep the monitoring solutions as general as possible, i.e. abstract from the specific sensors (\textit{RIEGL}, \textit{Velodyne})
+It is crucial to keep the monitoring solutions as general as possible, i.e., abstract from the specific sensors (\textit{RIEGL}, \textit{Velodyne})
 in order to make them reusable for others. One hurdle standing in the way of this claim is the fact that many sensor manufacturers use their own proprietary data types.
 Nevertheless, the underlying data is likely to be very similar. To provide some generality, the developed monitoring approaches will be able to handle the two data 
 types commonly used in the ROS ecosystem, \code{LaserScan} and \code{PointCloud2}. In all cases, the sensor monitoring node publishes on the topic
@@ -1929,17 +1929,17 @@ For a system to use the sensor monitoring node, it must indicate a scan action b
 
 \noindent
 The evaluation of a total sensor failure is straightforward, as it can be easily simulated by interrupting the publication of laser scans in the dummy scanning node
-described in section \ref{sec:dummy_scanning_node}. The second identified type of sensor failure, i.e. an empty list of range values, is again rather trivial to simulate
+described in section \ref{sec:dummy_scanning_node}. The second identified type of sensor failure, i.e., an empty list of range values, is again rather trivial to simulate
 by clearing the list of range values before republishing a scan in the dummy scanning node. Scans consisting mainly of impermissible range values can be realized by 
-simply manipulating the range values of a scan so that they do not satisfy the maximum and minimum range of the sensor before republishing, i.e. \code{inf}.
+simply manipulating the range values of a scan so that they do not satisfy the maximum and minimum range of the sensor before republishing, i.e., \code{inf}.
 Finally, to simulate repeated scans, the dummy scanning node always stores the previous scan and can replace the current scan with the previous one on command.
 Accordingly, the simulation of each different sensor fault case is implemented as part of the dummy scanning node introduced in section \ref{sec:dummy_scanning_node},
 and can be enabled / disabled via the following ROS topics:
 \begin{itemize}
-    \item \textbf{total sensor failure} \textrightarrow \code{/toggle_simulated_total_sensor_failure}
-    \item \textbf{empty list of range values} \textrightarrow \code{/toggle_simulated_empty_ranges}
-    \item \textbf{predominantly impermissible values} \textrightarrow \code{/toggle_simulated_impermissible_ranges}
-    \item \textbf{repeated scan} \textrightarrow \code{/toggle_simulated_scan_repetition}\newline
+    \item \textbf{total sensor failure:} \code{/toggle_simulated_total_sensor_failure}
+    \item \textbf{empty list of range values:} \code{/toggle_simulated_empty_ranges}
+    \item \textbf{predominantly impermissible values:} \code{/toggle_simulated_impermissible_ranges}
+    \item \textbf{repeated scan:} \code{/toggle_simulated_scan_repetition}\newline
 \end{itemize}
 Sensor failures of this kind can be addressed with the resolution methods described in section \ref{sec:sensor_failure_resolver}.
 
