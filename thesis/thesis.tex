@@ -1717,26 +1717,26 @@ These failures can be addressed with the resolution methods described in section
 \subsection{Charging Failure}
 \label{sec:sim_and_mon_charging_failures}
 
-As anticipated in section \ref{sec:challenges_for_lta}, (un-)docking to the charging station may fail or the charging process itself may not start after docking. Both cases should be
-detected by the robot so that an appropriate response can be initiated, e.g. notification of the human operator. Thus, charging failures are not only considered explicitly, but also
+As anticipated in section \ref{sec:challenges_for_lta}, docking to the charging station may fail or the charging process itself may not start after docking. Both cases should be
+detected by the robot so that an appropriate response can be initiated, e.g., notification of the human operator. Thus, charging failures are not only considered explicitly, but also
 as situations that imply charging failure (failed docking) or prevent successful continuation of the mission after charging (failed undocking). In general, the following remarks on docking,
-undocking, and charging refer to the integrated base station and charging infrastructure as well as the state machines for docking and undocking presented in section
+undocking and charging refer to the integrated base station and charging infrastructure as well as the state machines for docking and undocking presented in section
 \ref{sec:docking_solution}. Initially, it should be pointed out again that the failure cases identified in this thesis are not always strictly separated from each other. For instance,
-based on their nature, (un-)docking errors could sometimes already be covered by navigation error monitoring, e.g. in the event of a sustained recovery (cf. section \ref{sec:sim_and_mon_navigation_failures}).
-However, this does not cover all types of docking and undocking problems. The first type of docking error is an explicit error returned by the docking state machine and can be caused
+based on their nature, (un)docking errors could sometimes already be covered by navigation error monitoring, e.g., in the event of a sustained recovery (cf. section \ref{sec:sim_and_mon_navigation_failures}).
+However, this does not cover all types of docking and undocking problems. The first type of docking error is an explicit error returned by the docking state machine that can be caused
 by various problems, such as not being able to detect the container in the laser scan of the robot's surroundings. Likewise, explicit errors can be communicated by the undocking state
 machine, which is started after the charging process is complete. To notify the monitoring procedure of such errors, the operation state machine, which catches them as part of general
 error treatment, publishes them on the topic \code{/explicit_charging_failure} to which the monitoring procedure is subscribed. In this case, the monitoring node triggers a
 contingency via \code{/contingency_preemption} and communicates the reason for the problem. Finally, there is the case that the charging process does not start after successful
-docking, i.e. the battery charge does not increase. A failed charging process can be detected based on a specific time in the state of charge without increasing the charge level
+docking, i.e., the battery charge does not increase. A failed charging process can be detected based on a specific time in the state of charge without increasing the charge level
 of the battery. Specifically, the current state of charge is constantly tracked via \code{/arox/battery_param}, on which messages of type \code{arox_battery_params.msg} appear,
-containing the fields \code{std_msgs/header header}, \code{float64 charge}, \code{int64 charging_cycle}, \code{string battery_operation}, \code{float64 operation_time}, and
+containing the fields \code{float64 charge}, \code{int64 charging_cycle}, \code{string battery_operation}, \code{float64 operation_time}, and
 \code{int8 env_condition}. In case a charge action is performed, which is communicated by the operation state machine via \code{/charge_action}, the current charge level is stored,
 the procedure sleeps for a user-specified time and afterwards compares the current charging state with the previously stored one. If the most recent state of charge is not higher
 than the one stored at the start of charging, a contingency is initiated because the battery is not charging despite the robot being docked to the charging station. For a system to
 use the charging failure monitoring node, it must either use the docking solution described in section \ref{sec:docking_solution} for explicit docking failures, or, if it uses a
 different docking solution, communicate its explicit docking failures via \code{/explicit_charging_failure}. Moreover, to use actual charge monitoring, it must employ the battery
-watchdog described in section \ref{sec:battery_monitoring} or publish its own system's data in the expected format, i.e. as \code{arox_battery_params.msg}. The naming scheme, which
+watchdog described in section \ref{sec:battery_monitoring} or publish its own system's data in the expected format, i.e., as \code{arox_battery_params.msg}. The naming scheme, which
 includes references to the AROX system, is somewhat misleading given the idea of a certain universality, but is retained at this point to remain compatible with the battery watchdog
 module.\newline
 
