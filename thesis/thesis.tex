@@ -1742,9 +1742,9 @@ module.\newline
 
 \noindent
 The identified failure modes can be simulated using the following approaches. Docking errors can be easily simulated by having the robot move to an inappropriate location before
-docking so that it cannot detect the container because it is not in its environment. For this purpose, the user-configurable location to which the robot supposed to move when
-executing an action \code{return_to_base} is exchanged with an inappropriate destination. The idea of this location is generally that it is roughly in front of the base station so
-that it can be detected in a laser scan. Thus, the substitute position will be a completely different one, meaning that the detection of the container will inevitably fail.
+docking so that it cannot detect the container because it is not in its environment. For this purpose, the user-configurable location to which the robot is supposed to move when
+executing an action \code{return_to_base} is exchanged with an inappropriate destination. The idea of this location is generally to be approximately in front of the base station
+so that it can be detected in a laser scan. Thus, the substitute position will be a completely different one, meaning that the detection of the container will inevitably fail.
 This exemplifies cases where the detection part of docking fails. An example that causes the navigation portion of the docking process to fail would be raising the ramp of the
 container so that there is no way for the robot to enter after successful detection. To achieve this, the joint position $j \in \mathbb{R}$ of the entry ramp of the container must be adjusted
 accordingly by publishing a suitable value in radians to \code{/container/ramp_position_controller/command}. Figure \ref{fig:joint_positions} depicts the feasible joint position
@@ -1752,26 +1752,25 @@ range $j \in [0, \frac{\pi}{2}]$ of the container ramp. Accordingly, to fully ra
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{pics/joint_position_container.png}
-    \caption{\textsc{Entry Ramp Joint Positions}}
+    \caption{\textsc{Joint Positions of the Entrance Ramp}}
     \label{fig:joint_positions}
 \end{figure}
 \noindent
 A closed container case could in principle also be detected by the navigation monitoring solution described in section \ref{sec:sim_and_mon_navigation_failures}, but such situations
 are also recognized by the docking state machine, which returns an error after several entry attempts. Therefore, it is not determined which monitoring procedure is triggered first,
 as this depends on the situation and environment, but generally one of the two nodes will be triggered and initiate resolution. Undocking errors are in principle not very diverse,
-since it is only a question of leaving the container. They can therefore be simulated simply by a raised ramp, so that the robot is locked in the container. This is in turn achieved
+since it is only a question of leaving the container. They can therefore be simulated simply by a raised ramp, so that the robot is locked inside the container. This is in turn achieved
 by publishing $j = 0$ to \code{/container/ramp_position_controller/command} while the robot is inside the container. To ensure that the robot is actually inside the container when
 this case is simulated, the execution of the simulation does not follow immediately after initiation, but waits until the next \code{charge} action indicated by the operation
-state machine is executed. A noteworthy aspect of this simulation is that the robot cannot solve the problem itself, just as in the \textquote{robot prison} scenario in section
-\ref{sec:sim_and_mon_navigation_failures}. Ultimately, a failed charge is also quite trivial to simulate based on a controllable battery consumption and recharge model.
-Charge failure simulation can be enabled using the following ROS topics:
+state machine is executed. A noteworthy aspect of the \textquote{ramp-based} simulations is that the robot cannot solve the problem itself. Ultimately, a failed charge is also quite trivial to simulate
+based on a controllable battery consumption and recharge model. Charging failure simulation can be enabled using the following ROS topics:
 \begin{itemize}
-    \item \textbf{undocking failure (raised ramp)} \textrightarrow \code{/sim_undocking_failure}
-    \item \textbf{docking failure (raised ramp)} \textrightarrow \code{/sim_docking_failure_raised_ramp}
-    \item \textbf{docking failure (wrong base pose)} \textrightarrow \code{/sim_docking_failure_base_pose}
-    \item \textbf{charging failure} \textrightarrow \code{/sim_charging_failure}
+    \item \textbf{undocking failure (raised ramp):} \code{/sim_undocking_failure}
+    \item \textbf{docking failure (raised ramp):} \code{/sim_docking_failure_raised_ramp}
+    \item \textbf{docking failure (wrong base pose):} \code{/sim_docking_failure_base_pose}
+    \item \textbf{charging failure:} \code{/sim_charging_failure}
 \end{itemize}
-Charging failures can be addressed with the resolution methods described in section \ref{sec:charging_failure_resolver}.
+These issues can be addressed with the resolution methods described in section \ref{sec:charging_failure_resolver}.
 
 \subsection{Drastic Weather Change}
 \label{sec:sim_and_mon_drastic_weather}
