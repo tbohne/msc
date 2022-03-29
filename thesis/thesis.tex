@@ -1776,36 +1776,37 @@ These issues can be addressed with the resolution methods described in section \
 \label{sec:sim_and_mon_drastic_weather}
 
 There are two ways to incorporate weather information, either by having the robot detect it with its own sensors or by utilizing external weather information. In any case,
-it would be good to identify extreme weather conditions that could affect the proper functioning of the system in order to react accordingly, i.e. return to the base station and
+it would be good to identify extreme weather conditions that could affect the proper functioning of the system in order to react accordingly, i.e., return to the base station and
 seek shelter. Since we live in a world where local weather information is quite readily available and the robot's sensing capabilities would also be limited in its ability to
 reasonably detect it, external weather information is used. In addition, realistic simulation of weather phenomena is a difficult task that would shift the focus of the work.
-Thus, the robot does not detect extreme weather conditions itself through its sensors, but relies on external local weather data. To retrieve local weather information, a Python
-wrapper of the \textit{OpenWeatherMap} API\footnote{https://openweathermap.org/api} is used, guaranteeing cross-platform applicability. Initially, the weather monitoring node
-establishes a connection to the \textit{OpenWeatherMap} API. If successful, it continuously requests local weather data at a user-configurable frequency, e.g. every half hour.
+Thus, the robot does not detect extreme weather conditions itself through its sensors, but relies on external local weather data. To retrieve local weather information, a \textit{Python}
+wrapper of the \textit{OpenWeatherMap} API\footnote{\textcolor{link-color}{\url{https://openweathermap.org/api}}} is used, guaranteeing cross-platform applicability. Initially, the weather monitoring node
+establishes a connection to the \textit{OpenWeatherMap} API. If successful, it continuously requests local weather data at a user-configurable frequency, e.g., every half hour.
 As weather data should be based on the current location of the robot, the node maintains a subscription to the \code{/fix} topic described in section
-\ref{sec:sim_and_mon_gnss_connection_problems}, through which \code{NavSatFix} messages containing the latitude and longitude of the robot's current presumed position arrive as
+\ref{sec:sim_and_mon_gnss_connection_problems}, through which \code{NavSatFix} messages containing the latitude and longitude of the robot's currently presumed position arrive as
 new GNSS data is made available. These coordinates are used to retrieve local weather information from the \textit{OpenWeatherMap} API. After parsing the data relevant for
 monitoring, the actual monitoring at the user-specified frequency begins. First, the current rain volume $r_v$ in $mm/h$ is monitored based on two cases: If $7.6 > r_v > 2.6$,
-the rain is considered moderate and manageable, so an information is published to the operator, but the robot continues its work. When $r_v > 7.6$, the rain is considered heavy,
-causing the robot to interrupt its mission and launch a contingency. This classification of precipitation intensity stems from the American Meteorological Society's
-\textit{Glossary of Meteorology}\footnote{https://glossary.ametsoc.org/wiki/Rain}. Analogously, the current snow volume $s_v$ is monitored in $mm/h$. When $2.0 > s_v > 0.5$, it is
-considered bearable and only the operator is informed about the situation, but if $s_v > 2.0$, an interruption of the work is initiated. The next aspect monitored is the wind speed,
+the rain is considered moderate and manageable, so an information is published to the operator, but the robot continues its work. When $r_v \geq 7.6$, the rain is considered heavy,
+causing the robot to interrupt its mission and launch a contingency. This classification of precipitation intensity stems from the \textit{American Meteorological Society's
+Glossary of Meteorology}\footnote{\textcolor{link-color}{\url{https://glossary.ametsoc.org/wiki/Rain}}}. Analogously, the current snow volume $s_v$ is monitored in $mm/h$. When $2.0 > s_v > 0.5$, it is
+considered bearable and only the operator is informed about the situation, but if $s_v \geq 2.0$, an interruption of the work is initiated. The next aspect monitored is the wind speed,
 where \textit{OpenWeatherMap} distinguishes between a general wind speed and a gust speed. The former refers to a prolonged wind speed and the latter to sudden gusts of wind.
 Since both can be dangerous for the operation of the robot, they are monitored together and summarized as wind speed $w_s$ in $m/s$ in the following. If $14.0 > w_s > 11.0$, the
-robot continues its work but informs the operator of a \textquote{strong breeze}. When $20.0 > w_s > 14.0$, the robot still continues its work, but informs the operator of a gale
-and that it is starting to get critical. When $28.0 > w_s > 21.0$, the robot interrupts its mission and informs the operator of a strong gale and the risk of structural damage.
-Moreover, at $33.0 > w_s > 28.0$, the robot reports a storm force and a very high risk of structural damage and aborts its mission. Finally, at $w_s > 33.0$, it aborts its operations
-and reports a hurricane and a very high risk of severe and extensive structural damage. Wind speed classification limits are based on wind speed estimates from the US Department of
-Commerce's \textit{National Weather Service}\footnote{https://www.weather.gov/pqr/wind}. Furthermore, the temperature is monitored in \textdegree{}C based on $t_{min}$ and $t_{max}$,
+robot continues its work but informs the operator of a \textquote{strong breeze}. When $20.0 > w_s \geq 14.0$, the robot still continues its work, but informs the operator of a gale
+and that it is starting to get critical. When $28.0 > w_s \geq 20.0$, the robot interrupts its mission and informs the operator of a strong gale and the risk of structural damage.
+Moreover, at $33.0 > w_s \geq 28.0$, the robot reports a storm force and a very high risk of structural damage and aborts its mission. Finally, at $w_s \geq 33.0$, it aborts its operations
+and reports a hurricane and a very high risk of severe and extensive structural damage. Wind speed classification limits are based on wind speed estimates from the \textit{US Department of
+Commerce's National Weather Service}\footnote{\textcolor{link-color}{\url{https://www.weather.gov/pqr/wind}}}. Furthermore, the temperature is monitored in \textdegree{}C based on $t_{min}$ and $t_{max}$,
 the minimum and maximum temperatures measured in the robot's further surroundings, as well as $t$, the current temperature at the robot's location. It is reasonable to assume both
 an upper and a lower limit for the temperature in the robot's working environment. As such lower and upper bounds depend heavily on the robotic system in question as well as its
 sensor equipment, the limits are user-configurable. By default, a contingency due to excessive temperatures is initiated when $t > 40$ or $t_{max} > 40$. Likewise, the robot
-interrupts its mission due to extreme cold when $t < -5$ or $t_{min} < -5$, e.g. because this could be problematic for the system's battery. The \textit{OpenWeatherMap} API
-additionally provides a weather condition code\footnote{https://openweathermap.org/weather-conditions} for each situation, which is well-suited for systematic monitoring.
+interrupts its mission due to extreme cold when $t < -5$ or $t_{min} < -5$, e.g., because this could be problematic for the system's battery. The \textit{OpenWeatherMap} API
+additionally provides a weather condition code\footnote{\textcolor{link-color}{\url{https://openweathermap.org/weather-conditions}}} for each situation, which is well-suited for systematic monitoring.
 Based on these codes, it is easy to interrupt the mission for all possible variants of thunderstorms. Besides the specific checks for precipitation amounts mentioned above,
 there are also codes for variations of heavy rain and snow that are used as indicator for contingencies. Additionally, codes for squalls, tornados, and atmospheric features
 such as mist, smoke, or fog are used to interrupt the mission. Eventually, the \textit{OpenWeatherMap} information also contains the sunrise and sunset times. Since the robot
-requires daylight for its missions, it also interrupts them when it approaches or even exceeds sunset or when it tries to start before sunrise. Of course, all upper and lower bounds
+requires daylight for its missions, it also interrupts them when it approaches or even exceeds sunset or when it tries to start before sunrise. As anticipated in section
+\ref{sec:lta_problems_not_considered}, the inclusion of this information covers the neglected problem category of \textquote{certain dynamics}, at least in this sense. Of course, all upper and lower bounds
 for the attributes of the current weather situation are in principle configurable by the user, but are set to reasonable default values from the literature.  In all contingency
 cases, the weather monitoring node publishes a message on the \code{/contingency_preemption} topic indicating the particular type of weather condition and causing a transition to
 the \code{CONTINGENCY} state where an appropriate resolution method is selected and launched. Afterwards, it transitions to a kind of passive monitoring mode where it no longer
@@ -1813,7 +1814,7 @@ triggers contingencies etc., but only waits until the weather situation is moder
 topic where the resolver provides its results. If successful, the weather monitoring transitions to active monitoring again.
 Similarly, the information that does not require interruption of the mission is transmitted via the \code{/robot_info} topic. Aside from the
 information relevant to monitoring, there is some other information that may be of interest to the operator. Therefore, a full weather report can be configured to be communicated
-to the operator at specified intervals, e.g. once a day. Beyond those already discussed, this information includes observation time, a general status description, the cloudiness
+to the operator at specified intervals, e.g., once a day. Beyond those already discussed, this information includes observation time, a general status description, the cloudiness
 percentage, the humidity, the atmospheric pressure and the wind direction. In order for a system to utilize the weather monitoring node, it should provide \code{NavSatFix} data on
 the \code{/fix} topic, as the weather information is based on the current location of the robot. Alternatively, the values for latitude and longitude can be configured explicitly.
 Furthermore, an internet connection is required to connect to the \textit{OpenWeatherMap} API.\newline
@@ -1821,16 +1822,16 @@ Furthermore, an internet connection is required to connect to the \textit{OpenWe
 \noindent
 As always, in order to evaluate the monitoring procedures, a simulation of the various scenarios must be provided. This simulation takes place in the parser for
 \textit{OpenWeatherMap} data. Based on the developed weather monitoring node, it is failry trivial to simulate the occurrence of such extreme weather conditions by simply setting
-the attributes to extreme values, e.g. a heavy rain scenario can be simulated by setting the corresponding rain volume $r_v = 8$. Likewise, a heavy snow situation can be simulated
+the attributes to extreme values, e.g., a heavy rain scenario can be simulated by setting the corresponding rain volume $r_v = 8$. Likewise, a heavy snow situation can be simulated
 by setting $s_v = 3$. The simulation of the remaining extreme weather events can be triggered analogously. Weather-related challenges for LTA can be dealt with using the resolver
 described in section \ref{sec:weather_resolver}. Simulating extreme weather events can be activated / deactivated via the following ROS topics:
 \begin{itemize}
-    \item \textbf{heavy rain} \textrightarrow \code{/toggle_rain_sim}
-    \item \textbf{heavy snow} \textrightarrow \code{/toggle_snow_sim}
-    \item \textbf{gale} \textrightarrow \code{/toggle_wind_sim}
-    \item \textbf{low temperature} \textrightarrow \code{/toggle_low_temp_sim}
-    \item \textbf{thunderstorm} \textrightarrow \code{/toggle_thuderstorm_sim}
-    \item \textbf{sunset} \textrightarrow \code{/toggle_sunset_sim}
+    \item \textbf{heavy rain:} \code{/toggle_rain_sim}
+    \item \textbf{heavy snow:} \code{/toggle_snow_sim}
+    \item \textbf{gale:} \code{/toggle_wind_sim}
+    \item \textbf{low temperature:} \code{/toggle_low_temp_sim}
+    \item \textbf{thunderstorm:} \code{/toggle_thuderstorm_sim}
+    \item \textbf{sunset:} \code{/toggle_sunset_sim}
 \end{itemize}
 
 \subsection{Sensor (Perception) Failure}
