@@ -2817,12 +2817,12 @@ of a failed resolution attempt by the resolver methods described in the followin
 \label{sec:power_management_resolver}
 
 Of the two types of power management faults considered (cf. section \ref{sec:sim_and_mon_power_management}), one can be solved by the robot autonomously, namely the case in which it
-must immediately return to the charging station to prevent a total failure. The solution to this problem is based on the introduction of two intermediate goals into the plan
+must immediately return to the charging station to prevent a mission failure. The solution to this problem is based on the introduction of two intermediate goals into the plan
 - \code{return_to_base} and \code{charge}. For this purpose, the operation state machine provides the topic \code{/introduce_intermediate_recharge_goal}. Messages on this topic
-cause these two actions to be inserted at the front of the plan, i.e. as the next actions to be executed. Compared to implementing the return to base and recharge procedure as part of
+cause these two actions to be inserted at the front of the plan, i.e., as the next actions to be executed. Compared to implementing the return to base and recharge procedure as part of
 the resolution, this method of augmenting the plan and returning to normal operation has the distinct advantage of having all monitoring procedures active again and allowing for any
-necessary handling of other contingencies, such as docking or charging failures. Generally, this plan modification and subsequent continuation of normal operations is much more elegant.
-This kind of plan augmentation is a very classical problem that entails many subtleties and, in general, is not trivially solvable. However, in the context of this work, this is
+necessary handling of other contingencies, such as docking or charging failures. Hence, plan modification and subsequent continuation of normal operation is much more elegant.
+This kind of plan augmentation is a very classical problem that entails many subtleties and, in general, is not trivially solvable. However, in the context of this work, it is
 possible based on the management of such situations described in section \ref{sec:plan_interruption_section}. The other type of failure, i.e., a catastrophe, as defined in this
 thesis, is not solvable by the robot itself. The resolver node reports the problem to the human operator and initiates a graceful shutdown of the robot.
 
