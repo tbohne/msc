@@ -2324,12 +2324,12 @@ in section \ref{sec:data_management_resolver}.
 \subsection{Plan Deployment Failure}
 \label{sec:sim_and_mon_plan_deployment_failures}
 
-There are several potential failures regarding the deployment of generated plans. The first and most apparent is a missing plan, i.e. a situation where the robot is ready in
+There are several potential failures regarding the deployment of generated plans. The first and most apparent is a missing plan, i.e., a situation where the robot is ready in
 principle to perform a mission, but no plan arrives and it remains in the \code{IDLE} state. Since this is not an error per se and this case may be perfectly valid, once a certain
 threshold is exceeded, it merely triggers a notification via \code{/robot_info} to the human operator and keeps notifying at a specified frequency. The information whether a plan
-has been received, i.e. a mission is being executed, is retrieved via a configurable topic, in the scenario described in section \ref{sec:prototype_scenario} via
+has been received, i.e., a mission is being executed, is retrieved via a configurable topic, in the scenario described in section \ref{sec:prototype_scenario} via
 \code{arox/ongoing_operation}. Additionally, the \code{PlanDeploymentMonitor} subscribes to a topic \code{/plan_retrieval_failure} on which the embedded low-level operation state
-machine publishes as its normal error treatment behavior in case of plan retrieval failures, e.g. exceptions. There are defined error codes published on this topic ($0$: plan
+machine publishes as its normal error treatment behavior in case of plan retrieval failures, e.g., exceptions. There are defined error codes published on this topic ($0$: plan
 retrieval service unavailable, $1$: empty plan, $2$: infeasible plan). Based on this error code, the \code{PlanDeploymentMonitor} initiates a contingency with an appropriate message
 explaining the reason, using the \code{/contingency_preemption} topic. Monitoring of plan deployment failures is
 therefore a special case, since most of the monitoring is based on error handling reported by the operational state machine. However, this makes sense because these errors are
@@ -2338,25 +2338,25 @@ types of failures recognized and indicated within a component as \textit{signale
 failures, with each component being more or less self-responsible. \cite{Brodskiy:2011}
 The exact error treatment responsible for detecting these errors works as follows. First, the plan generation node described in section \ref{sec:plan_generation} provides plans via the
 \code{arox_planner/get_plan} service. If a call to this service triggers a timeout exception, it gets caught, the error is reported (code $0$), and the operation state machine
-remains in the \code{IDLE} state. Analogously, a plan with an empty list of actions (code $1$) and a plan containing an action of an unknown type (code $2$) are recognized and
-reported. The detection of actions of an unknown type is based on a configurable list of actions that are expected, e.g.. \code{drive_to}, \code{return_to_base}, \code{charge}
+remains in the \code{IDLE} state. Analogously, a plan with an empty list of actions (code $1$) and a plan containing an action of an unknown type (code $2$) is recognized and
+reported. The detection of actions of an unknown type is based on a configurable list of actions that are expected, e.g., \code{drive_to}, \code{return_to_base}, \code{charge}
 and \code{scan} in the considered scenario. In order to allow the monitoring node to initiate the contingency without the operational state machine immediately transitioning back
 to \code{IDLE} and repeatedly requesting a plan, a short delay (e.g. $1s$) is introduced for each detected problem to avoid unnecessary timing conflicts during transitions.
 Thus, in order for other systems to be able to use the plan deployment monitoring, the mentioned topics and the action list must be configured. Moreover, explicit errors can be
 communicated via \code{/plan_retrieval_failure} using the described error codes.\newline
 
 \noindent
-For simulation, it is quite obvious that it is reasonable to simulate the failures where they occur, i.e. in the plan generator (cf. section \ref{sec:plan_generation}). The
+For simulation, it is quite obvious that it is reasonable to simulate the failures where they occur, i.e., in the plan generator (cf. section \ref{sec:plan_generation}). The
 situation of an extended idle time is simulated by simply blocking the plan fetch for a configurable period of time, which must be greater than or equal to the threshold defined
 in \code{PlanDeploymentMonitor}. The simulation of an unavailable plan service is done by temporarily shutting down the service using the \code{shutdown} method provided by ROS services.
 Empty and otherwise infeasible plans are trivially simulated by either clearing the list of actions or setting one of the action names to an unspecified string.
 The simulation of the plan deployment failure cases can be enabled via the following ROS topics:
-\begin{enumerate}
-    \item \textbf{extended idle time} \textrightarrow \code{/sim_extended_idle_time}
-    \item \textbf{unavailable plan service} \textrightarrow \code{/toggle_unavailable_plan_service}
-    \item \textbf{empty plan} \textrightarrow \code{/sim_empty_plan}
-    \item \textbf{infeasible plan} \textrightarrow \code{/sim_infeasible_plan}
-\end{enumerate}
+\begin{itemize}
+    \item \textbf{extended idle time:} \code{/sim_extended_idle_time}
+    \item \textbf{unavailable plan service:} \code{/toggle_unavailable_plan_service}
+    \item \textbf{empty plan:} \code{/sim_empty_plan}
+    \item \textbf{infeasible plan:} \code{/sim_infeasible_plan}
+\end{itemize}
 \noindent
 Plan-deployment-related challenges for LTA can be addressed using the resolver described in section \ref{sec:plan_deployment_resolver}.
 
@@ -2380,6 +2380,10 @@ can be observed from fig. \ref{fig:nav_fail_gazebo}, there is a viable route (re
 but this is not assured. The problem in such cases is often that the viable routes are somehow counterintuitive, e.g., because they require a detour, at least given the robot's partial
 knowledge of the environment. Analogous to leaving local optima in optimization, in some circumstances the robot must first navigate farther away from the target before it can actually
 reach it.
+
+\vfill
+\pagebreak
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
