@@ -2071,39 +2071,39 @@ data is real or simulated, the result is the same.
 \end{figure}
 \noindent
 As can be observed in the processing scheme in fig. \ref{fig:gnss_communication}, the GNSS data arriving at the system,
-i.e. received from \code{gpsd}, is already the data potentially corrected by RTK. What is received is the best result there is at the moment; if RTK is available, it will be used.
-What is part of the \code{NavSatFix} definition and is also available in \code{gpsd}, i.e. in practice, is the GNSS status with the four possible options \code{STATUS_NO_FIX},
-\code{STATUS_FIX}, \code{STATUS_SBAS_FIX}, and \code{STATUS_GBAS_FIX}. The first two options indicate whether or not it was possible to find a position using pure GNSS, e.g.
+i.e., received from \code{gpsd}, is already the data potentially corrected by RTK. What is received is the best result there is at the moment; if RTK is available, it will be used.
+What is part of the \code{NavSatFix} definition and also available in \code{gpsd}, i.e., in practice, is the GNSS status with the four possible options \code{STATUS_NO_FIX},
+\code{STATUS_FIX}, \code{STATUS_SBAS_FIX} and \code{STATUS_GBAS_FIX}. The first two options indicate whether or not it was possible to find a position using pure GNSS, e.g.,
 \textit{GPS}, \textit{GLONASS} or \textit{Galileo}. An SBAS (\textit{Satellite Based Augmentation System}) is a satellite-based system that provides additional real-time data from geostationary
-satellites to refine the observations and increase the accuracy, e.g. \textit{StarFire\textsuperscript{TM}}. \cite{Dixon:2006} Hence, the third option indicates whether such
+satellites to refine the observations and increase the accuracy, e.g., \textit{StarFire\textsuperscript{TM}}. \cite{Dixon:2006} Hence, the third option indicates whether such
 an SBAS was involved in positioning. Analogously, a GBAS (\textit{Ground Based Augmentation System}) aims to ensure integrity and increase accuracy
 by using a ground infrastructure consisting of at least two GNSS receivers. \cite{GNSS_aug} Based on this, differential corrections are computed. The fourth option therefore
 tells whether a GBAS was utilized during positioning. Essentially, RTK is a specific GBAS system used in practice with the AROX system and the base station. These four GNSS status
 options are user-configurable in the \code{GNSS Simulator}. Regardless of whether in simulation or in the case of the real AROX in practice, with the setup described it is always
 known if RTK data is currently being received.
-Additionally configurable, part of the \code{NavSatFix} message, and given in practice are the service options, i.e. the actual GNSS services used to
-retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} and \textit{Galileo}. Eventually, the GNSS covariance type as well as the covariances themselves are part of a
+Additionally configurable, part of the \code{NavSatFix} message, and given in practice is the service option, i.e., the actual GNSS service used to
+retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} or \textit{Galileo}. Eventually, the GNSS covariance type as well as the covariances themselves are part of a
 \code{NavSatFix} message and thus configurable in the \code{GNSS Simulator}. Covariances are commonly represented as a square matrix $C$ containing the covariance $c_{ij}$ for each pair
 of variables $i, j$ in the considered domain $D$. These matrices have the property of being symmetric, that is, the covariance $c_{ij} \in C$ is the same as the covariance 
-$c_{ji} \in C$, and provide the variances of the variables on their diagonal, since the covariance $c_{ii}$ of each variable $i \in D$ with itself is equal to the variance of
+$c_{ji} \in C$, and they are providing the variances of the variables on their diagonal, since the covariance $c_{ii}$ of each variable $i \in D$ with itself is equal to the variance of
 that variable. The \code{NavSatFix} specification distinguishes different types of position covariances, essentially indicating their reliability.
 First, \code{COVARIANCE_TYPE_UNKNOWN} if the GNSS receiver does not yield a quality estimate and the GNSS data should be treated with caution.
-\code{COVARIANCE_TYPE_APPROXIMATED} means that the GNSS receiver does not provide covariance values, but instead supplies another quality estimate, such as dilution of precision
+\code{COVARIANCE_TYPE_APPROXIMATED} means that the GNSS receiver does not provide covariance values, but instead supplies another quality estimate, such as \textit{Dilution of Precision}
 (DOP). The covariance values are then approximated based on this estimate. If the GNSS receiver gives at least the variances or standard deviations of the individual measurements,
-the type is \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, since the diagonal contains the variances. For example, assuming the GNSS receiver provides the variances, it is only necessary
+the type is \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, since the diagonal contains the variances. For instance, assuming the GNSS receiver provides the variances, it is only necessary
 to take the square root of the diagonal values to obtain the more meaningful standard deviations. Eventually, \code{COVARIANCE_TYPE_KNOWN} means that the GNSS receiver provides
 a rather sophisticated error estimation with a complete covariance matrix of $3 \times 3$ values. The covariances are not directly based on the
 current latitude, longitude and altitude belief state, but based on a $2D$ approximation of a small region of the Earth's surface, a tangential plane through the currently believed
-position. There are several local tangent plane systems, the specific one assumed in \code{NavSatFix} is the \textquote{East-North-Up} (ENU) coordinate system. Using such a coordinate
+position. There are several local tangent plane systems, the specific one assumed in \code{NavSatFix} is the \textit{East-North-Up} (ENU) coordinate system. Using such a coordinate
 system relative to a local origin has the advantage that it allows one to work with intuitive Cartesian coordinates. To give an example, let the locations considered be the 
-\textit{Innovation Center Osnabrueck (ICO)} and the \textit{DFKI-Labor Niedersachsen}, shown in fig. \ref{fig:ICO_DFKI_map}. A typical GNSS receiver estimates positions in
-geodetic coordinates - latitude (degrees), longitude (degrees), and altitude (meters), e.g. \textit{ICO} $(52.287690, 8.018690, 63.0)$ and \textit{DFKI} $(52.287863, 8.027347, 63.0)$.
-Let the ENU representation be constructed with respect to the \textit{ICO} location. This location is the origin of the local coordinate system, i.e. the location where the tangent
+\textit{Innovation Center Osnabrueck} (ICO) and the \textit{DFKI-Lab Niedersachsen}, shown in fig. \ref{fig:ICO_DFKI_map}. A typical GNSS receiver estimates positions in
+geodetic coordinates - latitude (degrees), longitude (degrees) and altitude (meters), e.g., ICO $(52.287690, 8.018690, 63.0)$ and DFKI $(52.287863, 8.027347, 63.0)$.
+Let the ENU representation be constructed with respect to the ICO location (cf. fig. \ref{fig:ICO_DFKI_ENU}). This location is the origin of the local coordinate system, i.e., the location where the tangential
 plane meets the Earth's surface. The two-dimensional \textquote{east-north-plane}, together with the \textquote{up-axis} perpendicular to the Earth at the reference point, form
-the local Cartesian coordinate system. This is, of course, only an approximation that is feasible for relatively small areas, since the Earth's curvature would have to be taken
-into consideration for larger areas. Now another location, for instance that of the \textit{DFKI}, is considered. The ENU representation provides the information where this point
+the local Cartesian coordinate system (cf. fig. \ref{fig:ICO_DFKI_ENU}). This is, of course, only an approximation that is feasible for relatively small areas, since the Earth's curvature would have to be taken
+into consideration for larger areas. Now another location, for instance that of the DFKI, is considered. The ENU representation provides the information where this point
 of interest is located in the local coordinate system in meters. The result of converting the geodetic coordinates of the DFKI to the ENU system ($590.7, 19.3, 0.0$), is displayed
-in fig. \ref{fig:ICO_DFKI_ENU}, i.e. the DFKI is located $590.7 m$ east and $19.3 m$ north of the ICO site. In this case, both locations have the same height.
+in fig. \ref{fig:ICO_DFKI_ENU}, i.e., the DFKI is located $590.7 m$ east and $19.3 m$ north of the ICO site. In this case, both locations have the same height.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
