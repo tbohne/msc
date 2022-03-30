@@ -2520,9 +2520,10 @@ able to come up with an alternative. In this manner, the situation that a static
         \caption{\textsc{Scenario Four}}
         \label{fig:static_4}
     \end{subfigure}
-\caption{\textsc{Solvable Static Obstacle Scenarios.}}
+\caption{\textsc{Solvable Static Obstacle Scenarios}}
 \label{fig:obstacle_scenarios}
 \end{figure}
+\noindent
 For instance, fig. \ref{fig:obstacle_success} shows how the robot copes with the first scenario (cf. fig. \ref{fig:static_1}). As can be seen, the robot manages to iteratively
 progress around the static obstacle until it reaches the blocked target. This illustrates that unexpectedly appearing obstacles are not a great problem as long as there is a way.
 Nevertheless, if they are, it will be detected by the aforementioned monitoring method.
@@ -2554,33 +2555,35 @@ Nevertheless, if they are, it will be detected by the aforementioned monitoring 
         \caption{\textsc{}}
         \label{fig:succ_4}
     \end{subfigure}
-\caption{\textsc{Successful Overcoming of Static Obstacle Scenario One.}}
+\caption{\textsc{Successful Overcoming of Static Obstacle Scenario One}}
 \label{fig:obstacle_success}
 \end{figure}
+\noindent
 Unfortunately, it is not trivial to
 simulate a case where \code{move_base_flex} fails on every attempt, although there is a path. Depending on the location and surroundings of the robot, it is sometimes able to find
 the right way after a while. Yet, it is sufficient to show that such situations exist, as this is adequate justification for the need to address them. The straightforward approach to
 simulate such situations works as follows. The user can specify a set of points, e.g., the one (red crosses) shown in fig. \ref{fig:outlier_points} in the scenario described in section \ref{sec:prototype_scenario}.
-These points are not hard to reach per se, but should be quite difficult to reach from certain locations, e.g. because there are many obstacles in between.
+These points are not hard to reach per se, but should be quite difficult to reach from certain locations, e.g., because there are many obstacles in between.
 When simulating such a situation, the point from the specified set of points farthest from the robot's current position is chosen, which does not guarantee navigation problems,
-but is a fairly good heuristic. As the user is supposed to specify these points in latitude and longitude, the robot's position is taken from the GNSS estimate, i.e. \code{/fix}.
+but is a fairly good heuristic. As the user is supposed to specify these points in latitude and longitude, the robot's position is taken from the GNSS estimate, i.e., \code{/fix}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\textwidth]{pics/hard_to_reach.png}
-    \caption{\textsc{Specified Set of \textquote{hard-to-reach} Points in the Prototype Scenario.}}
+    \includegraphics[width=0.35\textwidth]{pics/hard_to_reach.png}
+    \caption{\textsc{Specified Set of \textquote{Hard-to-Reach} Points in the Prototype Scenario}}
     \label{fig:outlier_points}
 \end{figure}
+\noindent
 As anticipated, this is not a guarantee of navigation failure, but it does cause it on a regular basis (cf. fig. \ref{fig:nav_fail}). It would be infeasible to simply interrupt the
 active plan and set the selected point as navigation target, as there would then be no successful outcome that continues the plan. Thus, the dummy target is introduced as an
 intermediate action in the plan, an option that is implemented as part of the low-level operation state machine. The \code{ObstacleSpawner} publishes the point to be used on
 \code{/introduce_intermediate_nav_goal}, and the operation state machine executes it after the currently active action has been completed.
 The simulation of the navigation failures can be enabled via the following ROS topics:
 \begin{itemize}
-    \item static obstacles \textrightarrow \code{/spawn_static_obstacles} with string message \code{`scene_n'}, $n \in \{1, 2, 3, 4\}$
-    \item robot prison \textrightarrow \code{/spawn_robot_prison}
-    \item navigation failure \textrightarrow \code{/trigger_nav_fail}
+    \item \textbf{static obstacles:} \code{/spawn_static_obstacles} (\code{str msg "scene_n"}, $n \in \{1, 2, 3, 4\}$)
+    \item \textbf{robot prison:} \code{/spawn_robot_prison}
+    \item \textbf{navigation failure (counterintuitive route):} \code{/trigger_nav_fail}
 \end{itemize}
-Navigation failures that are in principle solvable, i.e. not inescapable, can be addressed with the resolver described in section \ref{sec:nav_fail_resolver}.
+Navigation failures that are in principle solvable, i.e., not inescapable, can be addressed with the resolver described in section \ref{sec:nav_fail_resolver}.
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:sim_and_mon_incorrect_localization}
