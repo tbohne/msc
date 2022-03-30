@@ -2072,8 +2072,8 @@ data is real or simulated, the result is the same.
 \noindent
 As can be observed in the processing scheme in fig. \ref{fig:gnss_communication}, the GNSS data arriving at the system,
 i.e., received from \code{gpsd}, is already the data potentially corrected by RTK. What is received is the best result there is at the moment; if RTK is available, it will be used.
-What is part of the \code{NavSatFix} definition and also available in \code{gpsd}, i.e., in practice, is the GNSS status with the four possible options \code{STATUS_NO_FIX},
-\code{STATUS_FIX}, \code{STATUS_SBAS_FIX} and \code{STATUS_GBAS_FIX}. The first two options indicate whether or not it was possible to find a position using pure GNSS, e.g.,
+What is part of the \code{NavSatFix} definition and also available in \code{gpsd}, i.e., in practice, is the GNSS status with the four possible options \code{STATUS_NO_FIX} $(-1)$,
+\code{STATUS_FIX} $(0)$, \code{STATUS_SBAS_FIX} $(1)$ and \code{STATUS_GBAS_FIX} $(2)$. The first two options indicate whether or not it was possible to find a position using pure GNSS, e.g.,
 \textit{GPS}, \textit{GLONASS} or \textit{Galileo}. An SBAS (\textit{Satellite Based Augmentation System}) is a satellite-based system that provides additional real-time data from geostationary
 satellites to refine the observations and increase the accuracy, e.g., \textit{StarFire\textsuperscript{TM}}. \cite{Dixon:2006} Hence, the third option indicates whether such
 an SBAS was involved in positioning. Analogously, a GBAS (\textit{Ground Based Augmentation System}) aims to ensure integrity and increase accuracy
@@ -2087,11 +2087,11 @@ retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} or \textit{G
 of variables $i, j$ in the considered domain $D$. These matrices have the property of being symmetric, that is, the covariance $c_{ij} \in C$ is the same as the covariance 
 $c_{ji} \in C$, and they are providing the variances of the variables on their diagonal, since the covariance $c_{ii}$ of each variable $i \in D$ with itself is equal to the variance of
 that variable. The \code{NavSatFix} specification distinguishes different types of position covariances, essentially indicating their reliability.
-First, \code{COVARIANCE_TYPE_UNKNOWN} if the GNSS receiver does not yield a quality estimate and the GNSS data should be treated with caution.
-\code{COVARIANCE_TYPE_APPROXIMATED} means that the GNSS receiver does not provide covariance values, but instead supplies another quality estimate, such as \textit{Dilution of Precision}
+First, \code{COVARIANCE_TYPE_UNKNOWN} $(0)$ if the GNSS receiver does not yield a quality estimate and the GNSS data should be treated with caution.
+\code{COVARIANCE_TYPE_APPROXIMATED} $(1)$ means that the GNSS receiver does not provide covariance values, but instead supplies another quality estimate, such as \textit{Dilution of Precision}
 (DOP). The covariance values are then approximated based on this estimate. If the GNSS receiver gives at least the variances or standard deviations of the individual measurements,
-the type is \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, since the diagonal contains the variances. For instance, assuming the GNSS receiver provides the variances, it is only necessary
-to take the square root of the diagonal values to obtain the more meaningful standard deviations. Eventually, \code{COVARIANCE_TYPE_KNOWN} means that the GNSS receiver provides
+the type is \code{COVARIANCE_TYPE_DIAGONAL_KNOWN} $(2)$, since the diagonal contains the variances. For instance, assuming the GNSS receiver provides the variances, it is only necessary
+to take the square root of the diagonal values to obtain the more meaningful standard deviations. Eventually, \code{COVARIANCE_TYPE_KNOWN} $(3)$ means that the GNSS receiver provides
 a rather sophisticated error estimation with a complete covariance matrix of $3 \times 3$ values. The covariances are not directly based on the
 current latitude, longitude and altitude belief state, but based on a $2D$ approximation of a small region of the Earth's surface, a tangential plane through the currently believed
 position. There are several local tangent plane systems, the specific one assumed in \code{NavSatFix} is the \textit{East-North-Up} (ENU) coordinate system. Using such a coordinate
@@ -2123,26 +2123,26 @@ in fig. \ref{fig:ICO_DFKI_ENU}, i.e., the DFKI is located $590.7 m$ east and $19
 \label{fig:ENU_example}
 \end{figure}
 \noindent
-The position covariances $c_{ij}$ in a \code{NavSatFix} message are defined in square meters relative to the tangential plane.
-The ENU system is composed of the three variables east ($E$), north ($N$), and up ($U$), i.e. $c_{ij} \in C_{3 \times 3}$ with $i, j \in \{E, N, U\}$.
-Thus, one has to consider $\sqrt{c_{ii}} \thinspace \forall \thinspace i \in \{E, N, U\}$ to end up with the standard deviation in meters, i.e. how widely the GNSS approximations are
-currently spread in meters. In general, a minor standard deviation implies that the uncertainty about the current estimated position is very low, making the estimate very accurate.
+The position covariances $C$ in a \code{NavSatFix} message are defined in square meters relative to the tangential plane.
+The ENU system is composed of the three variables east ($E$), north ($N$) and up ($U$), i.e., $c_{ij} \in C_{3 \times 3}$ with $i, j \in \{E, N, U\}$.
+Thus, one has to consider $\sqrt{c_{ii}} \thinspace \forall \thinspace i \in \{E, N, U\}$ to end up with the standard deviations in meters, i.e., how widely the GNSS approximations are
+currently spread in meters. In general, a minor standard deviation implies that the uncertainty about the currently estimated position is very low, making the estimate very accurate.
 Figure \ref{fig:low_uncertainty}, for instance, shows relatively low positional uncertainty based on standard deviations of $\sqrt{6}m$ in either direction. The violet shape
-surrounding the AROX model indicates this uncertainty. In principle, the robot could be anywhere in this shape based on current GNSS data, but the center is currently the most likely
+surrounding the AROX model indicates this uncertainty. In principle, the robot could be anywhere in this shape based on the current GNSS data, but the center is currently the most likely
 estimated position (the average). Figure \ref{fig:high_uncertainty} shares the same standard deviations for the north and up directions, but has a significantly higher deviation of
 $\sqrt{101}m$ in the east direction, resulting in a fairly high uncertainty with respect to this direction.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth]{pics/GNSS_cov_low.png}
+        \includegraphics[width=0.8\textwidth]{pics/GNSS_cov_low.png}
         \caption{\textsc{Relatively Low Uncertainty}}
         \label{fig:low_uncertainty}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth]{pics/GNSS_cov_high.png}
+        \includegraphics[width=0.8\textwidth]{pics/GNSS_cov_high.png}
         \caption{\textsc{High Uncertainty in One Direction}}
         \label{fig:high_uncertainty}
     \end{subfigure}
@@ -2151,44 +2151,44 @@ $\sqrt{101}m$ in the east direction, resulting in a fairly high uncertainty with
 \end{figure}
 \noindent
 Nevertheless, in both cases shown in fig. \ref{fig:uncertainty_shape}, the standard deviations are in the meter range, which is not optimal. With RTK available, the deviations,
-i.e. the violet shape, should be much smaller in the centimeter or even millimeter range. It is of some importance to detect and report such changes in position accuracy.
+i.e., the violet shape, should be much smaller in the centimeter or even millimeter range. It is of some importance to detect and report changes in position accuracy.
 The monitoring for GNSS failures works as follows. First, there is a qualitative assessment of GNSS links that work in principle based on the information in the \code{NavSatFix}
 message. If the connection is not perfect, the mission is not immediately interrupted, but it is at least documented.
-The quality is rated as high, if the status is \code{STATUS_GBAS_FIX}, i.e. with ground-based augmentation such as RTK, the covariance type is $\geq$ 
+The quality is rated as high, if the status is \code{STATUS_GBAS_FIX}, i.e., with ground-based augmentation such as RTK, the covariance type is $\geq$ 
 \code{COVARIANCE_TYPE_DIAGONAL_KNOWN} (diagonal known or entirely known), and each standard deviation satisfies a user-defined upper bound $d_{max} \in \mathbb{R}_{0}^{+}$,
-i.e. $\sqrt{c_{ii}} \leq d_{max} \thinspace \forall \thinspace i \in \{E, N, U\}$. The last entry of the matrix, i.e. $c_{UU} \in C$ , may not always be present, so
+i.e., $\sqrt{c_{ii}} \leq d_{max} \thinspace \forall \thinspace i \in \{E, N, U\}$. The last entry of the matrix, i.e., $c_{UU} \in C$ , may not always be present, so
 $c_{UU} \in \mathbb{R}_{0}^{+} \cup \emptyset$. It is classified as tolerable if the status is $\geq$ \code{STATUS_FIX}, the covariance type is $\geq$
 \code{COVARIANCE_TYPE_APPROXIMATED}, and the standard deviations in turn satisfy $d_{max}$. 
 Finally, it is classified as low if it provides a position belief state ($\geq$ \code{STATUS_FIX}), but the covariance
 type is unknown. So much for the qualitative assessment of a GNSS link that works in principle.\newline
 The first type of monitoring for real failures that interrupt \code{NORMAL_OPERATION} is the status monitoring.
 If the status is not set to one of the available options (\code{STATUS_NO_FIX}, \code{STATUS_FIX},
-\code{STATUS_SBAS_FIX}, \code{STATUS_GBAS_FIX}), a contingency is initiated, i.e. a message on \code{/contingency_preemption} interrupts the normal operation.
+\code{STATUS_SBAS_FIX}, \code{STATUS_GBAS_FIX}), a contingency is initiated, i.e., a message on \code{/contingency_preemption} interrupts the normal operation.
 Furthermore, if the status is \code{STATUS_NO_FIX}, the GNSS system was unable to find the position, which is certainly a problem for localization that causes a contingency
 case. Status monitoring also checks for cases of \code{STATUS_FIX}, which means that pure GNSS was used for positioning and no RTK is available. However, this is not a reason for
-contingency, just information worth publishing on \code{/robot_info}. What is also worth reporting, but does not trigger a contingency, is an unknown service, i.e. when the
+contingency, just information worth publishing on \code{/robot_info}. What is also worth reporting, but does not trigger a contingency, is an unknown service, i.e., when the
 \code{NavSatFix} message does not contain any of the available GNSS services \textit{GPS}, \textit{GLONASS}, \textit{Compass} or \textit{Galileo}. Again more critical is the latitude ($lat$) / longitude ($lng$) belief state
-monitoring. It is ensured that both values are present and satisfy their respective domains, i.e. $lat \in [-90\degree, 90\degree]$ and $lng \in [-180\degree, 180\degree]$. Altitude is not taken into account
-because many GNSS receivers do not provide this information. Eventually, there is uncertainty assessment, i.e. covariance monitoring. 
+monitoring. It is ensured that both values are present and satisfy their respective domains, i.e., $lat \in [-90\degree, 90\degree]$ and $lng \in [-180\degree, 180\degree]$. Altitude is not taken into account
+because many GNSS receivers do not provide this information. Eventually, there is uncertainty assessment, i.e., covariance monitoring. 
 First, it is checked whether the covariance type corresponds to one of the
 available options (\code{COVARIANCE_TYPE_UNKNOWN}, \code{COVARIANCE_TYPE_APPROXIMATED}, \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, \code{COVARIANCE_TYPE_KNOWN}). Otherwise,
 a notification is sent to the operator, but of course not a contingency, as this is not critical. The most meaningful components of the covariance matrix are the variances or, more
-precisely, the standard deviations, i.e. the square root of the diagonal values, because they actually provide information about the accuracy of the estimated position.
+precisely, the standard deviations, i.e., the square root of the diagonal values, because they actually provide information about the accuracy of the estimated position.
 As for the actual standard deviation values, two things can be observed: The absolute values (appropriate / too high) and their progression over time.
 The latter is implemented as a variance history in the form of a fixed-length list that always stores the diagonals of the last $n \in \mathbb{N}$
 covariance matrices and performs a list shift in which the oldest one is removed when a new one arrives. The length $n$ is again configurable by the user. In the analysis of the variance
-history, the square roots, i.e. the standard deviations, are considered, since, as mentioned, these are the crucial values provided by many GNSS receivers.
+history, the square roots, i.e., the standard deviations, are considered, since, as mentioned, these are the crucial values provided by many GNSS receivers.
 Whenever the covariance type of an incoming \code{NavSatFix} message is $\geq$ \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, the history is updated. On the arrival of new feasible 
 messages, the deviation progression is analyzed. Such an analysis primarily examines the standard deviations of the east and north components, but also those of the upward component,
 if present. First, it is checked whether the history contains only increasing values for the respective component. If this is the case and, in addition, the difference between the
-oldest and the newest deviation is greater than a user-defined significant deviation increase $d_{inc} \in \mathbb{R}_{0}^{+}$, a contingency is initiated. Thus, the definition of a
-bad deviation progression is exclusively increasing values together with an overall absolute increase between the oldest and latest value that exceeds a certain threshold.
+oldest and the newest deviation is greater than a user-defined significant deviation increase $d_{inc} \in \mathbb{R}_{0}^{+}$, a contingency is initiated. Thus, the definition of
+an inappropriate deviation progression is exclusively increasing values combined with an overall absolute increase between the oldest and latest value that exceeds a certain threshold.
 Finally, there is one last check, which relates to the absolute values. If the type is $\geq$ \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, the present variances 
 $c_{ii} \in \mathbb{R}_{0}^{+} \thinspace \forall \thinspace i \in \{E, N, U\}$ can with a clear conscience be used for quality assessment. If any of the standard deviations exceeds the user-specified maximum deviation threshold $d_{max}$,
-i.e. $\exists \thinspace c_{ii}, i \in \{E, N, U\} : \sqrt{c_{ii}} > d_{max}$, normal operation is interrupted by publishing to \code{/contingency_preemption}. 
+i.e., $\exists \thinspace c_{ii}, i \in \{E, N, U\} : \sqrt{c_{ii}} > d_{max}$, the normal operation is interrupted by publishing to \code{/contingency_preemption}. 
 If the type is \code{COVARIANCE_TYPE_APPROXIMATED}, the variances can be considered, but with caution, without giving it too much weight.
 The standard deviations $\sqrt{c_{ii}} \in C \thinspace \forall \thinspace i \in \{E, N, U\}$ are checked, but high values exceeding the threshold do not cause a contingency, only a message on \code{/robot_info}.
-In principle, it would also be useful to monitor the off-diagonal elements of the covariance matrix, i.e. the actual covariances, since these elements provide information about the
+In principle, it would also be useful to monitor the off-diagonal elements of the covariance matrix, i.e., the actual covariances, since these elements provide information about the
 reciprocal relationship of the directions under consideration. For instance, if $c_{NE} < 0$, a negative deviation in the north direction is likely to be matched by a positive deviation in
 the east direction, and vice versa. However, in the scope of this work, the monitoring of the covariance matrix will be limited to the above cases. It is crucial that the approaches
 are essentially compatible with all systems using \code{NavSatFix} and are not limited to the AROX system or the present scenario. Hence, for a system to use GNSS monitoring, it simply needs
@@ -2199,7 +2199,7 @@ As before, evaluation of potential problem cases as well as monitoring procedure
 The timeout failure can be easily simulated by unsubscribing the \code{/fix_plugin} topic for a period of time that exceeds the time limit. Quality estimation can be evaluated by
 simply configuring the status, covariance information, and service according to the above definition. Monitoring of status, service and position belief state can be simulated by
 setting inappropriate values for each. Likewise, absolute deviation monitoring as well as variance history analysis can be tested by simulating the respective problems.
-Let the type be \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, the user-specified history length $n = 4$, and the deviation increase threshold $d_{inc} = 5 m$. Deviation monitoring
+Let the type be \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, the user-specified history length $n = 4$ and the deviation increase threshold in meters $d_{inc} = 5$. Deviation monitoring
 can then be tested by publishing the following (co)variance progression ($n = 4$ messages in sequence):
 \begin{figure}[H]
     \begin{subfigure}[b]{0.24\textwidth}
@@ -2249,27 +2249,32 @@ can then be tested by publishing the following (co)variance progression ($n = 4$
         \caption{\textsc{}}
         \label{fig:latest}
     \end{subfigure}
-\caption{\textsc{(Co)variance History (old to new)}}
+\caption{\textsc{(Co)variance History (Old to New)}}
 \label{fig:cov_history}
 \end{figure}
 \noindent
-The (co)variance progression depicted in fig. \ref{fig:cov_history} is expected to cause a contingency for various reasons, e.g. due to the fact that the history only
+The (co)variance progression depicted in fig. \ref{fig:cov_history} is expected to cause a contingency for various reasons, e.g., due to the fact that the history only
 contains increasing standard deviation values for the east component ($\sqrt{16.2} m \rightarrow \sqrt{25.1} m \rightarrow \sqrt{89.0} m \rightarrow \sqrt{99.4} m$) and the overall
 absolute increase between the east deviation of the oldest (cf. fig. \ref{fig:oldest}) and latest (cf. fig. \ref{fig:latest}) covariance matrices exceeds the defined threshold
 of $5 m (\approx 5.95 m)$. It is reasonable to interrupt normal operation in such a case, as such a (co)variance progression poses great challenges for localization.
+
+\vfill
+\pagebreak
+
+\noindent
 The simulation of the GNSS failure cases can be enabled / disabled via the following ROS topics:
 \begin{itemize}
-    \item \textbf{disconnect / timeout} \textrightarrow \code{/toggle_simulated_timeout_failure}
-    \item \textbf{good quality} \textrightarrow \code{/set_simulated_good_quality}
-    \item \textbf{medium quality} \textrightarrow \code{/set_simulated_med_quality}
-    \item \textbf{low quality} \textrightarrow \code{/set_simulated_low_quality}
-    \item \textbf{unknown status} \textrightarrow \code{/set_simulated_unknown_status}
-    \item \textbf{no fix} \textrightarrow \code{/set_simulated_no_fix}
-    \item \textbf{no RTK} \textrightarrow \code{/set_simulated_no_rtk}
-    \item \textbf{unknown service} \textrightarrow \code{/toggle_simulated_unknown_service}
-    \item \textbf{infeasible lat / lng} \textrightarrow \code{/toggle_simulated_infeasible_lat_lng}
-    \item \textbf{variance history failure} \textrightarrow \code{/toggle_simulated_variance_history_failure}
-    \item \textbf{high deviation} \textrightarrow \code{/toggle_simulated_high_deviation}
+    \item \textbf{disconnect / timeout:} \code{/toggle_simulated_timeout_failure}
+    \item \textbf{good quality:} \code{/set_simulated_good_quality}
+    \item \textbf{medium quality:} \code{/set_simulated_med_quality}
+    \item \textbf{low quality:} \code{/set_simulated_low_quality}
+    \item \textbf{unknown status:} \code{/set_simulated_unknown_status}
+    \item \textbf{no fix:} \code{/set_simulated_no_fix}
+    \item \textbf{no RTK:} \code{/set_simulated_no_rtk}
+    \item \textbf{unknown service:} \code{/toggle_simulated_unknown_service}
+    \item \textbf{infeasible lat / lng:} \code{/toggle_simulated_infeasible_lat_lng}
+    \item \textbf{variance history failure:} \code{/toggle_simulated_variance_history_failure}
+    \item \textbf{high deviation:} \code{/toggle_simulated_high_deviation}
 \end{itemize}
 
 \subsection{Data Management}
