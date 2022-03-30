@@ -2045,18 +2045,18 @@ The simulation of poor download and upload speed cases as well as a total failur
 \subsubsection{GNSS Connection Failures}
 \label{sec:sim_and_mon_gnss_connection_problems}
 
-Unlike the connections considered in the previous two sections, i.e. WiFi and internet (cf. sections \ref{sec:sim_and_mon_wifi_connection_problems} and
+Unlike the connections considered in the previous two sections, i.e., WiFi and internet (cf. sections \ref{sec:sim_and_mon_wifi_connection_problems} and
 \ref{sec:sim_and_mon_internet_connection_problems}), GNSS signals are already part of the ROS world both in the prototype simulation and in practice. The transmission of GNSS data
 for both scenarios is shown in fig. \ref{fig:gnss_communication}, where the blue arrows represent the procedure in practice and the red arrows illustrate the case of simulated GNSS
 data. In practice, the AROX system as well as the base station (mobile container) use a \textit{u-blox C099-F9P}
-\footnote{https://www.u-blox.com/en/product/c099-f9p-application-board?lang=de} application board as GNSS receiver. The board can be configured to transmit or receive RTK correction
+\footnote{\textcolor{link-color}{\url{https://www.u-blox.com/en/product/c099-f9p-application-board?lang=de}}} application board as GNSS receiver. The board can be configured to transmit or receive RTK correction
 signals. Accordingly, the one on board the AROX is configured as RTK-rover and the one mounted inside the base station is configured as RTK-base. The board attached to the AROX is
 connected to the on-board computer via USB. Since the on-board computer is an Ubuntu system, the Unix tool
-\code{gpsd}\footnote{https://manpages.ubuntu.com/manpages/trusty/man8/gpsd.8.html} can be used, a daemon that can be configured to read the GNSS data from the connected
-\textit{u-blox} board. Afterwards, the ROS community package \code{gpsd-client}\footnote{https://wiki.ros.org/gpsd\_client} serves as a bridge between the operating system and the
-ROS world. It reads the GNSS data from \code{gpsd} and generates a \code{NavSatFix}\footnote{https://docs.ros.org/en/api/sensor\_msgs/html/msg/NavSatFix.html} message from it, the typical data type for GNSS data in ROS. This message is then published under
-the \code{/fix} topic and used for localization, etc. In the simulation scenario (cf. red arrows), \code{GazeboRosGps}, a module from the ROS community package
-\code{hector_gazebo_plugins} \footnote{https://wiki.ros.org/hector\_gazebo\_plugins}, is used to simulate GNSS data. It already generates a \code{NavSatFix} message with the
+\code{gpsd}\footnote{\textcolor{link-color}{\url{https://manpages.ubuntu.com/manpages/trusty/man8/gpsd.8.html}}} can be used, a daemon that can be configured to read the GNSS data from the connected
+\textit{u-blox} board. Afterwards, the ROS community package \code{gpsd-client}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/gpsd\_client}}} serves as a bridge between the operating system and the
+ROS world. It reads the GNSS data from \code{gpsd} and generates a \code{NavSatFix}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/api/sensor\_msgs/html/msg/NavSatFix.html}}} message from it, the typical data type for GNSS data in ROS. This message is then published under
+the \code{/fix} topic and used for localization, etc. In the simulation scenario (cf. red arrows in fig. \ref{fig:gnss_communication}), \code{GazeboRosGps}, a module from the ROS community package
+\code{hector_gazebo_plugins} \footnote{\textcolor{link-color}{\url{https://wiki.ros.org/hector\_gazebo\_plugins}}}, is used to simulate GNSS data. It already generates a \code{NavSatFix} message with the
 simulated data. However, it does not simulate every single relevant aspect of the GNSS data. It simulates the position and altitude of the robot in \textit{WGS84} coordinates and
 also a GNSS velocity vector, but the status, service and covariance information are not generated. This is where the \code{GNSS Simulator} developed as part of this work comes
 into play, acting as a \textquote{man-in-the-middle} to enrich the data coming from \code{GazeboRosGps}. For this purpose, it receives the \code{NavSatFix} message from the
