@@ -2700,44 +2700,49 @@ permissible, others, such as omni-drive robots, are not compatible because they 
 interpolation based on GNSS data.\newline
 
 \noindent
-As previously, the evaluation of localization problems as well as the corresponding monitoring procedures demands the simulation of such cases. For this purpose a
+As previously, the evaluation of localization problems as well as the corresponding monitoring procedures demands the simulation of such cases. For this purpose, a
 \code{PhysicsController} node was written. The general idea of the \code{PhysicsController} is to manipulate certain aspects of the physics in the \textit{Gazebo} simulation to
 provoke the circumstances that lead to localization problems. The ROS services \code{/gazebo/pause_physics} and \code{/gazebo/unpause_physics} are used to pause and unpause the
 simulation before and after physical manipulations, respectively. For the actual manipulation of physics, the \code{/gazebo/set_physics_properties} service is utilized. The most
-important aspects of a physics property specification request are the gravity vector and the \code{ODEPhysics}\footnote{Open Dynamics Engine (https://www.ode.org/)} configuration,
-i.e. the configuration of the physics engine used by default in \textit{Gazebo}. Initially, \code{ODEPhysics} is configured with reasonable default values from the literature and the
-ODE documentation. The gravity vector $\vec{g}$ is naturally initialized with $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$. The first simulation option is a wheel motion with no change
-in position, resulting in a distance divergence between the estimated distances traveled by odometry and GNSS. In practice, such a situation can for example occur when the wheels spin
-due to low friction on an icy or muddy surface. First, the gravity, i.e. acceleration in $z$ direction, is set to a low positive value for a short time to levitate the robot above
-the ground, e.g. $\vec{g} = (0, 0, 0.4) \thinspace m/s^2$. To prevent flying off, a small negative acceleration is then briefly set in the $z$ direction. Finally, the robot should
-hover in this position for a certain time so that the wheels can rotate without touching the ground, i.e. changing the position of the robot. For this purpose, the acceleration in
-all directions is set to $0 \thinspace m/s^2$. After a short period of time, normal gravity is restored, i.e. $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$. The second simulation option
+important aspects of a physics property specification request are the gravity vector and the \code{ODEPhysics}\footnote{Open Dynamics Engine (\textcolor{link-color}{\url{https://www.ode.org/}})} configuration,
+i.e., the configuration of the physics engine used by default in \textit{Gazebo}. Initially, \code{ODEPhysics} is configured with reasonable default values from the literature and the
+ODE documentation. The gravity vector $\vec{g}$ is naturally initialized with $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$.\newline
+The first simulation option is a wheel motion with no change in position, resulting in a divergence between the estimated traveled distances by odometry and GNSS.
+In practice, such a situation can for example occur when the wheels spin
+due to low friction on an icy or muddy surface. First, the gravity, i.e., acceleration in $z$ direction, is set to a low positive value for a short time to levitate the robot above
+the ground, e.g., $\vec{g} = (0, 0, 0.4) \thinspace m/s^2$. To prevent flying off, a small negative acceleration is then briefly set in the $z$ direction. Finally, the robot should
+hover in this position for a certain time so that the wheels can rotate without touching the ground, i.e., changing the position of the robot. For this purpose, the acceleration in
+all directions is set to $0 \thinspace m/s^2$. After a short period of time, normal gravity is restored, i.e., $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$.\newline
+The second simulation option
 is the reverse case - a change in position without wheel revolutions, which in practice could be related to the robot slipping away on a muddy path. This can be simulated by briefly
-changing the acceleration in $x$- or $y$-direction to a relatively high value (e.g. $8 m/s^2$) so that the robot drifts off. 
+changing the acceleration in $x$- or $y$-direction to a relatively high value (e.g. $8 m/s^2$) so that the robot drifts off.\newline
 The third option, a divergence between the estimated yaw angles of the interpolated GNSS positions, the filtered odometry and the IMU, can be simulated by rotating the robot by e.g.
-$50\degree$ around the yaw axis. This assumes knowledge of the robot's current pose (position + orientation). The position is taken from \code{NavSatFix} messages to the \code{/fix}
-topic, and the angular rotation, i.e. orientation, based on the IMU's gyroscope is extracted from the latest \code{Imu} message to \code{/imu_data}.
-The pose is always kept available in terms of latitude ($lat$), longitude ($lng$), and the yaw angle $yaw$ in degrees. Since the IMU stores
-the orientation as a quaternion, the function \code{tf.transformations.euler_from_quaternion} is used to obtain the Euler angles $roll, pitch, yaw$. Eventually,
+$50\degree$ around the yaw axis. This assumes knowledge of the robot's current pose (position and orientation). The position is taken from \code{NavSatFix} messages to the \code{/fix}
+topic, and the angular rotation, i.e., orientation, based on the IMU's gyroscope is extracted from the latest message to \code{/imu_data}.
+The pose is always kept available in terms of latitude ($lat$), longitude ($lng$) and the yaw angle $yaw$ in degrees. Since the IMU stores
+the orientation as a quaternion, the function \code{tf.transformations.euler_from_quaternion} is used to obtain the Euler angles $(roll, pitch, yaw)$. Eventually,
 $yaw = yaw \cdot \frac{180}{\pi}$ to convert the resulting radians to degrees. For the actual simulation, $yaw$ is increased by $50\degree$ if it does not exceed $180\degree$,
-since $yaw \in [-180\degree, 180\degree]$. Otherwise, $yaw = -180 + ((yaw + 50) \mod 180)$. This adjusted $yaw$ angle is the goal orientation. A \code{Twist.msg} is created,
+since $yaw \in [-180, 180]$. Otherwise, $yaw = -180 + ((yaw + 50) \mod 180)$. This adjusted yaw angle is the goal orientation. A \code{Twist.msg}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Twist.html}}} is created,
 which then accounts for the actual rotation by being published to \code{/cmd_vel}. Since the rotation is supposed to distort the active \code{move_base_flex} navigation, it must
-be published at a very high frequency as long as the actual rotation of the robot is approximately equal to the defined target angle $yaw$. The tolerance is configurable by the user.
-To further amplify the impact on the active navigation, the twist publishing is accompanied by some gravitational changes, a positive low gravity in $z$ direction (e.g. $0.2$) and
-a slightly stronger acceleration in the $x$ and $y$ directions (e.g. $2.5$). This gravitational change does not start immediately, but only after a configurable number of twist
+be published at a very high frequency until the actual rotation of the robot is approximately equal to the defined target angle $yaw$. The tolerance is configurable by the user.
+To further amplify the impact on the active navigation, the twist publishing is accompanied by some gravitational changes, a positive low gravity in $z$ direction (e.g. $0.2 m/s^2$) and
+a slightly stronger acceleration in the $x$ and $y$ directions (e.g. $2.5 m/s^2$). This gravitational change does not start immediately, but only after a configurable number of twist
 messages have been published on \code{/cmd_vel}, resulting in a reinforced rotational distortion. The value of the angular twist in $z$ direction is $\pi$ or $-\pi$, depending on
 the initial orientation. After the target $yaw$ is reached with sufficient accuracy, normal gravity is restored. A real-world problem reproduced by this simulation is when the robot
-unexpectedly slips away and turns during navigation.
+unexpectedly slips away and turns during navigation.\newline
 Furthermore, the situation of too high acceleration values detected by the IMU's accelerometer can be simulated in situations
 where the robot is supposed to stand still. For this it suffices to apply a rather low acceleration in $x$- or $y$-direction for a brief period of time. Additionally, an unexpected
 motion for the odometry can be simulated by publishing a linear twist (change to be performed) on \code{/cmd_vel} to let the robot move slightly without active navigation goals.
 Practically, both cases may refer to situations where the
-robot does not have an active navigation goal, but is moved for some reason, e.g. slipping away. Crucially, not all of the simulated processes described can take place at all times.
-Therefore, the status of \code{move_base_flex} must be taken into account by subscribing to \code{/move_base_flex/exe_path/status}. Whenever a simulated localization error is
+robot does not have an active navigation goal, but is moved for some reason, e.g., slipping away.\newline
+
+\noindent
+Crucially, not all of the simulated processes described can take place at all times.
+Therefore, the status of \code{move_base_flex} must be taken into account by subscribing to the topic \code{/move_base_flex/exe_path/status}. Whenever a simulated localization error is
 triggered, a flag is set, but actual execution is not initiated until the required \code{move_base_flex} state is encountered. For instance, the simulated case of wheel revolutions
 without position change can only be performed if there is an active navigation target causing the wheel revolutions. Thus, when the most recent status of \code{move_base_flex}
 changes from a passive state to \code{GoalStatus.ACTIVE}, the simulation is initiated. To ensure the distance divergence, there is also a high-frequency linear twist published to
-\code{/cmd_vel}, which amplifies the wheel rotations. Likewise, the case of a change of position without wheel revolutions should take place in a
+\code{/cmd_vel}, which amplifies the wheel rotations. Analogously, the case of a change of position without wheel revolutions should take place in a
 passive state. A particular challenge is the simulation of deviations in yaw angle estimation. First, they can only be simulated in \code{GoalStatus.ACTIVE}, as the corresponding
 monitoring is disabled in passive states, due to the fact that a divergence in yaw angle estimates in passive states can only result from unexpected movements in passive states,
 which is already covered by other monitoring options. If the yaw estimates diverged in the passive state without a change in position, the divergence would have already been present
@@ -2754,11 +2759,11 @@ very well cause wheel rotations, triggering other problem cases such as estimate
 and result in higher IMU values. Finally, the two remaining simulation cases of motion in passive states indicated by IMU and odometry can obviously only be simualted when no
 active navigation goal is being pursued, otherwise the motion would be expected. The simulation of the localization failures can be enabled / disabled via the following ROS topics:
 \begin{itemize}
-    \item \textbf{odometry-GNSS distance divergence (type $1$)} \textrightarrow \code{/wheel_movement_without_pos_change}
-    \item \textbf{odometry-GNSS distance divergence (type $2$)} \textrightarrow \code{/pos_change_without_wheel_movement}
-    \item \textbf{interpolated GNSS and IMU/odometry yaw divergence} \textrightarrow \code{/yaw_divergence}
-    \item \textbf{IMU acceleration, although no active navigation target}\newline \textrightarrow \code{/moving_although_standing_still_imu}
-    \item \textbf{odometry twist, although no active navigation target}\newline \textrightarrow \code{/moving_although_standing_still_odom}
+    \item \textbf{GNSS-odometry dist. divergence} (type $1$)\textbf{:} \code{/wheel_movement_without_pos_change}
+    \item \textbf{GNSS-odometry dist. divergence} (type $2$)\textbf{:} \code{/pos_change_without_wheel_movement}
+    \item \textbf{interpolated yaw divergence:} \code{/yaw_divergence}
+    \item \textbf{high acceleration despite inactive nav.:} \code{/moving_although_standing_still_imu}
+    \item \textbf{twist despite inactive nav.:} \code{/moving_although_standing_still_odom}
 \end{itemize}
 \noindent
 Localization-related challenges for LTA can be addressed using the resolver described in section \ref{sec:localization_resolver}.
