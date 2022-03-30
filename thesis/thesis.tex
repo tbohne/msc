@@ -2803,13 +2803,13 @@ In the following, the resolution methods for the selected LTA problems are prese
 
 Requesting assistance from a human operator was identified early on as a crucial aspect of long-term autonomous mobile robots: \textquote{\textit{[...] critical aspect of autonomy in our
 unsupervised application is the ability to detect failure and signal humans for help}}. \cite{Nourbakhsh:2003}
-Communication with a human operator, i.e. notifying a human operator that a problem has occurred that requires human intervention or providing useful information about the state
-of the robot or mission, is implemented as a separate \code{OperatorCommunication} class. The robot-human communication module is subscribed to two different topics. First, a message
+Communication with a human operator, i.e., notifying a human operator that a problem has occurred that requires human intervention or providing useful information about the state
+of the robot or mission, is implemented as a class \code{OperatorCommunication}. The human-robot communication module is subscribed to two different topics. First, a message
 on \code{/request_help} indicates that the robot is requesting the help of a human operator, i.e., is unable to solve a problem by itself. The second topic is \code{/robot_info},
-which is used for minor problems or tasks that do not require immediate action, but are good to know and tackle soon, e.g. a memory usage of $90\%$. According to the definitions in
-section \ref{sec:plan_execution_and_monitoring}, a request for assistance to the human operator is always triggered by a catastrophe situation. This means that the human operator is
-notified and the robot then performs a graceful shutdown. Therefore, the robot aborts its current mission and cannot restart or continue until the problem is solved by the human
-operator and the robot is restarted. All the monitoring modules described in section \ref{sec:sim_and_mon_of_lta_challenges} are subscribed to the \code{/robot_info} topic and thus
+which is used for minor problems or tasks that do not require immediate action, but are good to know and tackle soon, e.g., a memory usage of $90\%$. According to the definitions in
+section \ref{sec:execution_monitoring_smach_architecture}, a request for assistance to the human operator is always triggered by a catastrophe situation. This means that the human
+operator is notified and the robot proceeds with a graceful shutdown. Therefore, the robot aborts its current mission and cannot restart or continue until the problem is solved by the human
+operator and the robot is restarted. All the monitoring modules described in section \ref{sec:sim_and_mon_of_lta_challenges} are publishing to the \code{/robot_info} topic and thus
 able to communicate relevant information. The more critical topic for catastrophe cases can be triggered directly by the power management monitoring node and additionally as a result
 of a failed resolution attempt by the resolver methods described in the following sections.
 
