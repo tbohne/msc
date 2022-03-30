@@ -2363,9 +2363,9 @@ Plan-deployment-related challenges for LTA can be addressed using the resolver d
 \subsection{Navigation Failure}
 \label{sec:sim_and_mon_navigation_failures}
 
-Since the identified challenges of \textit{Obstacles Blocking the Planned Path} and \textit{Sustained Recovery} are also essentially navigation problems, the three challenges are
+Since the identified challenges of \textit{Obstacles Blocking the Planned Path} and \textit{Sustained Recovery} (cf. sec. \ref{sec:challenges_for_lta}) are also essentially navigation problems, the three challenges are
 considered together under the heading \textit{Navigation Failure}. Although sustained recoveries could in principle refer to all kinds of problems, this thesis is limited to
-sustained recoveries in the case of navigation problems, as this is by far the most relevant case from a practical perspective. Thus, it is sustained recoveries initiated by
+sustained recoveries in the case of navigation problems, as this is by far the most relevant case from a practical perspective. Thus, it is sustained recoveries induced by
 \code{move_base_flex}.\newline
 Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases simply walk through the scene and
 disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. Static obstacles, on the other hand, may be present for longer
@@ -2374,8 +2374,8 @@ case is to closely observe what \code{move_base_flex} is doing and intervene if 
 the direct path, but there is still one, or the obstacles actually block every single path and the robot cannot reach its destination. In the first case, it would be preferable if
 the robot was able to find it, but if it is incapable of doing so, it should be detected and communicated. This is basically the case of navigation failures in the sense that there
 is a path to the navigation goal, but \code{move_base_flex} cannot find it (cf. fig. \ref{fig:nav_fail}). Fig. \ref{fig:nav_fail} shows a side by side comparison of what the robot
-perceives and the actual section of the simulated world. In fig. \ref{fig:nav_fail_rviz} the route currently considered by \code{move_base_flex} is depicted (green line) as well as the
-target pose (cyan arrow). Examining the actual world excerpt in fig. \ref{fig:nav_fail_gazebo}, it is obvious that this route will not lead the robot to its destination. However, as
+perceives and the actual section of the simulated world. In fig. \ref{fig:nav_fail_rviz}, the route currently considered by \code{move_base_flex} (green line) as well as the target
+pose (cyan arrow) is depicted. Examining the actual world excerpt in fig. \ref{fig:nav_fail_gazebo}, it is obvious that this route will not lead the robot to its destination. However, as
 can be observed from fig. \ref{fig:nav_fail_gazebo}, there is a viable route (red line) that would accomplish this. In some cases, \code{move_base_flex} may find the viable route after a while,
 but this is not assured. The problem in such cases is often that the viable routes are somehow counterintuitive, e.g., because they require a detour, at least given the robot's partial
 knowledge of the environment. Analogous to leaving local optima in optimization, in some circumstances the robot must first navigate farther away from the target before it can actually
@@ -2402,18 +2402,19 @@ reach it.
 \caption{\textsc{Navigation Failure - Unable to Find a Path to the Goal}}
 \label{fig:nav_fail}
 \end{figure}
-Such examples are by no means contrived, it is not unrealistic that the robot will regularly face such situations in practice, i.e. it is important to recognize them and enable
-the system to cope with them. To give an example from the scenario under consideration: An unexpected obstacle could block the path of the robot, e.g. a large agricultural machine. 
+\noindent
+This example is by no means contrived, it is not unrealistic that in practice the robot is regularly confronted with such situations, meaning that it is important to recognize them
+and enable the system to cope with them. To give an example from the scenario under consideration: An unexpected obstacle could block the path of the robot, e.g., a large agricultural machine. 
 If the local costmap, which is usually between $3 \times 3$ and $5 \times 5$ meters, is smaller than the obstacle, this problem arises. The keyword here is \textit{sensor horizon},
-if it is too small it can lead to problems like this. On the other hand, it should be as small as possible to save runtime and increase efficiency. In general, the problem arises
-from the fact that \code{move_base} and \code{move_base_flex} work with two layers, i.e. two maps, the global map where everything is static and known, and the local map for dynamic
+if it is too small, it can lead to problems like this. On the other hand, it should be as small as possible to save runtime and increase efficiency. In general, the problem arises
+from the fact that \code{move_base} and \code{move_base_flex} work with two layers, i.e., two maps, the global map where everything is static and known, and the local map for dynamic
 obstacles, which is initially empty. Now back to the example of the agricultural machine blocking the robot's path. Since this machine is not a static object that is part of the
 global map, it can only be recognized as part of the local map. However, the local costmap shows a section of the machine that is at most as large as the local costmap. Moreover,
 everything that leaves the local costmap is \textquote{forgotten} by the robot. This leads to absurd situations in which the robot drives along the obstacle and forgets about it when
-parts of it leave the sensor horizon, so that the path behind it appears clear again. Thus, the robot oscillates back and forth in an endless loop. A simple workaround, which is not
+parts of it leave the sensor horizon, so that the path behind it appears clear again. Thus, the robot oscillates back and forth in an endless loop. A simple remedy, which is not
 a panacea but is practically used in the considered scenario, is to simply copy information from the local map to the global map so that the local obstacles can be taken into
 account in the global planning (\code{move_base_flex}). This assumes that everything the robot perceives locally is transferred to the static global costmap so that it is henceforth
-considered static. This approach misuses the global static map as a knowledge store for local sensor information. However, not persistently, but only as working memory, only during
+considered static. This approach misuses the global static map as a knowledge base for local sensor information. Yet, not persistently, but only as working memory, only during
 the runtime of the robot. An obvious problem is that this assumption does not hold, since in this approach dynamic obstacles such as people can be erroneously entered into the global
 map and henceforth be considered static obstacles. This happens when a person remains stationary until leaving the sensor horizon of the robot. Nevertheless, since such cases are much
 rarer compared to the first issue, this workaround proved to be practically useful in this particular context. In the long term, of course, a more sensible solution must be developed.\newline
@@ -2425,9 +2426,9 @@ case, the robot should try a few different recovery actions and then abort and r
 behaviors and decide whether it is appropriate to try more or stop. To identify sustained recovery situations, it is necessary to count them somehow. \code{move_base_flex}
 communicates its status via the ROS topic \code{move_base_flex/exe_path/status}. Consequently, to count the number of failed recoveries, one can simply count the transitions
 from \code{GoalStatus.ACTIVE} to \code{GoalStatus.ABORTED}. \code{GoalStatus.SUCCEEDED} should always reset the counter, because then the recovery has actually solved the problem.
-Monitoring is performed at a frequency specified by the user and verifies the current recovery count $r \in \mathbb{N}$. Whenever $r = 1$, i.e. when the first recovery occurs after successful
+Monitoring is performed at a frequency specified by the user and verifies the current recovery count $r \in \mathbb{N}$. Whenever $r = 1$, i.e., when the first recovery occurs after successful
 operation, the current position of the robot is stored using the GNSS data obtained from the \code{/fix} topic (cf. section \ref{sec:sim_and_mon_gnss_connection_problems}). If the
-recovery count reaches a user-configurable recovery limit $l \in \mathbb{N}$, i.e. $r \geq l$, a contingency is initiated via \code{/contingency_preemption} due to a sustained recovery. This method covers a sustained recovery, as it
+recovery count reaches a user-configurable recovery limit $l \in \mathbb{N}$, i.e., $r \geq l$, a contingency is initiated via \code{/contingency_preemption} due to a sustained recovery. This method covers a sustained recovery, as it
 arises from a case of obstacles without the possibility of circumvention. Combined with a check for explicit \code{move_base_flex} errors, this covers all expected navigation failures, since
 they will all end with a persistent recovery or an explicit termination. The explicit check works as follows. The navigation monitoring node maintains a subscription to
 \code{/explicit_nav_failure} through which external procedures, such as the low-level operation state machine, can trigger a contingency due to a navigation problem. For this
@@ -2435,18 +2436,18 @@ purpose, the operation state machine publishes to \code{/explicit_nav_failure} a
 \code{move_base_flex} explicitly returns \code{GoalStatus.ABORTED}. This is again an example of \textit{signaled failures} proposed by Brodskiy et al. \cite{Brodskiy:2011} and
 discussed earlier in section \ref{sec:sim_and_mon_plan_deployment_failures}.
 One problem is that repeated recoveries in which some progress is actually achieved should not be mistaken as
-sustained recoveries and thus failure. Hence, one should not only count the repetitions and declare that it has failed after a number of unsuccessful attempts, i.e. $r \geq l$, but
+sustained recoveries and thus failure. Hence, one should not only count the repetitions and declare that it has failed after a number of unsuccessful attempts, i.e., $r \geq l$, but
 also take into account reasonable progress towards the goal. For instance, if the robot approaches the target during the process rather than just rotating on the spot, it should be
-viable. For this purpose, each time $r \geq l$, a further check is performed before a contingency is triggered, namely comparing the stored position of the robot at the beginning of
+viable. For this purpose, each time when $r \geq l$, a further check is performed before a contingency is triggered, namely comparing the stored position of the robot at the beginning of
 the recovery sequence with the present position. If the distance between the two locations is less than a user-configurable lower bound, the robot has not made sufficient progress
 and a contingency is initiated. Otherwise, the robot has performed a number of recoveries, but with some success as it progresses towards the goal, so this is not considered a
-failure. In such cases, the operator is informed via \code{/robot_info}, the recovery counter is reset, i.e. $r = 1$, the initial recovery position is set to the present position
+failure. In such cases, the operator is informed via \code{/robot_info}, the recovery counter is reset, i.e., $r = 1$, the initial recovery position is set to the present position
 and the recovery process can be continued.
 It is important to note that monitoring is kept as generic as possible to be compatible with other scenarios and applications involving autonomous mobile robots.
 For instance, it is easy to switch to the common navigation framework \code{move_base} by simply changing the topic configuration.
 The counting of transitions etc. should still work, because \code{move_base} works with the same \code{GoalStatus} information.
-Essentially, any navigation framework that is compatible with the general \code{actionlib_msgs/GoalStatus} is compatible with the introduced monitoring solution.
-For a system to use the navigation monitoring node, it simply needs to specify the \code{GOAL_STATUS_TOPIC} under which the \code{GoalStatusArray} messages appear. Additionally,
+Essentially, any navigation framework that is compatible with the general \code{actionlib_msgs/GoalStatus}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/lunar/api/actionlib_msgs/html/msg/GoalStatus.html}}} is compatible with the introduced monitoring solution.
+For a system to use the navigation monitoring node, it simply needs to specify the \code{GOAL_STATUS_TOPIC} under which the \code{GoalStatusArray}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/lunar/api/actionlib_msgs/html/msg/GoalStatusArray.html}}} messages appear. Additionally,
 \code{NavSatFix} messages are again expected to appear on \code{/fix} to track progress in cases of sustained recovery. As described, the topic \code{/explicit_nav_failure} can be
 used to report explicit navigation errors. Of course, it would be possible to simply extend the \code{move_base_flex} state machine to perform this type of monitoring, but doing so
 would only solve the problem for a specific framework, which would contradict the claim of achieving some generality.\newline
