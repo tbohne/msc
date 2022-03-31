@@ -2881,7 +2881,7 @@ times, e.g., when a scan is successful.
 \subsection{Lost Connection}
 \label{sec:connection_resolver}
 
-Dealing with WiFi and GNSS connectivity issues is once again based on retries, counting them, and potential aggravation. The rationale is to have a short timeout, followed by a
+Dealing with WiFi and GNSS connectivity issues is once again based on retries, counting them and potential aggravation. The rationale is to have a short timeout, followed by a
 reconnection attempt and notification of the problem in the event of a repeated failure. Internet connection issues, however, are resolved by
 reinitializing the internet monitoring node, as this could fix a failed connection to the \code{speedtest} API. Of course, this is also not done arbitrarily often and in case of
 repeated failure, the human operator is notified.
