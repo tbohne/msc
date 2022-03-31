@@ -2902,13 +2902,13 @@ again addressed by a \textquote{retry and count} based attempt before a catastro
 All three of the plan deployment problems presented in section \ref{sec:sim_and_mon_plan_deployment_failures} can be addressed with workarounds that the robot can try
 on its own, ignoring the fourth issue that only causes a message on \code{/robot_info} and no contingency case. The cases of empty or otherwise infeasible plans can be resolved
 in some cases simply by requesting the plan again. For this purpose, the resolver keeps track of plan retrieval attempts. If the counter for either case is $0$, which means that the
-first attempt to retrieve a plan failed, the resolution is to re-try and the counter is incremented. However, if the counter reaches a configurable threshold, e.g. $2$, which means
+first attempt to retrieve a plan failed, the resolution is to retry and increment the counter. However, if the counter reaches a configurable threshold, e.g. $2$, which means
 that the robot has already unsuccessfully requested the plan three times, it stops repeating the plan request, resets the counter and forwards the problem to the fallback solution,
-i.e. it notifies the operator. In such a case, it should waste no further time and immediately notify the operator. The remaining problem case of an unavailable plan service can also
+i.e., it notifies the operator. In such a case, it should waste no further time and immediately notify the operator. The remaining problem case of an unavailable plan service can also
 be dealt with by the robot itself in some cases. For this purpose, the plan generation node provides a topic \code{/activate_plan_service} that enables external service activation.
-Thus, in case of an unavailable service failure, the resolver simply publishes on this topic and initiates a re-initialization of the plan generation service. Similar to the two
-cases above, such a re-initialization is not performed arbitrarily often, but there is a counter and a limit that cause the problem to be forwarded to the human operator in case of
-repeated failure. In summary, for all potential contingencies arising from problems in the deployment of the plan, the robot has a strategy to solve them itself. As always, when it
+Thus, in case of an unavailable service failure, the resolver simply publishes on this topic and initiates a reinitialization of the plan generation service. Similar to the two
+cases above, such a reinitialization is not performed arbitrarily often, but there is a counter and a limit that cause the problem to be forwarded to the human operator in case of
+repeated failure. In summary, for all potential contingencies arising from problems in the deployment of the plan, the robot has a simple strategy to solve them itself. As always, when it
 fails, it passes the problem on to the human operator.
 
 \subsection{Navigation Failure}
