@@ -2889,12 +2889,12 @@ repeated failure, the human operator is notified.
 \subsection{Data Management}
 \label{sec:data_management_resolver}
 
-Data management problems are a special case as there is one case where the robot is definitely not able to solve the problem itself, namely the case of a full memory. However, this is
-not a problem in principle. For instance, the robot could upload the scans instead of storing them on its drive, but for the prototypical scenario considered in this work, the robot
-will store the scans on its drive, so this is a problem that must be solved by the human operator. Nevertheless, it is not a direct catastrophe case like the power management problem
-where the robot cannot return to the base station due to its battery charge, but there is a useful step that can be taken before the catastrophe case is initiated. The robot can
-return to its base and seek shelter before waiting for the human operator to take care of the problem. The second type of data management problem, i.e. an improperly logged scan, is
-again addressed by a retry and count-based attempt before a catastrophe is triggered if necessary.
+Data management problems are a special case as there is one situation where the robot is definitely not able to solve the problem itself, namely the case of a full memory. Yet, this is
+not a problem in principle. For instance, the robot could upload the scans instead of storing them on its drive, though for the prototypical scenario considered in this work, this
+will be the case, so it is a problem that needs to be solved by the human operator. Nevertheless, it is not a direct catastrophe like the power management problem
+where the robot cannot return to the base station due to its battery charge, as there is a useful step that can be taken before the catastrophe case is initiated. The robot can
+return to its base and seek shelter before waiting for the human operator to take care of the problem. The second type of data management problem, i.e., an improperly logged scan, is
+again addressed by a \textquote{retry and count} based attempt before a catastrophe is triggered if necessary.
 
 \subsection{Plan Deployment Failure}
 \label{sec:plan_deployment_resolver}
