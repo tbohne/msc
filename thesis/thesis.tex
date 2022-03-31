@@ -2856,15 +2856,19 @@ the docking resolution and later compared with the most recent state on \code{/a
 
 The resolver, which is launched after normal operation is interrupted when somewhat extreme weather conditions are detected by the monitoring procedures described in section
 \ref{sec:sim_and_mon_drastic_weather}, operates as follows. All contingencies based on extreme weather events are resolved in the same manner: The robot returns to its base,
-i.e. the mobile container, and seeks shelter. Thus, a \code{move_base_flex} navigation goal with the coordinates of the base station is executed. If successful, the robot
-should charge its battery while waiting for moderate weather, i.e. it will be docked to the charging station in the base and start charging. When the battery is fully charged,
-the robot waits for clearance before continuing its mission. If something goes wrong during this resolution attempt, e.g. the \code{move_base_flex} navigation fails, the
-fallback solution of calling the operator for help is executed (cf. sec. \ref{sec:fallback_solution}). Clearance is transmitted via a topic \code{/moderate_weather} to which the
-resolver subscribes to and on which the weather monitoring node publishes. After a contingency, the weather monitor transitions to a kind of passive monitoring where it no longer
-initiates contingencies etc., but just passively observes the weather and estimates whether it has returned to moderate. If this is the case, it notifies the resolution procedure,
-which then reports back successful resolution, and the high-level state machine can resume plan execution in normal operation mode. Finally, the weather monitoring node switches
-back to active monitoring. In summary, the robot seeks shelter in extreme weather situations, uses the time to recharge its battery, and waits until conditions are moderate before
-continuing to execute the plan.
+i.e., the mobile container, and seeks shelter. As in the case of solving power management problems (cf. sec. \ref{sec:power_management_resolver}), intermediate goals are
+incorporated into the plan. This time, three additional goals are added to the plan - \code{return_to_base}, \code{charge} and another auxiliary action \code{wait_in_shelter}.
+To this end, the operation state machine provides the topic \code{/introduce_intermediate_shelter_goal}. Messages on this topic cause these three actions to be inserted at the
+front of the plan, i.e., as the next actions to be executed. Once again, this approach has the advantage that all monitoring procedures are active again and other contingencies,
+such as docking or charging errors, can be handled. As the name suggests, the action \code{wait_in_shelter} simply makes the robot wait in the container until the weather monitoring
+node reports moderate weather conditions again. If successful, the robot should charge its battery while waiting for moderate weather, i.e., it will be docked to the charging station
+in the base and start charging. When the battery is fully charged, the robot waits for clearance before continuing its mission. If something repeatedly goes wrong during this resolution attempt,
+e.g., the \code{move_base_flex} navigation fails, the fallback solution of calling the operator for help is executed (cf. sec. \ref{sec:fallback_solution}). Clearance is transmitted
+via a topic \code{/moderate_weather} to which the resolver subscribes to and on which the weather monitoring node publishes. After a contingency, the weather monitor transitions to a
+kind of passive monitoring where it no longer initiates contingencies etc., but just passively observes the weather and estimates whether it has returned to moderate. If this is the
+case, it notifies the resolution procedure, which then reports back successful resolution, and the high-level state machine can resume plan execution in normal operation mode.
+Finally, the weather monitoring node switches back to active monitoring. In summary, the robot seeks shelter in extreme weather situations, uses the time to recharge its battery,
+and waits until conditions are moderate before continuing to execute the plan.
 
 \subsection{Sensor (Perception) Failure}
 \label{sec:sensor_failure_resolver}
