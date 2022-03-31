@@ -3093,12 +3093,10 @@ in principle be able to recover itself, as opposed to situations in which human 
 solutions or workarounds have been proposed but do not succeed (cf. \ref{sec:solutions_for_lta_challenges}). Furthermore, they propose a metric for information sharing, i.e. the
 percentage of time the robot communicates meaningful information to the operator.\newline
 
-TODO: Hardware + real-time factor information\newline
+TODO: Hardware + real-time factor information
 
-\noindent
-\textit{Demonstration of the Basic Functionality of the Integrated System.}\newline
+\section{Functionality of the Integrated System}
 
-\noindent
 The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for an extended period of time, e.g., $5$ hours. This serves as
 a verification of the sample plan, i.e. it shows that the charging stops are sufficient if everything works as expected. Furthermore, it is a demonstration of the fundamental
 functionality of the entire integrated system in the absence of unexpected problematic events. For evaluation purposes, let a failed mission be defined as a mission that exceeds a
@@ -3120,12 +3118,10 @@ The slight discrepancy in the number of successfully completed tasks between run
 at the same speed. In general, the simulation has certain non-deterministic aspects in the sense that the combination of all the ROS nodes, their communication, possible effects in
 the simulation, and execution times mean that two runs of such an experiment in simulation will certainly not be exact reproductions of the same states. Although the three runs do not
 guarantee a fundamentally error-free use of the system, they demonstrate that the basic expected stable functionality is given.
-The detailed results can be found in the appendix (cf. fig. \ref{fig:detailed_functionality_res}).\newline
+The detailed results can be found in the appendix (cf. fig. \ref{fig:detailed_functionality_res}).
 
-\noindent
-\textit{Classification of the Selected LTA Problems.}\newline
+\section{Classification of the Selected LTA Problems}
 
-\noindent
 The classification of the selected LTA problems is based on their evaluation in the simulation together with a comparative contextualization of the practical case. The aim is to
 classify the identified problem categories in the simulation according to their severity, i.e., which LTA problem can lead to which worst-case outcome. By definition, all identified
 problems can lead to contingencies, as outlined in the corresponding sections (cf. section \ref{sec:sim_and_mon_of_lta_challenges}). Additionally, all of them can lead to
@@ -3188,10 +3184,8 @@ scenarios, clearly highlighting the importance of addressing all of these proble
 \label{fig:lta_classification}
 \end{figure}
 
-\noindent
-\textit{Evaluation of the Monitoring Framework.}\newline
+\section{Evaluation of the Monitoring Framework}
 
-\noindent
 In general, the experimental evaluation is based on the process that has already been followed throughout the work: Problem simulation, monitoring and subsequent solution. The
 simulations of error cases, as they can be taken from section \ref{sec:sim_and_mon_of_lta_challenges}, can always be activated by a message on the corresponding topic. Then, a
 monitoring node should detect the problem, interrupt \code{NORMAL_OPERATION}, and initiate an appropriate resolution. The resolver either solves the problem and then returns to
