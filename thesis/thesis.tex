@@ -2973,36 +2973,38 @@ state machine (cf. section \ref{sec:execution_monitoring_smach_architecture}) at
 \section{Autonomous Energy Supply}
 \label{sec:docking_solution}
 
-A fundamental step towards long-term autonomy of a mobile robot is to ensure its power supply. Arvin et al. \cite{Arvin:2009} identify autonomous navigation and precise docking at
-a charging station as major problems for mobile robots, since most mobile robots require human assistance to charge. They identify three critical aspects for mobile robots that can
-recharge themselves: Awareness of the need to charge, locating and navigating to the charging station, and precise docking. For this purpose, there is an inductive charging station
-located in a mobile container on the field site. For the \textit{PORTAL} project, the container providing the inductive charging station was modeled in URDF and can be used in the \textit{Gazebo} simulation (cf.
-fig. \ref{fig:container_model}).
+A fundamental step towards long-term autonomy of a mobile robot is to ensure its power supply. Arvin et al. \cite{Arvin:2009} emphasize autonomous navigation and precise docking at
+a charging station as major problems for mobile robots, since many mobile robots require human assistance to charge. They identify three critical aspects for mobile robots that can
+recharge themselves: Awareness of the need to charge, locating and navigating to the charging station, and precise docking. In order for the robot to recharge, there is an inductive
+charging station, which is located in a mobile container on the field site. For the \textit{PORTAL} project, the container providing the inductive charging station was modeled in URDF
+and can be used in the \textit{Gazebo} simulation (cf. fig. \ref{fig:container_model}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\textwidth]{pics/docked.png}
+    \includegraphics[width=0.35\textwidth]{pics/docked.png}
     \caption{\textsc{Robot Docked to Charging Station}}
     \label{fig:container_model}
 \end{figure}
-Thus, the power supply could be realized by integrating an autonomous docking / undocking solution that enables the robot to detect the container in a laser scan of its nearby
-surroundings, drive into it and dock to the inductive charging station. Such a docking solution has been created as part of the \textit{PORTAL} project and extended in this work by some
-error handling mechanisms to realize meaningful monitoring. The docking solution is integrated into the framework developed in this thesis to provide the robot with autonomous
-recharging capability. The part where the (un-)docking solution is integrated into the presented framework is
-the operation state machine, which is responsible for the action execution (cf. section \ref{sec:execution_monitoring_smach_architecture}). Essentially, two of the available actions are extended: \code{return_to_base} and \code{charge}. First,
-\code{return_to_base} must select the correct base pose specified by the user, i.e. the position to which it is supposed to move before charging its battery. In the case of the
+\noindent
+Thus, the power supply can be realized by integrating an autonomous docking / undocking solution that enables the robot to detect the container in a laser scan of its nearby
+surroundings, drive into it and dock to the inductive charging station. Such a docking solution has been created as part of the \textit{PORTAL} project and is extended in this work by some
+error handling mechanisms to enable meaningful monitoring. The docking solution is integrated into the framework developed in this thesis to provide the robot with autonomous
+recharging capability. The component integrating the (un)docking methods into the presented framework is the operation state machine, which is responsible for the action execution
+(cf. section \ref{sec:execution_monitoring_smach_architecture}). Essentially, two of the available actions are extended - \code{return_to_base} and \code{charge}. First,
+\code{return_to_base} must select the correct base pose specified by the user, i.e., the position to which the robot is supposed to move before charging its battery. In the case of the
 simplified charging patch scenario, it is expected to be exactly on the patch. In the more realistic container scenario, however, it is assumed to be somewhere in the proximity of the
 container and pointing approximately in its direction. In either case, the robot then drives to the specified location. Afterwards, the action is completed in the simplified charging
 patch scenario. Yet, in the container scenario, \code{return_to_base} includes docking. Thus, docking is initiated by creating a
-\code{SimpleActionClient(`dock_to_charging_station', DockAction)}. After sending the docking goal via this action client, the docking state machine visualized in fig.
+\code{SimpleActionClient("dock_to_charging_station", DockAction)}. After sending the docking goal via this action client, the docking state machine visualized in fig.
 \ref{fig:docking_smach} is executed.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{pics/docking_smach.png}
+    \includegraphics[width=0.8\textwidth]{pics/docking_smach.png}
     \caption{\textsc{Docking State Machine}}
     \label{fig:docking_smach}
 \end{figure}
-The first state is \code{CONTAINER_PROXIMITY}, which assumes that the robot has navigated close to the container, e.g. based on GNSS (cf. fig. \ref{fig:container_view}).
-Subsequently, if this is the case, \code{DETECT_CONTAINER} begins based on a laser scan recorded by the robot facing the container. In simple terms, it performs a Hough transform
+\noindent
+The first state is \code{CONTAINER_PROXIMITY}, which assumes that the robot has navigated close to the container, e.g., based on GNSS (cf. fig. \ref{fig:container_view}).
+Subsequently, if this is the case, \code{DETECT_CONTAINER} begins based on a laser scan recorded by the robot facing the container. In simple terms, it performs a \textit{Hough transform}
 to detect lines in the scan and uses a large number of tailored rules to find a reasonable combination of line segments that could represent the container. Essentially, the whole
 approach is centered around the idea that the container is a relatively simple geometric shape that can be detected in a laser scan - a combination of line segments
 (cf. fig. \ref{fig:rviz_view}).
@@ -3010,65 +3012,70 @@ approach is centered around the idea that the container is a relatively simple g
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth]{pics/container_view.png}
+        \includegraphics[width=0.55\textwidth]{pics/container_view.png}
         \caption{\textsc{Robot Facing the Container}}
         \label{fig:container_view}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth]{pics/rviz_view.png}
+        \includegraphics[width=0.55\textwidth]{pics/rviz_view.png}
         \caption{\textsc{Container Perception Based on Lidar}}
         \label{fig:rviz_view}
     \end{subfigure}
 \caption{\textsc{Container Perception - Geometric Shape}}
 \label{fig:container_geometric_shape}
 \end{figure}
+\noindent
 Initially, the input \code{LaserScan} in which the container is to be detected is transformed into the parameter space constructed by spanning the space of possible parameter
-combinations, often called Hough space. Typically, when using a Hough transform for line detection, the lines are represented in normal parametrization
+combinations, often called \textit{Hough space}. Typically, when using a Hough transform for line detection, the lines are represented in normal parametrization
 $\rho = x \cos{\theta} + y \sin{\theta}$, as suggested by Duda et al. \cite{Duda:1972}. Hence, the Hough space is a $2D$ space based on the two parameters $\rho$ and $\theta$. Points
-$(x, y)$ on a line in the original Euclidean space intersect in a point, i.e. a $(\rho, \theta)$ combination, in Hough space. The basic idea is to transform each point in the laser
+$(x, y)$ on a line in the original Euclidean space intersect in a point, i.e., a $(\rho, \theta)$ combination, in Hough space. The basic idea is to transform each point in the laser
 scan into Hough space and count for every parameter combination $(\rho, \theta)$ the number of occurrences. A maximum corresponds to a \textquote{best} match of a line in Euclidean
-space. It is therefore reasonable to look for $(\rho, \theta)$ combinations with many hits in Hough space as promising container side candidates. Of course, it is not sufficient to
+space. It is therefore reasonable to look for $(\rho, \theta)$ combinations with many hits in Hough space as promising container side candidates.\newline
+
+\noindent
+Of course, it is not sufficient to
 simply detect lines, because lines occur frequently in the robot's natural environment, not just as part of the container. Nevertheless, the result of this line detection serves as
 the basis for the following container detection. It is trivial to calculate the corresponding points that are actually part of the original scan based on the detected lines, so that
-the characteristics of the actual line segments that are part of the scan can also be taken into account. Starting with the most prominent line, i.e. the line with the most hits in
+the characteristics of the actual line segments that are part of the scan can also be taken into account. Starting with the most prominent line, i.e., the line with the most hits in
 Hough space, container detection begins. The initial step is to evaluate whether this baseline candidate could really be a side of the container based on its properties. The first
 line segment that matches in this sense, starting with the line with the most hits, followed by the next best lines, is selected. Then, for this line segment, the remaining line
 segments that in combination could form the basic shape of the container are considered, in turn ordered decreasingly by their hits in Hough space. The idea is to determine if the
 detected line segments meet several criteria that support their plausibility in terms of being a possible container side. For instance, each newly considered line segment must have
 an appropriate distance to the previously recognized segments. Appropriate means that the distances do not contradict the dimensions of the container. Moreover, they must be
 orthogonal or parallel to all previously detected line segments and their length should not exceed the longest side of the container. However, it is crucial not to be too restrictive,
-for example, it must be allowed to undercut the shortest side, due to the fact that the sides may be partially covered. In addition, because of the expected geometric shape of the
-container, i.e. a combination of three to four lines, there can be only two lines with approximately the same angle. This fact is used to determine if a newly considered line segment
+for example, it must be permissible to undercut the shortest side, due to the fact that the sides may be partially covered. In addition, because of the expected geometric shape of the
+container, i.e., a combination of three to four lines, there can be only two lines with approximately the same angle. This fact is used to determine if a newly considered line segment
 could still be part of the container candidate. Furthermore, the (infinite) lines must have feasible intersections that match the dimensions of the container. Based on the
 intersections of the final set of candidate lines (green lines in fig. \ref{fig:detection_success}) that could represent the container, it can be verified that there must be two segments that exactly satisfy the container width and
 two segments that exactly satisfy the container length. At this point, potentially occluded sides are irrelevant as the intersections are based on the angular orientation of the
 infinite lines, which is why the resulting dimensions should precisely match the actual known container dimensions. It is of course important to provide a certain tolerance for all
 these measurements to ensure practical functionality. There are numerous other details to the container recognition, but the broad ideas of the detection process should be clear.
-The result of a successful detection is depicted in fig. \ref{fig:detection_success} where the four blue boxes represent the corners of the detected container shape.
+The result of a successful detection is depicted in fig. \ref{fig:detection_success}, where the four blue boxes represent the corners of the detected container shape, the yellow
+box indicates the center, and the cyan arrow marks the target pose of the robot inside the container.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\textwidth]{pics/detection_success.png}
+    \includegraphics[width=0.35\textwidth]{pics/detection_success.png}
     \caption{\textsc{Successfully Detected Container Shape}}
     \label{fig:detection_success}
 \end{figure}
-As a result of a successful execution of \code{DETECT_CONTAINER}, either two or four corners are detected and passed to the next state. If only two corners, i.e. the entry, are
+\noindent
+As a result of a successful execution of \code{DETECT_CONTAINER}, either two or four corners are detected and passed to the next state. If only two corners, i.e., the entry, are
 detected, \code{ALIGN_ROBOT_TO_RAMP} follows. If, on the other hand, four corners are detected (cf. fig. \ref{fig:detection_success}), this state is skipped and \code{DRIVE_INTO_CONTAINER} follows, since the entire
 container has already been detected. In \code{ALIGN_ROBOT_TO_RAMP}, the robot is aligned in front of the container based on the detected entry. The target pose is passed as the
-output of \code{DETECT_CONTAINER} and the robot navigates there. Subsequently, \code{DRIVE_INTO_CONTAINER} follows. If the transition came from \code{DETECT_CONTAINER}, i.e. if
-\code{ALIGN_ROBOT_TO_RAMP} was skipped, all four corners were already detected in the previous state, which are now utilized. If, on the other hand, it follows the state
-\code{ALIGN_ROBOT_TO_RAMP}, there is no input and the robot should detect the entire container from this improved position. In both cases, based on the four detected corners,
+output of \code{DETECT_CONTAINER} and the robot navigates there. Subsequently, \code{DRIVE_INTO_CONTAINER} follows. If the transition comes from \code{DETECT_CONTAINER}, i.e., if
+\code{ALIGN_ROBOT_TO_RAMP} is skipped, all four corners are already detected in the previous state, which are now utilized. If, on the other hand, it follows the state
+\code{ALIGN_ROBOT_TO_RAMP}, there is no input and the robot should detect the entire container from the improved position. In both cases, based on the four detected corners,
 a pose is computed in the center, facing the entrance, and the robot is navigated there (cf. cyan arrow in fig. \ref{fig:detection_success}). Thereafter, \code{LOCALIZE_CHARGING_STATION} starts using the input corners detected in the
-previous state as input. As the mounting position of the charging station within the container is known, the target position for the alignment in front of it can be calculated
+previous state as input. As the mounting position of the charging station within the container is known, the target position for the alignment in front of it can be computed
 relative to the detected container shape. Afterwards, the robot is moved there in \code{ALIGN_ROBOT_TO_CHARGING_STATION} and the whole execution of the state machine ends in
-\code{DOCK}. Analogously, the undocking state machine ensures that the robot leaves the container after a successful charging procedure and can continue its mission.\newline
-This (un-)docking solution can be used for both planned charge stops as well as unexpected but necessary stops detected by monitoring processes such as the one described in section
-\ref{sec:battery_monitoring}. Concluding, it is easy to configure whether the simulation should use the docking solution in combination with the container model or only the simplified
+\code{DOCK}. Analogously, the undocking state machine ensures that the robot leaves the container after a successful charging procedure to continue its mission.\newline
+This (un-)docking solution can be used for both planned charge stops as well as unexpected but necessary stops indicated by monitoring processes such as the one described in section
+\ref{sec:battery_monitoring}. Concluding, it is a simple matter to configure whether the simulation should use the docking solution in combination with the container model or only the simplified
 charging patch. Similar to Hawes et al. \cite{Hawes:2017} and Pinillos et al. \cite{Pinillos:2016}, one could exploit the fact that the
 robot keeps returning to the charging station by resetting the position to the location inside the container aligned in front of the charging station to avoid cumulative localization
-errors. In contrast to the scenario considered there, however, the exact position of the container is not necessarily assumed to be known, but it must be detected within a certain
-range. Nevertheless, it will certainly be the same within a mission, so one can expect to use it as a landmark after the initial detection.\newline
+errors, thus using the container as a landmark.
 
 \chapter{Experiments and Evaluation}
 \label{sec:experiments}
