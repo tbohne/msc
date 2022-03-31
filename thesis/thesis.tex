@@ -2482,7 +2482,7 @@ based on \code{/move_base_flex/exe_path/status}. The \textquote{robot prison} ex
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{pics/robot_prison.png}
-    \caption{\textsc{\textquote{Robot Prison} - Static Obstacles that Completely Confine the Robot.}}
+    \caption{\textsc{\textquote{Robot Prison} - Static Obstacles that Completely Confine the Robot}}
     \label{fig:robot_prison}
 \end{figure}
 \noindent
@@ -2607,7 +2607,7 @@ from the sensor data, which is retrievable via ROS topics (\code{/imu_data}, \co
 If the position estimates have a high variance, i.e., are not very reliable, it is probably not very accurate at the moment. GNSS monitoring is already part
 of the connection monitoring described in section \ref{sec:sim_and_mon_gnss_connection_problems}. In contrast, IMU and odometry data are not as straightforward to
 verify. One idea is to let the robot take known states and check if the values are what would be expected, e.g., let the robot
-stand still and check whether the IMU values (angular velocity and linear acceleration) are approximately zero. Likewise, if no
+stand still and check whether the IMU measurements (angular velocity and linear acceleration) are approximately zero. Likewise, if no
 control values are sent to the motors, the odometry values (twist) should be approximately zero. Since GNSS information cannot be
 immediately compared to odometry data because the position is given in latitude and longitude, there is the \code{/odometry/gps}
 topic where the GNSS information is converted to the same format as the odometry data, i.e., \code{Odometry.msg}. Moreover,
@@ -2637,18 +2637,18 @@ There are user-configurable divergence thresholds that trigger information via \
 divergences may certainly be an indicator of localization problems. The usually more precise filtered odometry data is used for this purpose.
 An extreme example leading to such a discrepancy would be a very poor GNSS link providing a highly inaccurate
 position estimate that sort of teleports the robot away from its previous position, inducing the \textit{kidnapped robot problem}. Another monitoring approach that compares different
-localization components is $yaw$ angle monitoring, arguably the most relevant kind of orientation for
+localization components is yaw angle monitoring, arguably the most relevant kind of orientation for
 ground vehicles. As mentioned above, GNSS itself does not provide any orientation at all. However, if it is known that the GNSS data is very accurate at the moment, it is feasible
-to interpolate an orientation based on two successive GNSS positions $\hat{p}_g, \tilde{p}_g$, since it is evident that the direction in which the robot was moving was
-$\overrightarrow{\hat{p}_g\tilde{p}_g}$ when the trajectory led from $\hat{p}_g$ to $\tilde{p}_g$. $\hat{p}_g$ and $\tilde{p}_g$ are taken from \code{/odometry/gps}, i.e., in map
+to interpolate an orientation based on two successive GNSS positions $\hat{p}_g, \tilde{p}_g$, since it is evident that the direction in which the robot is moving is
+$\overrightarrow{\hat{p}_g\tilde{p}_g}$ when the trajectory leads from $\hat{p}_g$ to $\tilde{p}_g$. $\hat{p}_g$ and $\tilde{p}_g$ are taken from \code{/odometry/gps}, i.e., in map
 coordinates. This estimated orientation can be compared to the orientation components of the
-IMU and filtered odometry. Obviously, such an interpolation yields only the $z$ or $yaw$ component of the orientation. The idea is to always keep track of the latest $\tilde{p}_{g}$
+IMU and filtered odometry. Obviously, such an interpolation yields only the yaw component $\psi$ of the orientation. The idea is to always keep track of the latest $\tilde{p}_{g}$
 and second latest $\hat{p}_{g}$ GNSS position estimates. If the Euclidean distance between the two exceeds a certain minimum interpolation threshold $i_{min} \in \mathbb{R}_{0}^{+}$, i.e.,
-$\sqrt{\sum_{i=1}^{n}(\hat{p}_{g_{i}} - \tilde{p}_{g_i})^2} > i_{min}$, the $yaw$ component is interpolated. The orientation vector
-$o^{\top} = (\tilde{p}_{g}.x - \hat{p}_{g}.x \quad \tilde{p}_{g}.y - \hat{p}_{g}.y)$ is then used to calculate the angle $\arctan{(\frac{o.y}{o.x})}$. After conversion to the format
+$\sqrt{\sum_{i=1}^{n}(\hat{p}_{g_{i}} - \tilde{p}_{g_i})^2} > i_{min}$, $\psi$ is interpolated. The orientation vector
+$o^{\top} = (\tilde{p}_{g}.x - \hat{p}_{g}.x \quad \tilde{p}_{g}.y - \hat{p}_{g}.y)$ is then used to calculate the yaw angle, i.e., $\psi = \arctan{(\frac{o.y}{o.x})}$. After conversion to the format
 suitable for comparison with \code{tf.transformations.quaternion_from_euler}, the actual comparison can take place. Now it is again a matter of acceptable divergence, where the
-user can specify a maximum feasible $yaw$ divergence $y_{max} \in \mathbb{R}_{0}^{+}$. When the absolute difference between the $yaw$ component of the IMU or filtered odometry orientation and the interpolated GNSS
-$yaw$ component exceeds $y_{max}$, a contingency is initiated.
+user can specify a maximum feasible yaw divergence $d_{max} \in \mathbb{R}_{0}^{+}$. When the absolute difference between the yaw component of the IMU or filtered odometry orientation and the interpolated
+$\psi$ exceeds $d_{max}$, a contingency is initiated.
 These were the monitoring approaches comparing different components of localization. The first monitoring for individual components considers the IMU. IMU monitoring is based on two
 lists of IMU data. The first one stores active IMU data, meaning IMU data that has been recorded during \code{move_base_flex} activity, i.e., \code{GoalStatus.ACTIVE}.
 Thus, the status of \code{move_base_flex} is taken into account at any time during localization monitoring. However, a certain generality is realized.  If other navigation
@@ -2660,10 +2660,10 @@ stores IMU data for inactive situations. It is important to note that IMU data i
 for inactivity, e.g., \code{GoalStatus.REJECTED}, are already accounted for at other levels of execution monitoring. In addition, unprocessed linear and angular twists would still be
 part of the IMU data and would be added to the passive IMU history, distorting the results.
 For both, due to the high frequency of $100Hz$ at which the IMU data arrives, as well as natural \textquote{anomalies}, a fairly long
-history is tracked. The length of the history $n \in \mathbb{N}$ is user-configurable, the default is $n = 1500$. The first aspect monitored is the angular velocity for passive IMU data $a^p$ in
+history is tracked. The length of the history $n \in \mathbb{N}$ is user-configurable, the default is $n = 1500$. The first aspect monitored is the absolute angular velocity for passive IMU data $a^p$ in
 $rad/s$, measured by the IMU's gyroscope.
 Since this is data recorded in the passive state, i.e., when the robot is not moving, it is expected that $a^p.x \approx a^p.y \approx a^p.z \approx 0 \thinspace rad/s$.
-There is a user-defined upper bound $a^p_{max} \in \mathbb{R}_{0}^{+}$ for the angular velocity in the passive state. For all three directions, the average over the last $n$ absolute angular velocities in
+There is a user-defined upper bound $a^p_{max} \in \mathbb{R}_{0}^{+}$ for the absolute angular velocity in passive states. For all three dimensions, the average over the last $n$ absolute angular velocities in
 the passive state $a^{p}_{i}, i \in [1, n]$ is considered. If one of these values exceeds $a^p_{max}$, i.e., $\thinspace \exists \thinspace \frac{1}{n}\sum_{i=1}^{n} |a^p_i.d| > a^p_{max}, d \in \{x, y, z\}$, a contigency is initiated.
 The next aspect is the linear acceleration in $m/s^2$ measured by the accelerometer of the IMU.
 Both linear acceleration and angular velocity are examples of observations with contextual errors, where certain measurements (non-zero values) are legitimate in some
@@ -2675,7 +2675,7 @@ Obvioulsy, the $z$ direction is not considered, since it always contains $g \app
 as relevant as the others and is therefore disregarded. Then the average ratio between the two is calculated, i.e., for each value $l^p$ in the passive linear acceleration list and
 each value $l^a$ in the active linear acceleration list, the ratio $\frac{l^a}{l^p}$ is calculated. If the average of these ratios is below a user-defined minimum ratio $r_{min} \in \mathbb{R}^{+}$,
 i.e., $\frac{1}{m} \sum_{i=1}^{m} \frac{l_i^a}{l_i^p} < r_{min}$, a contingency is initiated, as the linear acceleration during motion should be significantly higher compared to standstill.
-Additionally, if one of the median values $l^p$ in the passive linear acceleration history exceeds an upper bound for linear acceleration $l_{max} \in \mathbb{R}^{+}$ at standstill, a contingency is initiated,
+Additionally, if one of the median values $l^p$ in the passive linear acceleration history exceeds an upper bound for linear acceleration at standstill $l^p_{max} \in \mathbb{R}^{+}$, a contingency is initiated,
 analogous to the case of too high angular velocities during inactivity. In the last step of IMU monitoring, the covariance matrices are checked. Each component, i.e., orientation, angular
 velocity and linear acceleration, can have a covariance matrix $C_{3 \times 3}$ for the three axes $x, y, z$. As with GNSS covariance monitoring, only the standard deviations, i.e.,
 $\sqrt{c_{ii}} \thinspace \forall \thinspace c_{ii} \in C, i \in \{x, y, z\}$, will be considered. An upper limit $d_{max} \in \mathbb{R}_{0}^{+}$ for the standard deviations can be configured. Since these matrices are
@@ -2686,7 +2686,7 @@ of them exceeds the threshold, i.e., $\exists \thinspace \sqrt{c_{ii}} > d_{max}
 odometry and filtered odometry with IMU data. The first point is again based on a known condition. When the robot is stationary, i.e., when \code{move_base_flex} has no active target,
 all components of linear and angular twist should be approximately zero. An upper limit can be set for both. If one of the components exceeds this threshold in one direction, a
 contingency is triggered due to an unexpectedly high twist in the passive state. Furthermore, there is pose and twist covariance monitoring. This time based on
-covariance matrices $C_{6 \times 6}$ for the following list of components $\{x, y, z, roll, pitch, yaw\}$. Again, only the variances on the diagonal are considered. The pose uncertainty as well as the uncertainty of the velocity
+covariance matrices $C_{6 \times 6}$ for the following list of components $\{x, y, z, \phi, \theta, \psi\}$. Again, only the variances on the diagonal are considered. The pose uncertainty as well as the uncertainty of the velocity
 in free space are checked for excessive standard deviations and initiate an interruption of the normal operation if necessary. In a nutshell, the general idea of localization
 monitoring is to check expected values for known states. All localization monitoring is performed at a frequency specified by the user. To avoid timing issues during transitions from
 active to passive states and vice versa, there is a short timeout that blocks monitoring immediately after a transition. A further aspect worth mentioning is that not all identified
@@ -2715,23 +2715,23 @@ hover in this position for a certain time so that the wheels can rotate without 
 all directions is set to $0 \thinspace m/s^2$. After a short period of time, normal gravity is restored, i.e., $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$.\newline
 The second simulation option
 is the reverse case - a change in position without wheel revolutions, which in practice could be related to the robot slipping away on a muddy path. This can be simulated by briefly
-changing the acceleration in $x$- or $y$-direction to a relatively high value (e.g. $8 m/s^2$) so that the robot drifts off.\newline
+changing the acceleration in $x$ or $y$ direction to a relatively high value (e.g. $8 m/s^2$) so that the robot drifts off.\newline
 The third option, a divergence between the estimated yaw angles of the interpolated GNSS positions, the filtered odometry and the IMU, can be simulated by rotating the robot by e.g.
 $50\degree$ around the yaw axis. This assumes knowledge of the robot's current pose (position and orientation). The position is taken from \code{NavSatFix} messages to the \code{/fix}
 topic, and the angular rotation, i.e., orientation, based on the IMU's gyroscope is extracted from the latest message to \code{/imu_data}.
-The pose is always kept available in terms of latitude ($lat$), longitude ($lng$) and the yaw angle $yaw$ in degrees. Since the IMU stores
-the orientation as a quaternion, the function \code{tf.transformations.euler_from_quaternion} is used to obtain the Euler angles $(roll, pitch, yaw)$. Eventually,
-$yaw = yaw \cdot \frac{180}{\pi}$ to convert the resulting radians to degrees. For the actual simulation, $yaw$ is increased by $50\degree$ if it does not exceed $180\degree$,
-since $yaw \in [-180, 180]$. Otherwise, $yaw = -180 + ((yaw + 50) \mod 180)$. This adjusted yaw angle is the goal orientation. A \code{Twist.msg}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Twist.html}}} is created,
+The pose is always kept available in terms of latitude ($lat$), longitude ($lng$) and the yaw angle $\psi$ in degrees. Since the IMU stores
+the orientation as a quaternion, the function \code{tf.transformations.euler_from_quaternion} is used to obtain the Euler angles $(\phi, \theta, \psi)$. Eventually,
+$\psi \coloneqq \psi \cdot \frac{180}{\pi}$ to convert the resulting radians to degrees. For the actual simulation, $\psi$ is increased by $50\degree$ if it does not exceed $180\degree$,
+since $\psi \in [-180, 180]$. Otherwise, $\psi \coloneqq -180 + ((\psi + 50) \mod 180)$. This adjusted yaw angle is the goal orientation. A \code{Twist.msg}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Twist.html}}} is created,
 which then accounts for the actual rotation by being published to \code{/cmd_vel}. Since the rotation is supposed to distort the active \code{move_base_flex} navigation, it must
-be published at a very high frequency until the actual rotation of the robot is approximately equal to the defined target angle $yaw$. The tolerance is configurable by the user.
+be published at a very high frequency until the actual rotation of the robot is approximately equal to the defined target angle $\psi$. The tolerance is configurable by the user.
 To further amplify the impact on the active navigation, the twist publishing is accompanied by some gravitational changes, a positive low gravity in $z$ direction (e.g. $0.2 m/s^2$) and
 a slightly stronger acceleration in the $x$ and $y$ directions (e.g. $2.5 m/s^2$). This gravitational change does not start immediately, but only after a configurable number of twist
 messages have been published on \code{/cmd_vel}, resulting in a reinforced rotational distortion. The value of the angular twist in $z$ direction is $\pi$ or $-\pi$, depending on
-the initial orientation. After the target $yaw$ is reached with sufficient accuracy, normal gravity is restored. A real-world problem reproduced by this simulation is when the robot
+the initial orientation. After the target $\psi$ is reached with sufficient accuracy, normal gravity is restored. A real-world problem reproduced by this simulation is when the robot
 unexpectedly slips away and turns during navigation.\newline
 Furthermore, the situation of too high acceleration values detected by the IMU's accelerometer can be simulated in situations
-where the robot is supposed to stand still. For this it suffices to apply a rather low acceleration in $x$- or $y$-direction for a brief period of time. Additionally, an unexpected
+where the robot is supposed to stand still. For this it suffices to apply a rather low acceleration in $x$ or $y$ direction for a brief period of time. Additionally, an unexpected
 motion for the odometry can be simulated by publishing a linear twist (change to be performed) on \code{/cmd_vel} to let the robot move slightly without active navigation goals.
 Practically, both cases may refer to situations where the
 robot does not have an active navigation goal, but is moved for some reason, e.g., slipping away.\newline
