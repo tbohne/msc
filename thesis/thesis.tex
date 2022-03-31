@@ -1167,6 +1167,7 @@ Generally, the potential barriers for long-term autonomy can be classified into 
 \caption{\textsc{Classification of Problems in Terms of Impact}}
 \label{fig:problem_types}
 \end{figure}
+\noindent
 Type $(1)$ is the ideal case and accordingly the ultimate goal of all efforts to implement long-term autonomy in practice. Type $(2)$ is already a step forward, because problems
 are at least recognized and can be communicated, which is the minimum requirement to guarantee a certain robustness with respect to the problems.
 In the baseline scenario, i.e., the running prototype of an integrated solution, each potential issue in the above list is classified as type $(3)$.
@@ -2803,7 +2804,7 @@ In the following, the resolution methods for the selected LTA problems are prese
 
 Requesting assistance from a human operator was identified early on as a crucial aspect of long-term autonomous mobile robots: \textquote{\textit{[...] critical aspect of autonomy in our
 unsupervised application is the ability to detect failure and signal humans for help}}. \cite{Nourbakhsh:2003}
-Communication with a human operator, i.e., notifying a human operator that a problem has occurred that requires human intervention or providing useful information about the state
+Communication with a human operator, i.e., notifying a human operator that a problem has occurred that requires human intervention, or providing useful information about the state
 of the robot or mission, is implemented as a class \code{OperatorCommunication}. The human-robot communication module is subscribed to two different topics. First, a message
 on \code{/request_help} indicates that the robot is requesting the help of a human operator, i.e., is unable to solve a problem by itself. The second topic is \code{/robot_info},
 which is used for minor problems or tasks that do not require immediate action, but are good to know and tackle soon, e.g., a memory usage of $90\%$. According to the definitions in
