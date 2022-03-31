@@ -2873,9 +2873,10 @@ and waits until conditions are moderate before continuing to execute the plan.
 \subsection{Sensor (Perception) Failure}
 \label{sec:sensor_failure_resolver}
 
-The solution approaches for sensor (perception) failures are rather trivial. There is once again a counter for resolution attempts. If it is the first sensor failure, the scan is
-simply repeated. However, if it fails repeatedly, a catastrophe condition is initiated, i.e. the operator is notified and the system is shut down. The counter is reset at appropriate
-times, e.g. when the scan was successful.
+The solution approaches for sensor failures are rather trivial. Of course, it is a failure class in which the robot can do little except attempt to repeat the action, and therefore
+rarely has any choice but to call the human operator for assistance. There is once again a counter for resolution attempts. If it is the first sensor failure, the scan is
+simply repeated. However, if it fails repeatedly, a catastrophe condition is initiated, i.e., the operator is notified and the system is shut down. The counter is reset at appropriate
+times, e.g., when a scan is successful.
 
 \subsection{Lost Connection}
 \label{sec:connection_resolver}
