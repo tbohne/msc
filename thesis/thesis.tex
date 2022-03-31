@@ -2905,7 +2905,7 @@ in some cases simply by requesting the plan again. For this purpose, the resolve
 first attempt to retrieve a plan failed, the resolution is to retry and increment the counter. However, if the counter reaches a configurable threshold, e.g. $2$, which means
 that the robot has already unsuccessfully requested the plan three times, it stops repeating the plan request, resets the counter and forwards the problem to the fallback solution,
 i.e., it notifies the operator. In such a case, it should waste no further time and immediately notify the operator. The remaining problem case of an unavailable plan service can also
-be dealt with by the robot itself in some cases. For this purpose, the plan generation node provides a topic \code{/activate_plan_service} that enables external service activation.
+be dealt with by the robot itself in some cases. To this end, the plan generation node provides a topic \code{/activate_plan_service} that enables external service activation.
 Thus, in case of an unavailable service failure, the resolver simply publishes on this topic and initiates a reinitialization of the plan generation service. Similar to the two
 cases above, such a reinitialization is not performed arbitrarily often, but there is a counter and a limit that cause the problem to be forwarded to the human operator in case of
 repeated failure. In summary, for all potential contingencies arising from problems in the deployment of the plan, the robot has a simple strategy to solve them itself. As always, when it
@@ -2915,13 +2915,11 @@ fails, it passes the problem on to the human operator.
 \label{sec:nav_fail_resolver}
 
 Irrespective of whether the navigation failure is due to a sustained recovery or an explicit \code{move_base_flex} error, the resolution is the same. Initially, both the global
-and local costmaps are cleared to remove previous obstacles that are no longer present.
-The order is crucial - first, the global costmap is cleared using the \code{move_base_flex/clear_costmaps} service. Subsequently, the local costmap
-is cleared, which is implemented as a \code{move_base_flex} recovery, i.e. a \code{SimpleActionClient(move_base_flex/recovery, RecoveryAction)} is created and a \code{`clear_costmap'} goal is sent.
-In case the global costmap is not cleared first, the obstacles in the global map are immediately copied back to the local map. Eventually, a simple but often effective workaround is
+(persisted local obstacles, cf. sec. \ref{sec:sim_and_mon_navigation_failures}) and local costmaps are cleared using the \code{move_base_flex/clear_costmaps} service to remove potential
+previous obstacles that are no longer present. Subsequently, a simple but often effective workaround is
 executed: Driving the robot to one of several specified recovery points. Since these points are mission-specific and set by the user with the intention of being easily accessible from
 almost any location possible in the scenario, it often frees the robot from deadlocked situations and allows the mission to continue from there. The underlying idea is essentially to
-consider the problem from a different perspective, i.e. to try to plan a path from the new position. Obvioulsy, it is not possible to solve inescapable
+consider the problem from a different perspective, i.e., to try to plan a path from the new position. Obvioulsy, it is not possible to solve inescapable
 situations such as the \textquote{robot prison} from section \ref{sec:sim_and_mon_navigation_failures} in this way. Therefore, it is a necessity to continue monitoring the execution
 of this navigation target as well. Both explicitly, i.e., the return of \code{move_base_flex}, and implicitly, i.e., sustained recoveries. The explicit case is trivial, it is a
 simple check for \code{GoalStatus.ABORTED} cases directly in the resolution method. The implicit case, though, must again be determined by the monitoring procedure, which counts
@@ -2930,11 +2928,11 @@ failed recovery procedures (cf. section \ref{sec:sim_and_mon_navigation_failures
 contingencies are triggered as in default active monitoring, instead a special topic \code{/resolution_failure} is used to notify the recovery procedure, which then cancels all
 active resolution goals. For both types of errors during navigation failure recovery, human operator notification is initiated as a fallback solution. An additional aspect of
 navigation error recovery that is essential for cases of simulated navigation failures is the removal of simulated obstacles. When the human operator intervenes in the event that
-the robot is unable to cope with obstacles, it is expected that the operator will remove the obstacles before re-initiating the autonomous operation of the robot. Thus, an obstacle
+the robot is unable to cope with obstacles, it is expected that the operator will remove the obstacles before reinitiating the autonomous operation of the robot. Thus, an obstacle
 removal function is implemented as part of the navigation failure monitoring node described in section \ref{sec:sim_and_mon_navigation_failures}. The most obvious example is the
 \textquote{robot prison}, which must be removed as part of the resolution, otherwise the robot will not be able to continue its mission in the simulation. The \code{ObstacleSpawner}
-keeps track of all spawned obstacle models. If a resolution was successful, obstacle removal is initiated via a topic \code{/clear_spawned_obstacles}, which causes the
-\code{ObstacleSpawner} to despawn all models via the \code{gazebo/delete_model} service. Finally, after successful resolution, the active monitoring mode is reactivated via a topic.
+keeps track of all spawned obstacle models. If a resolution is successful, obstacle removal is initiated via a topic \code{/clear_spawned_obstacles}, which causes the
+\code{ObstacleSpawner} to despawn all models via the \code{gazebo/delete_model} service. Finally, after successful resolution, the active monitoring mode is reactivated.
 
 \subsection{Incorrect or Inaccurate Localization}
 \label{sec:localization_resolver}
