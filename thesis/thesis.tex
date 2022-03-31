@@ -2834,19 +2834,20 @@ There are plenty of cases where the robot can remedy charging faults on its own.
 in the same simple and often effective way: Simply repeating the \code{return_to_base} action. Obviously, this solves the problem of an unsuitable destination. However, it
 furthermore often solves problems with detection, as a slight change in position often realigns the perspective on the container, which can be helpful. This autonomous resolution is
 performed only once. There is a counter, and if one docking failure is followed by another, it is not worth trying repeatedly, but to notify the human operator immediately. This
-covers all cases where the robot is not able to solve the problem, e.g. if the ramp is raised and the robot cannot drive in. Since the natural solution that a human would perform in
+covers all cases where the robot is not able to solve the problem, e.g., if the ramp is raised and the robot cannot drive in. Since the natural solution that a human would perform in
 such a case would be to lower the ramp and thus open the container, this is what is done in this case, in a sense as a predefined reaction of a human operator. For this purpose, a
 value of $j = \frac{\pi}{2}$ is sent to \code{/container/ramp_position_controller/command} (cf. section \ref{sec:sim_and_mon_charging_failures}). In principle, it would also be
 reasonable to equip the robot with a resolution function for lowering the ramp, but the real version of the container in the considered scenario does not yet provide automated ramp
-lowering. Additionally, the local and global costmaps are cleared so that the robot can immediately perceive the open container. The clearing of costmaps is already described in
-detail in section \ref{sec:nav_fail_resolver}. The resolution of undocking failures is based on the premise that they are often due to slightly inappropriate positioning of the robot.
+lowering. In addition, the local costmap as well as the local obstacle information copied to the global costmap (cf. section \ref{sec:sim_and_mon_navigation_failures}) is deleted,
+so that the robot can immediately perceive the open container.\newline
+The resolution of undocking failures is based on the premise that they are often due to slightly inappropriate positioning of the robot.
 Hence, the resolver moves it back and forth a bit by publishing linear twists to \code{/cmd_vel}, which practically solves the problem in some cases. As in the case of docking
 failure, this is attempted only once. If the robot still fails to undock, the human operator is notified, including a potential lowering of the ramp and clearing of the costmaps
-if necessary. Eventually, to the third type of charging failure, i.e. the explicit non-functioning of the battery charging, despite successful docking. As this is often due to
+if necessary. Eventually, to the third type of charging failure, i.e., the explicit non-functioning of the battery charging, despite successful docking. As this is often due to
 imprecise alignment in front of the inductive charging plate, it may help to repeat the alignment process. Again, this resolution is performed only once. If it still fails, it
 may be a more complex problem beyond the robot's ability to solve, which is why the operator is notified. All resolution counters that ensure that the respective method is only
 attempted once are reset at appropriate events. The counters for docking and charging failure resolution are reset when the battery charge level increases after the docking
-error, as this is a clear indicator that the docking was finally successful and the battery is being charged. For this purpose the current state of charge is stored at the start of
+error, as this is a clear indicator that the docking was finally successful and the battery is being charged. For this purpose, the current state of charge is stored at the start of
 the docking resolution and later compared with the most recent state on \code{/arox/battery_param}. The undocking resolution count is reset when \code{move_base_flex} reports
 \code{GoalStatus.SUCCEEDED}.
 
