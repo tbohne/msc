@@ -3142,11 +3142,14 @@ problems can lead to contingencies, as outlined in the corresponding sections (c
 catastrophes, at least as a fallback option in case of resolution failures. However, this implies monitoring to detect the problems. As a brief recap, contingencies are situations in
 which the robot's ability to act is essentially preserved, so that it can attempt to solve the problem itself. Catastrophes, on the other hand, definitely require human intervention.
 Hence, when the proposed monitoring framework is active, each problem category can potentially lead to the worst case outcome of \code{CATASTROPHE}. More interesting in terms of
-classification is the present state of the AROX system, i.e. no monitoring for the identified issues. In this case, \code{CATASTROPHE} refers to one of the two aforementioned
+classification is the present state of the AROX system, i.e., no monitoring for the identified issues. In this case, \code{CATASTROPHE} refers to one of the two aforementioned
 conditions - battery failure or timeout - and is thus equivalent to mission abort. The first category is LTA problems that, when they occur, prevent the successful continuation of the
-mission in the simulation. Despite the fact that it is evident for some of the identified problems for LTA operations (e.g. power management failures) that they are capable of
+mission in the simulation. Despite the fact that it is evident for some of the identified problems for LTA operations, e.g., power management failures, that they are capable of
 interrupting the mission, it is systematically investigated how the system in simulation responds to these failure cases without the developed monitoring procedures. This is critical to verify the
-correct and expected behavior of the simulated fault cases. Power management failures are the first case to be considered. When simulating a power management failure, e.g. by
+correct and expected behavior of the simulated fault cases.\newline
+
+\noindent
+Power management failures are the first case to be considered. When simulating a power management failure, e.g., by
 publishing on \code{/sim_power_management_catastrophe}, the battery discharge rate is increased without the robot noticing, so it simply runs out of battery and normal operation
 ends with a \code{severe_failure}, leading to a transition to \code{CATASTROPHE} and then a system shutdown. Thus, the simulation of power management failure works as expected. That
 the general error class of charging failures can lead to a failed mission can be demonstrated by simulating a docking error that results in not being able to recharge and also
@@ -3154,9 +3157,9 @@ ends in \code{CATASTROPHE}. Hence, without active monitoring, \code{/sim_docking
 discharged battery and thus a failure of the mission. Evidently, both cases lead to a failed deployment in practice with the real robot as well, which would go unnoticed without
 monitoring. The first example that cannot interfere with the operation in the simulation is drastic weather changes. Since these phenomena are not explicitly simulated in
 \textit{Gazebo}, but are only indicated by corresponding messages on the weather monitoring channels, without active monitoring for these messages, the robot simply does not recognize
-this. The same is true in practice: the robot would continue its mission without detecting a change in circumstances. Therefore, the mission would continue as long as possible, that
+this. The same is true in practice: The robot would continue its mission without detecting a change in circumstances. Therefore, the mission would continue as long as possible, that
 is, as long as the robot is not damaged. This is of course highly risky and can result in the robot being damaged or the sensor data being worthless. Consequently, it is apparent that
-the monitoring of these phenomena is necessary. However, drastic weather changes per se will never lead to a \code{CATASTROPHE}. Naturally, if the robot gets damaged, catastrophic
+the monitoring of these phenomena is necessary. However, drastic weather changes per se will never lead to a catastrophe. Naturally, if the robot gets damaged, catastrophic
 situations could occur, indirectly caused by drastic weather changes. Analogously, without the active monitoring, errors in sensor perception and data management would simply be
 disregarded and go unnoticed. The robot's operation is not affected, but the results are of course worthless or not even saved, both in practice and in simulation. The
 connection-related failures can be considered separately. WiFi outages do not affect the mission in the simulation, and in practice it depends on the exact use of the connection in
@@ -3164,17 +3167,20 @@ the considered scenario. If the RTK correction signal is sent via WiFi, localiza
 and the entire mission may become a futility. The same applies to an internet connection, where several parts of the system can be affected. Finally, GNSS-related failures can
 directly lead to navigation failure even in simulation. For instance, \code{/toggle_simulated_teleport}, which manipulates the latitude or longitude estimates, can drastically
 falsify the robot's localization and cause arbitrarily severe failures. The robot could travel in dangerous or unsuitable places, or it could simply find itself in a situation that it
-cannot leave and, in the best case, completely discharges its battery, leading to a \code{CATASTROPHE} or to the fact that it can no longer perform any tasks, so that the mission fails
-due to the timeout criterion introduced above. Moreover, plan distribution errors or navigation failures such as obstacles surrounding the robot, e.g. the \textquote{robot prison}
+cannot leave and, in the best case, completely discharges its battery, leading to \code{CATASTROPHE} or to the fact that it can no longer perform any tasks, so that the mission fails
+due to the timeout criterion introduced above. Moreover, plan distribution errors or navigation failures such as obstacles surrounding the robot, e.g., the \textquote{robot prison}
 case in section \ref{sec:sim_and_mon_navigation_failures}, are simply not detected, but the mission can fail due to the timeout criterion or a completely discharged battery
 (\code{CATASTROPHE}), whichever comes first. Failure is guaranteed for plan distribution errors and possible for navigation errors. This again holds for simulation as well as for
 practice. That localization errors can have dramatic consequences up to \code{CATASTROPHE}
-cases has already been shown by the example of GNSS connection issues. The findings of the classification are summarized in fig. \ref{fig:lta_classification}. Crucially, any problem
+cases has already been shown by the example of GNSS connection issues.\newline
+
+\noindent
+The findings of the classification are summarized in fig. \ref{fig:lta_classification}. Crucially, any problem
 category that has a \textquote{\cmark} or \textquote{(\cmark)} in the catastrophe column has the potential to abort the mission without monitoring solutions. Assuming persistent
 failures, \textquote{\cmark} means that mission abort is a certainty, while \textquote{(\cmark)} stands for the possibility. Another perspective is that \textquote{\cmark} refers to
 catastrophes caused directly by the problem, the problem itself causes the failure, not some effect on another aspect of the system, whereas \textquote{(\cmark)} stands for indirect
-causation. Furthermore, the remaining problems of drastic weather changes, sensor failures, and data management issues do not interrupt the mission, but they do invalidate the results
-and thus have the potential to render the mission worthless both in practice and in simulation. There is only one exception: drastic weather changes in the simulation. As already
+causation. Furthermore, the remaining problems of drastic weather changes, sensor failures and data management issues do not interrupt the mission, but they do invalidate the results
+and thus have the potential to render the mission worthless both in practice and in simulation. There is only one exception: Drastic weather changes in the simulation. As already
 anticipated, the actual occurrence of such events is not simulated, only the information of their presence. However, since the practical relevance is obvious, there is no need for
 further simulation of e.g. impaired scans due to bad weather conditions. In summary, all of the identified issues have the potential to render LTA deployments worthless in real-world
 scenarios, clearly highlighting the importance of addressing all of these problems if one aims to operate robots long-term autonomously in an outdoor context.
