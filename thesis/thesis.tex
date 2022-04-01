@@ -3355,13 +3355,11 @@ must communicate information about the mode of the system via \code{/arox/ongoin
 \code{string operation_mode}, \code{int32 total_tasks}, \code{int32 ongoing_task} and \code{int32 rewards_gained}. Once again, the naming scheme is somewhat
 misleading in terms of universality, but is retained for the moment for the sake of compatibility with the integrated battery watchdog module. The available modes are \code{scanning},
 \code{traversing}, \code{waiting}, \code{docking}, \code{undocking}, \code{charging}, \code{contingency} and \code{catastrophe}. Most of them should be useful in any
-context where the monitoring framework is to be used. However, not all of them need to be adopted. Another crucial aspect is that all active goals should be interruptible via a
-message on \code{/interrupt_active_goals}, e.g., by implementing the actions as \code{SimpleActionServer}.\newline
-
-\noindent
-Eventually, the outcomes must be compatible with the architecture shown in fig. \ref{fig:high_level_smach}, i.e.
-\code{minor_complication}, \code{critical_complication}, \code{end_of_episode}, and \code{preempted}. A further important note with regard to the general applicability of the
-framework is that each monitoring node can easily be removed, i.e. deactivated. Presently, this can be achieved by simply removing the option from the framework's launch file.
+context where the monitoring framework is to be used. Yet, not all of them need to be adopted. Another crucial aspect is that all active goals should be interruptible via a
+message on \code{/interrupt_active_goals}, e.g., by implementing the actions as \code{SimpleActionServer}.
+Eventually, the outcomes must be compatible with the architecture shown in fig. \ref{fig:high_level_smach}, i.e.,
+\code{minor_complication}, \code{critical_complication}, \code{end_of_episode} and \code{preempted}. A further important note with regard to the general applicability of the
+framework is that each monitoring node can easily be removed, i.e., deactivated. Presently, this can be achieved by simply removing the option from the framework's launch file.
 For instance, if a mobile outdoor robot is used without a lidar scanner, the sensor monitoring node can simply be removed. Analogously, custom monitoring nodes can be added to the
 framework by simply adding the nodes to the launch file and supporting the described architecture by publishing to \code{contingency_preemption}, etc. Thus, the idea is that
 context-dependent special solutions can be easily added, removed and replaced by other specific solutions.
