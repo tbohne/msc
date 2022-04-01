@@ -2807,7 +2807,8 @@ unsupervised application is the ability to detect failure and signal humans for 
 Communication with a human operator, i.e., notifying a human operator that a problem has occurred that requires human intervention, or providing useful information about the state
 of the robot or mission, is implemented as a class \code{OperatorCommunication}. The human-robot communication module is subscribed to two different topics. First, a message
 on \code{/request_help} indicates that the robot is requesting the help of a human operator, i.e., is unable to solve a problem by itself. The second topic is \code{/robot_info},
-which is used for minor problems or tasks that do not require immediate action, but are good to know and tackle soon, e.g., a memory usage of $90\%$. According to the definitions in
+which is used for minor problems or tasks that do not require immediate action, but are good to know and tackle soon, e.g., a memory usage of $90\%$. Yet it is also used for simple
+status updates on the robot or its environment, such as weather conditions. According to the definitions in
 section \ref{sec:execution_monitoring_smach_architecture}, a request for assistance to the human operator is always triggered by a catastrophe situation. This means that the human
 operator is notified and the robot proceeds with a graceful shutdown. Therefore, the robot aborts its current mission and cannot restart or continue until the problem is solved by the human
 operator and the robot is restarted. All the monitoring modules described in section \ref{sec:sim_and_mon_of_lta_challenges} are publishing to the \code{/robot_info} topic and thus
@@ -3057,7 +3058,7 @@ The result of a successful detection is depicted in fig. \ref{fig:detection_succ
 box indicates the center, and the cyan arrow marks the target pose of the robot inside the container.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.35\textwidth]{pics/detection_success.png}
+    \includegraphics[width=0.34\textwidth]{pics/detection_success.png}
     \caption{\textsc{Successfully Detected Container Shape}}
     \label{fig:detection_success}
 \end{figure}
@@ -3071,7 +3072,8 @@ output of \code{DETECT_CONTAINER} and the robot navigates there. Subsequently, \
 a pose is computed in the center, facing the entrance, and the robot is navigated there (cf. cyan arrow in fig. \ref{fig:detection_success}). Thereafter, \code{LOCALIZE_CHARGING_STATION} starts using the input corners detected in the
 previous state as input. As the mounting position of the charging station within the container is known, the target position for the alignment in front of it can be computed
 relative to the detected container shape. Afterwards, the robot is moved there in \code{ALIGN_ROBOT_TO_CHARGING_STATION} and the whole execution of the state machine ends in
-\code{DOCK}. Analogously, the undocking state machine ensures that the robot leaves the container after a successful charging procedure to continue its mission.\newline
+\code{DOCK}. Analogously, the undocking state machine ensures that the robot leaves the container after a successful charging procedure to continue its mission.
+Finally, it is advisable to clear the costmaps, as parts of the floor are often misconceived as obstacles during ramp traversal.\newline
 This (un-)docking solution can be used for both planned charge stops as well as unexpected but necessary stops indicated by monitoring processes such as the one described in section
 \ref{sec:battery_monitoring}. Concluding, it is a simple matter to configure whether the simulation should use the docking solution in combination with the container model or only the simplified
 charging patch. Similar to Hawes et al. \cite{Hawes:2017} and Pinillos et al. \cite{Pinillos:2016}, one could exploit the fact that the
