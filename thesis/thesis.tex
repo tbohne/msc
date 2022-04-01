@@ -2329,7 +2329,7 @@ There are several potential failures regarding the deployment of generated plans
 principle to perform a mission, but no plan arrives and it remains in the \code{IDLE} state. Since this is not an error per se and this case may be perfectly valid, once a certain
 threshold is exceeded, it merely triggers a notification via \code{/robot_info} to the human operator and keeps notifying at a specified frequency. The information whether a plan
 has been received, i.e., a mission is being executed, is retrieved via a configurable topic, in the scenario described in section \ref{sec:prototype_scenario} via
-\code{arox/ongoing_operation}. Additionally, the \code{PlanDeploymentMonitor} subscribes to a topic \code{/plan_retrieval_failure} on which the embedded low-level operation state
+\code{/arox/ongoing_operation}. Additionally, the \code{PlanDeploymentMonitor} subscribes to a topic \code{/plan_retrieval_failure} on which the embedded low-level operation state
 machine publishes as its normal error treatment behavior in case of plan retrieval failures, e.g., exceptions. There are defined error codes published on this topic ($0$: plan
 retrieval service unavailable, $1$: empty plan, $2$: infeasible plan). Based on this error code, the \code{PlanDeploymentMonitor} initiates a contingency with an appropriate message
 explaining the reason, using the \code{/contingency_preemption} topic. Monitoring of plan deployment failures is
@@ -2919,7 +2919,8 @@ Irrespective of whether the navigation failure is due to a sustained recovery or
 previous obstacles that are no longer present. Subsequently, a simple but often effective workaround is
 executed: Driving the robot to one of several specified recovery points. Since these points are mission-specific and set by the user with the intention of being easily accessible from
 almost any location possible in the scenario, it often frees the robot from deadlocked situations and allows the mission to continue from there. The underlying idea is essentially to
-consider the problem from a different perspective, i.e., to try to plan a path from the new position. Obvioulsy, it is not possible to solve inescapable
+consider the problem from a different perspective, i.e., to try to plan a path from the new position. To this end, the operation state machine provides a topic
+\code{/introduce_intermediate_nav_goal}. Obvioulsy, it is not possible to solve inescapable
 situations such as the \textquote{robot prison} from section \ref{sec:sim_and_mon_navigation_failures} in this way. Therefore, it is a necessity to continue monitoring the execution
 of this navigation target as well. Both explicitly, i.e., the return of \code{move_base_flex}, and implicitly, i.e., sustained recoveries. The explicit case is trivial, it is a
 simple check for \code{GoalStatus.ABORTED} cases directly in the resolution method. The implicit case, though, must again be determined by the monitoring procedure, which counts
@@ -2965,7 +2966,7 @@ module is running at execution time, it does not schedule the charge stops in ad
 to its base and recharge. This battery watchdog is the basis for the power management failure monitoring presented in section \ref{sec:sim_and_mon_power_management}. In order for the
 module to provide reasonable estimates, it is critical that the robot constantly reports its current mode of operation. The battery watchdog distinguishes between \code{scanning},
 \code{traversing}, \code{waiting}, \code{docking}, \code{undocking}, \code{charging}, \code{dead}, \code{contingency} and \code{catastrophe}. All these modes are set in the operation
-state machine (cf. section \ref{sec:execution_monitoring_smach_architecture}) at appropriate transitions by publishing to \code{arox/ongoing_operation}.
+state machine (cf. section \ref{sec:execution_monitoring_smach_architecture}) at appropriate transitions by publishing to \code{/arox/ongoing_operation}.
 
 \vfill
 \pagebreak
@@ -3112,7 +3113,7 @@ i7-6700K} system equipped with \textsf{48 GB RAM} running \textsf{Ubuntu 20.04}.
 The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for an extended period of time, e.g., $5$ hours. This serves as
 a verification of the sample plan, i.e., it shows that the charging stops are sufficient if everything works as expected. Furthermore, it is a demonstration of the fundamental
 functionality of the entire integrated system in the absence of unexpected problematic events. For evaluation purposes, let a failed mission be defined as a mission that exceeds a
-user-configurable timeout $t = 900s$ without publishing a message to \code{arox/ongoing_operation}, although the previous message contained a value of \code{total_tasks} that is
+user-configurable timeout $t = 900s$ without publishing a message to \code{/arox/ongoing_operation}, although the previous message contained a value of \code{total_tasks} that is
 greater than one, indicating that the current plan is not completed and thus that the robot has been stuck in that task for a time greater than $t$. Obviously, a \code{severe_failure}
 in the low-level state machine leading to a transition to \code{CATASTROPHE} followed by a system shutdown is also considered a failed mission (cf. sec. \ref{sec:execution_monitoring_smach_architecture}). This would be the result of a completely
 discharged battery. To endow this test of basic functionality with some significance, it was performed three times. Most importantly, all runs were completed without failure. Thus,
@@ -3341,7 +3342,8 @@ the human operator, which is a huge improvement over the situation without the d
 
 \noindent
 As outlined in the introduction of monitoring techniques in section \ref{sec:sim_and_mon_of_lta_challenges}, the monitoring is in principle applicable to other ROS systems if the
-introduced slight constraints in terms of information provision based on the defined ROS messages and topics are met.
+introduced slight constraints in terms of information provision based on the defined ROS messages and topics are met. In addition, some minor requirements must be fulfilled in order
+to be able to utilize the resolution attempts (cf. sec. \ref{sec:solutions_for_lta_challenges}).
 However, the tight coupling between the deliberation functions of \textit{acting} and \textit{monitoring}, which is not a mere by-product but is intended in this work, results
 in the framework not being usable \textquote{out-of-the-box} for other systems. It should not be considered a weaknesses, though, as this coupling is necessary for the two functions to be
 mutually beneficial, so \textit{acting} provides context to \textit{monitoring} and \textit{monitoring} is able to directly intervene in \textit{acting} when necessary. Furthermore,
@@ -3349,14 +3351,15 @@ it should be relatively simple to establish this coupling with the operational m
 quite intuitively, the architecture proposed in this work was built in a modular way. Thus, in order for another robotic system to use the monitoring framework without using the
 operational model used in this thesis, the embedded \code{OPERATION} state machine shown in fig. \ref{fig:high_level_smach} would have to be replaced by the system's own operational
 state machine, which is either also implemented as SMACH or at least wrapped by one. There are some assumptions that such an operational state machine must satisfy. First, it
-must communicate information about the mode of the system via \code{arox/ongoing_operation} in the form of \code{arox_operational_param.msg}. Once again, the naming scheme is somewhat
+must communicate information about the mode of the system via \code{/arox/ongoing_operation} in the form of \code{arox_operational_param.msg} containing
+\code{string operation_mode}, \code{int32 total_tasks}, \code{int32 ongoing_task} and \code{int32 rewards_gained}. Once again, the naming scheme is somewhat
 misleading in terms of universality, but is retained for the moment for the sake of compatibility with the integrated battery watchdog module. The available modes are \code{scanning},
-\code{traversing}, \code{waiting}, \code{docking}, \code{undocking}, \code{charging}, \code{dead}, \code{contingency} and \code{catastrophe}. Most of them should be useful in any
+\code{traversing}, \code{waiting}, \code{docking}, \code{undocking}, \code{charging}, \code{contingency} and \code{catastrophe}. Most of them should be useful in any
 context where the monitoring framework is to be used. However, not all of them need to be adopted. Another crucial aspect is that all active goals should be interruptible via a
-message on \code{/interrupt_active_goals}, e.g., by using \code{actionlib.SimpleActionClient} and \code{cancel_all_goals()} for the tasks. To utilize resolution attempts during
-navigation failures, extreme weather conditions, and power management failures, the topics \code{/introduce_intermediate_nav_goal}, \code{introduce_intermediate_recharge_goal},
-\code{introduce_intermediate_shelter_goal}, and \code{stop_waiting} should be provided. Most of them are self-explanatory, \code{stop_waiting} is used to stop waiting in the
-shelter, e.g. after extreme weather situations. Eventually, the outcomes must be compatible with the architecture shown in fig. \ref{fig:high_level_smach}, i.e.
+message on \code{/interrupt_active_goals}, e.g., by implementing the actions as \code{SimpleActionServer}.\newline
+
+\noindent
+Eventually, the outcomes must be compatible with the architecture shown in fig. \ref{fig:high_level_smach}, i.e.
 \code{minor_complication}, \code{critical_complication}, \code{end_of_episode}, and \code{preempted}. A further important note with regard to the general applicability of the
 framework is that each monitoring node can easily be removed, i.e. deactivated. Presently, this can be achieved by simply removing the option from the framework's launch file.
 For instance, if a mobile outdoor robot is used without a lidar scanner, the sensor monitoring node can simply be removed. Analogously, custom monitoring nodes can be added to the
