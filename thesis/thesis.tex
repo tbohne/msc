@@ -3314,29 +3314,29 @@ The detailed results may be taken from fig. \ref{fig:detailed_monitoring_eval_re
 \section{Conclusion and Discussion}
 
 Since this work is at least partly integrative in nature, the first important aspect is that the functionality of the overall integrated system has been demonstrated.
-Practically relevant challenges to the long-term autonomy of mobile outdoor robots were identified, classified in terms of their potential impact, and implemented in simulation.
+Practically relevant challenges to the long-term autonomy of mobile outdoor robots were identified, classified in terms of their potential impact and implemented in simulation.
 As anticipated in section \ref{sec:challenges_for_lta}, the goal of the work with respect to the identified problems was to shift the selected subset of problems into category
-$(1)$ or $(2)$ based on the classification in fig. \ref{fig:problem_types}, i.e. to enable the robot to solve or at least recognize them in order to communicate them.
+$(1)$ or $(2)$ based on the classification in fig. \ref{fig:problem_types}, i.e., to enable the robot to solve or at least recognize them in order to communicate them.
 Since monitoring approaches have been proposed for each of these categories (cf. section \ref{sec:sim_and_mon_of_lta_challenges}), this goal can be considered achieved. These
 monitoring approaches are incorporated into a generic monitoring and resolution framework developed as part of this thesis, with an emphasis on a certain degree of universality.
 This is manifested in the fact that as few assumptions about specific systems and scenarios were made as possible. One requirement, though, was that the system is conclusively usable
 in practice in the considered context, which presupposes that not only abstract high-level architectures are defined, but that a compromise is found between the greatest possible
-universality and simultaneous applicability in the scenario under consideration. This results in the fact that the universality ends when leaving the ROS cosmos, i.e. the system is
+universality and simultaneous applicability in the scenario under consideration. This results in the fact that the universality ends when leaving the ROS cosmos, i.e., the system is
 exclusively designed for ROS systems. While certain lines of reasoning and observations in this thesis may apply to non-ROS systems as well, there is at least no practical
 applicability of the developed framework to these systems. Due to the high prevalence of ROS coupled with the requirement to be practically applicable, the restriction to
 compatibility with ROS systems seems reasonable.
 The reliability of the framework has been experimentally endorsed, at least in simulation. In total, there are $48$ problem instances that can be explicitly triggered
 through simulation by publishing on a topic, as presented in section \ref{sec:sim_and_mon_of_lta_challenges}. Beyond that, there are many other problem cases that are explicitly
-covered by the monitoring procedures. However, there are also numerous potential problem cases that are not explicitly considered by the monitoring nodes, but are nevertheless
-implicitly covered and thus detected. For instance, a situation in which the robot falls over is neither explicitly recognized nor communicated. Yet at the latest when the expected
-battery consumption no longer matches the actual situation, i.e. the robot has to recharge, a problem is detected and communicated. This also illustrates the fact that the problems
+covered by the monitoring procedures. However, there are also numerous potential problem conditions that are not explicitly considered by the monitoring nodes, but are nevertheless
+implicitly covered and thus detected. For instance, a situation in which the robot falls over is neither explicitly recognized nor communicated. Yet, at the latest when the expected
+battery consumption no longer matches the actual situation, i.e., the robot has to recharge, a problem is detected and communicated. This also illustrates the fact that the problems
 identified are not strictly separated, but that the transitions are somewhat fluid. Since the considered system was previously not able to deal with the identified problems at all
 and each of these problems has the potential to make the mission fail, it is evident that the proposed approaches significantly improve the robustness of the system with respect to
-the identified challenges. Since the purpose of this work was not only to identify and deal with the problem categories, but also to define an architecture that allows systematic
+the identified challenges. Given that the purpose of this work was not only to identify and address the problem categories, but also to define an architecture that allows systematic
 handling of such situations, it should be noted that the overall architecture has proven to be suitable for this type of non-nominal plan execution. In particular, due to the parallel
-running monitoring nodes, the tight coupling of \textit{acting} and \textit{monitoring} in general, and the modularity that enables extensibility and reconfigurability.
-In conclusion, all identified problems are detected with indications of quite high reliability and some of them can even be solved by the robot itself.
-It is crucial to mention that even if an episode fails, as in the two cases of experimental evaluation in section \ref{sec:experiments}, catastrophe cases are always communicated to
+running monitoring nodes, the tight coupling of \textit{acting} and \textit{monitoring} in general and the modularity that enables extensibility and reconfigurability. Concluding,
+all identified problems are detected with indications of quite high reliability and some of them can even be solved by the robot itself.
+It is crucial to mention that even if an episode fails, as in the two cases of experimental evaluation in section \ref{sec:eval_mon_framework}, catastrophe conditions are always communicated to
 the human operator, which is a huge improvement over the situation without the developed framework, where a total failure would go unnoticed.\newline
 
 \noindent
