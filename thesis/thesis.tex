@@ -3368,17 +3368,17 @@ context-dependent special solutions can be easily added, removed and replaced by
 
 Now that the presented framework performs well in simulation, a natural next step is to conduct field tests and demonstrate it on the real AROX platform. Furthermore, the meaningful
 use of the presented \code{data_accumulator} is only possible with actual data from real long-term autonomy experiments. As announced, the idea is to learn from experience, which
-obviously requires data from real-world experiments. While the logging aspect and basic functionality has already been part of this work, actually collecting real-world data from
+obviously requires data from real-world experiments. While the logging aspect and basic functionality is already part of this work, actually collecting real-world data from
 long-term autonomous missions and then learning from that data is a step for the future. Beyond that, however, further experiments in simulation can be revealing. For instance, the
-$10$ runs in the evaluation section were always initialized with the same seed, thus also always with the same sequence of problems simulated to have some comparability between runs.
+$10$ runs in the evaluation section have always been initialized with the same seed, thus also always with the same sequence of simulated problems to have some comparability between runs.
 Of course, there should be more experiments in the future that cover the entire set. In addition, variations in runtime and error frequency should be investigated. Since the focus of
-this thesis was on monitoring and only simple workarounds were implemented, there is obviously great potential for future work in developing more elaborate solution techniques.
-However, even simple contextual recovery behaviors could be easily defined and integrated and be of great use in practice.
-Another practically useful aspect for future improvements would be a web interface that would allow remote access to sensors as well as direct control of the robot. This way, an
+this thesis is on monitoring and only simple workarounds have been implemented, there is obviously great potential for future work in developing more elaborate solution techniques.
+But even simple contextual recovery behaviors could be easily defined and integrated and be of great use in practice.
+Another practically useful aspect for future improvements would be a web interface that allows remote access to sensors as well as direct control of the robot. This way, an
 operator could take control for a short time in case of minor problems and would not have to be physically on site. Yet a simple improvement in communication with the operator would
-also be of great benefit. So far it has been implemented in pure text form, but it is easy to imagine an improved version with graphically processed sensor, weather and other
-information via a web interface. Ultimately, a truly crucial aspect is usability, i.e., the integration and reconfiguration of the developed framework. Throughout the work, it was
-pointed out that great emphasis was placed on a certain universality and generic solutions. Although most of the implemented approaches are generally applicable to many scenarios due
+also be of great benefit. So far it is implemented in pure text form, but it is easy to imagine an improved version with graphically processed sensor, weather and other
+information via a web interface. Ultimately, a truly crucial aspect is usability, i.e., the integration and reconfiguration of the developed framework. Throughout the work, it is
+pointed out that great emphasis has been placed on a certain universality and generic solutions. Although most of the implemented approaches are generally applicable to many scenarios due
 to this focus, there is still much room for improving and simplifying the integration and reconfiguration of the monitoring framework.
 
 \bibliography{papers}
