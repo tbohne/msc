@@ -3209,44 +3209,50 @@ scenarios, clearly highlighting the importance of addressing all of these proble
 
 In general, the experimental evaluation is based on the process that has already been followed throughout the work: Problem simulation, monitoring and subsequent solution. The
 simulations of error cases, as they can be taken from section \ref{sec:sim_and_mon_of_lta_challenges}, can always be activated by a message on the corresponding topic. Then, a
-monitoring node should detect the problem, interrupt \code{NORMAL_OPERATION}, and initiate an appropriate resolution. The resolver either solves the problem and then returns to
+monitoring node should detect the problem, interrupt \code{NORMAL_OPERATION} and initiate an appropriate resolution. The resolver either solves the problem and then returns to
 \code{NORMAL_OPERATION}, or it cannot solve the problem and proceeds to \code{CATASTROPHE}. In the previous section, it was shown that all of the problems identified indeed have the
 potential to render the mission worthless. Moreover, none of them can be detected by the AROX system without the developed monitoring framework. Now the natural question is to what
-extent the developed monitoring framework improves the situation. This section is about assessing the reliability of the monitoring solutions, i.e. the degree to which the monitoring
+extent the developed monitoring framework improves the situation. This section is about assessing the reliability of the monitoring solutions, i.e., the degree to which the monitoring
 nodes are able to detect and solve / communicate the problems when they occur. To this end, a series of experiments were conducted. The idea is to run an LTA episode and randomly
 simulate the occurrence of issues from the set of identified problem categories at a user-configurable frequency by publishing to the respective topic. Since it is always known which
 reaction is expected after a certain simulation, the expected can be compared with the observed. It is essentially based on a dictionary that maps the fault simulation topics to the
 corresponding expected error messages on the \code{contingency_preemption} topic. The following results are based
 on a frequency of $250s$, i.e., a random problematic situation occurs every $250s$. However, the $250s$ are only a lower bound on the time between two fault simulations because some
-of the simulations can only occur in certain situations, such as when the robot is stationary, so they are only run when that situation occurs next, and there are never two
-simultaneous fault simulations. Furthermore, the $250s$ are real time and since the RTF in \textit{Gazebo} was only about $0.2$, the average frequency in the simulation should be
+of the simulations can only occur under certain circumstances, such as when the robot is stationary. Thus, they are performed only when this situation occurs next, and there are never
+two simultaneous fault simulations. Furthermore, the $250s$ are real time and since the \textit{real time factor} (RTF) in \textit{Gazebo} was only about $0.2$, the average frequency in the simulation should be
 $\approx 1250s$. The frequency was not chosen too high, so that the robot can still perform tasks and is not only occupied with error handling.
 In order for the evaluation to be reasonably meaningful, the experiments must be of a certain length. At the same time, they must be feasible within the restrictive
-time constraints of this thesis. As a compromise, the time per run was set at $5$ hours. Experimentally, it turned out that this runtime is sufficient to achieve a certain validity,
+time constraints of this thesis. As a compromise, the time per run was set to $5$ hours. Experimentally, it turned out that this runtime is sufficient to achieve a certain validity,
 since several mission and charge cycles occur and there is enough room for error simulation. This $5$-hour episode was repeated $10$ times. The intention behind the repeated
-experiments is on the one hand to endow the conclusions with some significance, but on the other hand also to be able to judge how many of these runs ended in a \code{CATASTROPHE} and
-how many ran successfully to the end. Ideally, there should be no missions that end in a \code{CATASTROPHE}, since only problems that are in principle solvable are simulated for this
+experiments is on the one hand to endow the conclusions with some significance, but on the other hand also to be able to judge how many of these runs ended in a catastrophe and
+how many ran successfully to the end. Ideally, there should be no missions that end in a catastrophe, since only problems that are in principle solvable are simulated for this
 experiment. However, if a resolution fails, for example, a \code{CATASTROPHE} case can still occur, leading to the end of the episode. In order for the runs to be comparable, the
 random selection of failure simulation was initialized with the same seed leading to the same sequence of simulated problems. In the future, further experiments should be conducted
-with different seeds to cover the full range of simulated failures. Both plots presented in fig. \ref{fig:evaluation_res} show the experimental runs on the $y$ axis using the following
-naming scheme: \code{frequency_seed_idx}. The frequency refers to the failure frequency in seconds, i.e. how often a random failure is triggered, the seed is used to initialize the
-random number generator for selecting the simulated error, and the index simply identifies the individual runs.
+with different seeds to cover the full range of simulated failures.\newline
+
+\noindent
+Both plots presented in fig. \ref{fig:evaluation_res} show the experimental runs on the $y$ axis using the following
+naming scheme: \code{frequency_seed_idx}. The frequency refers to the failure frequency in seconds, i.e., how often a random failure is triggered, the seed is used to initialize the
+random number generator for selecting the simulated error and the index simply identifies the individual runs.
 As can be observed, $8/10$ runs completed successfully without a \code{CATASTROPHE} case. The two aborted runs are the result of docking failures that could not be resolved.
 This still happens from time to time at the moment, but is not a flaw of the monitoring framework, but rather a matter of robustness of the integrated docking solution presented
 in section \ref{sec:docking_solution}. Thus, the problems did occur and were correctly identified and communicated by the monitoring framework.
 Fig. \ref{fig:expected_res} shows the expected response to error cases per run in percent.
 Ideally, this would be $100\%$, which would mean that the monitoring detects exactly all simulated problems and nothing beyond, which was the case in several runs ($0, 3, 5, 6, 7$).
-This proportion is composed of correct \code{CONTINGENCY} cases, i.e. when exactly the expected case occurs, which means that the monitoring worked correctly, and correct
+This proportion is composed of correct \code{CONTINGENCY} cases, i.e., when exactly the expected condition occurs, which means that the monitoring worked correctly, and correct
 $\lnot$\code{CONTINGENCY} cases, where there is no \code{CONTINGENCY} expected and none occurs. Correct $\lnot$\code{CONTINGENCY} situations refer to cases where the simulated problem
-is so minor that it should be handled by the robot without initiating a contingency or catastrophe. A good example of such a case are the simulated static obstacles with an escape
-route displayed in fig. \ref{fig:obstacle_scenarios}. In this particular case, the purpose is to test that navigation error monitoring is not configured too aggressively and does not
+is so minor that it should be handled by the robot without initiating a contingency or catastrophe. A good example of such an event are the simulated static obstacles with an escape
+route displayed in fig. \ref{fig:obstacle_scenarios}. In this particular case, the purpose is to test that navigation error monitoring is not configured too sensitive and does not
 trigger \code{CONTINGENCY} in the event of a sustained recovery with progress. Figure \ref{fig:obstacle_success} shows how the robot successfully deals with the obstacles by
-iteratively approaching the goal. In such a situation, there should be no interruption of the normal operation. In general, across the problem categories, there are some cases that
+iteratively approaching the goal. In such a situation, there should be no interruption of the normal operation. In general, across the problem categories, there are some conditions that
 are somewhat problematic but do not cross the boundary of \code{CONTINGENCY}, i.e., do not require interruption of the normal operation. Thus, the $\lnot$\code{CONTINGENCY} category
 is used to verify that the monitoring solutions are not configured too restrictively to ensure that the robot does not constantly try to solve imaginary problems. The remaining
-unexpected responses are composed of false-positives, i.e. \code{CONTINGENCY} cases with no simulated failure, false-negatives, i.e., cases where a failure simulation would require
-a \code{CONTINGENCY} but the problem is not detected by the monitoring nodes, and finally unexpected contingencies, which refer to cases where a \code{CONTINGENCY} is expected due to
-a simulated failure but a different type of problem is detected. It is very crucial to note that false positives and unexpected contingencies are not necessarily a
+unexpected responses are composed of false positives, i.e., \code{CONTINGENCY} cases with no simulated failure, false negatives, i.e., cases where a failure simulation would require
+a \code{CONTINGENCY} but the problem is not detected by the monitoring nodes, and finally unexpected contingencies, which refer to cases where a \code{CONTINGENCY} situation is expected due to
+a simulated failure but a different type of problem is detected.\newline
+
+\noindent
+It is very crucial to note that false positives and unexpected contingencies are not necessarily a
 fault of the monitoring framework or its configuration. A significant majority of the cases is related to problems in the simulation that were not simulated as part of an experiment,
 but actually occur and are thus correctly detected by the monitoring framework. For instance, docking errors occur from time to time simply due to the robustness of the integrated
 docking solution. Once the monitoring framework detects such a non-simulated problem, it is considered a false positive or unexpected contingency, depending on the circumstances,
@@ -3262,6 +3268,10 @@ and should be fairly easy to resolve in the future. Moreover, on average, the ro
 $10.38$ charge cycles. Per episode, the robot traveled an average total distance of $967.1$ meters in $5.06$ hours, estimated from odometry data. Another interesting aspect of LTA systems
 discussed in the literature is the autonomy percentage, i.e. the time during which the robot actually performs autonomous tasks, excluding idle time, etc. The autonomy percentage for
 the performed experiments is depicted in fig. \ref{fig:autonomy_percentage} and illustrates that the majority of the runtime is spent on actual autonomous tasks, on average $96.28\%$.
+
+\vfill
+\pagebreak
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
