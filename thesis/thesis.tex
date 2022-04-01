@@ -3080,23 +3080,34 @@ errors, thus using the container as a landmark.
 \chapter{Experiments and Evaluation}
 \label{sec:experiments}
 
-The general idea behind the upcoming experiments is the following simple scheme: problem simulation by publishing on the respective topic, followed by a triggered monitoring
-procedure that should detect the problem, interrupt normal operation, and initiate an appropriate resolution. Either it succeeds and \code{NORMAL_OPERATION} continues, or it cannot be
+The general idea behind the upcoming experiments is the following simple scheme: Problem simulation by publishing on the respective topic, followed by a triggered monitoring
+procedure that should detect the problem, interrupt normal operation and initiate an appropriate resolution. Either it succeeds and \code{NORMAL_OPERATION} continues, or it cannot be
 resolved and execution ends in \code{CATASTROPHE}.\newline
-Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: the total system lifetime and the autonomy percentage. \cite{Hawes:2017} The
-first measures the time the robot was in autonomous operation and is reset when an unrecoverable failure or an unrequested intervention of the human operator is required. However,
-it does not make sense to evaluate this time when it certainly depends on the frequency with which the failures that are considered in this work are simulated. The second metric
-(autonomy percentage), on the other hand, is very useful for this work as well. \textquote{\textit{The motivation of the autonomy percentage is that it is of little value to achieve a long
+Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: The total system lifetime and the autonomy percentage. \cite{Hawes:2017} The
+first measures the time the robot is in autonomous operation and is reset when an unrecoverable failure or an unrequested intervention of the human operator is required. However,
+it is not reasonable to evaluate this time in the present scenario, since it certainly depends on the frequency with which the failures considered in this work are simulated. The second metric
+(autonomy percentage), on the other hand, is very useful for this thesis as well. \textquote{\textit{The motivation of the autonomy percentage is that it is of little value to achieve a long
 total system lifetime if the system does nothing}}. \cite{Hawes:2017}
-Steinberg et al. \cite{Steinberg:2016} introduce the metric of time between undesired human interventions. By undesired situations, they mean situations in which the robot should
+Steinberg et al. \cite{Steinberg:2016} introduce the metric of time between undesired human interventions. By undesired interventions, they mean situations in which the robot should
 in principle be able to recover itself, as opposed to situations in which human intervention is expected. Applied to this work, this could refer to LTA failures for which specific
-solutions or workarounds have been proposed but do not succeed (cf. \ref{sec:solutions_for_lta_challenges}). Furthermore, they propose a metric for information sharing, i.e. the
-percentage of time the robot communicates meaningful information to the operator.\newline
+solutions or workarounds have been proposed (cf. sec. \ref{sec:solutions_for_lta_challenges}) but have not been successful. In the following sections, this would manifest in
+simulated contingency situations ending in a catastrophe. Furthermore, they propose a metric for information sharing, i.e., the percentage of time the robot communicates meaningful
+information to the operator. This is definitely fulfilled by the presented approaches, in particular by the bidirectional communication channel between the robot and the human
+operator (cf. sec. \ref{sec:fallback_solution}) and the \code{data_accumulator} (cf. sec. \ref{sec:black_box}). In any situation identified as problematic, meaningful information
+is provided about the circumstances and the nature of the problem as such. Based on the developed architecture, this boils down to a question of reliability, which is evaluated in
+section \ref{sec:eval_mon_framework}. If the problem at hand is properly identified, meaningful information will be provided with certainty.
+
+\vfill
+\pagebreak
 
 \noindent
-All experiments were performed on an \textsf{Intel\textsuperscript{\textregistered} Core\texttrademark $\thinspace$ i7-6700K} system equipped with \textsf{48 GB RAM} running \textsf{Ubuntu 20.04}.
+Initially, the basic functionality of the entire integrated system is demonstrated in section \ref{sec:demonstration_of_functionality}. Subsequently, in section
+\ref{sec:classification_of_lta_problems}, the identified problem categories are classified according to their severity. Eventually, section \ref{sec:eval_mon_framework} deals with
+assessing the reliability of the presented monitoring solutions. All experiments were performed on an \textsf{Intel\textsuperscript{\textregistered} Core\texttrademark $\thinspace$
+i7-6700K} system equipped with \textsf{48 GB RAM} running \textsf{Ubuntu 20.04}.
 
 \section{Functionality of the Integrated System}
+\label{sec:demonstration_of_functionality}
 
 The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for an extended period of time, e.g., $5$ hours. This serves as
 a verification of the sample plan, i.e. it shows that the charging stops are sufficient if everything works as expected. Furthermore, it is a demonstration of the fundamental
@@ -3110,7 +3121,7 @@ charge cycles and the average total distance traveled was $1102.68 m$. It is als
 episodes, which is shown in Fig. \ref{fig:mode_times_basic}. [TODO: Explain mode dist]
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{pics/mode_times_basic.png}
+    \includegraphics[width=0.65\textwidth]{pics/mode_times_basic.png}
     \caption{\textsc{Mode Distribution}}
     \label{fig:mode_times_basic}
 \end{figure}
@@ -3122,6 +3133,7 @@ guarantee a fundamentally error-free use of the system, they demonstrate that th
 The detailed results can be found in the appendix (cf. fig. \ref{fig:detailed_functionality_res}).
 
 \section{Classification of the Selected LTA Problems}
+\label{sec:classification_of_lta_problems}
 
 The classification of the selected LTA problems is based on their evaluation in the simulation together with a comparative contextualization of the practical case. The aim is to
 classify the identified problem categories in the simulation according to their severity, i.e., which LTA problem can lead to which worst-case outcome. By definition, all identified
@@ -3186,6 +3198,7 @@ scenarios, clearly highlighting the importance of addressing all of these proble
 \end{figure}
 
 \section{Evaluation of the Monitoring Framework}
+\label{sec:eval_mon_framework}
 
 In general, the experimental evaluation is based on the process that has already been followed throughout the work: Problem simulation, monitoring and subsequent solution. The
 simulations of error cases, as they can be taken from section \ref{sec:sim_and_mon_of_lta_challenges}, can always be activated by a message on the corresponding topic. Then, a
