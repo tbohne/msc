@@ -2781,7 +2781,8 @@ This problem is the power management failure, where it is determined that the ro
 battery. This is the only case where the robot is definitely no longer able to solve the problem and immediately calls the operator for help. All other problems start with a
 contingency and therefore launch at least a simple heuristic or workaround that attempts to resolve the issue before transitioning to the catastrophe state in case  all other solution
 attempts are unsuccessful. Surprisingly, such workarounds often lead to success, sometimes very simple approaches are sufficient, such as waiting for a short time, restarting a component,
-changing the position slightly, etc.
+changing the position slightly or repeating the task. Despite deterministic repetition of the same operation, different results can be expected due to the presence of sufficient nondeterminism in the
+environment. \cite{Nourbakhsh:2003}
 In general, the idea of recovery is to transform an erroneous or problematic state into one without any issues. \cite{Brodskiy:2011}
 The rationale is to have the monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} that
 look for the specific types of issues and initiate an appropriate response. Kunz et al. \cite{Kunz:2009} emphasize that the robustness of a system can be maximized by
@@ -3381,7 +3382,7 @@ this thesis is on monitoring and only simple workarounds have been implemented, 
 But even simple contextual recovery behaviors could be easily defined and integrated and be of great use in practice.
 Another practically useful aspect for future improvements would be a web interface that allows remote access to sensors as well as direct control of the robot. This way, an
 operator could take control for a short time in case of minor problems and would not have to be physically on site. Yet a simple improvement in communication with the operator would
-also be of great benefit. So far it is implemented in pure text form, but it is easy to imagine an improved version with graphically processed sensor, weather and other
+also be of great benefit. So far it is implemented in pure text form, but it is easy to imagine an improved version with graphically processed sensor, weather and status
 information via a web interface. Ultimately, a truly crucial aspect is usability, i.e., the integration and reconfiguration of the developed framework. Throughout the work, it is
 pointed out that great emphasis has been placed on a certain universality and generic solutions. Although most of the implemented approaches are generally applicable to many scenarios due
 to this focus, there is still much room for improving and simplifying the integration and reconfiguration of the monitoring framework.
