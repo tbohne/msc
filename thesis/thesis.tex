@@ -217,7 +217,7 @@ particular challenges for long-term autonomy in such a context through the use o
 robot's long-term autonomy in an agricultural setting will be identified. Afterwards, a subset of these challenges will be studied systematically in order to 
 approach robust solutions. Accordingly, the prolonged objective is to increase the number of situations in which a mobile robot is able to 
 overcome such challenges by itself. However, the mere recognition of problematic situations is already of decisive advantage from a practical perspective,
-as the robot is then able to communicate the problem and request help, e.g. from a human operator, instead of undeliberately aborting its mission.
+as the robot is then able to communicate the problem and request help, e.g., from a human operator, instead of undeliberately aborting its mission.
 In addition, a prerequisite for solving a problem is, of course, recognizing it. Therefore, a major aim of this thesis is to develop execution monitoring
 approaches that enable the robot to detect unexpected problematic situations that require special treatment.
 A very important aspect of working with robots in real-world practical scenarios is the merging of the worlds of abstract AI planning and execution of those plans with
@@ -296,8 +296,8 @@ final remarks, discussion and future work.
 \label{sec:lta_mobile_robots}
 
 Long-term autonomous mobile robotic systems can be of great benefit in diverse environments. For the most part, in activities that are either too dangerous,
-or too undemanding (e.g. monotonous, not meaningful) to be performed by humans. In addition, economic considerations can play a role, as well as tasks 
-that are undesirable for other reasons, e.g. because they are considered dirty.
+or too undemanding (monotonous, not meaningful) to be performed by humans. In addition, economic considerations can play a role, as well as tasks 
+that are undesirable for other reasons, e.g., because they are considered dirty.
 All three attributes - \textit{long-term}, \textit{autonomous}, and \textit{mobile} - have the potential of dramatically increasing the complexity and
 the risk for failures of the system. Part of this chapter will be to precisely define what each of the attributes means in the context of this work.
 The attribute of mobility is the easiest to define: A mobile robot is a system capable of moving freely (within limits) through an environment. \cite{Hertzberg:2012}
@@ -357,7 +357,7 @@ fine to seek assistance from human operators from time to time to increase the r
 requires human assistance only every few days in their indoor scenario. The authors also raise the important question of how much autonomy is needed and how much operator intervention
 should be considered viable in order to still have a useful system, which cannot be answered in general terms but should be examined for each individual scenario and use case. They
 highlight that their success necessitated not only relying on autonomous recovery behaviors, but combining them with occasional human assistance. The paper contains many practical
-examples where different levels of autonomy are combined with human assistance to achieve great success, e.g. NASA's Mars rovers, increasingly autonomous cars, but also less classical
+examples where different levels of autonomy are combined with human assistance to achieve great success, e.g., NASA's Mars rovers, increasingly autonomous cars, but also less classical
 robots like web servers that still need human administration in case of errors. Two critical requirements are named for the long-term autonomy of a mobile robot in an office
 environment: Indoor navigation and autonomous charging, the first being a prerequisite for the second. The authors claim that if these two capabilities are given and sufficiently
 stable, the robot can function for extended periods of time. This is a good motivation for the integration of the autonomous docking solution described in section
@@ -408,7 +408,7 @@ Of course, there are not only long-term autonomous ground vehicles (AGVs). There
 (e.g. \cite{Jones:2012}, \cite{Spears:2014}, \cite{Kunz:2009}, \cite{Chrpa:2015}, \cite{Harris:2021}) and unmanned aerial vehicles (UAVs) (e.g. \cite{Brommer:2018}, \cite{Dong:2014},
 \cite{Dong:2017}) for extended periods of time. AUVs are particularly used for scientific observations and security applications. \cite{Chrpa:2015}
 Steinberg et al. \cite{Steinberg:2016} debate challenges and opportunities for long-term autonomous systems in
-maritime applications. They argue that many of the previous attempts in the literature targeting autonomous systems fail when the environment varies during deployment, e.g.
+maritime applications. They argue that many of the previous attempts in the literature targeting autonomous systems fail when the environment varies during deployment, e.g.,
 due to weather or seasonal effects. The work identifies three main types of challenges for long-term autonomous systems:
 \begin{enumerate}
     \item Transience of initial knowledge of state, environment, goals, etc.
@@ -483,7 +483,7 @@ stress is that certain failures, especially hardware failures, occur so infreque
 it is essential to find a way to systematically and reproducibly evaluate potential failure cases, e.g., through simulations. \cite{Wang:2018} This is precisely the rationale behind
 all the simulations described in section \ref{sec:sim_and_mon_of_lta_challenges}. The paper also suggests that it is advisable to design the software components in such a way that
 they tolerate the temporary unavailability of other components and wait until the recovery is completed. Finally, as a further important remark for this thesis, they note that
-comprehensive logging in long-term autonomous applications offers great potential for evaluation, testing, and learning, e.g. through the use of the ROS tool \code{rosbag}.\newline
+comprehensive logging in long-term autonomous applications offers great potential for evaluation, testing, and learning, e.g., through the use of the ROS tool \code{rosbag}.\newline
 Egerstedt et al. \cite{Egerstedt:2018} consider a long-term autonomous environment monitoring scenario in which they define survival constraints inspired by the bond between
 biological organisms and their environment in ecology. First, the authors highlight the unique challenges of long-term deployment in a dynamic, unstructured environment, such as
 agriculture, noting that robots must have adaptive capabilities and manage problems potentially affecting their survivability. \textquote{\textit{The basic issue of survivability
@@ -528,7 +528,7 @@ Also just recently, Kyberd et al. \cite{Kyberd:2021} presented their work on lon
 has been on indoor environments due to hazardous weather conditions and the like in outdoor settings. The work introduces design principles for unmanned ground vehicles suited to the specific
 intricacies of operating outdoors, with special emphasis on redundant safety layers and the ability to function in harsh weather and lighting conditions. Since their systems
 lacks an autonomous charging procedure, a human operator is notified whenever the robot needs to be recharged. The authors indicate that in the future they will aim for autonomous
-charging, e.g. by inductive charging, so that the entire operating cycle can be captured autonomously. This is exactly what the integration of autonomous docking described in section
+charging, e.g., by inductive charging, so that the entire operating cycle can be captured autonomously. This is exactly what the integration of autonomous docking described in section
 \ref{sec:docking_solution} aims to achieve in this work.\newline
 Eventually, in 2021, Emam et al. \cite{Emam:2021} present a \textit{Control Barrier Function (CBF)} framework to tackle the problem of perturbations that the robot may face. The authors
 underscore that when developing new algorithms for robots operating autonomously for extended periods of time in dynamic environments, it is imperative to pay close attention to
@@ -542,9 +542,9 @@ robustness in order to deal with all the challenges potentially occuring in such
 \noindent
 An early work on execution monitoring in robotics is by Pettersson \cite{Pettersson:2005} (2005). The author attempts to transfer the knowledge of \textit{fault detection and isolation
 } (FDI) commonly used in industrial control to the field of robotics. The work already highlights the requirement for execution monitoring when planning the deployment of robots in
-dynamic environments, e.g. due to lack of information, unreliable resources, or stochastic effects. Pettersson discusses several attempts to deal with uncertainty, but notes that
+dynamic environments, e.g., due to lack of information, unreliable resources, or stochastic effects. Pettersson discusses several attempts to deal with uncertainty, but notes that
 there is no way to completely eliminate uncertainty in partially observable dynamic environments and that systems must tolerate some degree of uncertainty. The paper asserts that
-systems must expect faulty execution from time to time, e.g. by including execution monitoring as part of the control architecture. This is exactly what is done in this thesis
+systems must expect faulty execution from time to time, e.g., by including execution monitoring as part of the control architecture. This is exactly what is done in this thesis
 (cf. section \ref{sec:execution_monitoring_smach_architecture}). Pettersson compares several definitions for execution monitoring. A classic variant from the field of AI is the
 identification and classification of inconsistencies between observations and predictions, and mechanisms to recover from these inconsistencies. \cite{Pettersson:2005}
 However, according to this definition, only systems with predictive models can perform monitoring. \cite{Pettersson:2005} A second definition, which comes more from an
@@ -578,7 +578,7 @@ robust long-term operation. \cite{Khalastchi:2018} The application of FDD to rob
 because errors can disrupt a robot's mission, reduce its efficiency, or even pose safety problems for itself or the environment. \cite{Khalastchi:2018} The paper notes that it is
 critical that the detection of a problem is followed by some form of diagnosis that identifies the affected component and supports the recovery process. The authors provide a useful
 fault taxonomy for robotic systems in which they generally divide hardware (detection, action), software (algorithms, implementations), and interaction (internal / external) faults.
-Knowledge-based FDD methods, e.g. expert systems such as the ones proposed in section \ref{sec:sim_and_mon_of_lta_challenges}, are essentially based on predefined issues and
+Knowledge-based FDD methods, e.g., expert systems such as the ones proposed in section \ref{sec:sim_and_mon_of_lta_challenges}, are essentially based on predefined issues and
 diagnoses. \cite{Khalastchi:2018} The authors note that internal sensors that provide information about the current state of the robot can be facilitated in FDD. In addition,
 exteroceptive sensors should be used for this purpose, but of course they can be used not only for FDD, but also can be the target of FDD in case of sensor failures. \cite{Khalastchi:2018}
 As a major challenge, the authors see the real-time nature of robotic applications, where erroneous situations must be detected as quickly as possible so that the robot can resume
@@ -602,7 +602,7 @@ plan and not to the operation of the robot in an environment in general. They ev
 promising results. However, as mentioned, it is only considering very specific tasks and high-level actions.\newline
 Recently (2021), Harris et al. \cite{Harris:2021} presented an execution monitoring and online plan modification approach that considers aspects such as resource availability
 and goal reasoning. The approach is evaluated in a long-term AUV scenario with very limited opportunities for human intervention and a highly dynamic and uncertain environment.
-Their method is based on the idea of altering the plan as needed, e.g. adding goals when the resource consumption is lower than expected and removing goals (starting with those with
+Their method is based on the idea of altering the plan as needed, e.g., adding goals when the resource consumption is lower than expected and removing goals (starting with those with
 low priority) when it is higher than expected. In order not to generate infeasible plans, the method relies on information about the causal relationship between actions. In cases
 where resources are uncertain, one approach is to provide branches in plans that allow a decision to be made between multiple options based on available resources. \cite{Harris:2021}
 The general monitoring and resolution approaches developed in this thesis are not as tethered to a plan, but the overall ideas and goals are similar.\newline
@@ -631,7 +631,7 @@ consistent with the actual requirements of the intended users and real-world app
 Xue et al. \cite{Xue:2010} present a vision-based system also capable of guiding a mobile robotic platform through crop rows in a field, thus enabling autonomous navigation
 in a field. The work stresses the need for reconfigurable platforms that can, in principle, be used for various agricultural tasks, depending on the particular sensor equipment.
 \newline
-A comprehensive overview of robotic systems (AUVs, AGVs, UAVs) for environmental monitoring, e.g. deep-sea or volcano exploration, is provided by Dunbabin et al. \cite{Dunbabin:2012} in 2012.
+A comprehensive overview of robotic systems (AUVs, AGVs, UAVs) for environmental monitoring, e.g., deep-sea or volcano exploration, is provided by Dunbabin et al. \cite{Dunbabin:2012} in 2012.
 The authors underscore the urgent need for long-term autonomous environmental monitoring systems to cope with natural catastrophes such as earthquakes, tsunamis, forest fires, volcanic
 eruptions, etc. In a nutshell: \textquote{\textit{[...] scientists see robotics as a promising tool with the capacity to improve their current means to observe and collect
 data about natural processes or phenomena at vast spatial and temporal scales.}} \cite{Dunbabin:2012} They view robots essentially as mobile sensors that are used to understand
@@ -755,7 +755,7 @@ including the requirement for repeated charge stops. For this purpose, there is 
 establishing the power supply. Since the focus of the work is not going to be the scanning task, but to establish robust long-term autonomy, the actual detection of features 
 etc. will be disregarded.
 A crucial question is how to actually define ``long-term''. As Hawes et al. remark, it has no strict definition and can have various meanings depending
-on the context, e.g. NASA's rover \textit{Opportunity} has been exploring the surface of Mars autonomously for years and autonomous wave gliders are able to monitor
+on the context, e.g., NASA's rover \textit{Opportunity} has been exploring the surface of Mars autonomously for years and autonomous wave gliders are able to monitor
 ocean sections for months. Furthermore, there are mobile service robots used for extended periods of time in everyday, indoor environments like hospitals 
 as examined in the \textit{STRANDS} project. \cite{Hawes:2017}
 For this work, in contrast, ``long-term'' is going to be defined in terms of the robot's temporal radius of action that is mainly based on its battery capacity, i.e., charge cycle,
