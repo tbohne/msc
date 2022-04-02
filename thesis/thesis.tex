@@ -222,7 +222,7 @@ In addition, a prerequisite for solving a problem is, of course, recognizing it.
 approaches that enable the robot to detect unexpected problematic situations that require special treatment.
 A very important aspect of working with robots in real-world practical scenarios is the merging of the worlds of abstract AI planning and execution of those plans with
 the real robot, i.e., acting. As Ghallab et al. phrase it \textquote{\textit{Planning and acting require significant deliberation because an intelligent system must coordinate and
-integrate these activities in order to act effectively in the real world}}. \cite{GNT:2016} There is much literature that considers abstract planning, i.e. generating high-level
+integrate these activities in order to act effectively in the real world}}. \cite{GNT:2016} There is much literature that considers abstract planning, i.e., generating high-level
 task schedules, and also quite some work on integrating planning and acting. What is perhaps a bit underrepresented so far is the aspect of monitoring the execution of the generated
 plans, especially in long-term scenarios, which will be the subject of this work. In particular, little attention has been paid to a joint consistent integration of both monitoring
 and acting. \cite{Ingrand:2017} This is crucial as plans will not always work out as expected when faced with the dynamic and chaotic nature of reality.\newline
@@ -236,7 +236,7 @@ and acting. \cite{Ingrand:2017} This is crucial as plans will not always work ou
 \noindent
 Key challenges that may prevent long-term autonomous mobile robots in a field monitoring context from working properly will be identified, implemented 
 in a simulation and systematically evaluated. A major objective of this work is to address a subset of these challenges based on execution monitoring approaches,
-i.e. to propose methods that are capable of partially resolving or at least detecting such issues in order to enable the robot to communicate them to a human operator.
+i.e., to propose methods that are capable of partially resolving or at least detecting such issues in order to enable the robot to communicate them to a human operator.
 If it is possible to show that with the solutions developed in this work, practically relevant problems can be reliably detected, at least communicated, and possibly even solved
 by the robot itself, the system can be considered a relevant step towards the overall goal of robust, long-term autonomous field monitoring robots. In order to provide not only a
 tailored solution for a specific scenario, as few assumptions as possible are made about specific systems, implying that all developed solutions should be generalizable to other
@@ -262,7 +262,7 @@ In the end, there should be a working system that addresses some of the problems
 in scenarios similar to the one described in section \ref{sec:lta_plant_observation}. The nature of the work is going to be integrative and application-oriented. The modules 
 needed to set up the initial prototype are available in principle, but it will be part of this work to integrate and extend them in order to end up with a holistic and robust
 solution. After the basic scenario works in the simulation, it is going to be extended with an evaluation part. A subset of the potential barriers described in section 
-\ref{sec:challenges_for_lta} is going to be implemented and it will be shown that the system no longer works under certain conditions, i.e. that these
+\ref{sec:challenges_for_lta} is going to be implemented and it will be shown that the system no longer works under certain conditions, i.e., that these
 barriers are indeed able to cause failure of long-term autonomous systems. Consequently, a first step is to observe how the system performs without any further 
 treatment of such problematic situations.
 Subsequently, the goal is to develop monitoring methods capable of recognizing these problems such that they can be resolved.
@@ -270,14 +270,14 @@ To give an example, a particular idea could be to block paths on the field in th
 can go wrong actually go wrong.
 It is obvious that the robot must be enabled to detect such problems, in this case by some kind of obstacle detection.
 Once detected, the problem can be resolved by either incorporating solutions from the literature or finding new solutions.
-Since detection is a necessary prerequisite for overcoming these barriers, the focus will be on detection, i.e. execution monitoring,
+Since detection is a necessary prerequisite for overcoming these barriers, the focus will be on detection, i.e., execution monitoring,
 and an initial trivial solution adopted for all of them is to call the human operator who then takes care of the problem.\newline
 As should be clear by now, long-term autonomy, as robotics in general, is an integration problem. Many technologies have to be integrated in order to build a working system, 
 and compared to other disciplines of artificial intelligence, it is not trivial to evaluate the system and conclude, for example, that it has improved the status quo by a 
 certain percentage. Nevertheless, it is crucial to provide results that are meaningful based on scientific standards.
 Since it is beyond the scope of this work to test the developed system for extended periods of time in practice, there is a need for other ways of evaluation.
 This is where the described evaluation approach in the simulation comes into play. In order to demonstrate, test and evaluate the system, there will be a sufficiently meaningful, 
-i.e. realistic, physics simulation that allows an empirical analysis. Ultimately, there should also be a long-term test (e.g. one day) in the field with the real hardware that 
+i.e., realistic, physics simulation that allows an empirical analysis. Ultimately, there should also be a long-term test (e.g. one day) in the field with the real hardware that 
 underlines the relevance of the approaches discussed in this work for practical applications. However, since a mobile robot is a complex system, there are arbitrary 
 many technical barriers that could prevent such a long-term test in the real world. The idea is therefore to be at least able to demonstrate the system in the simulation
 without depending on the success of such a real-world experiment. In addition, a simulation naturally creates an environment that allows reproducible situations and thus permits
@@ -304,7 +304,7 @@ The attribute of mobility is the easiest to define: A mobile robot is a system c
 Thus, it's about the ability of a robot to move rather than being statically attached to a position.\newline
 First, an extensive literature review is given in section \ref{sec:literature_review} to provide a meaningful overview of the state of the art.
 Afterwards, section \ref{sec:lta_plant_observation} introduces the scenario that is going to be studied in this work and provides a definition for the concept of long-term
-autonomy as understood in the following chapters, i.e. clarifies what the two remaining attributes \textit{long-term} and \textit{autonomous} are supposed to mean.
+autonomy as understood in the following chapters, i.e., clarifies what the two remaining attributes \textit{long-term} and \textit{autonomous} are supposed to mean.
 Subsequently, the prototypical scenario in the simulation is explained in section \ref{sec:prototype_scenario}. Section \ref{sec:robotic_system} discusses the scientific and
 technological background that forms the basis of this work. Finally, section \ref{sec:challenges_for_lta} identifies potential hinderances for long-term autonomous systems with
 a particular focus on the considered plant monitoring scenario.
@@ -377,7 +377,7 @@ a human \textquote{in-the-loop} to achieve robust long-term autonomy, where the 
 when needed. They strongly suggest that this type of semi-supervised control, with a focus on fault detection and recovery, has the potential to realize systems that actually deliver
 practical benefits.\newline
 Dayoub et al. \cite{Dayoub:2011} intend to equip long-term autonomous mobile robots with the ability to localize in changing environments. It is an early work on long-term mapping,
-i.e. updating environmental knowledge over time, which, unlike static representations, takes into account the inherent dynamics of the real world. The authors facilitate the concepts
+i.e., updating environmental knowledge over time, which, unlike static representations, takes into account the inherent dynamics of the real world. The authors facilitate the concepts
 of long-term and short-term memory as well as hybrid metric-topological maps.\newline
 In \cite{Veloso:2012}, Veloso et al. present their autonomous mobile service robots for indoor applications, which they call \textit{CoBots} (2012). Of particular interest to this thesis
 is their focus on symbiotic autonomy, through which the authors allow the \textit{CoBots} to overcome their specific limitations by requesting help from humans.
@@ -489,7 +489,7 @@ biological organisms and their environment in ecology. First, the authors highli
 agriculture, noting that robots must have adaptive capabilities and manage problems potentially affecting their survivability. \textquote{\textit{The basic issue of survivability
 over long time periods remains an open problem for autonomous robotic systems in uncontrolled environments.}} \cite{Egerstedt:2018} The work claims that survivability has been
 previously addressed either by planned tasks that enforce survivability, such as battery station revisits in the scenario described in section \ref{sec:lta_plant_observation},
-or by defining specific survivability goals that are combined with other objectives, i.e. multi-objective optimization. However, the authors point out that survivability is a
+or by defining specific survivability goals that are combined with other objectives, i.e., multi-objective optimization. However, the authors point out that survivability is a
 necessary condition for any successful operation and therefore a constraint-based approach may be preferable, based on the idea of ensuring survivability during the optimization
 of an objective function. A very important aspect of long-term autonomous applications highlighted in the paper is that \textquote{\textit{[...] any assumption about environmental
 stationarity, or even predictability, are doomed to be incorrect}}. \cite{Egerstedt:2018} They conclude that drastic environmental changes can lead to infeasible assumptions and
@@ -498,7 +498,7 @@ An important overview of the state of the art in artificial intelligence for lon
 are still many challenges to be overcome with respect to the reliable deployment of long-term autonomous robots in dynamic, partially unknown real-world environments. As essential
 AI building blocks, they identify \textit{navigation \& mapping}, \textit{perception}, \textit{knowledge representation \& reasoning}, \textit{planning}, \textit{interaction}, and
 \textit{learning}. All of these aspects have been major research areas in the AI / robotics literature for decades. The survey emphasizes the importance of bringing all of these
-facets together to actually create systems that work in a practical way. Particularly relevant to this work are the identified natural challenge of system integration, i.e.
+facets together to actually create systems that work in a practical way. Particularly relevant to this work are the identified natural challenge of system integration, i.e.,
 integrating numerous methods and technologies into a comprehensive solution for long-term autonomy, as well as the design of ``human-in-the-loop'' systems capable of utilizing the
 help of human operators in unexpected problematic situations. \cite{Kunze:2018}\newline
 A very recent example of a long-term autonomous mobile robot serving as a tour guide in a museum is provided by Del Duchetto et al. \cite{Duchetto:2019}, who present their robot
@@ -674,7 +674,7 @@ environment, which changes over time and implies myriad unpredictable contingenc
 They place the agricultural sector in the last and arguably most difficult category, which they see as a particular hurdle to commercialization. Based on their reasoning, it is
 evident that the challenges to long-term autonomy that will be considered in this thesis are part of the barrier to commercialization. Another challenge identified in the work that
 is particularly relevant to this thesis is that robotic systems and technologies developed for one specific agricultural use case are not necessarily reusable for others because they
-are so different, i.e. it is difficult to find generic solutions. Nevertheless, it should be an important aspiration to develop solutions as generic as possible in terms of sensors
+are so different, i.e., it is difficult to find generic solutions. Nevertheless, it should be an important aspiration to develop solutions as generic as possible in terms of sensors
 used, etc., which is taken to heart in this thesis. Regarding the autonomy of such systems, the authors believe that partially autonomous robots will undoubtedly be useful in
 practice, even if they do not yet achieve full autonomy. The paper examines numerous research papers and concludes that there are very few commercially available solutions, all of
 which are the result of iterative development for a very specific task. The authors note that the early examples of autonomous systems clearly suggest that the performance of the
