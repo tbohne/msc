@@ -483,7 +483,7 @@ stress is that certain failures, especially hardware failures, occur so infreque
 it is essential to find a way to systematically and reproducibly evaluate potential failure cases, e.g., through simulations. \cite{Wang:2018} This is precisely the rationale behind
 all the simulations described in section \ref{sec:sim_and_mon_of_lta_challenges}. The paper also suggests that it is advisable to design the software components in such a way that
 they tolerate the temporary unavailability of other components and wait until the recovery is completed. Finally, as a further important remark for this thesis, they note that
-comprehensive logging in long-term autonomous applications offers great potential for evaluation, testing, and learning, e.g., through the use of the ROS tool \code{rosbag}.\newline
+comprehensive logging in long-term autonomous applications offers great potential for evaluation, testing, and learning, e.g., through the use of the ROS tool \code{rosbag}\footnote{Tool to record and play back data on ROS topics (\textcolor{link-color}{\url{https://wiki.ros.org/rosbag}})}.\newline
 Egerstedt et al. \cite{Egerstedt:2018} consider a long-term autonomous environment monitoring scenario in which they define survival constraints inspired by the bond between
 biological organisms and their environment in ecology. First, the authors highlight the unique challenges of long-term deployment in a dynamic, unstructured environment, such as
 agriculture, noting that robots must have adaptive capabilities and manage problems potentially affecting their survivability. \textquote{\textit{The basic issue of survivability
@@ -815,9 +815,9 @@ that prevents it from continuing its task.
 \section{Prototype Scenario in the Simulation}
 \label{sec:prototype_scenario}
 
-As starting point serves a physics simulation in \textit{Gazebo}\footnote{Open source $3D$ robotics simulator} that has been created within the research project
-\textit{PORTAL}\footnote{Plant breeding using robotics and AI for advanced data analysis and decision making in virtual spaces:\\
-\textcolor{link-color}{\url{https://www.dfki.de/web/forschung/projekte-publikationen/projekte-uebersicht/projekt/portal/}}}
+As starting point serves a physics simulation in \textit{Gazebo}\footnote{Open source $3D$ robotics simulator (\textcolor{link-color}{\url{https://gazebosim.org/}})} that has been created within the research project
+\textit{PORTAL}\footnote{Plant breeding using robotics and AI for advanced data analysis and decision making in virtual spaces\\
+(\textcolor{link-color}{\url{https://www.dfki.de/web/forschung/projekte-publikationen/projekte-uebersicht/projekt/portal/}})}
 and is adapted and extended as part of this work. The simulation includes the AROX model, i.e., a simulated version of the robotic system described in section \ref{sec:robotic_system},
 as well as a $2.5D$ reflection of a test field environment. For the prototypical baseline scenario of this work, the layout of abstract crops as objects of interest shown in 
 figure \ref{fig:prototypical_layout} was created. Initially, the simulation works under the assumption that the robot is able to charge its battery as soon as it is located at 
@@ -881,8 +881,8 @@ The robot's localization is multi-layered and based on sensor fusion of inertial
 Several laser scanners are attached to its base and used to avoid collisions, e.g., the \textit{SICK TiM} and the \textit{Velodyne Puck} mounted at the optional sensor
 slots displayed in fig. \ref{fig:arox_system}. For the actual task of plant monitoring, the high-resolution $3D$ lidar sensor \textit{RIEGL VZ-$400$i} is used,
 which can be combined with a calibrated hyperspectral or RGB camera (cf. fig. \ref{fig:arox_system}). \cite{Kisliuk:2021}
-For \textit{navigation}, the ROS package \code{move_base_flex} \cite{Puetz:2018} is used, a more flexible extension of the standard ROS navigation framework \code{move_base}.
-The primarily used path planning algorithms are provided by the ROS packages \code{eband_local_planner} and \code{dwa_local_planner}.
+For \textit{navigation}, the ROS package \code{move_base_flex} \cite{Puetz:2018} is used, a more flexible extension of the standard ROS navigation framework \code{move_base}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/move_base}}}.
+The primarily used path planning algorithms are provided by the ROS packages \code{eband_local_planner}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/eband_local_planner}}} and \code{dwa_local_planner}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/dwa_local_planner}}}.
 Effective navigation assumes knowledge of the environment, e.g., a map, so that the robot can estimate its position relative to the navigation target. \cite{Krajnik:2010}
 There are numerous approaches to representing knowledge about the environment. The map may be static and such that the robot only needs to be able to locate itself in that
 map, or the robot may need to perform simultaneous localization and mapping (SLAM). \cite{Krajnik:2010} Particularly in long-term autonomy scenarios, the robot must be able to cope
@@ -1352,8 +1352,7 @@ the place where it got stuck. In simulation, such a situation could be establish
 where the robot tips over could be tested in the simulation by applying a force to the robot that causes this to happen. It should be possible to detect the problem based on a
 combination of sensor information, and the robot should notify the human operator. Finally, concerning mapping issues, it is demanded to either pay close attention to obstacle
 detection when moving on uneven terrain or to clear the costmap from time to time to eliminate such erroneous entries. This is especially true for recovery behaviors,  where such
-``virtual'' objects can block a path that the robot must traverse. The problems described could be evaluated in simulation by having the robot travel over rough terrain or by
-artificially creating paths with steep inclines.
+``virtual'' objects can block a path that the robot must traverse. The problems described could be evaluated in simulation by having the robot travel over rough terrain.
 
 \chapter{Plan Execution and Monitoring}
 \label{sec:plan_execution_and_monitoring}
@@ -1426,14 +1425,18 @@ a call that charges the battery when the robot is located at the corresponding c
 section \ref{sec:prototype_scenario} and considering the realistic case with the container infrastructure (cf. sec. \ref{sec:docking_solution}), there are two other implicit actions
 - \code{dock} always follows \code{return_to_base} and lets the robot dock to the inductive charging station inside the container and \code{undock} follows \code{scan} and reverses
 the docking procedure. Finally, \code{scan} initiates a scanning operation at the robot's current position, using either the \textit{RIEGL} sensor in practice or the dummy node
-(cf. sec. \ref{sec:dummy_scanning_node}) in simulation, which saves a simulated \code{LaserScan} or \code{PointCloud2} to disk, depending on the configuration.
+(cf. sec. \ref{sec:dummy_scanning_node}) in simulation, which saves a simulated \code{LaserScan}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/LaserScan.html}}} or \code{PointCloud2}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/lunar/api/sensor_msgs/html/msg/PointCloud2.html}}} to disk, depending on the configuration.
 An example for a simple plan is shown in figure \ref{fig:plan_example}.
 When the robot executes this plan, it drives to the four specified locations in sequence and records scans.
 Afterwards, it returns to the base and recharges its battery. However, acting requires a lot more than only processing abstract actions provided by a plan (cf. sec.
 \ref{sec:execution_monitoring_smach_architecture}). \cite{Ingrand:2017}
+
+\vfill
+\pagebreak
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.475\textwidth]{pics/plan_example.png}
+    \includegraphics[width=0.5\textwidth]{pics/plan_example.png}
     \caption{\textsc{Sample Plan}}
     \label{fig:plan_example}
 \end{figure}
@@ -1472,6 +1475,8 @@ other hand, allows the robot to transmit status information and help requests to
 acting and monitoring modules by the AROX execution platform presented in section \ref{sec:robotic_system}. Responsible for initiating the actual execution of low-level actions
 are also the deliberation functions that are capable of sending commands such as \code{move_base_flex} navigation goals or recovery instructions to the AROX system.
 Obviously, the AROX interacts with its environment via its sensors and actuators.\newline
+
+\noindent
 Plan execution, as well as robot operation monitoring, i.e., the \textquote{deliberation functions} module in fig. \ref{fig:abstract_actor}, is modeled as a high-level hierarchically
 structured state machine, whose architecture is shown in fig. \ref{fig:high_level_smach}. The capability of a certain degree of fault tolerance is usually not directly integrated
 into the control architecture, if considered at all. \cite{Khalastchi:2018} This is different in this thesis.
@@ -1492,8 +1497,8 @@ As depicted in figure \ref{fig:high_level_smach}, the robot starts in the state 
 \code{EXECUTION_MONITORING} coordinates the entire robot operation and is composed of the states \code{NORMAL_OPERATION}, \code{CONTINGENCY}, \code{CATASTROPHE}, and \code{SHUTDOWN}.
 \code{CONTINGENCY} and \code{CATASTROPHE} essentially refer to type $(1)$ and type $(2)$ in the classification in fig. \ref{fig:problem_types}, respectively.
 \code{NORMAL_OPERATION} is represented by an embedded state machine named \code{OPERATION}, visualized in figure \ref{fig:low_level_smach}, as well as the two
-parallel running execution monitoring states (cf. ROS \code{MonitorState} \cite{monitor_state}) \code{CONTINGENCY_MONITORING} and \code{CATASTROPHE_MONITORING}, 
-implemented as a concurrence container (cf. SMACH \code{Concurrence} \cite{concurrence_container}).
+parallel running execution monitoring states (cf. ROS \code{MonitorState}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/smach/Tutorials/MonitorState}}}) \code{CONTINGENCY_MONITORING} and \code{CATASTROPHE_MONITORING}, 
+implemented as a concurrence container (cf. SMACH \code{Concurrence}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/smach/Tutorials/Concurrence\%20container}}}).
 These parallel running states are used to monitor the robot's operation and to interrupt it when a problematic situation requiring special treatment is detected
 (indicated by the dashed arrows in figure \ref{fig:high_level_smach}).
 When this case occurs, based on how severe the problem is, the respective procedure will interrupt \code{OPERATION} and provide for the outcome \code{critical_complication} or
@@ -1513,7 +1518,7 @@ It starts in the \code{IDLE} state and remains there as long as no plan is provi
 There are two common options for the robot to leave the state. The first is via a message on a ROS topic indicating that the end of the current long-term episode
 has been reached, resulting in an overall outcome of \code{end_of_episode} for \code{NORMAL_OPERATION} followed by \code{SHUTDOWN} (cf. fig. \ref{fig:high_level_smach}). The second is to receive a plan $\pi$ that results in a state
 transition to \code{EXECUTE_PLAN}. Additionally, the external parallel running monitoring states \code{CONTINGENCY_MONITORING} and \code{CATASTROPHE_MONITORING}
-are capable of interrupting the \code{IDLE} state at any time (cf. state preemption \cite{state_preemption}) due to external problems leading to the outcome \code{preempted}.
+are capable of interrupting the \code{IDLE} state at any time (cf. state preemption\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/smach/Tutorials/State\%20Preemption\%20Implementation}}}) due to external problems leading to the outcome \code{preempted}.
 In \code{EXECUTE_PLAN}, there are five possible outcomes, two of which result in state transitions and three of which cause \code{OPERATION} to return to the parent state machine.
 The first possible outcome is \code{action_completed}, which indicates that an action $a \in \pi$  was completed successfully and causes the same state (\code{EXECUTE_PLAN}) to be
 executed again with the reduced plan $\pi \coloneqq \pi \backslash \{a\}$, i.e., the rest of the plan is executed. The next possible outcome is \code{plan_completed}, which means that the entire
@@ -1554,7 +1559,7 @@ In addition, there are the described parallel monitoring states, which are respo
 If these detect a problem, they are able to interrupt \code{OPERATION} and also return \code{critical_complication} or \code{minor_complication} to the parent state machine
 \code{EXECUTION_MONITORING}. It is trivial to interrupt \code{OPERATION} when no task is currently being executed, i.e., no scan is being recorded and no navigation target 
 is being approached. However, it is obvious that potential problems do not wait for the completion of such tasks, but can also occur during the execution of an action $a \in \pi$.
-Therefore, the \code{drive_to(lat, lng, theta)} and \code{scan} actions are implemented as a ROS \code{SimpleActionClient} that can be interrupted at any time
+Therefore, the \code{drive_to(lat, lng, theta)} and \code{scan} actions are implemented as a ROS \code{SimpleActionClient}\footnote{\textcolor{link-color}{\url{http://wiki.ros.org/actionlib}}} that can be interrupted at any time
 by calling the \code{cancel_all_goals()} method, which immediately interrupts all running goals. It is quite important that the robot is able to preempt the plan 
 execution at all times, e.g., does not continue to drive to its goal, but should instantly stop the \code{move_base_flex} goal execution and start following the
 recovery instructions.\newline
@@ -1790,7 +1795,7 @@ Thus, the robot does not detect extreme weather conditions itself through its se
 wrapper of the \textit{OpenWeatherMap} API\footnote{\textcolor{link-color}{\url{https://openweathermap.org/api}}} is used, guaranteeing cross-platform applicability. Initially, the weather monitoring node
 establishes a connection to the \textit{OpenWeatherMap} API. If successful, it continuously requests local weather data at a user-configurable frequency, e.g., every half hour.
 As weather data should be based on the current location of the robot, the node maintains a subscription to the \code{/fix} topic described in section
-\ref{sec:sim_and_mon_gnss_connection_problems}, through which \code{NavSatFix} messages containing the latitude and longitude of the robot's currently presumed position arrive as
+\ref{sec:sim_and_mon_gnss_connection_problems}, through which \code{NavSatFix}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/api/sensor\_msgs/html/msg/NavSatFix.html}}} messages containing the latitude and longitude of the robot's currently presumed position arrive as
 new GNSS data is made available. These coordinates are used to retrieve local weather information from the \textit{OpenWeatherMap} API. After parsing the data relevant for
 monitoring, the actual monitoring at the user-specified frequency begins. First, the current rain volume $r_v$ in $mm/h$ is monitored based on two cases: If $7.6 > r_v > 2.6$,
 the rain is considered moderate and manageable, so an information is published to the operator, but the robot continues its work. When $r_v \geq 7.6$, the rain is considered heavy,
@@ -2061,7 +2066,7 @@ signals. Accordingly, the one on board the AROX is configured as RTK-rover and t
 connected to the on-board computer via USB. Since the on-board computer is an Ubuntu system, the Unix tool
 \code{gpsd}\footnote{\textcolor{link-color}{\url{https://manpages.ubuntu.com/manpages/trusty/man8/gpsd.8.html}}} can be used, a daemon that can be configured to read the GNSS data from the connected
 \textit{u-blox} board. Afterwards, the ROS community package \code{gpsd-client}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/gpsd\_client}}} serves as a bridge between the operating system and the
-ROS world. It reads the GNSS data from \code{gpsd} and generates a \code{NavSatFix}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/api/sensor\_msgs/html/msg/NavSatFix.html}}} message from it, the typical data type for GNSS data in ROS. This message is then published under
+ROS world. It reads the GNSS data from \code{gpsd} and generates a \code{NavSatFix} message from it, the typical data type for GNSS data in ROS. This message is then published under
 the \code{/fix} topic and used for localization, etc. In the simulation scenario (cf. red arrows in fig. \ref{fig:gnss_communication}), \code{GazeboRosGps}, a module from the ROS community package
 \code{hector_gazebo_plugins} \footnote{\textcolor{link-color}{\url{https://wiki.ros.org/hector\_gazebo\_plugins}}}, is used to simulate GNSS data. It already generates a \code{NavSatFix} message with the
 simulated data. However, it does not simulate every single relevant aspect of the GNSS data. It simulates the position and altitude of the robot in \textit{WGS84} coordinates and
@@ -2793,7 +2798,7 @@ The rationale is to have the monitoring procedures described in section \ref{sec
 look for the specific types of issues and initiate an appropriate response. Kunz et al. \cite{Kunz:2009} emphasize that the robustness of a system can be maximized by
 providing fail-safe procedures. Although they are dealing with AUVs, the general problem remains the same.\newline
 Whenever a monitoring solution described in section \ref{sec:sim_and_mon_of_lta_challenges} causes a transition to the \code{CONTINGENCY} or \code{CATASTROPHE} states
-by publishing on the respective topics \code{contigency_preemption} or \code{catastrophe_preemption}, information about the cause of the interruption is
+by publishing on the respective topics \code{/contigency_preemption} or \code{/catastrophe_preemption}, information about the cause of the interruption is
 transmitted via a ROS message. Based on this cause, the corresponding resolver class is selected and executed. The resolver for each general problem class, e.g.,
 connection problems, provides a resolution method for each potential specific problem in that class, e.g., poor WiFi link quality. The \code{CONTINGENCY} state in turn
 communicates the failure reason to the resolver classes. If available, an adequate resolution method for it will be executed. Afterwards, the outcome is reported back to the
