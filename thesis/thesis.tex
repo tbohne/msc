@@ -1463,7 +1463,7 @@ and fig. \ref{fig:MSC_actor} applies this concept to the specific scenario studi
 As anticipated before and visualized in fig. \ref{fig:abstract_actor}, the deliberation functions studied in this work are \textit{acting} and \textit{monitoring}. Furthermore, \textit{planning} plays a role,
 but is only relevant for retrieving and executing plans that are provided by a human operator, i.e., the human operator is essentially the planning component in this scenario.
 Moreover, the human operator is the only other actor with whom the robot must interact. The communication between the robot and the operator will be discussed in detail later (cf. sec.
-\ref{sec:solutions_for_lta_challenges}), but the general idea is that it is a bidirectional channel that allows the operator to send LTA missions to the robot and, on the
+\ref{sec:fallback_solution}), but the general idea is that it is a bidirectional channel that allows the operator to send LTA missions to the robot and, on the
 other hand, allows the robot to transmit status information and help requests to the operator. Processed sensor data, mainly in the form of laser scans, is provided to the
 acting and monitoring modules by the AROX execution platform presented in section \ref{sec:robotic_system}. Responsible for initiating the actual execution of low-level actions
 are also the deliberation functions that are capable of sending commands such as \code{move_base_flex} navigation goals or recovery instructions to the AROX system.
@@ -2392,7 +2392,7 @@ reach it.
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{pics/nav_fail_wrong_route_0.png}
-        \caption{\textsc{Considered Route (rviz)}}
+        \caption{\textsc{Considered Route (rviz\footnotemark)}}
         \label{fig:nav_fail_rviz}
     \end{subfigure}
     \hfill
@@ -2405,6 +2405,7 @@ reach it.
 \caption{\textsc{Navigation Failure - Unable to Find a Path to the Goal}}
 \label{fig:nav_fail}
 \end{figure}
+\footnotetext{$3D$ Visualization Tool for ROS (\textcolor{link-color}{\url{https://wiki.ros.org/rviz}})}
 \noindent
 This example is by no means contrived, it is not unrealistic that in practice the robot is regularly confronted with such situations, meaning that it is important to recognize them
 and enable the system to cope with them. To give an example from the scenario under consideration: An unexpected obstacle could block the path of the robot, e.g., a large agricultural machine. 
@@ -2427,7 +2428,7 @@ recovery. Second, it simply fails with an error and aborts the navigation target
 situations where \code{move_base_flex} was unable to find a correct path and simply ended up in a loop of failed recoveries without ever returning to normal operation. In this
 case, the robot should try a few different recovery actions and then abort and report the problem. Monitoring methods must therefore track the results / states of recovery
 behaviors and decide whether it is appropriate to try more or stop. To identify sustained recovery situations, it is necessary to count them somehow. \code{move_base_flex}
-communicates its status via the ROS topic \code{move_base_flex/exe_path/status}. Consequently, to count the number of failed recoveries, one can simply count the transitions
+communicates its status via the ROS topic \code{/move_base_flex/exe_path/status}. Consequently, to count the number of failed recoveries, one can simply count the transitions
 from \code{GoalStatus.ACTIVE} to \code{GoalStatus.ABORTED}. \code{GoalStatus.SUCCEEDED} should always reset the counter, because then the recovery has actually solved the problem.
 Monitoring is performed at a frequency specified by the user and verifies the current recovery count $r \in \mathbb{N}$. Whenever $r = 1$, i.e., when the first recovery occurs after successful
 operation, the current position of the robot is stored using the GNSS data obtained from the \code{/fix} topic (cf. section \ref{sec:sim_and_mon_gnss_connection_problems}). If the
@@ -3336,7 +3337,7 @@ through simulation by publishing on a topic, as presented in section \ref{sec:si
 covered by the monitoring procedures. However, there are also numerous potential problem conditions that are not explicitly considered by the monitoring nodes, but are nevertheless
 implicitly covered and thus detected. For instance, a situation in which the robot falls over is neither explicitly recognized nor communicated. Yet, at the latest when the expected
 battery consumption no longer matches the actual situation, i.e., the robot has to recharge, a problem is detected and communicated. This also illustrates the fact that the problems
-identified are not strictly separated, but that the transitions are somewhat fluid. Since the considered system was previously not able to deal with the identified problems at all
+identified are not strictly separated and independent, but that the transitions are somewhat fluid. Since the considered system was previously not able to deal with the identified problems at all
 and each of these problems has the potential to make the mission fail, it is evident that the proposed approaches significantly improve the robustness of the system with respect to
 the identified challenges. Given that the purpose of this work was not only to identify and address the problem categories, but also to define an architecture that allows systematic
 handling of such situations, it should be noted that the overall architecture has proven to be suitable for this type of non-nominal plan execution. In particular, due to the parallel
@@ -3382,7 +3383,7 @@ this thesis is on monitoring and only simple workarounds have been implemented, 
 But even simple contextual recovery behaviors could be easily defined and integrated and be of great use in practice.
 Another practically useful aspect for future improvements would be a web interface that allows remote access to sensors as well as direct control of the robot. This way, an
 operator could take control for a short time in case of minor problems and would not have to be physically on site. Yet a simple improvement in communication with the operator would
-also be of great benefit. So far it is implemented in pure text form, but it is easy to imagine an improved version with graphically processed sensor, weather and status
+also be of great benefit. So far it is implemented in pure text form, but it is easy to imagine an improved version as dashboard with graphically processed sensor, weather and status
 information via a web interface. Ultimately, a truly crucial aspect is usability, i.e., the integration and reconfiguration of the developed framework. Throughout the work, it is
 pointed out that great emphasis has been placed on a certain universality and generic solutions. Although most of the implemented approaches are generally applicable to many scenarios due
 to this focus, there is still much room for improving and simplifying the integration and reconfiguration of the monitoring framework.
