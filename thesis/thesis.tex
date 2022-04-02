@@ -3143,6 +3143,9 @@ The detailed results can be found in the appendix (cf. fig. \ref{fig:detailed_fu
 \section{Classification of the Selected LTA Problems}
 \label{sec:classification_of_lta_problems}
 
+A crucial question is whether the simulations of the problem cases presented in section \ref{sec:sim_and_mon_of_lta_challenges} are indeed representative of the problems in reality.
+Oftentimes, the simulated cases exactly coincide with the actual cases in reality, e.g., in the case of extreme weather events, as it is simply a matter of data processing.
+Otherwise, it ultimately boils down to the question of how compelling the argumentation is in the individual case.
 The classification of the selected LTA problems is based on their evaluation in the simulation together with a comparative contextualization of the practical case. The aim is to
 classify the identified problem categories in the simulation according to their severity, i.e., which LTA problem can lead to which worst-case outcome. By definition, all identified
 problems can lead to contingencies, as outlined in the corresponding sections (cf. section \ref{sec:sim_and_mon_of_lta_challenges}). Additionally, all of them can lead to
@@ -3214,6 +3217,7 @@ scenarios, clearly highlighting the importance of addressing all of these proble
 \section{Evaluation of the Monitoring Framework}
 \label{sec:eval_mon_framework}
 
+\noindent
 In general, the experimental evaluation is based on the process that has already been followed throughout the work: Problem simulation, monitoring and subsequent solution. The
 simulations of error cases, as they can be taken from section \ref{sec:sim_and_mon_of_lta_challenges}, can always be activated by a message on the corresponding topic. Then, a
 monitoring node should detect the problem, interrupt \code{NORMAL_OPERATION} and initiate an appropriate resolution. The resolver either solves the problem and then returns to
@@ -3221,7 +3225,15 @@ monitoring node should detect the problem, interrupt \code{NORMAL_OPERATION} and
 potential to render the mission worthless. Moreover, none of them can be detected by the AROX system without the developed monitoring framework. Now the natural question is to what
 extent the developed monitoring framework improves the situation. This section is about assessing the reliability of the monitoring solutions, i.e., the degree to which the monitoring
 nodes are able to detect and solve / communicate the problems when they occur. To this end, a series of experiments were conducted. The idea is to run an LTA episode and randomly
-simulate the occurrence of issues from the set of identified problem categories at a user-configurable frequency by publishing to the respective topic. Since it is always known which
+simulate the occurrence of issues from the set of identified problem categories at a user-configurable frequency by publishing to the respective topic. This does not correspond to
+reality in the sense that these issues probably do not occur so frequently, but this only concerns other time scales and is not relevant for the determination of the detection
+reliability. Whether a problem occurs every ten minutes or every three weeks is irrelevant to the detection of the problem. Another aspect is that problems in the real world do not
+occur randomly, but are always causally linked to something. To some extent, this is also true for the problems considered in the simulation, e.g., a localization problem occurs when
+the GNSS link is poor. However, since no statements are made about any causalities, it can be assumed that the issues occur randomly. All that is tested is whether it can be detected
+when an issue occurs. How it comes about, i.e., the cause, is completely disregarded for this experiment.\newline
+
+\noindent
+Since it is always known which
 reaction is expected after a certain simulation, the expected can be compared with the observed. It is essentially based on a dictionary that maps the fault simulation topics to the
 corresponding expected error messages on the \code{contingency_preemption} topic. The following results are based
 on a frequency of $250s$, i.e., a random problematic situation occurs every $250s$. However, the $250s$ are only a lower bound on the time between two fault simulations because some
