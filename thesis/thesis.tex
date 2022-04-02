@@ -903,7 +903,7 @@ are simply not explicitly part of the application. In addition to the actual phy
 can be used in a simulation (cf. fig. \ref{fig:prototypical_layout}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/robot_description.png}
+    \includegraphics[width=\textwidth]{pics/robot_description_smaller.png}
     \caption{\textsc{Autonomous Robotic Experimentation Platform (AROX)}}
     \label{fig:arox_system}
 \end{figure}
@@ -989,7 +989,7 @@ Since the AROX system is designed for moderate weather conditions, drastic weath
 If the weather changes too drastically, it can be problematic for various aspects of the system.
 If it is stormy, for example, this can be delicate for the sensor recordings, but also for the robot platform itself, as it could fall over or otherwise be damaged.
 The quality of the sensor images can also be affected by fog or extreme sunlight (illumination).
-In addition, heavy rain should also be avoided. Finally, extreme cold could be a major problem for the system's battery.\newline
+In addition, heavy rain should also be avoided. Finally, extreme cold could be a major problem for the system's battery.
 
 \vfill
 \pagebreak
@@ -1387,7 +1387,9 @@ As with planning, monitoring always raises the question of the level of the robo
 defined by the rough notion of being as universal as possible to achieve some form of reusability while being applicable and useful in the context under consideration. Obviously,
 monitoring also takes place at other levels of abstraction, such as monitoring WiFi signal strength or monitoring within \code{move_base_flex}, which reports errors. There is simply
 no fundamental answer to the question of where monitoring should take place. Presumably, one could break it down to the fact that monitoring is necessary at all levels of abstraction,
-at least in the sense of error treatment.
+at least in the sense of error treatment.\newline
+
+\noindent
 The potential problems identified in section \ref{sec:challenges_for_lta}, and their subtypes, are generally classified into two categories in this thesis according to their severity:
 Those that cause contingencies and those that lead to catastrophes. The essence of these two categories has already been anticipated by the first two classes of problems in the
 concluding remarks of section \ref{sec:challenges_for_lta}. Contingencies refer to cases where the robot is confronted with an unexpected event or problem, but its ability to act is
@@ -1580,9 +1582,6 @@ solvable based on current estimations and then it turns out that it in fact is n
 the solution that it does not work anymore, i.e., the assumption was wrong, it is no longer solvable, then it comes to the \textquote{aggravated} case, i.e., the problem worsens and then
 becomes a \code{CATASTROPHE}. Additionally shown in fig. \ref{fig:high_level_smach} is the data accumulator that logs all relevant information from the execution and monitoring nodes.
 On the one hand for debugging purposes, but also to be able to learn from it later on, which will be discussed in section \ref{sec:black_box}.
-
-\vfill
-\pagebreak
 
 \section{Black Box to Learn from Experience}
 \label{sec:black_box}
@@ -1909,14 +1908,14 @@ e.g., that depending on the scenario and sensor configuration, at least $10$\% o
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.8\textwidth]{pics/tilted_AROX.png}
+        \includegraphics[width=0.65\textwidth]{pics/tilted_AROX.png}
         \caption{\textsc{Tilted AROX in Simulation}}
         \label{fig:tilted_AROX}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.8\textwidth]{pics/straight_line.png}
+        \includegraphics[width=0.65\textwidth]{pics/straight_line.png}
         \caption{\textsc{Feasible Range Values when Facing the Sky}}
         \label{fig:straight_line}
     \end{subfigure}
@@ -2147,14 +2146,14 @@ $\sqrt{101}m$ in the east direction, resulting in a fairly high uncertainty with
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.8\textwidth]{pics/GNSS_cov_low.png}
+        \includegraphics[width=0.75\textwidth]{pics/GNSS_cov_low.png}
         \caption{\textsc{Relatively Low Uncertainty}}
         \label{fig:low_uncertainty}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.8\textwidth]{pics/GNSS_cov_high.png}
+        \includegraphics[width=0.75\textwidth]{pics/GNSS_cov_high.png}
         \caption{\textsc{High Uncertainty in One Direction}}
         \label{fig:high_uncertainty}
     \end{subfigure}
@@ -2213,6 +2212,10 @@ simply configuring the status, covariance information, and service according to 
 setting inappropriate values for each. Likewise, absolute deviation monitoring as well as variance history analysis can be tested by simulating the respective problems.
 Let the type be \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, the user-specified history length $n = 4$ and the deviation increase threshold in meters $d_{inc} = 5$. Deviation monitoring
 can then be tested by publishing the following (co)variance progression ($n = 4$ messages in sequence):
+
+\vfill
+\pagebreak
+
 \begin{figure}[H]
     \begin{subfigure}[b]{0.24\textwidth}
     \centering
@@ -2268,10 +2271,7 @@ can then be tested by publishing the following (co)variance progression ($n = 4$
 The (co)variance progression depicted in fig. \ref{fig:cov_history} is expected to cause a contingency for various reasons, e.g., due to the fact that the history only
 contains increasing standard deviation values for the east component ($\sqrt{16.2} m \rightarrow \sqrt{25.1} m \rightarrow \sqrt{89.0} m \rightarrow \sqrt{99.4} m$) and the overall
 absolute increase between the east deviation of the oldest (cf. fig. \ref{fig:oldest}) and latest (cf. fig. \ref{fig:latest}) covariance matrices exceeds the defined threshold
-of $5 m (\approx 5.95 m)$. It is reasonable to interrupt normal operation in such a case, as such a (co)variance progression poses great challenges for localization.
-
-\vfill
-\pagebreak
+of $5 m (\approx 5.95 m)$. It is reasonable to interrupt normal operation in such a case, as such a (co)variance progression poses great challenges for localization.\newline
 
 \noindent
 The simulation of the GNSS failure cases can be enabled / disabled via the following ROS topics:
@@ -2288,6 +2288,9 @@ The simulation of the GNSS failure cases can be enabled / disabled via the follo
     \item \textbf{variance history failure:} \code{/toggle_simulated_variance_history_failure}
     \item \textbf{high deviation:} \code{/toggle_simulated_high_deviation}
 \end{itemize}
+
+\vfill
+\pagebreak
 
 \subsection{Data Management}
 \label{sec:sim_and_mon_data_management}
@@ -3296,10 +3299,6 @@ and should be fairly easy to resolve in the future. Moreover, on average, the ro
 $10.38$ charge cycles. Per episode, the robot traveled an average total distance of $967.1$ meters in $5.06$ hours, estimated from odometry data. Another interesting aspect of LTA systems
 discussed in the literature is the autonomy percentage, i.e., the time during which the robot actually performs autonomous tasks, excluding idle time, etc. The autonomy percentage for
 the performed experiments is depicted in fig. \ref{fig:autonomy_percentage} and illustrates that the majority of the runtime is spent on actual autonomous tasks, on average $96.28\%$.
-
-\vfill
-\pagebreak
-
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
