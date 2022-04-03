@@ -3429,8 +3429,10 @@ long-term autonomous missions and then learning from that data is a step for the
 $10$ runs in the evaluation section have always been initialized with the same seed, thus also always with the same sequence of simulated problems to have some comparability between runs.
 Of course, there should be more experiments in the future that cover the entire set. In addition, variations in runtime and error frequency should be investigated. Since the focus of
 this thesis is on monitoring and only simple workarounds have been implemented, there is obviously great potential for future work in developing more elaborate solution techniques.
-But even simple contextual recovery behaviors could be easily defined and integrated and be of great use in practice. Moreover, the challenges identified, which were not considered
-in detail in this work, should be investigated in the future (cf. sec. \ref{sec:lta_problems_not_considered}).
+But even simple contextual recovery behaviors could be easily defined and integrated and be of great use in practice. As for the monitoring itself, a systematic configuration of the
+monitoring nodes seems reasonable to find a balance and avoid both false negatives and false positives, e.g., by employing a \textit{Shewhart Chart}. Moreover, the challenges identified, which were not considered
+in detail in this work, should be investigated in the future (cf. sec. \ref{sec:lta_problems_not_considered}). In terms of challenges, in the long run, a representative and
+significant version of the relevance assessment of LTA problems presented in this thesis and beyond could be helpful for future research.
 Another practically useful aspect for future improvements would be a web interface that allows remote access to sensors as well as direct control of the robot. This way, an
 operator could take control for a short time in case of minor problems and would not have to be physically on site. Yet a simple improvement in communication with the operator would
 also be of great benefit. So far it is implemented in pure text form, but it is easy to imagine an improved version as dashboard with graphically processed sensor, weather and status
