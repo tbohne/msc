@@ -3130,8 +3130,8 @@ errors, thus using the container as a landmark.
 The general idea behind the upcoming experiments is the following simple scheme: Problem simulation by publishing on the respective topic, followed by a triggered monitoring
 procedure that should detect the problem, interrupt normal operation and initiate an appropriate resolution. Either it succeeds and \code{NORMAL_OPERATION} continues, or it cannot be
 resolved and execution ends in \code{CATASTROPHE}.\newline
-Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: The total system lifetime and the autonomy percentage. \cite{Hawes:2017} The
-first measures the time the robot is in autonomous operation and is reset when an unrecoverable failure or an unrequested intervention of the human operator is required. However,
+Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: The \textit{total system lifetime} and the \textit{autonomy percentage}. \cite{Hawes:2017} The
+first measures the time the robot is in autonomous operation and is reset when an unsolvable problem or an unintended intervention of the human operator is required. However,
 it is not reasonable to evaluate this time in the present scenario, since it certainly depends on the frequency with which the failures considered in this work are simulated. The second metric
 (autonomy percentage), on the other hand, is very useful for this thesis as well. \textquote{\textit{The motivation of the autonomy percentage is that it is of little value to achieve a long
 total system lifetime if the system does nothing}}. \cite{Hawes:2017}
