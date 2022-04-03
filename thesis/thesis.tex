@@ -3363,7 +3363,10 @@ through simulation by publishing on a topic, as presented in section \ref{sec:si
 covered by the monitoring procedures. However, there are also numerous potential problem conditions that are not explicitly considered by the monitoring nodes, but are nevertheless
 implicitly covered and thus detected. For instance, a situation in which the robot falls over is neither explicitly recognized nor communicated. Yet, at the latest when the expected
 battery consumption no longer matches the actual situation, i.e., the robot has to recharge, a problem is detected and communicated. This also illustrates the fact that the problems
-identified are not strictly separated and independent, but that the transitions are somewhat fluid. Since the considered system was previously not able to deal with the identified problems at all
+identified are not strictly separated and independent, but that the transitions are somewhat fluid. The example also demonstrates that all identified problems excluded from detailed
+examination in this work (see section \ref{sec:lta_problems_not_considered}) are covered, at least in the sense that they are detected when they lead to total mission failure due to
+a fully discharged battery. Furthermore, mapping errors are effectively covered in the way that if they cause navigation problems, the costmaps are cleared, which was not the case
+before and which in practice in many cases leads to alleviation. Since the considered system was previously not able to deal with the identified problems at all
 and each of these problems has the potential to make the mission fail, it is evident that the proposed approaches significantly improve the robustness of the system with respect to
 the identified challenges. Given that the purpose of this work was not only to identify and address the problem categories, but also to define an architecture that allows systematic
 handling of such situations, it should be noted that the overall architecture has proven to be suitable for this type of non-nominal plan execution. In particular, due to the parallel
