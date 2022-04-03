@@ -131,7 +131,7 @@
 
 \cleardoublepage
 
-\chapter*{\hfill Abstract}
+\chapter*{Abstract}
 \begin{prefacesection}
 \noindent
 Long-term autonomous robotic systems in highly dynamic real-world applications are becoming a reality.
@@ -1695,7 +1695,15 @@ failure case at hand. While in the case of contingencies these nodes actually re
 by definition cannot be solved by the robot itself.
 It is useful to distinguish between internal and external exceptional situations that require special treatment, i.e., issues concerning the robotic
 system itself or the environmental conditions. \cite{Hawes:2017}
-The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation. Initially, it will be demonstrated that in the
+The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation.
+An important aspect is that the focus is not on the reasons for problems occurring, but only on detection. There can be arbitrarily many reasons why certain aspects of the system
+are not functioning properly, and it is unrealistic to contemplate them all. The critical point is to recognize that there is an issue, not why.
+If the robot had the chance to recognize a causality, it could specifically pursue it, but this is typically not the case.
+Accordingly, the approach is always to think about how to determine that something is dysfunctional, which greatly reduces the number of possibilities.
+For instance, the number of ways a laser scanner can malfunction is much smaller than the number of reasons for malfunction.\newline
+
+\noindent
+Initially, it will be demonstrated that in the
 prototypical scenario, the mission can no longer be completed successfully if these errors occur (cf. section \ref{sec:experiments}). After launching the monitoring nodes, the
 problems should be detected and either resolved by the robot or reported to the operator so that the mission can continue. All of the failure simulations are implemented in a way that
 allows them to be triggered by publishing to a certain topic in order to enable automation of these failure cases in subsequent experiments (cf. section \ref{sec:experiments}).
