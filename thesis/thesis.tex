@@ -3430,7 +3430,9 @@ long-term autonomous missions and then learning from that data is a step for the
 $10$ runs in the evaluation section have always been initialized with the same seed, thus also always with the same sequence of simulated problems to have some comparability between runs.
 Of course, there should be more experiments in the future that cover the entire set. In addition, variations in runtime and error frequency should be investigated. Since the focus of
 this thesis is on monitoring and only simple workarounds have been implemented, there is obviously great potential for future work in developing more elaborate solution techniques.
-But even simple contextual recovery behaviors could be easily defined and integrated and be of great use in practice. As for the monitoring itself, a systematic configuration of the
+A fairly simple but often effective approach to dealing with failed components, which Hawes et al. \cite{Hawes:2017} also point out, is to incorporate redundancy
+so that the failed component can be replaced. In general, contextual knowledge could also play a major role in resolution in the future. Even simple contextual recovery behaviors
+could be easily defined and integrated and be of great use in practice. As for the monitoring itself, a systematic configuration of the
 monitoring nodes seems reasonable to find a balance and avoid both false negatives and false positives, e.g., by employing a \textit{Shewhart Chart}. Moreover, the challenges identified, which were not considered
 in detail in this work, should be investigated in the future (cf. sec. \ref{sec:lta_problems_not_considered}). In terms of challenges, in the long run, a representative and
 significant version of the relevance assessment of LTA problems presented in this thesis and beyond could be helpful for future research.
