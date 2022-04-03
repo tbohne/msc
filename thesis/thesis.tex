@@ -1663,11 +1663,14 @@ successfully completes an action $a \in \pi$, the reduced plan, i.e., $\pi \colo
 Therefore, based on this architecture, the current state of the plan execution is always stored in the \code{userdata} of the SMACH. To comply with this fact, a certain situation
 must be handled. If a plan execution is interrupted during the execution of an action $a \in \pi$, the action $a$ is already removed from the plan $\pi$, i.e., the \code{userdata},
 by the latest \textit{pop} operation, and since the execution of $a$ must be repeated when the normal operation resumes, $a$ must be reattached to $\pi$ before transitioning
-to \code{CONTINGENCY} or \code{CATASTROPHE}. Thus, $\pi \coloneqq a.\pi$ (concatenation of action and plan).
-Of course, when the robot transitions back to \code{NORMAL_OPERATION} after solving a contingency, it starts again in \code{IDLE}, which is why \code{IDLE}
+to \code{CONTINGENCY} or \code{CATASTROPHE}. Thus, $\pi \coloneqq a.\pi$ (concatenation of action and plan). Yet, there is a special case: If an interruption occurs during a \code{scan}
+action and the interruption involves leaving the scan position, the robot must return to that position before repeating the scan, which means that the last \code{drive_to} action
+before the scan must also be repeated. Of course, when the robot transitions back to \code{NORMAL_OPERATION} after solving a contingency, it starts again in \code{IDLE}, which is why \code{IDLE}
 always looks for existing unfinished plans $\pi$ in the \code{userdata} first. If there is one, i.e., $\pi \in$ \code{userdate.input_plan}, $\pi \neq \emptyset$, it does not prompt the
 plan generator for a new plan, but continues the previously preempted and only partially completed plan $\pi$.
 The catastrophe case works analogously to the \code{IDLE} state.\newline
+
+\noindent
 Of course, it is not necessarily always feasible to simply execute the rest of the plan afterwards, since the planned charge stops may no longer be sufficient. However, if the
 interruption of the plan involves returning to the base and seeking shelter, this is not a problem, since such a recovery can always be accompanied by recharging, so that the
 battery is fully charged when the robot resumes its operation. In such a case, it might even be feasible to remove some of the next planned charge stops. If a charge stop is one
