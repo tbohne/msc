@@ -1099,7 +1099,7 @@ For example, the local planner configured in \code{move_base_flex} (e.g. DWA, EB
 is infeasible, e.g., tries to drive around a field,  although there is no way. Del Duchetto et al. encounter similar problems in an indoor LTA scenario where valid navigation
 trajectories cannot be generated from time to time.
 They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018} As Hawes
-et al. \cite{Hawes:2017} point out, navigation errors are a critical factor in the long-term autonomy of a mobile robot, as they can result in the robot being incapable of returning
+et al. \cite{Hawes:2017} point out, navigation errors are a critical factor for the long-term autonomy of a mobile robot, as they can render the robot incapable of driving back
 to the charging station (mobile container). Hence, it is imperative to guarantee a certain level of robustness against navigational flaws, i.e., to provide the robot with the
 ability to detect and recover from such errors. \cite{DelDuchetto:2018}
 The authors define the errors as follows: \textquote{\textit{[...] situation in which the robot is not able to progress toward the goal, because it is not
