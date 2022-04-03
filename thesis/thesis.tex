@@ -2737,6 +2737,8 @@ simulation before and after physical manipulations, respectively. For the actual
 important aspects of a physics property specification request are the gravity vector and the \code{ODEPhysics}\footnote{Open Dynamics Engine (\textcolor{link-color}{\url{https://www.ode.org/}})} configuration,
 i.e., the configuration of the physics engine used by default in \textit{Gazebo}. Initially, \code{ODEPhysics} is configured with reasonable default values from the literature and the
 ODE documentation. The gravity vector $\vec{g}$ is naturally initialized with $\vec{g} = (0, 0, -9.81) \thinspace m/s^2$.\newline
+
+\noindent
 The first simulation option is a wheel motion with no change in position, resulting in a divergence between the estimated traveled distances by odometry and GNSS.
 In practice, such a situation can for example occur when the wheels spin
 due to low friction on an icy or muddy surface. First, the gravity, i.e., acceleration in $z$ direction, is set to a low positive value for a short time to levitate the robot above
@@ -2747,9 +2749,15 @@ In order to simulate the phenomenon under consideration, it would probably be mo
 The motivation for this kind of simulation is quite pragmatic, \code{SetPhysicsProperties}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/jade/api/gazebo_msgs/html/srv/SetPhysicsProperties.html}}}
 provides configuration options for gravity, but not for friction. However, the objective is that the wheels rotate without movement of the robot, whether this happens by reduced
 friction or levitation is irrelevant. Once again, this leads to the point that this work is not about the causes of issues, but merely about identifying issues.\newline
-The second simulation option
-is the reverse case - a change in position without wheel revolutions, which in practice could be related to the robot slipping away on a muddy path. This can be simulated by briefly
-changing the acceleration in $x$ or $y$ direction to a relatively high value (e.g. $8 m/s^2$) so that the robot drifts off.\newline
+
+\noindent
+The second simulation option is the reverse case - a change in position without wheel revolutions, which in practice could be related to the robot slipping away on a muddy path.
+Or, more generally, the wheel revolutions do not match the movement, which can also occur during active navigation. Hence, there is a motion component in the robot's position change
+that cannot be explained by the wheel rotation. Nevertheless, as this is rather difficult to detect, it is restricted to the special case where there are no wheel revolutions and the
+entire movement cannot be explained by wheel rotations. This can be simulated by briefly changing the acceleration in $x$ or $y$ direction to a relatively high value (e.g. $8 m/s^2$)
+so that the robot drifts off.\newline
+
+\noindent
 The third option, a divergence between the estimated yaw angles of the interpolated GNSS positions, the filtered odometry and the IMU, can be simulated by rotating the robot by e.g.
 $50\degree$ around the yaw axis. This assumes knowledge of the robot's current pose (position and orientation). The position is taken from \code{NavSatFix} messages to the \code{/fix}
 topic, and the angular rotation, i.e., orientation, based on the IMU's gyroscope is extracted from the latest message to \code{/imu_data}.
