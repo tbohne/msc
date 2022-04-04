@@ -2907,7 +2907,7 @@ environment. \cite{Nourbakhsh:2003}
 In general, the idea of recovery is to transform an erroneous or problematic state into one without any issues. \cite{Brodskiy:2011}
 The rationale is to have the monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} that
 look for the specific types of issues and initiate an appropriate response. Kunz et al. \cite{Kunz:2009} emphasize that the robustness of a system can be maximized by
-providing fail-safe procedures. Although they are dealing with AUVs, the general problem remains the same.\newline
+providing fail-safe procedures. Although they are dealing with AUVs, the general challenge remains the same.\newline
 
 \noindent
 Whenever a monitoring solution described in section \ref{sec:sim_and_mon_of_lta_challenges} causes a transition to the \code{CONTINGENCY} or \code{CATASTROPHE} states
@@ -2915,7 +2915,7 @@ by publishing on the respective topics \code{/contingency_preemption} or \code{/
 transmitted via a ROS message. Based on this cause, the corresponding resolver class is selected and executed. The resolver for each general problem class, e.g.,
 connection problems, provides a resolution method for each potential specific problem in that class, e.g., poor WiFi link quality. The \code{CONTINGENCY} state in turn
 communicates the failure reason to the resolver classes. If available, an adequate resolution method for it will be executed. Afterwards, the outcome is reported back to the
-high-level state machine, which either continues normal operation if the problem is successfully solved, or aggravates to \code{CATASTROPHE}. To this end, each monitoring node publishes on
+high-level state machine, which either continues normal operation if the issue is successfully solved, or aggravates to \code{CATASTROPHE}. To this end, each monitoring node publishes on
 a topic \code{/aggravate}, which then initiates the transition from \code{CONTINGENCY} to \code{CATASTROPHE}. Thus, if the specific resolver
 method is not able to handle the problem, or if there is not even a specific resolver method for the failure case, the problem is handed over to the fallback resolver,
 which passes the problem to the human operator and awaits resolution. If the respective failure was caused by a simulation, the corresponding flag must be reset to restore
@@ -3021,11 +3021,11 @@ repeated failure, the human operator is notified.
 \subsection{Data Management}
 \label{sec:data_management_resolver}
 
-Data management problems are a special case as there is one situation where the robot is definitely not able to solve the problem itself, namely the case of a full memory. Yet, this is
+Data management issues are a special case as there is one situation where the robot is definitely not able to solve the problem itself, namely the case of a full memory. Yet, this is
 not a problem in principle. For instance, the robot could upload the scans instead of storing them on its drive, though for the prototypical scenario considered in this work, this
-will be the case, so it is a problem that needs to be solved by the human operator. Nevertheless, it is not a direct catastrophe like the power management problem
+will be the case, so it is a problem that needs to be solved by the human operator. Nevertheless, it is not a direct catastrophe like the power management failure
 where the robot cannot return to the base station due to its battery charge, as there is a useful step that can be taken before the catastrophe case is initiated. The robot can
-return to its base and seek shelter before waiting for the human operator to take care of the problem. The second type of data management problem, i.e., an improperly logged scan, is
+return to its base and seek shelter before waiting for the human operator to take care of the issue. The second type of data management problem, i.e., an improperly logged scan, is
 again addressed by a \textquote{retry and count} based attempt before a catastrophe is triggered if necessary.
 
 \subsection{Plan Deployment Failure}
@@ -3286,10 +3286,10 @@ The detailed results can be found in the appendix (cf. fig. \ref{fig:detailed_fu
 A crucial question is whether the simulations of the problem cases presented in section \ref{sec:sim_and_mon_of_lta_challenges} are indeed representative of the problems in reality.
 Oftentimes, the simulated cases exactly coincide with the actual cases in reality, e.g., in the case of extreme weather events, as it is simply a matter of data processing.
 Otherwise, it ultimately boils down to the question of how compelling the argumentation is in the individual case.
-The classification of the selected LTA problems is based on their evaluation in the simulation together with a comparative contextualization of the practical case. The aim is to
-classify the identified problem categories in the simulation according to their severity, i.e., which LTA problem can lead to which worst-case outcome. By definition, all identified
+The classification of the selected LTA challenges is based on their evaluation in the simulation together with a comparative contextualization of the practical case. The aim is to
+classify the identified problem categories in the simulation according to their severity, i.e., which LTA challenge can lead to which worst-case outcome. By definition, all identified
 problems can lead to contingencies, as outlined in the corresponding sections (cf. section \ref{sec:sim_and_mon_of_lta_challenges}). Additionally, all of them can lead to
-catastrophes, at least as a fallback option in case of resolution failures. However, this implies monitoring to detect the problems. As a brief recap, contingencies are situations in
+catastrophes, at least as a fallback option in case of resolution failures. However, this implies monitoring to detect the issues. As a brief recap, contingencies are situations in
 which the robot's ability to act is essentially preserved, so that it can attempt to solve the problem itself. Catastrophes, on the other hand, definitely require human intervention.
 Hence, when the proposed monitoring framework is active, each problem category can potentially lead to the worst case outcome of \code{CATASTROPHE}. More interesting in terms of
 classification is the present state of the AROX system, i.e., no monitoring for the identified issues. In this case, \code{CATASTROPHE} refers to one of the two aforementioned
@@ -3364,17 +3364,17 @@ scenarios, clearly highlighting the importance of addressing all of these proble
 \label{sec:eval_mon_framework}
 
 \noindent
-In general, the experimental evaluation is based on the process that has already been followed throughout the work: Problem simulation, monitoring and subsequent solution. The
+In general, the experimental evaluation is based on the process that has already been followed throughout the work: Failure simulation, monitoring and subsequent solution. The
 simulations of error cases, as they can be taken from section \ref{sec:sim_and_mon_of_lta_challenges}, can always be activated by a message on the corresponding topic. Then, a
-monitoring node should detect the problem, interrupt \code{NORMAL_OPERATION} and initiate an appropriate resolution. The resolver either solves the problem and then returns to
-\code{NORMAL_OPERATION}, or it cannot solve the problem and proceeds to \code{CATASTROPHE}. In the previous section, it was shown that all of the problems identified indeed have the
+monitoring node should detect the failure, interrupt \code{NORMAL_OPERATION} and initiate an appropriate resolution. The resolver either solves the problem and then returns to
+\code{NORMAL_OPERATION}, or it cannot solve the problem and proceeds to \code{CATASTROPHE}. In the previous section, it was shown that all of the challenges identified indeed have the
 potential to render the mission worthless. Moreover, none of them can be detected by the AROX system without the developed monitoring framework. Now the natural question is to what
 extent the developed monitoring framework improves the situation. This section is about assessing the reliability of the monitoring solutions, i.e., the degree to which the monitoring
 nodes are able to detect and solve / communicate the problems when they occur. To this end, a series of experiments were conducted. The idea is to run an LTA episode and randomly
 simulate the occurrence of issues from the set of identified problem categories at a user-configurable frequency by publishing to the respective topic. This does not correspond to
 reality in the sense that these issues probably do not occur so frequently, but this only concerns other time scales and is not relevant for the determination of the detection
 reliability. Whether a problem occurs every ten minutes or every three weeks is irrelevant to the detection of the problem. Another aspect is that problems in the real world do not
-occur randomly, but are always causally linked to something. To some extent, this is also true for the problems considered in the simulation, e.g., a localization problem occurs when
+occur randomly, but are always causally linked to something. To some extent, this is also true for the issues considered in the simulation, e.g., a localization problem occurs when
 the GNSS link is poor. However, since no statements are made about any causalities, it can be assumed that the issues occur randomly. All that is tested is whether it can be detected
 when an issue occurs. How it comes about, i.e., the cause, is completely disregarded for this experiment.\newline
 
