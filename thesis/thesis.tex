@@ -2458,7 +2458,9 @@ the robot was able to find it, but if it is incapable of doing so, it should be 
 is a path to the navigation goal, but \code{move_base_flex} cannot find it (cf. fig. \ref{fig:nav_fail}). Fig. \ref{fig:nav_fail} shows a side by side comparison of what the robot
 perceives and the actual section of the simulated world. In fig. \ref{fig:nav_fail_rviz}, the route currently considered by \code{move_base_flex} (green line) as well as the target
 pose (cyan arrow) is depicted. Examining the actual world excerpt in fig. \ref{fig:nav_fail_gazebo}, it is obvious that this route will not lead the robot to its destination. However, as
-can be observed from fig. \ref{fig:nav_fail_gazebo}, there is a viable route (red line) that would accomplish this. In some cases, \code{move_base_flex} may find the viable route after a while,
+can be observed from fig. \ref{fig:nav_fail_gazebo}, there is a viable route (red line) that would accomplish this. Fig. \ref{fig:nav_fail_rviz} shows how the local
+planner (\textit{EBand}) tries to satisfy a global plan that is faulty due to lack of information. The local route that the robot takes in fig. \ref{fig:nav_fail_rviz} does not
+lead to the correct global one indicated in fig. \ref{fig:nav_fail_gazebo}. In some cases, \code{move_base_flex} may find the viable route after a while,
 but this is not assured. The problem in such cases is often that the viable routes are somehow counterintuitive, e.g., because they require a detour, at least given the robot's partial
 knowledge of the environment. Analogous to leaving local optima in optimization, in some circumstances the robot must first navigate farther away from the target before it can actually
 reach it.
