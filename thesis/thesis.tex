@@ -520,7 +520,7 @@ nature of such operations is not only a challenge but also a chance to learn how
 allows the robot to predict the future state of the world based on the recognized patterns, which certainly has a positive impact on long-term autonomy performance.\newline
 With manipulation under uncertainity, Lanighan et al. \cite{Lanighan:2019} work on another aspect of long-term autonomous robotics. They consider a robotic system with a monitoring and
 cleaning task in a dynamic environment where it is expected to operate autonomously for extended periods of time without human supervision. They see the uncertainty in unstructured
-dynamic environments as the greatest challenge to long-term autonomy and highlight the need for planning and execution approaches capable of dealilng with such uncertainties and
+dynamic environments as the greatest challenge to long-term autonomy and highlight the need for planning and execution approaches capable of dealing with such uncertainties and
 inherent risks. They model the problem as a \textit{Partially Observable Markov Decision Process (POMDP)}, plan in the belief space, and try to avoid unrecoverable situations by
 managing the stochastic actions.\newline
 Recently (2020), Basich et al. \cite{Basich:2020} introduced a method for robots to improve their competence during long-term autonomous applications. Their particular focus is on so-called
@@ -535,7 +535,7 @@ charging, e.g., by inductive charging, so that the entire operating cycle can be
 \ref{sec:docking_solution} aims to achieve in this work.\newline
 Eventually, in 2021, Emam et al. \cite{Emam:2021} present a \textit{Control Barrier Function (CBF)} framework to tackle the problem of perturbations that the robot may face. The authors
 underscore that when developing new algorithms for robots operating autonomously for extended periods of time in dynamic environments, it is imperative to pay close attention to
-robustness in order to deal with all the challenges potentially occuring in such situations (cf. section \ref{sec:challenges_for_lta}). As they claim:
+robustness in order to deal with all the challenges potentially occurring in such situations (cf. section \ref{sec:challenges_for_lta}). As they claim:
 \textquote{\textit{[...] if these disturbances are not addressed, the possibility of failure becomes almost assured if the robots are required to operate over long time horizons.}}
 \cite{Emam:2021} Accordingly, the work indicates the need for robust control mechanisms capable of dealing with such contingencies.\newline
 
@@ -649,7 +649,7 @@ efficiency of agricultural production by replacing time-consuming and costly hum
 As an early work, however, it is still limited to manually operated vehicles and therefore disregards the aspect of autonomy in this sense.\newline
 Bargoti et al. \cite{Bargoti:2015} introduce a system for automated tree detection on an apple orchard that combines image data and laser scans. The work highlights that information
 acquisition and processing is becoming increasingly relevant for farmers trying to optimize the efficiency of their processes. The developed system is a UGV capable of autonomous
-operation via intrarow nagivation. However, the authors point out issues regarding localization reliability and GPS connectivity that need to be addressed in future work.
+operation via intrarow navigation. However, the authors point out issues regarding localization reliability and GPS connectivity that need to be addressed in future work.
 This is a strong motivation for two of the challenges discussed in section \ref{sec:challenges_for_lta}.\newline
 In 2015, Carlone et al. \cite{Carlone:2015} highlight that recent advances in mobile robotics, particularly UGVs and UAVs, are increasingly providing a realistic alternative to
 inefficient, labor-intensive manual work in the task of continuous crop monitoring. They target a specific aspect of crop monitoring and create $3D$ representations over time,
@@ -693,7 +693,7 @@ for robust data association that can deal with heavy environment variations. The
 unexpected dynamic changes that can be expected in real-world environments and focuses on the evaluation of the proposed methods. Moreover, the aspect of autonomy is still not taken
 into account.\newline
 Ampatzidis et al. \cite{Ampatzidis:2017} provide an overview of robotics and AI methods and technologies applied to the field of plant pathology as well as precision agriculture
-in general. In addition to the advancing automation of classic agricultural processes, there is an ever increasing focus on automated detection of plant deseases.
+in general. In addition to the advancing automation of classic agricultural processes, there is an ever increasing focus on automated detection of plant diseases.
 \cite{Ampatzidis:2017} According to the authors, it is crucial that further research and development of sophisticated autonomous robotic platforms for agricultural purposes
 goes hand in hand with the advancement of systems for diagnosis.
 Many of the incorporated AI methods, such as those from the field of computer vision, are developed independently of
@@ -1857,7 +1857,7 @@ described in section \ref{sec:weather_resolver} and the simulation of extreme we
     \item \textbf{heavy snow:} \code{/toggle_snow_sim}
     \item \textbf{gale:} \code{/toggle_wind_sim}
     \item \textbf{low temperature:} \code{/toggle_low_temp_sim}
-    \item \textbf{thunderstorm:} \code{/toggle_thuderstorm_sim}
+    \item \textbf{thunderstorm:} \code{/toggle_thunderstorm_sim}
     \item \textbf{sunset:} \code{/toggle_sunset_sim}
 \end{itemize}
 
@@ -2696,14 +2696,14 @@ history is tracked. The length of the history $n \in \mathbb{N}$ is user-configu
 $rad/s$, measured by the IMU's gyroscope.
 Since this is data recorded in the passive state, i.e., when the robot is not moving, it is expected that $a^p.x \approx a^p.y \approx a^p.z \approx 0 \thinspace rad/s$.
 There is a user-defined upper bound $a^p_{max} \in \mathbb{R}_{0}^{+}$ for the absolute angular velocity in passive states. For all three dimensions, the average over the last $n$ absolute angular velocities in
-the passive state $a^{p}_{i}, i \in [1, n]$ is considered. If one of these values exceeds $a^p_{max}$, i.e., $\thinspace \exists \thinspace \frac{1}{n}\sum_{i=1}^{n} |a^p_i.d| > a^p_{max}, d \in \{x, y, z\}$, a contigency is initiated.
+the passive state $a^{p}_{i}, i \in [1, n]$ is considered. If one of these values exceeds $a^p_{max}$, i.e., $\thinspace \exists \thinspace \frac{1}{n}\sum_{i=1}^{n} |a^p_i.d| > a^p_{max}, d \in \{x, y, z\}$, a contingency is initiated.
 The next aspect is the linear acceleration in $m/s^2$ measured by the accelerometer of the IMU.
 Both linear acceleration and angular velocity are examples of observations with contextual errors, where certain measurements (non-zero values) are legitimate in some
 contexts but illegitimate in others, e.g., motion versus stasis. \cite{Khalastchi:2018} In preparation, a user-configurable fraction of the active and passive IMU
 history is considered, sorted in descending order by the maximum absolute linear acceleration in the $x$ and $y$ directions for each IMU entry in the respective list.
 For both, the median is taken to obtain a representative value ignoring outliers. To increase reliability, there are again histories with configurable length $m \in \mathbb{N}$ for these values.
 In summary, these lists contain the median values of a certain fraction of the largest absolute linear acceleration values in $x$ and $y$ directions in the active and passive states.
-Obvioulsy, the $z$ direction is not considered, since it always contains $g \approx 9.81m/s^2$. One could simply subtract $g$ and still take the direction into account, but it is not
+Obviously, the $z$ direction is not considered, since it always contains $g \approx 9.81m/s^2$. One could simply subtract $g$ and still take the direction into account, but it is not
 as relevant as the others and is therefore disregarded. Then the average ratio between the two is calculated, i.e., for each value $l^p$ in the passive linear acceleration list and
 each value $l^a$ in the active linear acceleration list, the ratio $\frac{l^a}{l^p}$ is calculated. If the average of these ratios is below a user-defined minimum ratio $r_{min} \in \mathbb{R}^{+}$,
 i.e., $\frac{1}{m} \sum_{i=1}^{m} \frac{l_i^a}{l_i^p} < r_{min}$, a contingency is initiated, as the linear acceleration during motion should be significantly higher compared to standstill.
@@ -2800,7 +2800,7 @@ rotation on the spot, there must also be a minor change in position that does no
 a case of distance divergence would be triggered. It takes some experimentation to find a stable configuration for the system in question, but the idea should be clear.
 It is also worth mentioning that the simulations are not necessarily sharply separated. For instance, applying a force to trigger high acceleration values recorded by the IMU may
 very well cause wheel rotations, triggering other problem cases such as estimated position changes by the odometry. Conversely, letting the wheels rotate will accelerate the robot
-and result in higher IMU values. Finally, the two remaining simulation cases of motion in passive states indicated by IMU and odometry can obviously only be simualted when no
+and result in higher IMU values. Finally, the two remaining simulation cases of motion in passive states indicated by IMU and odometry can obviously only be simulated when no
 active navigation goal is being pursued, otherwise the motion would be expected. The simulation of the localization failures can be enabled / disabled via the following ROS topics:
 \begin{itemize}
     \item \textbf{GNSS-odometry dist. divergence} (type $1$)\textbf{:} \code{/wheel_movement_without_pos_change}
@@ -2829,7 +2829,7 @@ The rationale is to have the monitoring procedures described in section \ref{sec
 look for the specific types of issues and initiate an appropriate response. Kunz et al. \cite{Kunz:2009} emphasize that the robustness of a system can be maximized by
 providing fail-safe procedures. Although they are dealing with AUVs, the general problem remains the same.\newline
 Whenever a monitoring solution described in section \ref{sec:sim_and_mon_of_lta_challenges} causes a transition to the \code{CONTINGENCY} or \code{CATASTROPHE} states
-by publishing on the respective topics \code{/contigency_preemption} or \code{/catastrophe_preemption}, information about the cause of the interruption is
+by publishing on the respective topics \code{/contingency_preemption} or \code{/catastrophe_preemption}, information about the cause of the interruption is
 transmitted via a ROS message. Based on this cause, the corresponding resolver class is selected and executed. The resolver for each general problem class, e.g.,
 connection problems, provides a resolution method for each potential specific problem in that class, e.g., poor WiFi link quality. The \code{CONTINGENCY} state in turn
 communicates the failure reason to the resolver classes. If available, an adequate resolution method for it will be executed. Afterwards, the outcome is reported back to the
@@ -2965,7 +2965,7 @@ previous obstacles that are no longer present. Subsequently, a simple but often 
 executed: Driving the robot to one of several specified recovery points. Since these points are mission-specific and set by the user with the intention of being easily accessible from
 almost any location possible in the scenario, it often frees the robot from deadlocked situations and allows the mission to continue from there. The underlying idea is essentially to
 consider the problem from a different perspective, i.e., to try to plan a path from the new position. To this end, the operation state machine provides a topic
-\code{/introduce_intermediate_nav_goal}. Obvioulsy, it is not possible to solve inescapable
+\code{/introduce_intermediate_nav_goal}. Obviously, it is not possible to solve inescapable
 situations such as the \textquote{robot prison} from section \ref{sec:sim_and_mon_navigation_failures} in this way. Therefore, it is a necessity to continue monitoring the execution
 of this navigation target as well. Both explicitly, i.e., the return of \code{move_base_flex}, and implicitly, i.e., sustained recoveries. The explicit case is trivial, it is a
 simple check for \code{GoalStatus.ABORTED} cases directly in the resolution method. The implicit case, though, must again be determined by the monitoring procedure, which counts
