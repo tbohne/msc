@@ -3220,8 +3220,6 @@ errors, thus using the container as a landmark.
 The general idea behind the upcoming experiments is the following simple scheme: Problem simulation by publishing on the respective topic, followed by a triggered monitoring
 procedure that should detect the problem, interrupt normal operation and initiate an appropriate resolution. Either it succeeds and \code{NORMAL_OPERATION} continues, or it cannot be
 resolved and execution ends in \code{CATASTROPHE}.\newline
-
-\noindent
 Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: The \textit{total system lifetime} and the \textit{autonomy percentage}. \cite{Hawes:2017} The
 first measures the time the robot is in autonomous operation and is reset when an unsolvable problem or an unintended intervention of the human operator is required. However,
 it is not reasonable to evaluate this time in the present scenario, since it certainly depends on the frequency with which the failures considered in this work are simulated. The second metric
@@ -3252,6 +3250,8 @@ period depends on the plan that defines such a mission. The complete plan underl
 \ref{sec:complete_plan_sec}). The rationale behind the plan is that it incorporates all aspects relevant to the baseline scenario of long-term autonomy presented in section
 \ref{sec:prototype_scenario}. It essentially satisfies the constraints for a long-term autonomous operation that are defined in section \ref{sec:lta_plant_observation}, e.g., it is
 long enough to require several charge stops, and contains all the introduced actions (cf. sec. \ref{sec:plan_generation}).\newline
+
+\noindent
 The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for the previously motivated $5$ hours. This serves as
 a verification of the plan, i.e., it shows that the charging stops are sufficient if everything works as expected. Furthermore, it is a demonstration of the fundamental
 functionality of the entire integrated system in the absence of unexpected problematic events. For evaluation purposes, let a failed mission be defined as a mission that exceeds a
@@ -3262,6 +3262,10 @@ discharged battery. To endow this test of basic functionality with some signific
 unsurprisingly, the average runtime is $5.09$ hours. In this time, the robot has completed an average of $3.67$ missions and $106.67$ tasks. It required an average of $9.67$
 charge cycles and the average total distance traveled is $1102.68 m$. Moreover, it is interesting to look at the mode distribution, i.e., how long the robot was in which mode
 during the LTA episodes, which is shown in fig. \ref{fig:mode_times_basic}.
+
+\vfill
+\pagebreak
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.525\textwidth]{pics/mode_times_basic.png}
@@ -3301,7 +3305,10 @@ ends with a \code{severe_failure}, leading to a transition to \code{CATASTROPHE}
 the general error class of charging failures can lead to a failed mission can be demonstrated by simulating a docking error that results in not being able to recharge and also
 ends in \code{CATASTROPHE}. Hence, without active monitoring, \code{/sim_docking_failure_raised_ramp} is used to verify this. As expected, this also ends with a completely
 discharged battery and thus a failure of the mission. Evidently, both cases lead to a failed deployment in practice with the real robot as well, which would go unnoticed without
-monitoring. The first example that cannot interfere with the operation in the simulation is drastic weather changes. Since these phenomena are not explicitly simulated in
+monitoring.\newline
+
+\noindent
+The first example that cannot interfere with the operation in the simulation is drastic weather changes. Since these phenomena are not explicitly simulated in
 \textit{Gazebo}, but are only indicated by corresponding messages on the weather monitoring channels, without active monitoring for these messages, the robot simply does not recognize
 this. The same is true in practice: The robot would continue its mission without detecting a change in circumstances. Therefore, the mission would continue as long as possible, that
 is, as long as the robot is not damaged. This is of course highly risky and can result in the robot being damaged or the sensor data being worthless. Consequently, it is apparent that
@@ -3349,6 +3356,9 @@ scenarios, clearly highlighting the importance of addressing all of these proble
 \caption{\textsc{Classification of LTA Problems in Terms of Severity}}
 \label{fig:lta_classification}
 \end{figure}
+
+\vfill
+\pagebreak
 
 \section{Evaluation of the Monitoring Framework}
 \label{sec:eval_mon_framework}
@@ -3419,7 +3429,10 @@ $95.89\%$ (cf. fig. \ref{fig:expected_res}), which highlights a fairly reasonabl
 Apparently, some of the monitoring approaches are configured to be too sensitive. In addition, there is a total of two false negatives for the same simulated problem, namely
 divergence between odometry and GNSS estimates of the total distance traveled. This is most likely due to the fact that the way this is simulated is not perfect for all circumstances
 and should be fairly easy to resolve in the future. Moreover, on average, the robot completed $3$ missions with a total of $88.75$ tasks and required an average of
-$10.38$ charge cycles. Per episode, the robot traveled an average total distance of $967.1$ meters in $5.06$ hours, estimated from odometry data. Another interesting aspect of LTA systems
+$10.38$ charge cycles. Per episode, the robot traveled an average total distance of $967.1$ meters in $5.06$ hours, estimated from odometry data.\newline
+
+\noindent
+Another interesting aspect of LTA systems
 discussed in the literature is the autonomy percentage, i.e., the time during which the robot actually performs autonomous tasks, excluding idle time, etc. The autonomy percentage for
 the performed experiments is depicted in fig. \ref{fig:autonomy_percentage} and illustrates that the majority of the runtime is spent on actual autonomous tasks, on average $96.28\%$.
 \begin{figure}[H]
@@ -3441,9 +3454,13 @@ the performed experiments is depicted in fig. \ref{fig:autonomy_percentage} and 
 \label{fig:evaluation_res}
 \end{figure}
 \noindent
-Also revealing is the activity distribution, i.e., how much of the runtime the robot spends on which activity or in which mode.
+Also revealing is the activity distribution, i.e., how much of the runtime the robot spends on which activity or in which mode (cf. fig. \ref{fig:mode_times}).
 This contextualizes the autonomy percentage quite well, and again it can be seen that the robot spends negligible time waiting and most of its time driving and scanning.
 (Un)docking and charging naturally takes some time as well. Beyond that, some error handling (\code{cont}) can be identified.
+
+\vfill
+\pagebreak
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{pics/mode_times.png}
@@ -3454,9 +3471,6 @@ This contextualizes the autonomy percentage quite well, and again it can be seen
 Based on the results, it can be concluded that the proposed framework drastically improves the resilience with respect to the identified challenges. The initial goal of assigning each
 of the identified problems to a different category (cf. fig. \ref{fig:problem_types}) was achieved, and the experiments demonstrate a certain level of reliability.
 The detailed results may be taken from fig. \ref{fig:detailed_monitoring_eval_res}.
-
-\vfill
-\pagebreak
 
 \chapter{Conclusion and Future Work}
 \label{sec:conclusion_future_work}
