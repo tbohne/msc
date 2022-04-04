@@ -1062,7 +1062,7 @@ i.e., are connected to the GNSS service. Bargoti et al. \cite{Bargoti:2015} and 
 for detection failures in their tree monitoring scenario, which highlights the value of being able to detect poor GNSS links.
 In addition, the RTK-GNSS data is used for scan registration. Finally, the recorded scans are transmitted via WiFi or LTE 
 to the base station or external servers for further processing. Whether LTE is behind it or the internet connection is provided via WiFi, it would make sense
-to monitor the robot's internet connection in any case. For all connections it is not only about complete disconnects, but also about qualitative estimations.\newline
+to monitor the robot's internet connection in any case. For all connections, it is not only about complete disconnects, but also about qualitative estimations.\newline
 
 \noindent
 \textbf{Obstacles Blocking the Planned Path}\newline
@@ -1191,27 +1191,27 @@ reported to the operator. Nevertheless, it is not feasible to cover everything t
 \subsection{Relevance Assessment}
 \label{sec:relevance_assessment}
 
-To assess the relevance to long-term autonomy of the potential problems introduced in the last section, a kind of informal analysis of the impact,
-difficulty, and likelihood of each problem was conducted. The idea is not to arbitrarily select the problems that will be studied in more detail as part
+To assess the relevance of the potential challenges to long-term autonomy introduced in the last section, a kind of informal analysis of the impact,
+difficulty, and likelihood of each problem was conducted. The idea is not to arbitrarily select the challenges that will be studied in more detail as part
 of this work, but to rely on the judgment of the more experienced roboticists in the working group, especially those who have hands-on experience with the
 AROX or similar systems, to set priorities. For this purpose, a simple questionnaire was designed in the form of a spreadsheet. The first aspect by which participants
 were asked to rank each problem was its respective impact from \textit{high} ($1$), i.e., prevents a successful mission, to \textit{medium} ($2$) impact, e.g., delays missions
-or reduces the quality of results, to \textit{low} ($3$), where it has at most a minor impact on the robot's mission. The next aspect was about evaluating each problem in
+or reduces the quality of results, to \textit{low} ($3$), where it has at most a minor impact on the robot's mission. The next aspect was about evaluating each issue in
 terms of its individual difficulty of solution and recognition. The options were \textit{easy} ($1$), meaning that simple solutions exist, \textit{medium} ($2$), which
 requires some effort but should be feasible within the scope of the work, to \textit{hard} ($3$), i.e., that it is a rather general problem that can only be tackled in first
 approximation. Finally, the likelihood of each problem occurring should be evaluated using the following three options. \textit{Very likely} ($1$), which roughly means it has been
 experienced in practice several times, \textit{occurs} ($2$), which means it has been experienced or heard of once, and \textit{highly unlikely} ($3$), which means it has never been
 heard of. The questionnaire was completed by a total of $7$ people. Obviously, this can by no means be considered representative or significant, but it
-nevertheless does give an indication of which problems should be considered with higher priority and contributes to systematization. The accumulated results are visualized in the
-$3D$ scatter plot depicted in figure \ref{fig:questionnaire_results}. For each problem, the average vote among all three dimensions (impact, difficulty, likelihood) is displayed.
+nevertheless does give an indication of which challenges should be considered with higher priority and contributes to systematization. The accumulated results are visualized in the
+$3D$ scatter plot depicted in figure \ref{fig:questionnaire_results}. For each issue, the average vote among all three dimensions (impact, difficulty, likelihood) is displayed.
 The most relevant problem to consider under the introduced scoring system would be a problem at coordinates $(1, 1, 1)$, i.e., a high-impact problem 
 that is easy to solve / discover and has a high probability of occurring. This optimal combination is shown as a golden cross in figure \ref{fig:questionnaire_results}.
-The problems closest to this point in $3D$ space are the ones that are most important to consider based on the questionnaire and therefore should be 
+The challenges closest to this point in $3D$ space are the ones that are most important to consider based on the questionnaire and therefore should be 
 investigated with higher priority in this work. For a more detailed overview, the average results and each problem's distance to the optimum can be taken from the table 
 in figure \ref{fig:average_results}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{pics/questionnaire.png}
+    \includegraphics[width=0.7\textwidth]{pics/questionnaire.png}
     \caption{\textsc{Accumulated Results of Questionnaire}}
     \label{fig:questionnaire_results}
 \end{figure}
@@ -1374,7 +1374,7 @@ There are generally two relevant perspectives. First, such stops have to be cons
 Of course, this is only covering plannable stops such as expected battery consumption and is not able to deal with unplanned situations.
 Therefore, a second perspective comes into play, that will be particularly relevant in this work - the execution time.
 Just as important as the planning itself is the execution of the generated plan as well as monitoring the execution. Execution monitoring enables a robotic system to
-recognize and classify failure situations caused by unexpected internal (robot) or exteral (environment) states. \cite{Pettersson:2005}
+recognize and classify failure situations caused by unexpected internal (robot) or external (environment) states. \cite{Pettersson:2005}
 The idea is that the robot executes a given plan and is somehow capable of realizing that it has to interrupt the execution due to some unexpected condition.
 In such a case, the robot needs to be able to save the current state of the plan execution and continue precisely with this state after the reason 
 for the interruption has been resolved. Consequently, the robot has to be prepared to pause and resume the execution of a given plan, which is far from 
@@ -1389,7 +1389,7 @@ system elements on demand}}. \cite{Hawes:2017} Likewise, Furgale et al. assert t
 the interest of safety. \cite{Furgale:2015} Ingrand et al. perfectly summarize the view of monitoring in this work: \textquote{\textit{Compares what is predicted regarding the robot
 activities to what is observed in the world. It detects and interprets discrepancies, performs diagnosis and triggers recovery actions when needed.}} \cite{Ingrand:2017}
 As with planning, monitoring always raises the question of the level of the robot architecture at which it is carried out. The idea of this thesis is essentially to do it at an abstract level
-defined by the rough notion of being as universal as possible to achieve some form of reusability while being applicable and useful in the context under consideration. Obviously,
+defined by the rough notion of being as universal as possible, to achieve some form of reusability while being applicable and useful in the context under consideration. Obviously,
 monitoring also takes place at other levels of abstraction, such as monitoring WiFi signal strength or monitoring within \code{move_base_flex}, which reports errors. There is simply
 no fundamental answer to the question of where monitoring should take place. Presumably, one could break it down to the fact that monitoring is necessary at all levels of abstraction,
 at least in the sense of error treatment.\newline
@@ -1418,7 +1418,7 @@ concludes the chapter with proposed resolutions.
 
 Long-term autonomous robot operation commonly includes following some sort of plan $\pi$. Planning is the process of selecting and ordering actions that must be performed to
 achieve an objective. \cite{GNT:2016} While actions generally refer to processes that change the state of the robot or its environment, they can be considered at different
-levels ob abstraction. \cite{Ingrand:2017} However, since the actual planning is not part of this work, it is assumed that
+levels of abstraction. \cite{Ingrand:2017} However, since the actual planning is not part of this work, it is assumed that
 plans are provided and usable, e.g., handcrafted by a human operator or generated by a planner from the literature.
 For the purpose of parsing a plan $\pi$ and making it retrievable via a service call, a ROS node was developed.
 In order for the node to parse the plans, they must be formulated in the following CSV format.
@@ -1671,7 +1671,7 @@ by the latest \textit{pop} operation, and since the execution of $a$ must be rep
 to \code{CONTINGENCY} or \code{CATASTROPHE}. Thus, $\pi \coloneqq a.\pi$ (concatenation of action and plan). Yet, there is a special case: If an interruption occurs during a \code{scan}
 action and the interruption involves leaving the scan position, the robot must return to that position before repeating the scan, which means that the last \code{drive_to} action
 before the scan must also be repeated. Of course, when the robot transitions back to \code{NORMAL_OPERATION} after solving a contingency, it starts again in \code{IDLE}, which is why \code{IDLE}
-always looks for existing unfinished plans $\pi$ in the \code{userdata} first. If there is one, i.e., $\pi \in$ \code{userdate.input_plan}, $\pi \neq \emptyset$, it does not prompt the
+always looks for existing unfinished plans $\pi$ in the \code{userdata} first. If there is one, i.e., $\pi \in$ \code{userdata.input_plan}, $\pi \neq \emptyset$, it does not prompt the
 plan generator for a new plan, but continues the previously preempted and only partially completed plan $\pi$.
 The catastrophe case works analogously to the \code{IDLE} state.\newline
 
@@ -1848,7 +1848,7 @@ Furthermore, an internet connection is required to connect to the \textit{OpenWe
 
 \noindent
 As always, in order to evaluate the monitoring procedures, a simulation of the various scenarios must be provided. This simulation takes place in the parser for
-\textit{OpenWeatherMap} data. Based on the developed weather monitoring node, it is failry trivial to simulate the occurrence of such extreme weather conditions by simply setting
+\textit{OpenWeatherMap} data. Based on the developed weather monitoring node, it is fairly trivial to simulate the occurrence of such extreme weather conditions by simply setting
 the attributes to extreme values, e.g., a heavy rain scenario can be simulated by setting the corresponding rain volume $r_v = 8$. Likewise, a heavy snow situation can be simulated
 by setting $s_v = 3$. The simulation of the remaining extreme weather events can be triggered analogously. Weather-related challenges for LTA can be dealt with using the resolver
 described in section \ref{sec:weather_resolver} and the simulation of extreme weather events can be activated / deactivated via the following ROS topics:
@@ -2775,7 +2775,7 @@ messages have been published on \code{/cmd_vel}, resulting in a reinforced rotat
 the initial orientation. After the target $\psi$ is reached with sufficient accuracy, normal gravity is restored. A real-world problem reproduced by this simulation is when the robot
 unexpectedly slips away and turns during navigation.\newline
 Furthermore, the situation of too high acceleration values detected by the IMU's accelerometer can be simulated in situations
-where the robot is supposed to stand still. For this it suffices to apply a rather low acceleration in $x$ or $y$ direction for a brief period of time. Additionally, an unexpected
+where the robot is supposed to stand still. For this, it suffices to apply a rather low acceleration in $x$ or $y$ direction for a brief period of time. Additionally, an unexpected
 motion for the odometry can be simulated by publishing a linear twist (change to be performed) on \code{/cmd_vel} to let the robot move slightly without active navigation goals.
 Practically, both cases may refer to situations where the
 robot does not have an active navigation goal, but is moved for some reason, e.g., slipping away.\newline
@@ -3403,7 +3403,7 @@ As outlined in the introduction of monitoring techniques in section \ref{sec:sim
 introduced slight constraints in terms of information provision based on the defined ROS messages and topics are met. In addition, some minor requirements must be fulfilled in order
 to be able to utilize the resolution attempts (cf. sec. \ref{sec:solutions_for_lta_challenges}).
 However, the tight coupling between the deliberation functions of \textit{acting} and \textit{monitoring}, which is not a mere by-product but is intended in this work, results
-in the framework not being usable \textquote{out-of-the-box} for other systems. It should not be considered a weaknesses, though, as this coupling is necessary for the two functions to be
+in the framework not being usable \textquote{out-of-the-box} for other systems. It should not be considered a weakness, though, as this coupling is necessary for the two functions to be
 mutually beneficial, so \textit{acting} provides context to \textit{monitoring} and \textit{monitoring} is able to directly intervene in \textit{acting} when necessary. Furthermore,
 it should be relatively simple to establish this coupling with the operational models of other systems as well. In order to be able to achieve this without too much effort and also
 quite intuitively, the architecture proposed in this work was built in a modular way. Thus, in order for another robotic system to use the monitoring framework without using the
