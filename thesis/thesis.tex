@@ -744,6 +744,9 @@ autonomy. As mentioned before, full autonomy is not necessarily the paradigm to 
 by the robot and the human only has to intervene from time to time, it is a huge improvement, even if the human is still part of the work in a sense. Nonetheless, it is worth
 investigating full autonomy for agricultural applications, whether or not it proves to be the best suited concept.
 
+\vfill
+\pagebreak
+
 \section{Long-Term Autonomous Plant Observation}
 \label{sec:lta_plant_observation}
 
@@ -758,7 +761,9 @@ to detect certain features based on the growth stage. Moreover, these recordings
 Correspondingly, the robot has to be able to process the entire field continually without the need for human supervision,
 including the requirement for repeated charge stops. For this purpose, there is supporting infrastructure in the form of a container with an inductive charging station on site
 establishing the power supply. Since the focus of the work is not going to be the scanning task, but to establish robust long-term autonomy, the actual detection of features 
-etc. will be disregarded.
+etc. will be disregarded.\newline
+
+\noindent
 A crucial question is how to actually define ``long-term''. As Hawes et al. remark, it has no strict definition and can have various meanings depending
 on the context, e.g., NASA's rover \textit{Opportunity} has been exploring the surface of Mars autonomously for years and autonomous wave gliders are able to monitor
 ocean sections for months. Furthermore, there are mobile service robots used for extended periods of time in everyday, indoor environments like hospitals 
@@ -789,6 +794,8 @@ After such a maintenance session, a new episode begins.
 Based on these bounds, it makes sense that the robot does not send every minor problem it recognizes directly to the operator,
 but keeps a list of minor issues that do not require immediate action, but should be resolved during the next maintenance
 appointment.\newline
+
+\noindent
 Now that it has been sufficiently clarified how \textit{long-term} and \textit{mobile} are to be understood in the context of this work,
 a precise definition of what is meant by the remaining attribute \textit{autonomous} follows.
 Like the concept \textit{long-term}, \textit{autonomous} is not sharply defined in the literature and can have different meaningful connotations depending
@@ -994,10 +1001,7 @@ Since the AROX system is designed for moderate weather conditions, drastic weath
 If the weather changes too drastically, it can be problematic for various aspects of the system.
 If it is stormy, for example, this can be delicate for the sensor recordings, but also for the robot platform itself, as it could fall over or otherwise be damaged.
 The quality of the sensor images can also be affected by fog or extreme sunlight (illumination).
-In addition, heavy rain should also be avoided. Finally, extreme cold could be a major problem for the system's battery.
-
-\vfill
-\pagebreak
+In addition, heavy rain should also be avoided. Finally, extreme cold could be a major problem for the system's battery.\newline
 
 \noindent
 \textbf{Certain Dynamics}\newline
@@ -1145,10 +1149,7 @@ position estimate. \cite{Goldberg:2002}\newline
 Mapping issues can generally refer to a variety of problems. In this case, a particular issue regarding the local \textit{costmap} observed during experiments for this work is meant.
 The \textit{costmap} is a $2D$ occupancy grid based on sensor data of the world. It generates costs based on a user defined inflation radius.
 If the robot drives over a hill and the sensors are configured in a certain way, parts of the ground may be incorrectly perceived as an obstacle and entered into the \textit{costmap}.
-The problem then is that the robot is unable to drive through these ``virtual'' obstacles. 
-
-\vfill
-\pagebreak
+The problem then is that the robot is unable to drive through these ``virtual'' obstacles.\newline
 
 \noindent
 \textbf{Plan Deployment Failure}\newline
@@ -1209,9 +1210,13 @@ that is easy to solve / discover and has a high probability of occurring. This o
 The challenges closest to this point in $3D$ space are the ones that are most important to consider based on the questionnaire and therefore should be 
 investigated with higher priority in this work. For a more detailed overview, the average results and each problem's distance to the optimum can be taken from the table 
 in figure \ref{fig:average_results}.
+
+\vfill
+\pagebreak
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{pics/questionnaire.png}
+    \includegraphics[width=0.9\textwidth]{pics/questionnaire.png}
     \caption{\textsc{Accumulated Results of Questionnaire}}
     \label{fig:questionnaire_results}
 \end{figure}
@@ -1249,7 +1254,7 @@ Thus, it is worth considering the two-dimensional results only in terms of the e
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{pics/questionnaire_2d.png}
+    \includegraphics[width=0.8\textwidth]{pics/questionnaire_2d.png}
     \caption{\textsc{$2D$ Results of Questionnaire}}
     \label{fig:questionnaire_results_2d}
 \end{figure}
@@ -1272,7 +1277,7 @@ but almost always results from the actual rating of the problem as average based
 to the $2D$ optimum $(1, 1)$.
 \begin{figure}[H]
     \centering
-    \resizebox{0.55\textwidth}{!}{
+    \resizebox{0.6\textwidth}{!}{
     \begin{tabular}{| c | c | c | c | c |}
         \hline
         \textbf{problem} & \textbf{\o \thinspace impact} & \textbf{\o \thinspace likelihood} & \textbf{dist. to optimum} \\ \hline
@@ -1306,10 +1311,15 @@ The remaining problems remain broadly similar in their assessment, with some cha
 The problems rated as least relevant in the questionnaire remain the same as in the $3D$ case, mainly because they are considered relatively unlikely.
 In conclusion, both lists are used to prioritize the problems to be studied in this work, as it is of course useful to also consider the difficulty of 
 solving these problems, but the $2D$ view can be helpful in case of doubt.\newline
+
+\noindent
 Of course, in principle it would be of interest to experimentally evaluate how often these problems occur in reality, but that actually requires elaborate long-term autonomous
 experiments in the real world. In addition, GPS problems that occur, for instance, do not generally represent GPS problems in practice, but only issues with the concretely used
 GPS module in the concrete scenario with a specific hard- and software configuration. In fact, it is very complicated and time-consuming to evaluate this in an experimentally
-meaningful way.\newline
+meaningful way.
+
+\vfill
+\pagebreak
 
 \noindent
 \textbf{Systematization of LTA-Challenges}\newline
@@ -1482,8 +1492,6 @@ other hand, allows the robot to transmit status information and help requests to
 acting and monitoring modules by the AROX execution platform presented in section \ref{sec:robotic_system}. Responsible for initiating the actual execution of low-level actions
 are also the deliberation functions that are capable of sending commands such as \code{move_base_flex} navigation goals or recovery instructions to the AROX system.
 Obviously, the AROX interacts with its environment via its sensors and actuators.\newline
-
-\noindent
 Plan execution, as well as robot operation monitoring, i.e., the \textquote{deliberation functions} module in fig. \ref{fig:abstract_actor}, is modeled as a high-level hierarchically
 structured state machine, whose architecture is shown in fig. \ref{fig:high_level_smach}. The capability of a certain degree of fault tolerance is usually not directly integrated
 into the control architecture, if considered at all. \cite{Khalastchi:2018} This is different in this thesis.
@@ -1517,7 +1525,9 @@ The interrupts of \code{OPERATION} are initiated by the monitoring nodes, which 
 as possible for each identified problem category.
 Although a monitoring solution could in principle also be implemented sequentially, it seems more natural to choose a parallel approach, since a sequential option
 would have the disadvantage that no monitoring takes place while a task / algorithm is being executed, but only afterwards.
-It is desirable to be able to intervene at any time during the execution of a task when a monitoring procedure running in parallel is triggered and causes a change of state.
+It is desirable to be able to intervene at any time during the execution of a task when a monitoring procedure running in parallel is triggered and causes a change of state.\newline
+
+\noindent
 During the state \code{OPERATION}, i.e., in the nested state machine visualized in figure \ref{fig:low_level_smach}, the robot can be either in the state \code{IDLE}, 
 in which it is waiting for a plan, or in \code{EXECUTE_PLAN}, in which it is executing a given plan $\pi$. The embedded state machine \code{OPERATION} has 
 four possible outcomes - \code{end_of_episode}, \code{minor_complication}, \code{critical_complication}, and \code{preempted}. 
@@ -1600,7 +1610,10 @@ driving for more than $4$ hours at a temperature above $32$\textdegree{}C. A fur
 To determine this, it would be necessary to always log the current location of the robot along with a problematic situation. This list could be arbitrarily extended.
 In general, the objective is to avoid certain behaviors that have frequently led to failures in the past. Information about such effects can only be
 obtained through runtime experience, which shows how relevant such information are and how crucial it is to collect them. So gathering information should go along with long-term
-operation. The actual learning of such effects is beyond the scope of this thesis. Yet, the creation of an appropriate interface in the architecture and the collection of information
+operation.\newline
+
+\noindent
+The actual learning of such effects is beyond the scope of this thesis. Yet, the creation of an appropriate interface in the architecture and the collection of information
 are part of the developed framework. The idea of gathering information and learning from it is natural, because that is essentially what a human operator would do as well, gaining
 experience and improving over time. Essentially, in a problematic situation, it is a matter of logging what the associated relevant circumstances are. Of course, this would just be
 the output of the system and the input to some sort of learning or analysis software. Nonetheless, if some regularities have been learned or identified from the logged data, they can
@@ -1614,7 +1627,10 @@ the existing monitoring solutions. The broad idea of learning from experience in
 literature review in section \ref{sec:literature_review}. Hawes et al. \cite{Hawes:2017} also emphasize the usefulness of the information gathered in long-term autonomous operation for both learning and troubleshooting
 purposes. For information gathering, they use \code{mongodb_store}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/mongodb\_store}}}, a ROS tool for storing data from a ROS system (messages,
 configurations, etc.) in a \textit{MongoDB} instance, i.e., a document-oriented database. To achieve systematic and reusable logging and general data acquisition, this tool is also
-used in this thesis. For this purpose, a \code{data_accumulator} node was written to capture the relevant data during LTA missions and store it in the database. Initially, a
+used in this thesis. For this purpose, a \code{data_accumulator} node was written to capture the relevant data during LTA missions and store it in the database.\newline
+
+\noindent
+Initially, a
 \code{MessageStoreProxy} object is created to enable updating and maintenance of the \textit{MongoDB} database. Various logging categories are defined to semantically group the
 collected data. Each component of the monitoring framework, i.e., each node, can initiate logging to the database under a specific category based on ROS topics provided by the
 \code{data_accumulator}. To store an entry under a category or name, the \code{insert_named("name", entry)} method of the \code{MessageStoreProxy} is used. It is obviously relevant
@@ -1632,7 +1648,10 @@ under the topic \code{/sim_info} once they do so, at which time the messages are
 relevant information about the currently executed action. Moreover, there are \code{/operator_communication} and \code{/resolution} that store all exchanged messages between the
 operator and the robot, as well as all executed resolution methods. It is furthermore important to keep track of missions,
 which is why new messages via \code{/arox/ongoing_operation} are also logged. Finally, for debugging purposes, there is a \code{/show_db_entries} topic that allows to list
-all database entries for the current LTA mission or the entries under a particular category specified by the string message published to the topic. The path for the
+all database entries for the current LTA mission or the entries under a particular category specified by the string message published to the topic.\newline
+
+\noindent
+The path for the
 database can be configured in the launch file. Once a \textit{MongoDB} server is running with the generated database, i.e., \code{mongod --dbpath ROS_db --storageEngine=wiredTiger},
 a \textit{MongoDB} client can connect and examine the logged data. It can be visualized and queried in JSON, for example, as shown in fig. \ref{fig:database_entries}.
 This shows, for instance, a contingency due to a failed docking attempt. This is immediately followed by the explicit error conditions, e.g., state of charge, tasks completed, charge
@@ -1658,7 +1677,7 @@ itself detect a problem, \code{CONTINGENCY_MONITORING} or \code{CATASTROPHE_MONI
 As seen in section \ref{sec:execution_monitoring_smach_architecture}, there are two states in \code{OPERATION} that the robot can be in during a long-term episode without any problems
 - \code{IDLE} or \code{EXECUTE_PLAN}. In the \code{IDLE} state, where it waits for the plan generator described in section \ref{sec:plan_generation} to provide a plan $\pi$,
 it is straightforward, the normal operation is interrupted, the high-level state machine transitions to \code{CONTINGENCY} or \code{CATASTROPHE} depending
-on the severity of the problem, and then, i.e., when the minor problem is resolved, it transitions back to \code{IDLE} or shuts down in the case of \code{CATASTROPHE}.
+on the severity of the problem, and then, i.e., when the minor problem is resolved, it transitions back to \code{IDLE} or shuts down in the case of \code{CATASTROPHE}.\newline
 The more interesting case, of course, is such an interruption of the normal operation when the robot is in the low-level state \code{EXECUTE_PLAN}.
 In this case, a plan execution must be interrupted.
 During the \code{EXECUTE_PLAN} state, the currently executed plan $\pi$ is always stored in the \code{userdata} field of the state.
@@ -1682,6 +1701,9 @@ battery is fully charged when the robot resumes its operation. In such a case, i
 of the actions immediately following, this simple plan modification is performed. Nevertheless, there are cases in which the robot does not return to the base and has to consume
 unplanned resources, so that the a priori planned charge stops are rendered insufficient. This problem, though, is addressed by the integrated battery monitoring module described
 in section \ref{sec:battery_monitoring}, which detects this and initiates a return to base. In conclusion, the continuation of plan execution works either way.
+
+\vfill
+\pagebreak
 
 \section{Simulation and Monitoring of LTA Challenges}
 \label{sec:sim_and_mon_of_lta_challenges}
@@ -1724,7 +1746,8 @@ and communicate the specific reason. Likewise, in case of \code{"CATO"}, a catas
 and contingency monitoring, since a contingency can be followed by a catastrophe situation. Thus, when a contingency occurs, active monitoring is suspended for \code{"CONT"} messages,
 but the node continues to check for \code{"CATO"}. In fact, it is quite natural for a contingency to precede a catastrophe, since it is rather rare for the battery to suddenly drop in
 such a way as to eliminate the possibility of returning to base. Therefore, catastrophe events should be able to interrupt contingencies, so monitoring must remain active during
-contingencies. Monitoring for both is re-enabled when the robot is fully charged, indicated by a message on \code{/fully_charged}. For the power management monitoring node to be
+contingencies. Monitoring for both is re-enabled when the robot is fully charged, indicated by a message on \code{/fully_charged}.\newline
+For the power management monitoring node to be
 applicable, a system must either incorporate the integrated battery watchdog module presented in section \ref{sec:battery_monitoring} or provide a similar module that publishes the
 three expected states on the \code{/watchdog} topic. Additionally, a fully charged battery is expected to be communicated via the \code{/fully_charged} topic.\newline
 
@@ -1750,17 +1773,19 @@ as situations that imply charging failure (failed docking) or prevent successful
 undocking and charging refer to the integrated base station and charging infrastructure as well as the state machines for docking and undocking presented in section
 \ref{sec:docking_solution}. Initially, it should be pointed out again that the failure cases identified in this thesis are not always strictly separated from each other. For instance,
 based on their nature, (un)docking errors could sometimes already be covered by navigation error monitoring, e.g., in the event of a sustained recovery (cf. section \ref{sec:sim_and_mon_navigation_failures}).
-However, this does not cover all types of docking and undocking problems. The first type of docking error is an explicit error returned by the docking state machine that can be caused
+However, this does not cover all types of docking and undocking problems.\newline
+The first type of docking error is an explicit error returned by the docking state machine that can be caused
 by various problems, such as not being able to detect the container in the laser scan of the robot's surroundings. Likewise, explicit errors can be communicated by the undocking state
 machine, which is started after the charging process is complete. To notify the monitoring procedure of such errors, the operation state machine, which catches them as part of general
 error treatment, publishes them on the topic \code{/explicit_charging_failure} to which the monitoring procedure is subscribed. In this case, the monitoring node triggers a
 contingency via \code{/contingency_preemption} and communicates the reason for the problem. Finally, there is the case that the charging process does not start after successful
 docking, i.e., the battery charge does not increase. A failed charging process can be detected based on a specific time in the state of charge without increasing the charge level
 of the battery. Specifically, the current state of charge is constantly tracked via \code{/arox/battery_param}, on which messages of type \code{arox_battery_params.msg} appear,
-containing the fields \code{float64 charge}, \code{int64 charging_cycle}, \code{string battery_operation}, \code{float64 operation_time}, and
+containing the fields \code{float64 charge}, \code{int64 charging_cycle}, \code{string battery_operation}, \code{float64 operation_time}, and \\
 \code{int8 env_condition}. In case a charge action is performed, which is communicated by the operation state machine via \code{/charge_action}, the current charge level is stored,
 the procedure sleeps for a user-specified time and afterwards compares the current charging state with the previously stored one. If the most recent state of charge is not higher
-than the one stored at the start of charging, a contingency is initiated because the battery is not charging despite the robot being docked to the charging station. For a system to
+than the one stored at the start of charging, a contingency is initiated because the battery is not charging despite the robot being docked to the charging station.\newline
+For a system to
 use the charging failure monitoring node, it must either use the docking solution described in section \ref{sec:docking_solution} for explicit docking failures, or, if it uses a
 different docking solution, communicate its explicit docking failures via \code{/explicit_charging_failure}. Moreover, to use actual charge monitoring, it must employ the battery
 watchdog described in section \ref{sec:battery_monitoring} or publish its own system's data in the expected format, i.e., as \code{arox_battery_params.msg}. The naming scheme, which
@@ -1807,12 +1832,16 @@ it would be good to identify extreme weather conditions that could affect the pr
 seek shelter. Since we live in a world where local weather information is quite readily available and the robot's sensing capabilities would also be limited in its ability to
 reasonably detect it, external weather information is used. In addition, realistic simulation of weather phenomena is a difficult task that would shift the focus of the work.
 Thus, the robot does not detect extreme weather conditions itself through its sensors, but relies on external local weather data. To retrieve local weather information, a \textit{Python}
-wrapper of the \textit{OpenWeatherMap} API\footnote{\textcolor{link-color}{\url{https://openweathermap.org/api}}} is used, guaranteeing cross-platform applicability. Initially, the weather monitoring node
+wrapper of the \textit{OpenWeatherMap} API\footnote{\textcolor{link-color}{\url{https://openweathermap.org/api}}} is used, guaranteeing cross-platform applicability.\newline
+
+\noindent
+Initially, the weather monitoring node
 establishes a connection to the \textit{OpenWeatherMap} API. If successful, it continuously requests local weather data at a user-configurable frequency, e.g., every half hour.
 As weather data should be based on the current location of the robot, the node maintains a subscription to the \code{/fix} topic described in section
 \ref{sec:sim_and_mon_gnss_connection_problems}, through which \code{NavSatFix}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/api/sensor\_msgs/html/msg/NavSatFix.html}}} messages containing the latitude and longitude of the robot's currently presumed position arrive as
 new GNSS data is made available. These coordinates are used to retrieve local weather information from the \textit{OpenWeatherMap} API. After parsing the data relevant for
-monitoring, the actual monitoring at the user-specified frequency begins. First, the current rain volume $r_v$ in $mm/h$ is monitored based on two cases: If $7.6 > r_v > 2.6$,
+monitoring, the actual monitoring at the user-specified frequency begins.\newline
+First, the current rain volume $r_v$ in $mm/h$ is monitored based on two cases: If $7.6 > r_v > 2.6$,
 the rain is considered moderate and manageable, so an information is published to the operator, but the robot continues its work. When $r_v \geq 7.6$, the rain is considered heavy,
 causing the robot to interrupt its mission and launch a contingency. This classification of precipitation intensity stems from the \textit{American Meteorological Society's
 Glossary of Meteorology}\footnote{\textcolor{link-color}{\url{https://glossary.ametsoc.org/wiki/Rain}}}. Analogously, the current snow volume $s_v$ is monitored in $mm/h$. When $2.0 > s_v > 0.5$, it is
@@ -1833,8 +1862,10 @@ Based on these codes, it is easy to interrupt the mission for all possible varia
 there are also codes for variations of heavy rain and snow that are used as indicator for contingencies. Additionally, codes for squalls, tornados, and atmospheric features
 such as mist, smoke, or fog are used to interrupt the mission. Eventually, the \textit{OpenWeatherMap} information also contains the sunrise and sunset times. Since the robot
 requires daylight for its missions, it also interrupts them when it approaches or even exceeds sunset or when it tries to start before sunrise. As anticipated in section
-\ref{sec:lta_problems_not_considered}, the inclusion of this information covers the neglected problem category of \textquote{certain dynamics}, at least in this sense. Of course, all upper and lower bounds
-for the attributes of the current weather situation are in principle configurable by the user, but are set to reasonable default values from the literature.  In all contingency
+\ref{sec:lta_problems_not_considered}, the inclusion of this information covers the neglected problem category of \textquote{certain dynamics}, at least in this sense.\newline
+Of course, all upper and lower bounds
+for the attributes of the current weather situation are in principle configurable by the user, but are set to reasonable default values from the literature.
+In all contingency
 cases, the weather monitoring node publishes a message on the \code{/contingency_preemption} topic indicating the particular type of weather condition and causing a transition to
 the \code{CONTINGENCY} state where an appropriate resolution method is selected and launched. Afterwards, it transitions to a kind of passive monitoring mode where it no longer
 triggers contingencies etc., but only waits until the weather situation is moderate again and reports this on the topic \code{/moderate_weather}. In addition, it listens to a
@@ -1842,7 +1873,8 @@ topic where the resolver provides its results. If successful, the weather monito
 Similarly, the information that does not require interruption of the mission is transmitted via the \code{/robot_info} topic. Aside from the
 information relevant to monitoring, there is some other information that may be of interest to the operator. Therefore, a full weather report can be configured to be communicated
 to the operator at specified intervals, e.g., once a day. Beyond those already discussed, this information includes observation time, a general status description, the cloudiness
-percentage, the humidity, the atmospheric pressure and the wind direction. In order for a system to utilize the weather monitoring node, it should provide \code{NavSatFix} data on
+percentage, the humidity, the atmospheric pressure and the wind direction.\newline
+In order for a system to utilize the weather monitoring node, it should provide \code{NavSatFix} data on
 the \code{/fix} topic, as the weather information is based on the current location of the robot. Alternatively, the values for latitude and longitude can be configured explicitly.
 Furthermore, an internet connection is required to connect to the \textit{OpenWeatherMap} API.\newline
 
@@ -1900,6 +1932,8 @@ the maximum range of the sensor. Analogously, the same problem occurs if an obje
 returns \code{inf} values. It should be detected when the list of range values is predominantly filled with impermissible \code{inf} values. Finally, it could be a problem if the
 same scan is published repeatedly. It is possible that the range values between two scans where the robot has not moved are similar, although they should never be the same due to
 noise, etc. However, what should be different in each case is the metadata such as the ID.\newline
+
+\noindent
 Executing a \code{scan} action not only launches the dummy scanning node introduced in section \ref{sec:dummy_scanning_node}, but also a monitoring procedure that
 looks for potential problems with the laser scanner. The most obvious type of sensor failure is of course a total failure, i.e., no messages arrive on the corresponding ROS topic.
 A fairly trivial approach to detecting total sensor failures is therefore to use \code{rospy.wait_for_message()} with the particular topic and set a time limit $t \in \mathbb{N}$
@@ -1991,9 +2025,12 @@ the connection in practice. One realistic problem is an overall poor link qualit
 the link quality assessment, but due to its practical importance, it is also worth to be considered in isolation. Furthermore, the bit rate, i.e., the speed at which
 information is transmitted, gives a good indication of the overall connection quality, and it should be recognized when it falls below a certain threshold, which is a
 lower limit for practical use. In order to ensure communication with the base station at all times (RTK correction signals, scan storage, etc.), such problems should be
-detected and reported or corrected immediately. Of course, the WiFi connection is context-dependent and should be very strong in the proximity of the base station, while it can
+detected and reported or corrected immediately.\newline
+Of course, the WiFi connection is context-dependent and should be very strong in the proximity of the base station, while it can
 be arbitrarily weak out in the field. Nevertheless, for the scenario under consideration, it is assumed that it is available at all times in a certain quality. If this is not the
 case in other scenarios, the thresholds can be reconfigured and, if WiFi is not expected to be available at all, the monitoring node can be disabled.\newline
+
+\noindent
 Monitoring for WiFi connectivity problems takes place at two levels of abstraction. From the perspective of the high-level execution monitoring framework developed in this work,
 the monitoring is completely independent of hardware and operating system details. However, monitoring the WiFi connection of a particular system depends heavily on such details,
 so it is also necessary to provide low-level monitoring for network interfaces. The idea is that the high-level monitoring node expects the information that are evaluated as part 
@@ -2005,6 +2042,8 @@ information to the ROS system is implemented exemplarily for an Ubuntu system. I
 the relevant information, i.e., link quality, signal level and bit rate, is parsed from the \code{iwconfig} output for the respective interface and a \code{WiFi.msg} is created
 based on this. This message is then published under the \code{/wifi_connectivity_info} topic, which is subscribed by the high-level monitoring node. This process is repeated
 continuously every $10$s.\newline
+
+\noindent
 Now that it is clear how the low-level node works, the actual monitoring follows. As mentioned, the high-level monitoring node receives the WiFi information via
 \code{/wifi_connectivity_info}. Based on this, the numerical information about the connection is evaluated. If all three provided values are $0$, it is considered
 a disconnect and the monitoring solution induces a transition to the \code{CONTINGENCY} state. The link quality is evaluated based on three thresholds: If it is below $5\%$,
@@ -2046,7 +2085,10 @@ is $0.1$ Mb/s. The simulation of each different WiFi fault case can be enabled /
 Unlike monitoring WiFi connectivity, internet connectivity monitoring does not require an operating system specific low-level node. The internet bandwidth is tested using the
 cross-platform \textit{Python} tool \code{speedtest-cli}\footnote{\textcolor{link-color}{\url{https://pypi.org/project/speedtest-cli/}}}. Nevertheless, for modularization reasons, there is a separate internet
 connectivity monitoring node that communicates the internet connectivity properties to the general connectivity monitoring node via the ROS topic \code{/internet_connectivity_info}.
-For this purpose, a custom ROS message \code{Internet.msg} was defined consisting of the two fields \code{float32 download_speed} and \code{float32 upload_speed}. Initially,
+For this purpose, a custom ROS message \code{Internet.msg} was defined consisting of the two fields \code{float32 download_speed} and \code{float32 upload_speed}.\newline
+
+\noindent
+Initially,
 the connection to the \code{speedtest-cli} API is established. If this fails, an exception is caught and the first type of internet connection problem is detected, namely a
 complete disconnect. In such a case, the internet monitoring node creates and publishes an \code{Internet.msg} consisting of an upload and download speed of $0$ Mb/s
 reflecting cases of real disconnects after a successful connection to the API. On the other hand, if the connection to the API is successful, the actual monitoring begins, which
@@ -2090,6 +2132,10 @@ into play, acting as a \textquote{man-in-the-middle} to enrich the data coming f
 \code{/fix_plugin} topic and enriches it with user-configurable service, status and covariance information. Finally, as in the real scenario in practice, a \code{NavSatFix} message
 appears on the \code{/fix} topic. Thus, from the perspective of any component that uses the GNSS information, such as localization, it is not clear and also irrelevant whether the
 data is real or simulated, the result is the same.
+
+\vfill
+\pagebreak
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{pics/GNSS_comm.png}
@@ -2109,7 +2155,10 @@ tells whether a GBAS was utilized during positioning. Essentially, RTK is a spec
 options are user-configurable in the \code{GNSS Simulator}. Regardless of whether in simulation or in the case of the real AROX in practice, with the setup described it is always
 known if RTK data is currently being received.
 Additionally configurable, part of the \code{NavSatFix} message, and given in practice is the service option, i.e., the actual GNSS service used to
-retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} or \textit{Galileo}. Eventually, the GNSS covariance type as well as the covariances themselves are part of a
+retrieve the data, \textit{GPS}, \textit{GLONASS}, \textit{Compass} or \textit{Galileo}.\newline
+
+\noindent
+Eventually, the GNSS covariance type as well as the covariances themselves are part of a
 \code{NavSatFix} message and thus configurable in the \code{GNSS Simulator}. Covariances are commonly represented as a square matrix $C$ containing the covariance $c_{ij}$ for each pair
 of variables $i, j$ in the considered domain $D$. These matrices have the property of being symmetric, that is, the covariance $c_{ij} \in C$ is the same as the covariance 
 $c_{ji} \in C$, and they are providing the variances of the variables on their diagonal, since the covariance $c_{ii}$ of each variable $i \in D$ with itself is equal to the variance of
@@ -2119,7 +2168,10 @@ First, \code{COVARIANCE_TYPE_UNKNOWN} $(0)$ if the GNSS receiver does not yield 
 (DOP). The covariance values are then approximated based on this estimate. If the GNSS receiver gives at least the variances or standard deviations of the individual measurements,
 the type is \code{COVARIANCE_TYPE_DIAGONAL_KNOWN} $(2)$, since the diagonal contains the variances. For instance, assuming the GNSS receiver provides the variances, it is only necessary
 to take the square root of the diagonal values to obtain the more meaningful standard deviations. Eventually, \code{COVARIANCE_TYPE_KNOWN} $(3)$ means that the GNSS receiver provides
-a rather sophisticated error estimation with a complete covariance matrix of $3 \times 3$ values. The covariances are not directly based on the
+a rather sophisticated error estimation with a complete covariance matrix of $3 \times 3$ values.\newline
+
+\noindent
+The covariances are not directly based on the
 current latitude, longitude and altitude belief state, but based on a $2D$ approximation of a small region of the Earth's surface, a tangential plane through the currently believed
 position. There are several local tangent plane systems, the specific one assumed in \code{NavSatFix} is the \textit{East-North-Up} (ENU) coordinate system. Using such a coordinate
 system relative to a local origin has the advantage that it allows one to work with intuitive Cartesian coordinates. To give an example, let the locations considered be the 
@@ -2178,7 +2230,7 @@ $\sqrt{101}m$ in the east direction, resulting in a fairly high uncertainty with
 \end{figure}
 \noindent
 Nevertheless, in both cases shown in fig. \ref{fig:uncertainty_shape}, the standard deviations are in the meter range, which is not optimal. With RTK available, the deviations,
-i.e., the violet shape, should be much smaller in the centimeter or even millimeter range. It is of some importance to detect and report changes in position accuracy.
+i.e., the violet shape, should be much smaller in the centimeter or even millimeter range. It is of some importance to detect and report changes in position accuracy.\newline
 The monitoring for GNSS failures works as follows. First, there is a qualitative assessment of GNSS links that work in principle based on the information in the \code{NavSatFix}
 message. If the connection is not perfect, the mission is not immediately interrupted, but it is at least documented.
 The quality is rated as high, if the status is \code{STATUS_GBAS_FIX}, i.e., with ground-based augmentation such as RTK, the covariance type is $\geq$ 
@@ -2196,9 +2248,12 @@ case. Status monitoring also checks for cases of \code{STATUS_FIX}, which means 
 contingency, just information worth publishing on \code{/robot_info}. What is also worth reporting, but does not trigger a contingency, is an unknown service, i.e., when the
 \code{NavSatFix} message does not contain any of the available GNSS services \textit{GPS}, \textit{GLONASS}, \textit{Compass} or \textit{Galileo}. Again more critical is the latitude ($lat$) / longitude ($lng$) belief state
 monitoring. It is ensured that both values are present and satisfy their respective domains, i.e., $lat \in [-90\degree, 90\degree]$ and $lng \in [-180\degree, 180\degree]$. Altitude is not taken into account
-because many GNSS receivers do not provide this information. Eventually, there is uncertainty assessment, i.e., covariance monitoring. 
+because many GNSS receivers do not provide this information.\newline
+
+\noindent
+Eventually, there is uncertainty assessment, i.e., covariance monitoring. 
 First, it is checked whether the covariance type corresponds to one of the
-available options (\code{COVARIANCE_TYPE_UNKNOWN}, \code{COVARIANCE_TYPE_APPROXIMATED}, \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, \code{COVARIANCE_TYPE_KNOWN}). Otherwise,
+available options (\code{UNKNOWN}, \code{APPROXIMATED}, \code{DIAGONAL_KNOWN}, \code{KNOWN}). Otherwise,
 a notification is sent to the operator, but of course not a contingency, as this is not critical. The most meaningful components of the covariance matrix are the variances or, more
 precisely, the standard deviations, i.e., the square root of the diagonal values, because they actually provide information about the accuracy of the estimated position.
 As for the actual standard deviation values, two things can be observed: The absolute values (appropriate / too high) and their progression over time.
@@ -2207,7 +2262,8 @@ covariance matrices and performs a list shift in which the oldest one is removed
 history, the square roots, i.e., the standard deviations, are considered, since, as mentioned, these are the crucial values provided by many GNSS receivers.
 Whenever the covariance type of an incoming \code{NavSatFix} message is $\geq$ \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, the history is updated. On the arrival of new feasible 
 messages, the deviation progression is analyzed. Such an analysis primarily examines the standard deviations of the east and north components, but also those of the upward component,
-if present. First, it is checked whether the history contains only increasing values for the respective component. If this is the case and, in addition, the difference between the
+if present.\newline
+First, it is checked whether the history contains only increasing values for the respective component. If this is the case and, in addition, the difference between the
 oldest and the newest deviation is greater than a user-defined significant deviation increase $d_{inc} \in \mathbb{R}_{0}^{+}$, a contingency is initiated. Thus, the definition of
 an inappropriate deviation progression is exclusively increasing values combined with an overall absolute increase between the oldest and latest value that exceeds a certain threshold.
 Finally, there is one last check, which relates to the absolute values. If the type is $\geq$ \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, the present variances 
@@ -2217,7 +2273,8 @@ If the type is \code{COVARIANCE_TYPE_APPROXIMATED}, the variances can be conside
 The standard deviations $\sqrt{c_{ii}} \in C \thinspace \forall \thinspace i \in \{E, N, U\}$ are checked, but high values exceeding the threshold do not cause a contingency, only a message on \code{/robot_info}.
 In principle, it would also be useful to monitor the off-diagonal elements of the covariance matrix, i.e., the actual covariances, since these elements provide information about the
 reciprocal relationship of the directions under consideration. For instance, if $c_{NE} < 0$, a negative deviation in the north direction is likely to be matched by a positive deviation in
-the east direction, and vice versa. However, in the scope of this work, the monitoring of the covariance matrix will be limited to the above cases. It is crucial that the approaches
+the east direction, and vice versa. However, in the scope of this work, the monitoring of the covariance matrix will be limited to the above cases.\newline
+It is crucial that the approaches
 are essentially compatible with all systems using \code{NavSatFix} and are not limited to the AROX system or the present scenario. Hence, for a system to use GNSS monitoring, it simply needs
 to publish \code{NavSatFix} messages on \code{/fix}.\newline
 
@@ -2228,10 +2285,6 @@ simply configuring the status, covariance information, and service according to 
 setting inappropriate values for each. Likewise, absolute deviation monitoring as well as variance history analysis can be tested by simulating the respective problems.
 Let the type be \code{COVARIANCE_TYPE_DIAGONAL_KNOWN}, the user-specified history length $n = 4$ and the deviation increase threshold in meters $d_{inc} = 5$. Deviation monitoring
 can then be tested by publishing the following (co)variance progression ($n = 4$ messages in sequence):
-
-\vfill
-\pagebreak
-
 \begin{figure}[H]
     \begin{subfigure}[b]{0.24\textwidth}
     \centering
@@ -2305,9 +2358,6 @@ The simulation of the GNSS failure cases can be enabled / disabled via the follo
     \item \textbf{high deviation:} \code{/toggle_simulated_high_deviation}
 \end{itemize}
 
-\vfill
-\pagebreak
-
 \subsection{Data Management}
 \label{sec:sim_and_mon_data_management}
 
@@ -2315,7 +2365,7 @@ Similar to sensor monitoring, executing a \code{scan} action launches the data m
 section \ref{sec:challenges_for_lta}. To perform the drive capacity check, i.e., to determine whether the drive on which scan logging or data storage in general takes place has enough
 free space, the cross-platform library \code{psutil}\footnote{\textcolor{link-color}{\url{https://pypi.org/project/psutil/}}} is used. It provides a function \code{disk_usage()} which returns the load of the
 specified disk, e.g., the one configured in \code{MONITOR_DRIVE}. Unlike WiFi connection monitoring, where the actual low-level network connectivity checks are outsourced
-from the monitoring framework due to its operating system coupling, disk capacity checks can be part of the framework itself because of the cross-platform nature of \code{psutil}.
+from the monitoring framework due to its operating system coupling, disk capacity checks can be part of the framework itself because of the cross-platform nature of \code{psutil}.\newline
 If the result of \code{disk_usage(MONITOR_DRIVE)} exceeds $99\%$, the node detects a full memory and causes an interruption of the robot's mission and a transition to the
 \code{CONTINGENCY} state. Additionally, notifications are sent to the operator when the disk load exceeds $95\%$ and $90\%$, with an indication that the data should be backed up
 externally soon. So much for very general data management monitoring, which in principle can be used for all types of data acquisition tasks, since the type of data is irrelevant
@@ -2349,9 +2399,6 @@ which can be simulated by simply not writing the scan to the file system in the 
 of error can be enabled / disabled via the ROS topic \code{/toggle_simulated_scan_logging_failure}. Data management issues can be addressed with the resolution methods described
 in section \ref{sec:data_management_resolver}.
 
-\vfill
-\pagebreak
-
 \subsection{Plan Deployment Failure}
 \label{sec:sim_and_mon_plan_deployment_failures}
 
@@ -2366,7 +2413,9 @@ explaining the reason, using the \code{/contingency_preemption} topic. Monitorin
 therefore a special case, since most of the monitoring is based on error handling reported by the operational state machine. However, this makes sense because these errors are
 naturally detected in the operation state machine and only need to be reported or passed on to the higher-level state machine for execution monitoring. Brodskiy et al. refer to these
 types of failures recognized and indicated within a component as \textit{signaled failures} and argue that it is desirable to cover as many aspects as possible by such signaled
-failures, with each component being more or less self-responsible. \cite{Brodskiy:2011}
+failures, with each component being more or less self-responsible. \cite{Brodskiy:2011}\newline
+
+\noindent
 The exact error treatment responsible for detecting these errors works as follows. First, the plan generation node described in section \ref{sec:plan_generation} provides plans via the
 \code{arox_planner/get_plan} service. If a call to this service triggers a timeout exception, it gets caught, the error is reported (code $0$), and the operation state machine
 remains in the \code{IDLE} state. Analogously, a plan with an empty list of actions (code $1$) and a plan containing an action of an unknown type (code $2$) is recognized and
@@ -2398,6 +2447,8 @@ Since the identified challenges of \textit{Obstacles Blocking the Planned Path} 
 considered together under the heading \textit{Navigation Failure}. Although sustained recoveries could in principle refer to all kinds of problems, this thesis is limited to
 sustained recoveries in the case of navigation problems, as this is by far the most relevant case from a practical perspective. Thus, it is sustained recoveries induced by
 \code{move_base_flex}.\newline
+
+\noindent
 Recovery behaviors should naturally vary between static and dynamic obstacles. A dynamic obstacle like a person or an animal will in most cases simply walk through the scene and
 disappear a moment later, so waiting for a moment can already be a very reasonable and sufficient recovery behavior. Static obstacles, on the other hand, may be present for longer
 periods of time, requiring more sophisticated recovery behaviors. \code{move_base_flex} is generally already able to detect obstacles. The task of a monitoring procedure in this
@@ -2450,6 +2501,8 @@ considered static. This approach misuses the global static map as a knowledge ba
 the runtime of the robot. An obvious problem is that this assumption does not hold, since in this approach dynamic obstacles such as people can be erroneously entered into the global
 map and henceforth be considered static obstacles. This happens when a person remains stationary until leaving the sensor horizon of the robot. Nevertheless, since such cases are much
 rarer compared to the first issue, this workaround proved to be practically useful in this particular context. In the long term, of course, a more sensible solution must be developed.\newline
+
+\noindent
 So much for situations that can be solved in principle. In the other case (obstacles block every single path), however, it should be detected and communicated in any case, because the robot can not solve it itself. If the robot is unable to successfully generate a
 path, there are essentially two different outcomes, regardless of whether this is because there is no path or because it simply cannot find it. First, it results in a sustained
 recovery. Second, it simply fails with an error and aborts the navigation target. Both cases should be recognized. During practical experiments in this work, there were many
@@ -2457,7 +2510,9 @@ situations where \code{move_base_flex} was unable to find a correct path and sim
 case, the robot should try a few different recovery actions and then abort and report the problem. Monitoring methods must therefore track the results / states of recovery
 behaviors and decide whether it is appropriate to try more or stop. To identify sustained recovery situations, it is necessary to count them somehow. \code{move_base_flex}
 communicates its status via the ROS topic \code{/move_base_flex/exe_path/status}. Consequently, to count the number of failed recoveries, one can simply count the transitions
-from \code{GoalStatus.ACTIVE} to \code{GoalStatus.ABORTED}. \code{GoalStatus.SUCCEEDED} should always reset the counter, because then the recovery has actually solved the problem.
+from \code{GoalStatus.ACTIVE} to \code{GoalStatus.ABORTED}. \code{GoalStatus.SUCCEEDED} should always reset the counter, because then the recovery has actually solved the problem.\newline
+
+\noindent
 Monitoring is performed at a frequency specified by the user and verifies the current recovery count $r \in \mathbb{N}$. Whenever $r = 1$, i.e., when the first recovery occurs after successful
 operation, the current position of the robot is stored using the GNSS data obtained from the \code{/fix} topic (cf. section \ref{sec:sim_and_mon_gnss_connection_problems}). If the
 recovery count reaches a user-configurable recovery limit $l \in \mathbb{N}$, i.e., $r \geq l$, a contingency is initiated via \code{/contingency_preemption} due to a sustained recovery. This method covers a sustained recovery, as it
@@ -2466,7 +2521,9 @@ they will all end with a persistent recovery or an explicit termination. The exp
 \code{/explicit_nav_failure} through which external procedures, such as the low-level operation state machine, can trigger a contingency due to a navigation problem. For this
 purpose, the operation state machine publishes to \code{/explicit_nav_failure} and notifies the monitoring procedure whenever a navigation goal issued to
 \code{move_base_flex} explicitly returns \code{GoalStatus.ABORTED}. This is again an example of \textit{signaled failures} proposed by Brodskiy et al. \cite{Brodskiy:2011} and
-discussed earlier in section \ref{sec:sim_and_mon_plan_deployment_failures}.
+discussed earlier in section \ref{sec:sim_and_mon_plan_deployment_failures}.\newline
+
+\noindent
 One problem is that repeated recoveries in which some progress is actually achieved should not be mistaken as
 sustained recoveries and thus failure. Hence, one should not only count the repetitions and declare that it has failed after a number of unsuccessful attempts, i.e., $r \geq l$, but
 also take into account reasonable progress towards the goal. For instance, if the robot approaches the target during the process rather than just rotating on the spot, it should be
@@ -2474,7 +2531,9 @@ viable. For this purpose, each time when $r \geq l$, a further check is performe
 the recovery sequence with the present position. If the distance between the two locations is less than a user-configurable lower bound, the robot has not made sufficient progress
 and a contingency is initiated. Otherwise, the robot has performed a number of recoveries, but with some success as it progresses towards the goal, so this is not considered a
 failure. In such cases, the operator is informed via \code{/robot_info}, the recovery counter is reset, i.e., $r = 1$, the initial recovery position is set to the present position
-and the recovery process can be continued.
+and the recovery process can be continued.\newline
+
+\noindent
 It is important to note that monitoring is kept as generic as possible to be compatible with other scenarios and applications involving autonomous mobile robots.
 For instance, it is easy to switch to the common navigation framework \code{move_base} by simply changing the topic configuration.
 The counting of transitions etc. should still work, because \code{move_base} works with the same \code{GoalStatus} information.
@@ -2490,7 +2549,8 @@ path to the destination is blocked and there is no other way, i.e., by specially
 The occurrence of static and dynamic obstacles can be implemented in the simulation by spawning mobile and immobile objects at randomized positions that could potentially block
 the robot's path. However, as mentioned earlier, dynamic obstacles are generally not a major concern as they will appear as obstacles, initiate a recovery, usually a turn on the
 spot, and after that, in most cases, the obstacle has already disappeared and the robot can continue its mission. If this is not the case, it could be treated as static anyway.
-Therefore, only the harder case of unexpected static obstacles is considered here, since this is the case to which the robot actually has to adapt. The most extreme case of an
+Therefore, only the harder case of unexpected static obstacles is considered here, since this is the case to which the robot actually has to adapt.\newline
+The most extreme case of an
 unexpected static obstacle would be one that blocks all paths between the robot and its navigation target, so that it simply cannot reach it. In order to simulate certain scenarios
 with obstacles systematically, the \code{ObstacleSpawner} was developed. The obstacle models used must be stored in \code{home/.gazebo/models} and are all freely available
 \footnote{\textcolor{link-color}{\url{http://models.gazebosim.org/}}}. The ROS service \code{/gazebo/spawn_sdf_model} is used to spawn the obstacle models. The service must be called with the model name,
@@ -2635,7 +2695,10 @@ robot can travel to in order to compare them with its current localization. In t
 considered, however, such a system does not yet exist. Therefore, the plausibility of the localization can only be estimated
 from the sensor data, which is retrievable via ROS topics (\code{/imu_data}, \code{/odom}, \code{/odometry/filtered_odom},
 \code{/odometry/gps}). The messages arriving on these topics are of type \code{sensor_msgs/Imu.msg}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Imu.html}}} and
-\code{nav_msgs/Odometry.msg}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html}}}, respectively. The GNSS is perhaps the easiest component to monitor, because at least the variance of the data is provided most of the times.
+\code{nav_msgs/Odometry.msg}\footnote{\textcolor{link-color}{\url{https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html}}}, respectively.\newline
+
+\noindent
+The GNSS is perhaps the easiest component to monitor, because at least the variance of the data is provided most of the times.
 If the position estimates have a high variance, i.e., are not very reliable, it is probably not very accurate at the moment. GNSS monitoring is already part
 of the connection monitoring described in section \ref{sec:sim_and_mon_gnss_connection_problems}. In contrast, IMU and odometry data are not as straightforward to
 verify. One idea is to let the robot take known states and check if the values are what would be expected, e.g., let the robot
@@ -2658,6 +2721,8 @@ expensive military-grade IMU, which is generally not the case in field observati
 (cf. section \ref{sec:sim_and_mon_gnss_connection_problems}), a high accuracy is assumed for this component of localization because if this were not the case, it would already have been detected by the corresponding connection
 monitoring approaches. Consequently, if the connection monitoring does not report GNSS problems, it should be sufficiently accurate to be used to validate the other components,
 i.e., IMU and odometry.\newline
+
+\noindent
 There are monitoring approaches for the individual components of localization (IMU, odometry, GNSS) as well as those that compare two different localization components.
 An example of the latter is the monitoring of the distance divergence between odometry and GNSS. It is sufficient to consider the two-dimensional distance, i.e., to use the $x$ and
 $y$ coordinates of the current position estimate of the robot. Let $p_o$ be the current position estimate of the odometry and $p_g$ that of GNSS. Of course, $p_o$ and $p_g$ can be
@@ -2668,7 +2733,8 @@ i.e., $d_o = \sqrt{\sum_{i=1}^{n}(s_{o_i} - p_{o_i})^2}$ and $d_g = \sqrt{\sum_{
 There are user-configurable divergence thresholds that trigger information via \code{/robot_info} or contingencies via \code{/contingency_preemption} based on severity. Significant
 divergences may certainly be an indicator of localization problems. The usually more precise filtered odometry data is used for this purpose.
 An extreme example leading to such a discrepancy would be a very poor GNSS link providing a highly inaccurate
-position estimate that sort of teleports the robot away from its previous position, inducing the \textit{kidnapped robot problem}. Another monitoring approach that compares different
+position estimate that sort of teleports the robot away from its previous position, inducing the \textit{kidnapped robot problem}.\newline
+Another monitoring approach that compares different
 localization components is yaw angle monitoring, arguably the most relevant kind of orientation for
 ground vehicles. As mentioned above, GNSS itself does not provide any orientation at all. However, if it is known that the GNSS data is very accurate at the moment, it is feasible
 to interpolate an orientation based on two successive GNSS positions $\hat{p}_g, \tilde{p}_g$, since it is evident that the direction in which the robot is moving is
@@ -2681,7 +2747,10 @@ $o^{\top} = (\tilde{p}_{g}.x - \hat{p}_{g}.x \quad \tilde{p}_{g}.y - \hat{p}_{g}
 suitable for comparison with \code{tf.transformations.quaternion_from_euler}, the actual comparison can take place. Now it is again a matter of acceptable divergence, where the
 user can specify a maximum feasible yaw divergence $d_{max} \in \mathbb{R}_{0}^{+}$. When the absolute difference between the yaw component of the IMU or filtered odometry orientation and the interpolated
 $\psi$ exceeds $d_{max}$, a contingency is initiated.
-These were the monitoring approaches comparing different components of localization. The first monitoring for individual components considers the IMU. IMU monitoring is based on two
+These were the monitoring approaches comparing different components of localization.\newline
+
+\noindent
+The first monitoring for individual components considers the IMU. IMU monitoring is based on two
 lists of IMU data. The first one stores active IMU data, meaning IMU data that has been recorded during \code{move_base_flex} activity, i.e., \code{GoalStatus.ACTIVE}.
 Thus, the status of \code{move_base_flex} is taken into account at any time during localization monitoring. However, a certain generality is realized.  If other navigation
 frameworks such as the basic \code{move_base} are present in different scenarios, they can also be used if they work with the common \code{actionlib_msgs}
@@ -2692,11 +2761,12 @@ stores IMU data for inactive situations. It is important to note that IMU data i
 for inactivity, e.g., \code{GoalStatus.REJECTED}, are already accounted for at other levels of execution monitoring. In addition, unprocessed linear and angular twists would still be
 part of the IMU data and would be added to the passive IMU history, distorting the results.
 For both, due to the high frequency of $100Hz$ at which the IMU data arrives, as well as natural \textquote{anomalies}, a fairly long
-history is tracked. The length of the history $n \in \mathbb{N}$ is user-configurable, the default is $n = 1500$. The first aspect monitored is the absolute angular velocity for passive IMU data $a^p$ in
+history is tracked. The length of the history $n \in \mathbb{N}$ is user-configurable, the default is $n = 1500$.\newline
+The first aspect monitored is the absolute angular velocity for passive IMU data $a^p$ in
 $rad/s$, measured by the IMU's gyroscope.
 Since this is data recorded in the passive state, i.e., when the robot is not moving, it is expected that $a^p.x \approx a^p.y \approx a^p.z \approx 0 \thinspace rad/s$.
 There is a user-defined upper bound $a^p_{max} \in \mathbb{R}_{0}^{+}$ for the absolute angular velocity in passive states. For all three dimensions, the average over the last $n$ absolute angular velocities in
-the passive state $a^{p}_{i}, i \in [1, n]$ is considered. If one of these values exceeds $a^p_{max}$, i.e., $\thinspace \exists \thinspace \frac{1}{n}\sum_{i=1}^{n} |a^p_i.d| > a^p_{max}, d \in \{x, y, z\}$, a contingency is initiated.
+the passive state $a^{p}_{i}, i \in [1, n]$ is considered. If one of these values exceeds $a^p_{max}$, i.e., $\thinspace \exists \thinspace \frac{1}{n}\sum_{i=1}^{n} |a^p_i.d| > a^p_{max}, d \in \{x, y, z\}$, a contingency is initiated.\newline
 The next aspect is the linear acceleration in $m/s^2$ measured by the accelerometer of the IMU.
 Both linear acceleration and angular velocity are examples of observations with contextual errors, where certain measurements (non-zero values) are legitimate in some
 contexts but illegitimate in others, e.g., motion versus stasis. \cite{Khalastchi:2018} In preparation, a user-configurable fraction of the active and passive IMU
@@ -2708,24 +2778,32 @@ as relevant as the others and is therefore disregarded. Then the average ratio b
 each value $l^a$ in the active linear acceleration list, the ratio $\frac{l^a}{l^p}$ is calculated. If the average of these ratios is below a user-defined minimum ratio $r_{min} \in \mathbb{R}^{+}$,
 i.e., $\frac{1}{m} \sum_{i=1}^{m} \frac{l_i^a}{l_i^p} < r_{min}$, a contingency is initiated, as the linear acceleration during motion should be significantly higher compared to standstill.
 Additionally, if one of the median values $l^p$ in the passive linear acceleration history exceeds an upper bound for linear acceleration at standstill $l^p_{max} \in \mathbb{R}^{+}$, a contingency is initiated,
-analogous to the case of too high angular velocities during inactivity. In the last step of IMU monitoring, the covariance matrices are checked. Each component, i.e., orientation, angular
+analogous to the case of too high angular velocities during inactivity.\newline
+In the last step of IMU monitoring, the covariance matrices are checked. Each component, i.e., orientation, angular
 velocity and linear acceleration, can have a covariance matrix $C_{3 \times 3}$ for the three axes $x, y, z$. As with GNSS covariance monitoring, only the standard deviations, i.e.,
 $\sqrt{c_{ii}} \thinspace \forall \thinspace c_{ii} \in C, i \in \{x, y, z\}$, will be considered. An upper limit $d_{max} \in \mathbb{R}_{0}^{+}$ for the standard deviations can be configured. Since these matrices are
 not always provided or filled with meaningful entries, it must first be checked whether this is the case. If $c_{ij} = 0 \thinspace \forall \thinspace i, j \in \{x, y, z\}$,
 it can be assumed that the covariance is unknown and it should be disregarded in monitoring. Moreover, if $c_{xx} = -1$, it means that the IMU device used does not support estimates
 for this data, e.g., because the IMU in question does not provide an orientation estimate. If neither is the case, the standard deviations are monitored.  If any
-of them exceeds the threshold, i.e., $\exists \thinspace \sqrt{c_{ii}} > d_{max}, i \in \{x, y, z\}$, a contingency is triggered due to a high IMU standard deviation. Finally, there is odometry monitoring, both for pure
+of them exceeds the threshold, i.e., $\exists \thinspace \sqrt{c_{ii}} > d_{max}, i \in \{x, y, z\}$, a contingency is triggered due to a high IMU standard deviation.\newline
+
+\noindent
+Finally, there is odometry monitoring, both for pure
 odometry and filtered odometry with IMU data. The first point is again based on a known condition. When the robot is stationary, i.e., when \code{move_base_flex} has no active target,
 all components of linear and angular twist should be approximately zero. An upper limit can be set for both. If one of the components exceeds this threshold in one direction, a
 contingency is triggered due to an unexpectedly high twist in the passive state. Furthermore, there is pose and twist covariance monitoring. This time based on
 covariance matrices $C_{6 \times 6}$ for the following list of components $\{x, y, z, \phi, \theta, \psi\}$. Again, only the variances on the diagonal are considered. The pose uncertainty as well as the uncertainty of the velocity
-in free space are checked for excessive standard deviations and initiate an interruption of the normal operation if necessary. In a nutshell, the general idea of localization
+in free space are checked for excessive standard deviations and initiate an interruption of the normal operation if necessary.\newline
+
+\noindent
+In a nutshell, the general idea of localization
 monitoring is to check expected values for known states. All localization monitoring is performed at a frequency specified by the user. To avoid timing issues during transitions from
 active to passive states and vice versa, there is a short timeout that blocks monitoring immediately after a transition. A further aspect worth mentioning is that not all identified
 issues that are monitored are actually erroneous localizations. When the robot is subjected to a certain forward acceleration even though it has no active navigation target, this is
 not necessarily wrong, just unexpected. A slip on an icy surface that causes a position change without an active navigation target may be unexpected, but it is still true that the
 position has changed. Nonetheless, this can cause problems with localization, since, for example, the odometry data no longer matches the GNSS data, which makes re-initialization of
-the localization advisable. In order for a system to make use of the localization monitoring node, its localization must be based on sensor fusion of IMU, odometry and GNSS data,
+the localization advisable.\newline
+In order for a system to make use of the localization monitoring node, its localization must be based on sensor fusion of IMU, odometry and GNSS data,
 and it must provide the corresponding sensor information on the aforementioned topics. Additionally, as remarked, it requires a navigation based on \code{actionlib_msgs/GoalStatus.msg}, e.g.,
 \code{move_base} or \code{move_base_flex}. Kinematics also play a role; in general, it should be a wheeled robot with differential drive. While an Ackermann drive would also be
 permissible, others, such as omni-drive robots, are not compatible because they would violate certain assumptions used in the monitoring approaches, such as in the orientation
@@ -2797,7 +2875,7 @@ GNSS interpolation in the passive state, because the position of the robot does 
 rotating on the spot is a frequent occurrence in standard navigation, this is a common recovery behavior that should certainly be viable. For this reason, the aforementioned
 interpolation threshold $i_{min}$ was introduced, since otherwise a rotation on the spot would always trigger a yaw divergence. That is why it is not sufficient to simulate a
 rotation on the spot, there must also be a minor change in position that does not precisely match the robot's orientation. Simultaneously, this motion cannot be too large, otherwise
-a case of distance divergence would be triggered. It takes some experimentation to find a stable configuration for the system in question, but the idea should be clear.
+a case of distance divergence would be triggered. It takes some experimentation to find a stable configuration for the system in question, but the idea should be clear.\newline
 It is also worth mentioning that the simulations are not necessarily sharply separated. For instance, applying a force to trigger high acceleration values recorded by the IMU may
 very well cause wheel rotations, triggering other problem cases such as estimated position changes by the odometry. Conversely, letting the wheels rotate will accelerate the robot
 and result in higher IMU values. Finally, the two remaining simulation cases of motion in passive states indicated by IMU and odometry can obviously only be simulated when no
@@ -2828,6 +2906,8 @@ In general, the idea of recovery is to transform an erroneous or problematic sta
 The rationale is to have the monitoring procedures described in section \ref{sec:sim_and_mon_of_lta_challenges} that
 look for the specific types of issues and initiate an appropriate response. Kunz et al. \cite{Kunz:2009} emphasize that the robustness of a system can be maximized by
 providing fail-safe procedures. Although they are dealing with AUVs, the general problem remains the same.\newline
+
+\noindent
 Whenever a monitoring solution described in section \ref{sec:sim_and_mon_of_lta_challenges} causes a transition to the \code{CONTINGENCY} or \code{CATASTROPHE} states
 by publishing on the respective topics \code{/contingency_preemption} or \code{/catastrophe_preemption}, information about the cause of the interruption is
 transmitted via a ROS message. Based on this cause, the corresponding resolver class is selected and executed. The resolver for each general problem class, e.g.,
@@ -2885,6 +2965,8 @@ value of $j = \frac{\pi}{2}$ is sent to \code{/container/ramp_position_controlle
 reasonable to equip the robot with a resolution function for lowering the ramp, but the real version of the container in the considered scenario does not yet provide automated ramp
 lowering. In addition, the local costmap as well as the local obstacle information copied to the global costmap (cf. section \ref{sec:sim_and_mon_navigation_failures}) is deleted,
 so that the robot can immediately perceive the open container.\newline
+
+\noindent
 The resolution of undocking failures is based on the premise that they are often due to slightly inappropriate positioning of the robot.
 Hence, the resolver moves it back and forth a bit by publishing linear twists to \code{/cmd_vel}, which practically solves the problem in some cases. As in the case of docking
 failure, this is attempted only once. If the robot still fails to undock, the human operator is notified, including a potential lowering of the ramp and clearing of the costmaps
@@ -2895,6 +2977,9 @@ attempted once are reset at appropriate events. The counters for docking and cha
 error, as this is a clear indicator that the docking was finally successful and the battery is being charged. For this purpose, the current state of charge is stored at the start of
 the docking resolution and later compared with the most recent state on \code{/arox/battery_param}. The undocking resolution count is reset when \code{move_base_flex} reports
 \code{GoalStatus.SUCCEEDED}.
+
+\vfill
+\pagebreak
 
 \subsection{Drastic Weather Change}
 \label{sec:weather_resolver}
@@ -2972,7 +3057,10 @@ simple check for \code{GoalStatus.ABORTED} cases directly in the resolution meth
 failed recovery procedures (cf. section \ref{sec:sim_and_mon_navigation_failures}). For this purpose, the navigation monitoring node described in section
 \ref{sec:sim_and_mon_navigation_failures} has another mode that is activated after navigation recovery is initiated. In this mode, recovery operations are counted again, but no
 contingencies are triggered as in default active monitoring, instead a special topic \code{/resolution_failure} is used to notify the recovery procedure, which then cancels all
-active resolution goals. For both types of errors during navigation failure recovery, human operator notification is initiated as a fallback solution. An additional aspect of
+active resolution goals. For both types of errors during navigation failure recovery, human operator notification is initiated as a fallback solution.\newline
+
+\noindent
+An additional aspect of
 navigation error recovery that is essential for cases of simulated navigation failures is the removal of simulated obstacles. When the human operator intervenes in the event that
 the robot is unable to cope with obstacles, it is expected that the operator will remove the obstacles before reinitiating the autonomous operation of the robot. Thus, an obstacle
 removal function is implemented as part of the navigation failure monitoring node described in section \ref{sec:sim_and_mon_navigation_failures}. The most obvious example is the
@@ -3035,8 +3123,8 @@ Thus, the power supply can be realized by integrating an autonomous docking / un
 surroundings, drive into it and dock to the inductive charging station. Such a docking solution has been created as part of the \textit{PORTAL} project and is extended in this work by some
 error handling mechanisms to enable meaningful monitoring. The docking solution is integrated into the framework developed in this thesis to provide the robot with autonomous
 recharging capability. The component integrating the (un)docking methods into the presented framework is the operation state machine, which is responsible for the action execution
-(cf. section \ref{sec:execution_monitoring_smach_architecture}). Essentially, two of the available actions are extended - \code{return_to_base} and \code{charge}. First,
-\code{return_to_base} must select the correct base pose specified by the user, i.e., the position to which the robot is supposed to move before charging its battery. In the case of the
+(cf. section \ref{sec:execution_monitoring_smach_architecture}). Essentially, two of the available actions are extended - \code{return_to_base} and \code{charge}.\newline
+First, \code{return_to_base} must select the correct base pose specified by the user, i.e., the position to which the robot is supposed to move before charging its battery. In the case of the
 simplified charging patch scenario, it is expected to be exactly on the patch. In the more realistic container scenario, however, it is assumed to be somewhere in the proximity of the
 container and pointing approximately in its direction. In either case, the robot then drives to the specified location. Afterwards, the action is completed in the simplified charging
 patch scenario. Yet, in the container scenario, \code{return_to_base} includes docking. Thus, docking is initiated by creating a
@@ -3130,6 +3218,8 @@ errors, thus using the container as a landmark.
 The general idea behind the upcoming experiments is the following simple scheme: Problem simulation by publishing on the respective topic, followed by a triggered monitoring
 procedure that should detect the problem, interrupt normal operation and initiate an appropriate resolution. Either it succeeds and \code{NORMAL_OPERATION} continues, or it cannot be
 resolved and execution ends in \code{CATASTROPHE}. The complete plan underlying all experiments, executed in a loop, can be found in the appendix (cf. sec. \ref{sec:complete_plan_sec}).\newline
+
+\noindent
 Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: The \textit{total system lifetime} and the \textit{autonomy percentage}. \cite{Hawes:2017} The
 first measures the time the robot is in autonomous operation and is reset when an unsolvable problem or an unintended intervention of the human operator is required. However,
 it is not reasonable to evaluate this time in the present scenario, since it certainly depends on the frequency with which the failures considered in this work are simulated. The second metric
@@ -3142,10 +3232,7 @@ simulated contingency situations ending in a catastrophe. Furthermore, they prop
 information to the operator. This is definitely fulfilled by the presented approaches, in particular by the bidirectional communication channel between the robot and the human
 operator (cf. sec. \ref{sec:fallback_solution}) and the \code{data_accumulator} (cf. sec. \ref{sec:black_box}). In any situation identified as problematic, meaningful information
 is provided about the circumstances and the nature of the problem as such. Based on the developed architecture, this boils down to a question of reliability, which is evaluated in
-section \ref{sec:eval_mon_framework}. If the problem at hand is properly identified, meaningful information will be provided with certainty.
-
-\vfill
-\pagebreak
+section \ref{sec:eval_mon_framework}. If the problem at hand is properly identified, meaningful information will be provided with certainty.\newline
 
 \noindent
 Initially, the basic functionality of the entire integrated system is demonstrated in section \ref{sec:demonstration_of_functionality}. Subsequently, in section
@@ -3168,7 +3255,7 @@ charge cycles and the average total distance traveled is $1102.68 m$. Moreover, 
 during the LTA episodes, which is shown in fig. \ref{fig:mode_times_basic}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{pics/mode_times_basic.png}
+    \includegraphics[width=0.525\textwidth]{pics/mode_times_basic.png}
     \caption{\textsc{Mode Distribution}}
     \label{fig:mode_times_basic}
 \end{figure}
@@ -3351,7 +3438,7 @@ This contextualizes the autonomy percentage quite well, and again it can be seen
 (Un)docking and charging naturally takes some time as well. Beyond that, some error handling (\code{cont}) can be identified.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{pics/mode_times.png}
+    \includegraphics[width=0.65\textwidth]{pics/mode_times.png}
     \caption{\textsc{Mode Distribution}}
     \label{fig:mode_times}
 \end{figure}
@@ -3379,7 +3466,7 @@ in practice in the considered context, which presupposes that not only abstract 
 universality and simultaneous applicability in the scenario under consideration. This results in the fact that the universality ends when leaving the ROS cosmos, i.e., the system is
 exclusively designed for ROS systems. While certain lines of reasoning and observations in this thesis may apply to non-ROS systems as well, there is at least no practical
 applicability of the developed framework to these systems. Due to the high prevalence of ROS coupled with the requirement to be practically applicable, the restriction to
-compatibility with ROS systems seems reasonable.
+compatibility with ROS systems seems reasonable.\newline
 The reliability of the framework has been experimentally endorsed, at least in simulation. In total, there are $48$ problem instances that can be explicitly triggered
 through simulation by publishing on a topic, as presented in section \ref{sec:sim_and_mon_of_lta_challenges}. Beyond that, there are many other problem cases that are explicitly
 covered by the monitoring procedures. However, there are also numerous potential problem conditions that are not explicitly considered by the monitoring nodes, but are nevertheless
