@@ -3249,7 +3249,8 @@ mission and charge cycles occur and there is enough room for error simulation (c
 period depends on the plan that defines such a mission. The complete plan underlying the experiments, executed in a loop, can be found in the appendix (cf. sec.
 \ref{sec:complete_plan_sec}). The rationale behind the plan is that it incorporates all aspects relevant to the baseline scenario of long-term autonomy presented in section
 \ref{sec:prototype_scenario}. It essentially satisfies the constraints for a long-term autonomous operation that are defined in section \ref{sec:lta_plant_observation}, e.g., it is
-long enough to require several charge stops, and contains all the introduced actions (cf. sec. \ref{sec:plan_generation}).\newline
+long enough to require several charge stops, and contains all the introduced actions (cf. sec. \ref{sec:plan_generation}). In addition, it provides a variety of situations
+through different places that are approached.\newline
 
 \noindent
 The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for the previously motivated $5$ hours. This serves as
@@ -3386,7 +3387,7 @@ on a frequency of $250s$, i.e., a random problematic situation occurs every $250
 of the simulations can only occur under certain circumstances, such as when the robot is stationary. Thus, they are performed only when this situation occurs next, and there are never
 two simultaneous fault simulations. Furthermore, the $250s$ are real time and since the \textit{real time factor} (RTF) in \textit{Gazebo} was only about $0.2$, the average frequency in the simulation should be
 $\approx 1250s$. The frequency was not chosen too high, so that the robot can still perform tasks and is not only occupied with error handling. As presented and justified in section
-\ref{sec:demonstration_of_functionality}, the time per run is $5$ hours and the plan defining the missions is shown in \ref{sec:complete_plan_sec}. This $5$-hour episode was repeated
+\ref{sec:demonstration_of_functionality}, the time per run is $5$ hours and the plan defining the missions is shown in section \ref{sec:complete_plan_sec} of the appendix. This $5$-hour episode was repeated
 $10$ times. The intention behind the repeated
 experiments is on the one hand to endow the conclusions with some significance, but on the other hand also to be able to judge how many of these runs ended in a catastrophe and
 how many ran successfully to the end. Ideally, there should be no missions that end in a catastrophe, since only problems that are in principle solvable are simulated for this
@@ -3485,7 +3486,7 @@ Since monitoring approaches have been proposed for each of these categories (cf.
 monitoring approaches are incorporated into a generic monitoring and resolution framework developed as part of this thesis, with an emphasis on a certain degree of universality.
 This is manifested in the fact that as few assumptions about specific systems and scenarios were made as possible. One requirement, though, was that the system is conclusively usable
 in practice in the considered context, which presupposes that not only abstract high-level architectures are defined, but that a compromise is found between the greatest possible
-universality and simultaneous applicability in the scenario under consideration. This results in the fact that the universality ends when leaving the ROS cosmos, i.e., the system is
+universality and simultaneous applicability in the scenario under consideration. This results in the fact that the universality ends when leaving the ROS cosmos, i.e., the framework is
 exclusively designed for ROS systems. While certain lines of reasoning and observations in this thesis may apply to non-ROS systems as well, there is at least no practical
 applicability of the developed framework to these systems. Due to the high prevalence of ROS coupled with the requirement to be practically applicable, the restriction to
 compatibility with ROS systems seems reasonable.\newline
@@ -3646,7 +3647,7 @@ proposed monitoring solutions are aimed at completeness, all approaches can be e
     \label{fig:detailed_monitoring_eval_mode_times}
     \end{figure}
 
-    \chapter{Complete Plan of the Considered Missions}
+    \chapter{Considered Mission Plan}
     \label{sec:complete_plan_sec}
 
     \begin{figure}[H]
