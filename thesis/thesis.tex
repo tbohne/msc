@@ -768,16 +768,16 @@ but may also include aspects like maintenance intervals etc. In general, all pro
 Accordingly, ``long-term'' can only be defined depending on the system in question. To give an example: There are systems with very limited battery capacity, 
 such as toy drones. Based on absolute time, a two-hour experiment might not be regarded as being long-term, but if it involves multiple charging cycles, it can be 
 algorithmically considered a long-term process. Consequently, ``long-term'' is relative.\newline
-In the agricultural sector, there are processes that last much longer than a charge cycle, e.g., vegetation periods.
+In the agricultural sector, there are stages that last much longer than a charge cycle, e.g., vegetation periods.
 However, the seasonal cycle is not the sort of long-term process that will be investigated in this work, as such processes already exist on a much smaller scale.
 On the one hand, there is the mission level, i.e., one processing of an entire field.
 Such a mission can already be regarded as long-term, since based on the dimensions of the particular field under consideration, it is not guaranteed that one
-battery charge will be sufficient to process the entire field. Instead, one battery cycle will be defined as sufficient to process a certain fraction of the scan
+battery charge will be sufficient to cover the entire field. Instead, one battery cycle will be defined as sufficient to cover a certain fraction of the scan
 positions, and a planner should maximize the number of planned scan stops in a mission under the constraint that a battery safety buffer is not undercut.
 Thus, a key aspect of the scenario is going to be that the mission must be paused, the state must be saved, and the mission must be continued after recharging.
 In the meantime, the environment may have changed, e.g., weather conditions or illumination, which is relevant for certain sensors of the robot.
 On the other hand, there are going to be several such field processings during one vegetation period, which makes it a long-term process of repeated missions.
-Hence, it takes a number of charge cycles to process the entire field, and that mission is going to be repeated every few days,
+Hence, it takes a number of charge cycles to cover the entire field, and that mission is going to be repeated every few days,
 which means that there are two different long-term cycles that are intertwined.
 These two cycles basically represent a lower bound for the length of long-term autonomous episodes in the scenario under
 consideration. Likewise, in contrast to the above examples of Mars rovers and autonomous wave gliders, which are long-term
