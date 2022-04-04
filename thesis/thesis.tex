@@ -3219,7 +3219,7 @@ errors, thus using the container as a landmark.
 
 The general idea behind the upcoming experiments is the following simple scheme: Problem simulation by publishing on the respective topic, followed by a triggered monitoring
 procedure that should detect the problem, interrupt normal operation and initiate an appropriate resolution. Either it succeeds and \code{NORMAL_OPERATION} continues, or it cannot be
-resolved and execution ends in \code{CATASTROPHE}. The complete plan underlying all experiments, executed in a loop, can be found in the appendix (cf. sec. \ref{sec:complete_plan_sec}).\newline
+resolved and execution ends in \code{CATASTROPHE}.\newline
 
 \noindent
 Hawes et al. introduce two useful metrics to evaluate the performance of a long-term autonomous system: The \textit{total system lifetime} and the \textit{autonomy percentage}. \cite{Hawes:2017} The
@@ -3245,8 +3245,15 @@ i7-6700K} system equipped with \textsf{48 GB RAM} running \textsf{Ubuntu 20.04}.
 \section{Functionality of the Integrated System}
 \label{sec:demonstration_of_functionality}
 
-The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for an extended period of time, e.g., $5$ hours. This serves as
-a verification of the sample plan, i.e., it shows that the charging stops are sufficient if everything works as expected. Furthermore, it is a demonstration of the fundamental
+In order for the evaluation to be reasonably meaningful, the experiments must be of a certain length. At the same time, they must be feasible within the restrictive time constraints
+of this thesis. As a compromise, the time per run was set to $5$ hours. Experimentally, it turned out that this runtime is sufficient to achieve a certain validity, since several
+mission and charge cycles occur and there is enough room for error simulation (cf. sec. \ref{sec:eval_mon_framework}). Obviously, the number of missions that take place during this
+period depends on the plan that defines such a mission. The complete plan underlying the experiments, executed in a loop, can be found in the appendix (cf. sec.
+\ref{sec:complete_plan_sec}). The rationale behind the plan is that it incorporates all aspects relevant to the baseline scenario of long-term autonomy presented in section
+\ref{sec:prototype_scenario}. It essentially satisfies the constraints for a long-term autonomous operation that are defined in section \ref{sec:lta_plant_observation}, e.g., it is
+long enough to require several charge stops, and contains all the introduced actions (cf. sec. \ref{sec:plan_generation}).\newline
+The very first step is to show that without simulating any of the identified LTA problems, the mission runs flawlessly for the previously motivated $5$ hours. This serves as
+a verification of the plan, i.e., it shows that the charging stops are sufficient if everything works as expected. Furthermore, it is a demonstration of the fundamental
 functionality of the entire integrated system in the absence of unexpected problematic events. For evaluation purposes, let a failed mission be defined as a mission that exceeds a
 user-configurable timeout $t = 900s$ without publishing a message to \code{/arox/ongoing_operation}, although the previous message contained a value of \code{total_tasks} that is
 greater than one, indicating that the current plan is not completed and thus that the robot has been stuck in that task for a time greater than $t$. Obviously, a \code{severe_failure}
@@ -3364,14 +3371,13 @@ when an issue occurs. How it comes about, i.e., the cause, is completely disrega
 \noindent
 Since it is always known which
 reaction is expected after a certain simulation, the expected can be compared with the observed. It is essentially based on a dictionary that maps the fault simulation topics to the
-corresponding expected error messages on the \code{contingency_preemption} topic. The following results are based
+corresponding expected error messages on the \code{/contingency_preemption} topic. The following results are based
 on a frequency of $250s$, i.e., a random problematic situation occurs every $250s$. However, the $250s$ are only a lower bound on the time between two fault simulations because some
 of the simulations can only occur under certain circumstances, such as when the robot is stationary. Thus, they are performed only when this situation occurs next, and there are never
 two simultaneous fault simulations. Furthermore, the $250s$ are real time and since the \textit{real time factor} (RTF) in \textit{Gazebo} was only about $0.2$, the average frequency in the simulation should be
-$\approx 1250s$. The frequency was not chosen too high, so that the robot can still perform tasks and is not only occupied with error handling.
-In order for the evaluation to be reasonably meaningful, the experiments must be of a certain length. At the same time, they must be feasible within the restrictive
-time constraints of this thesis. As a compromise, the time per run was set to $5$ hours. Experimentally, it turned out that this runtime is sufficient to achieve a certain validity,
-since several mission and charge cycles occur and there is enough room for error simulation. This $5$-hour episode was repeated $10$ times. The intention behind the repeated
+$\approx 1250s$. The frequency was not chosen too high, so that the robot can still perform tasks and is not only occupied with error handling. As presented and justified in section
+\ref{sec:demonstration_of_functionality}, the time per run is $5$ hours and the plan defining the missions is shown in \ref{sec:complete_plan_sec}. This $5$-hour episode was repeated
+$10$ times. The intention behind the repeated
 experiments is on the one hand to endow the conclusions with some significance, but on the other hand also to be able to judge how many of these runs ended in a catastrophe and
 how many ran successfully to the end. Ideally, there should be no missions that end in a catastrophe, since only problems that are in principle solvable are simulated for this
 experiment. However, if a resolution fails, for example, a \code{CATASTROPHE} case can still occur, leading to the end of the episode. In order for the runs to be comparable, the
