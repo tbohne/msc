@@ -934,9 +934,9 @@ The following three constraints precisely define the LTA problems considered in 
 This definition contains certain implicit assumptions. The first constraint, for example, implies that these problems should have some probability of occurring,
 i.e., they should be relatively likely to occur. Accordingly, potential problems such as lightning strikes or wild boar attacks are ignored because they are highly 
 unlikely and also difficult, if not impossible, to solve. Moreover, many of the issues of this rather unconventional type, if solvable, could in principle be covered
-by more general classes of problems from the following list. Furthermore, the third constraint, i.e., that the considered problems can be detected and subsequently solved 
+by more general classes of issues from the following list. Furthermore, the third constraint, i.e., that the considered problems can be detected and subsequently solved 
 or communicated, assumes that the system is still fundamentally functioning and has not completely collapsed; a counterexample would again be a lightning strike.
-Without claiming to be exhaustive, the following is a list of potential problems in an agricultural field monitoring context that, 
+Without claiming to be exhaustive, the following is a list of potential challenges in an agricultural field monitoring context that, 
 from a practical perspective, fulfill the above restrictions and are thus worthy of investigation:
 \begin{itemize}
     \item \textbf{power management} - battery failure, unexpected low battery
@@ -958,9 +958,9 @@ from a practical perspective, fulfill the above restrictions and are thus worthy
 \end{itemize}
 When trying to envision challenges for long-term autonomous application of mobile robots, a common approach is to simply run a robot in such an environment for extended periods
 of time and log any information that might somehow be relevant and indicative of problems, e.g., sensor data, internal diagnostics, etc. \cite{Biswas:2016}
-Some of the problems from the above list result from attempts of this type or the coincidental occurrence in other experiments. Others are obviously potential problems that may occur
+Some of the challenges from the above list result from attempts of this type or the coincidental occurrence in other experiments. Others are obviously potential problems that may occur
 and do not require further evidence or justification. The last group is the result of extensive literature research, i.e., challenges encountered in long-term autonomous experiments
-presented in the literature. For each potential problem identified, its relevance and consequences, i.e., a brief description of why it might be problematic, is provided in section \ref{sec:brief_overview_challenges}.
+presented in the literature. For each potential issue identified, its relevance and consequences, i.e., a brief description of why it might be problematic, is provided in section \ref{sec:brief_overview_challenges}.
 A more detailed consideration as well as monitoring and simulation approaches are presented in section \ref{sec:sim_and_mon_of_lta_challenges}.
 
 \subsection{Brief Overview of the Identified Problem Categories}
@@ -1091,7 +1091,7 @@ to a muddy path. Such situations where the robot cannot move even though the pla
 
 \noindent
 A special case of getting stuck, which should nevertheless be considered separately, is the robot falling over.
-This problem should be considered separately, since in such a case the robot will not be able to recover and continue its mission without human assistance in any case.\newline
+This issue should be considered separately, since in such a case the robot will not be able to recover and continue its mission without human assistance in any case.\newline
 
 \noindent
 \textbf{Navigation Failure}\newline
@@ -1100,7 +1100,7 @@ This problem should be considered separately, since in such a case the robot wil
 Another potential LTA problem category, under which a whole range of concrete problems are subsumed, and which have already been encountered in experiments conducted as part of
 this work, are navigation errors, which pose a particular challenge in highly dynamic real-world environments. \cite{DelDuchetto:2018}
 For example, the local planner configured in \code{move_base_flex} (e.g. DWA, EBand) provides a path that
-is infeasible, e.g., tries to drive around a field,  although there is no way. Del Duchetto et al. encounter similar problems in an indoor LTA scenario where valid navigation
+is infeasible, e.g., tries to drive around a field,  although there is no way. Del Duchetto et al. encounter similar issues in an indoor LTA scenario where valid navigation
 trajectories cannot be generated from time to time.
 They establish specific, hard-coded ad-hoc recovery behaviors for such cases, ranging from simple wait-and-repeat to interactive human assistance. \cite{DelDuchetto:2018} As Hawes
 et al. \cite{Hawes:2017} point out, navigation errors are a critical factor for the long-term autonomy of a mobile robot, as they can render the robot incapable of driving back
@@ -1132,14 +1132,14 @@ If the localization is no longer accurate, e.g., because the robot has been move
 trigger relocalization. In the case of such a localization error, the \textit{kidnapped robot problem} arises, because although no one has 
 physically removed the robot from its position, it appears that way from the robot's perspective. \cite{Hertzberg:2012}
 The relevance here can easily be argued based on practical experience, as this issue has already caused a lot of trouble in practice with the AROX system during 
-the work for the \textit{PORTAL} project. In these situations, a major problem for localization was rotating the robot on the spot.
+the work for the \textit{PORTAL} project. In these situations, a major challenge for localization was rotating the robot on the spot.
 The problems encountered consisted mostly of an incorrect orientation of the robot and rather rarely of an actual incorrect position.
-If the orientation is incorrect, the sensor records will also be incorrectly aligned, which is a major problem for the scenario under consideration.
+If the orientation is incorrect, the sensor records will also be incorrectly aligned, which is a major issue for the scenario under consideration.
 In addition to this practical experience, there are also numerous references in the literature to localization problems in long-term autonomous robot operations. For instance,
-Wang et al. \cite{Wang:2018}, who identified localization and execution errors as the two core problems in their long-term application of indoor service robots.
+Wang et al. \cite{Wang:2018}, who identified localization and execution errors as the two core challenges in their long-term application of indoor service robots.
 They identify unexpected changes in the robot's position estimates as a useful method for predicting / detecting localization problems.
 Of course, it can also be a problem for localization if the GNSS signal itself is inaccurate or non-existent \cite{Churchill:2013}, but that is another topic (cf. \textit{Lost Connection} section).
-There are arbitrary many potential localization problems (e.g. slipping in sand, getting stuck, jammed wheels) and the correct functioning of the system always assumes an accurate
+There are arbitrary many potential localization issues (e.g. slipping in sand, getting stuck, jammed wheels) and the correct functioning of the system always assumes an accurate
 position estimate. \cite{Goldberg:2002}\newline
 
 \noindent
@@ -1149,7 +1149,7 @@ position estimate. \cite{Goldberg:2002}\newline
 Mapping issues can generally refer to a variety of problems. In this case, a particular issue regarding the local \textit{costmap} observed during experiments for this work is meant.
 The \textit{costmap} is a $2D$ occupancy grid based on sensor data of the world. It generates costs based on a user defined inflation radius.
 If the robot drives over a hill and the sensors are configured in a certain way, parts of the ground may be incorrectly perceived as an obstacle and entered into the \textit{costmap}.
-The problem then is that the robot is unable to drive through these ``virtual'' obstacles.\newline
+The challenge then is that the robot is unable to drive through these ``virtual'' obstacles.\newline
 
 \noindent
 \textbf{Plan Deployment Failure}\newline
@@ -1179,7 +1179,7 @@ Generally, the potential barriers for long-term autonomy can be classified into 
 Type $(1)$ is the ideal case and accordingly the ultimate goal of all efforts to implement long-term autonomy in practice. Type $(2)$ is already a step forward, because problems
 are at least recognized and can be communicated, which is the minimum requirement to guarantee a certain robustness with respect to the problems.
 In the baseline scenario, i.e., the running prototype of an integrated solution, each potential issue in the above list is classified as type $(3)$.
-Part of the goal of this work is to shift the problems of the selected subset to another category and thereby improve the utility of the system, 
+Part of the goal of this work is to shift the challenges of the selected subset to another category and thereby improve the utility of the system, 
 i.e., to solve them completely $(1)$, or at least to enable the robot to recognize them with execution monitoring approaches and request help $(2)$.
 However, it is also part of the truth that not all possible external influences are solvable, i.e., a robot will not be able to solve all
 conceivable problems itself. Long-term autonomy has its limits, and there are simply unpredictable situations that a mobile robot cannot be expected to handle,
@@ -1199,7 +1199,7 @@ AROX or similar systems, to set priorities. For this purpose, a simple questionn
 were asked to rank each problem was its respective impact from \textit{high} ($1$), i.e., prevents a successful mission, to \textit{medium} ($2$) impact, e.g., delays missions
 or reduces the quality of results, to \textit{low} ($3$), where it has at most a minor impact on the robot's mission. The next aspect was about evaluating each issue in
 terms of its individual difficulty of solution and recognition. The options were \textit{easy} ($1$), meaning that simple solutions exist, \textit{medium} ($2$), which
-requires some effort but should be feasible within the scope of the work, to \textit{hard} ($3$), i.e., that it is a rather general problem that can only be tackled in first
+requires some effort but should be feasible within the scope of the work, to \textit{hard} ($3$), i.e., that it is a rather general issue that can only be tackled in first
 approximation. Finally, the likelihood of each problem occurring should be evaluated using the following three options. \textit{Very likely} ($1$), which roughly means it has been
 experienced in practice several times, \textit{occurs} ($2$), which means it has been experienced or heard of once, and \textit{highly unlikely} ($3$), which means it has never been
 heard of. The questionnaire was completed by a total of $7$ people. Obviously, this can by no means be considered representative or significant, but it
@@ -1303,13 +1303,13 @@ to the $2D$ optimum $(1, 1)$.
 \end{figure}
 \noindent
 First, it is interesting to note that the charging failure is undisputedly in first place in both the two-dimensional and three-dimensional evaluations.
-The problem of incorrect localization climbs to second place if the difficulty criterion is disregarded. This is followed, as before, by power and data management.
+The challenge of incorrect localization climbs to second place if the difficulty criterion is disregarded. This is followed, as before, by power and data management.
 Subsequently, sustained recovery makes a huge jump of eight places when leaving aside its assumed difficulty to detect and solve.
 Mapping errors are also on the rise, overtaking sensor failures, lost connections, navigation failures, and plan deployment errors.
 Another interesting aspect is that sensor failures are far less relevant when disregarding their surprisingly low rated difficulty.
-The remaining problems remain broadly similar in their assessment, with some changing places in the middle of the list, but this is not so relevant.
+The remaining challenges remain broadly similar in their assessment, with some changing places in the middle of the list, but this is not so relevant.
 The problems rated as least relevant in the questionnaire remain the same as in the $3D$ case, mainly because they are considered relatively unlikely.
-In conclusion, both lists are used to prioritize the problems to be studied in this work, as it is of course useful to also consider the difficulty of 
+In conclusion, both lists are used to prioritize the issues to be studied in this work, as it is of course useful to also consider the difficulty of 
 solving these problems, but the $2D$ view can be helpful in case of doubt.\newline
 
 \noindent
@@ -1327,12 +1327,12 @@ meaningful way.
 \noindent
 It would be beyond the scope of this work to tackle every identified potential challenge for a mobile robot's long-term autonomy. Therefore, it is necessary to select a subset of the
 problems to be considered based on the results of the questionnaire. For this subset, monitoring methods are presented that do not necessarily solve $100\%$ of the possible cases,
-but a certain fraction, at least to a first approximation. In addition, more fundamental problems are emphasized that cannot be addressed in general within the scope of this work;
+but a certain fraction, at least to a first approximation. In addition, more fundamental challenges are emphasized that cannot be addressed in general within the scope of this work;
 special cases may be. 
 First, it is obvious that charging failures should be addressed in this work, since they are undisputedly in the first place in both the two-dimensional and three-dimensional
 evaluations of the questionnaire (cf. sec. \ref{sec:sim_and_mon_charging_failures}). Thematically closely related and also very relevant based on the survey:
 Power management problems (cf. sec. \ref{sec:sim_and_mon_power_management}). Another aspect high on the list to be considered in this work is data management
-issues (cf. sec. \ref{sec:sim_and_mon_data_management}). Furthermore, sensor (perception) failures are a class of problems that should not be ignored in this work
+issues (cf. sec. \ref{sec:sim_and_mon_data_management}). Furthermore, sensor (perception) failures are a class of issues that should not be ignored in this work
 (cf. sec. \ref{sec:sim_and_mon_sensor_failures}). Although in principle a very intricate and general class of problems, localization issues, i.e., incorrect
 localization (cf. sec. \ref{sec:sim_and_mon_incorrect_localization}), has to be considered in this work, especially due to its high impact and likelihood
 that can be seen in fig. \ref{fig:average_results_2d}. Additionally, connection problems are treated (cf. sec. \ref{sec:sim_and_mon_lost_connections}). Also quite
@@ -1347,11 +1347,11 @@ impact (cf. sec. \ref{sec:sim_and_mon_drastic_weather}).\newline
 A not so high-rated and also very general problem class that is not considered in detail in this work: Mapping errors. The problem class ``certain dynamics'' is of course formulated
 quite generally in the questionnaire, which could be one of the reasons for the low impact rating, but for this work dynamics like sunset are not further investigated as they are
 quite predictable. In addition, situations in which the robot gets stuck are not taken into account because they are regarded relatively irrelevant due to their low probability.
-Of course, it is a severe problem when it happens, but the robot actually getting completely stuck is relatively rare, and due to the many possible reasons for getting stuck, 
+Of course, it is a severe issue when it happens, but the robot actually getting completely stuck is relatively rare, and due to the many possible reasons for getting stuck, 
 a very general problem class. All participants agree that the scenario where the robot topples over has a very large impact, but it is also quite difficult to detect and quite
 unlikely. It is not studied in detail itself, but might be detected as part of the sensor failure detection, e.g., if the sensor subsequently points to the sky (cf. sec.
 \ref{sec:sim_and_mon_sensor_failures}). Finally, ranked as least relevant in both evaluations, perceptual aliasing issues will be disregarded in this work. The problems not examined
-in detail in this thesis are nevertheless potentially relevant problems for the long-term autonomy of a mobile outdoor robot and are thus briefly discussed in section
+in detail in this thesis are nevertheless potentially relevant challenges for the long-term autonomy of a mobile outdoor robot and are thus briefly discussed in section
 \ref{sec:lta_problems_not_considered}.
 
 \subsection{Disregarded Problem Categories}
@@ -1405,11 +1405,11 @@ no fundamental answer to the question of where monitoring should take place. Pre
 at least in the sense of error treatment.\newline
 
 \noindent
-The potential problems identified in section \ref{sec:challenges_for_lta}, and their subtypes, are generally classified into two categories in this thesis according to their severity:
+The potential challenges identified in section \ref{sec:challenges_for_lta}, and their subtypes, are generally classified into two categories in this thesis according to their severity:
 Those that cause contingencies and those that lead to catastrophes. The essence of these two categories has already been anticipated by the first two classes of problems in the
 concluding remarks of section \ref{sec:challenges_for_lta}. Contingencies refer to cases where the robot is confronted with an unexpected event or problem, but its ability to act is
 basically preserved, so that it can try to solve the problem itself, e.g., by returning to base. Catastrophes, on the other hand, refer to cases where the robot is no longer capable of
-acting or solving the problem, necessitating human intervention. It is roughly equivalent to the definition of Ross et al. described in \cite{Honig:2018}, where
+acting or solving the issue, necessitating human intervention. It is roughly equivalent to the definition of Ross et al. described in \cite{Honig:2018}, where
 failures are divided into anticipated errors, exceptional errors, and unrecoverable errors based on the recoverability of the system. The ideas are more based on a high-level planning
 perspective, as the first two refer to simple backtracking and replanning, respectively, while the last refers to cases where the plan is no longer feasible and replanning is not an
 option. Nevertheless, the first two in combination correspond quite well to the view of contingencies in this thesis - contingencies can be dealt with. Similarly, unrecoverable errors
@@ -1517,9 +1517,9 @@ implemented as a concurrence container (cf. SMACH \code{Concurrence}\footnote{\t
 These parallel running states are used to monitor the robot's operation and to interrupt it when a problematic situation requiring special treatment is detected
 (indicated by the dashed arrows in figure \ref{fig:high_level_smach}).
 When this case occurs, based on how severe the problem is, the respective procedure will interrupt \code{OPERATION} and provide for the outcome \code{critical_complication} or
-\code{minor_complication}, which will then result in a state transition to the appropriate states in which the problem will be addressed. There is quite a bit behind
+\code{minor_complication}, which will then result in a state transition to the appropriate states in which the issue will be addressed. There is quite a bit behind
 \code{CONTINGENCY}, namely the handling of the problem based on the problem type that is communicated along with the message of the interruption.
-If \code{CONTINGENCY} is able to solve the problem, \code{NORMAL_OPERATION} will resume (cf. \textquote{solved} arrow). In case of \code{critical_complication} or if the robot is not able to
+If \code{CONTINGENCY} is able to solve the issue, \code{NORMAL_OPERATION} will resume (cf. \textquote{solved} arrow). In case of \code{critical_complication} or if the robot is not able to
 solve the problem (cf. \textquote{aggravated} arrow), it ends up in the \code{CATASTROPHE} state, the human operator is notified, a backup is made if necessary, etc., and then the robot shuts down.
 The interrupts of \code{OPERATION} are initiated by the monitoring nodes, which are shown on the right in fig. \ref{fig:high_level_smach}, and which detect problems as universally
 as possible for each identified problem category.
@@ -1546,7 +1546,7 @@ Second, there is the potential outcome \code{severe_failure}, which represents s
 Finally, the last potential outcome is again \code{preempted} based on some external issue indicated by \code{CONTINGENCY_MONITORING} or \code{CATASTROPHE_MONITORING} and
 detected by one of the monitoring nodes.
 In summary, there are two types of problems, low-level problems that are detected directly at this level, e.g., by simple error treatment, which then lead to an interruption based
-on the severity of the problem, in this case \code{soft_failure} or \code{severe_failure}, which is then passed up to the high-level SMACH and handled accordingly.
+on the severity of the issue, in this case \code{soft_failure} or \code{severe_failure}, which is then passed up to the high-level SMACH and handled accordingly.
 The other, much more common case is that a problem is detected by the monitoring nodes (cf. \code{external_problem}) with the consequence that execution is simply interrupted here
 and the problem is solved superordinately. Then \code{OPERATION} is restarted.
 \begin{figure}[H]
@@ -1561,7 +1561,7 @@ in figure \ref{fig:high_level_smach}.
 As mentioned, when \code{NORMAL_OPERATION} returns \code{end_of_episode}, the parent state machine transitions to the \code{SHUTDOWN} state and the 
 robot's work for that long-term episode is complete, which means that the robot performs data management and then the system is deactivated.
 Essentially, in a long-term episode in the considered scenario, the robot should stay in \code{NORMAL_OPERATION} as 
-long as the episode is running or an error / problem has occurred, either an error that it is able to deal with itself or even a more severe problem that requires the 
+long as the episode is running or an error / problem has occurred, either an error that it is able to deal with itself or even a more severe issue that requires the 
 intervention of a human operator. Accordingly, if \code{NORMAL_OPERATION}, i.e., the embedded state machine together with the parallel running monitoring states has the outcome 
 \code{minor_complication}, the robot enters the state \code{CONTINGENCY}, which means that it has detected a soft failure, e.g., a sensor failure, but its ability to act
 is preserved, it is for example able to drive back to the base in safety mode or repeat the scan attempt. However, if \code{NORMAL_OPERATION} returns \code{critical_complication}, there is a severe 
@@ -1572,8 +1572,8 @@ In principle, such cases also fall under the category of catastrophe, but since 
 To be clear, \code{NORMAL_OPERATION} can manage problems in two ways.
 First, a problem may occur during plan execution in the child state machine, in such a case \code{OPERATION} returns \code{critical_complication} or 
 \code{minor_complication} to the parent state machine based on the problem severity and a corresponding state transition takes place.
-In addition, there are the described parallel monitoring states, which are responsible for problems that are not directly related to plan execution, but are of a more general nature.
-If these detect a problem, they are able to interrupt \code{OPERATION} and also return \code{critical_complication} or \code{minor_complication} to the parent state machine
+In addition, there are the described parallel monitoring states, which are responsible for issues that are not directly related to plan execution, but are of a more general nature.
+If these detect an issue, they are able to interrupt \code{OPERATION} and also return \code{critical_complication} or \code{minor_complication} to the parent state machine
 \code{EXECUTION_MONITORING}. It is trivial to interrupt \code{OPERATION} when no task is currently being executed, i.e., no scan is being recorded and no navigation target 
 is being approached. However, it is obvious that potential problems do not wait for the completion of such tasks, but can also occur during the execution of an action $a \in \pi$.
 Therefore, the \code{drive_to(lat, lng, theta)} and \code{scan} actions are implemented as a ROS \code{SimpleActionClient}\footnote{\textcolor{link-color}{\url{http://wiki.ros.org/actionlib}}} that can be interrupted at any time
@@ -1622,7 +1622,7 @@ be exploited and it should be possible to feed that information back to the syst
 indicate problems based on learned regularities, but it is not as simple to create a way to automatically generate an appropriate response from the robot to avoid the problem. There
 can be an arbitrary number of possible actions that are required, and the only truly viable solution is to provide a general and easily extensible framework so that learned
 regularities can be implemented as advanced monitoring and resolution methods. Now, one could argue that such a feedback option would still be valuable for the learned messages that
-indicate problems. However, this does not help significantly, as these messages have already been logged in erroneous situations, which have thus inevitably already been detected by
+indicate issues. However, this does not help significantly, as these messages have already been logged in erroneous situations, which have thus inevitably already been detected by
 the existing monitoring solutions. The broad idea of learning from experience in long-term autonomous operation is not new, of course, and some examples have already been given in the
 literature review in section \ref{sec:literature_review}. Hawes et al. \cite{Hawes:2017} also emphasize the usefulness of the information gathered in long-term autonomous operation for both learning and troubleshooting
 purposes. For information gathering, they use \code{mongodb_store}\footnote{\textcolor{link-color}{\url{https://wiki.ros.org/mongodb\_store}}}, a ROS tool for storing data from a ROS system (messages,
@@ -1710,16 +1710,16 @@ in section \ref{sec:battery_monitoring}, which detects this and initiates a retu
 
 Now that the overall architecture of the execution monitoring state machine has been described (cf. section \ref{sec:execution_monitoring_smach_architecture}) and it is clear how to
 interrupt the operation, we can turn to the actual monitoring methods for the potential hinderances for long-term autonomous systems introduced in section \ref{sec:challenges_for_lta}.
-The idea is to implement a specific monitoring procedure for each of the selected LTA problem categories that runs in parallel to the high-level state machine. Whenever such a
+The idea is to implement a specific monitoring procedure for each of the selected LTA challenge categories that runs in parallel to the high-level state machine. Whenever such a
 procedure is triggered, i.e., a specific issue
 is recognized, the problem gets reported via the \code{MonitorState}, causing a transition to \code{CONTINGENCY} or \code{CATASTROPHE} based on the severity of the problem.
-Depending on the nature of the problem, the information about the required solution method is conveyed via the message published to the topic of the \code{MonitorState}.
+Depending on the nature of the issue, the information about the required solution method is conveyed via the message published to the topic of the \code{MonitorState}.
 Thus, the long-term goal is to have a resolver node for each of the potential failures, which is executed in \code{CONTINGENCY} or \code{CATASTROPHE} depending on the
 failure case at hand. While in the case of contingencies these nodes actually refer to problem solving, in catastrophe cases they are more for damage control, since catastrophes
 by definition cannot be solved by the robot itself.
 It is useful to distinguish between internal and external exceptional situations that require special treatment, i.e., issues concerning the robotic
 system itself or the environmental conditions. \cite{Hawes:2017}
-The entire process is essentially the same for all potential LTA problems - fault simulation, monitoring, and subsequent remediation.
+The entire process is essentially the same for all potential LTA challenges - fault simulation, monitoring, and subsequent remediation.
 An important aspect is that the focus is not on the reasons for problems occurring, but only on detection. There can be arbitrarily many reasons why certain aspects of the system
 are not functioning properly, and it is unrealistic to contemplate them all. The critical point is to recognize that there is an issue, not why.
 If the robot had the chance to recognize a causality, it could specifically pursue it, but this is typically not the case.
@@ -1923,7 +1923,7 @@ Obviously, total sensor failures are realistic in practice for any lidar sensor,
 power supply, or a variety of other reasons. Yet, there are more subtle failures than just a total breakdown, and the incoming scan data should be checked for plausibility.
 From a practical point of view, it is a valid assumption to receive the scans via a specific ROS topic. One issue could be an empty list of range values, i.e., a scan arrives on
 some ROS topic but is essentially vacuous. As mentioned in section \ref{sec:dummy_scanning_node}, the crucial part of a laser scan is the list of range values, which makes it 
-useless if this list is empty for some reason. Its realism could be debated, and of course it is pointless to detect problems that do not occur in practice. However, since it is
+useless if this list is empty for some reason. Its realism could be debated, and of course it is pointless to detect issues that do not occur in practice. However, since it is
 relatively easy to simulate and detect, it is treated as a basic test that can be used, for example, to detect problems due to implementation-specific errors.
 Another, more subtle problem could be a scan that mainly contains values that do not satisfy the sensor's maximum or minimum range, i.e., \code{inf}, which may indicate that
 the robot has fallen over, or the sensor has slipped out of position. This could indicate, for example, that the sensor is pointing towards the sky, causing the values to exceed
@@ -2011,17 +2011,17 @@ Monitoring and simulation of the specific types of considered connection failure
 (cf. sec. \ref{sec:sim_and_mon_internet_connection_problems}) and GNSS (cf. sec. \ref{sec:sim_and_mon_gnss_connection_problems}) connection problems,
 are part of the following sections. However, there is also one monitoring aspect that works identically for all three, namely timeout monitoring. There is a continuously running
 procedure that checks the time since the last message from either connection. If a user-specified time limit for one of the connections is exceeded, a contingency 
-due to a disconnection is initiated. In general, connection problems can be addressed with the resolution methods described in section \ref{sec:connection_resolver}.
+due to a disconnection is initiated. In general, connection failures can be addressed with the resolution methods described in section \ref{sec:connection_resolver}.
 
 \subsubsection{WiFi Connection Failures}
 \label{sec:sim_and_mon_wifi_connection_problems}
 
 The most common form of WiFi failure, which is very relevant and realistic in practice, is of course a simple disconnection.
-However, there are again more subtle problems than just the complete absence of a connection, so the quality of an established connection should also be monitored.
+However, there are again more subtle challenges than just the complete absence of a connection, so the quality of an established connection should also be monitored.
 Generally, network monitoring can be done arbitrarily detailed, for this work it is limited to some attributes that allow a general statement about the quality of
 the connection in practice. One realistic problem is an overall poor link quality, which is a measure combining different kinds of metrics, e.g.,
 \textit{Received Signal Strength Indication} (RSSI), \textit{Signal to Interference plus Noise Ratio} (SINR), \textit{Packet Delivery Ratio} (PDR), and
-\textit{Bit Error Rate} (BER). \cite{Vlavianos:2008} Another well-known problem with WiFi systems is a poor signal, i.e., a low RSSI value. The RSSI is already part of
+\textit{Bit Error Rate} (BER). \cite{Vlavianos:2008} Another well-known issue with WiFi systems is a poor signal, i.e., a low RSSI value. The RSSI is already part of
 the link quality assessment, but due to its practical importance, it is also worth to be considered in isolation. Furthermore, the bit rate, i.e., the speed at which
 information is transmitted, gives a good indication of the overall connection quality, and it should be recognized when it falls below a certain threshold, which is a
 lower limit for practical use. In order to ensure communication with the base station at all times (RTK correction signals, scan storage, etc.), such problems should be
@@ -2031,7 +2031,7 @@ be arbitrarily weak out in the field. Nevertheless, for the scenario under consi
 case in other scenarios, the thresholds can be reconfigured and, if WiFi is not expected to be available at all, the monitoring node can be disabled.\newline
 
 \noindent
-Monitoring for WiFi connectivity problems takes place at two levels of abstraction. From the perspective of the high-level execution monitoring framework developed in this work,
+Monitoring for WiFi connectivity issues takes place at two levels of abstraction. From the perspective of the high-level execution monitoring framework developed in this work,
 the monitoring is completely independent of hardware and operating system details. However, monitoring the WiFi connection of a particular system depends heavily on such details,
 so it is also necessary to provide low-level monitoring for network interfaces. The idea is that the high-level monitoring node expects the information that are evaluated as part 
 of the monitoring in a very specific format on the ROS topic \code{/wifi_connectivity_info}. For this purpose, a custom ROS message \code{WiFi.msg} was defined consisting of the
@@ -2056,7 +2056,7 @@ unusable. \cite{metageek} Accordingly, the RSSI is also monitored based on three
 threshold for contingency cases, i.e., a lower bound. Signal levels of $\leq -80$ dBm and $\leq -75$ dBm cause notifications of very weak and weak WiFi signals,
 respectively. Finally, the bit rate is monitored based on two cases: If it is below $1$ Mb/s, a contingency is triggered, and if it is below $20$ Mb/s, a notification of a
 rather low bit rate is transmitted. Since the question of which values are considered problematic here depends heavily on the environment and application scenario, these values
-are configurable by the user. As soon as a malfunction is detected, monitoring is deactivated and resumed only when the problem has been solved. In all contingency
+are configurable by the user. As soon as a malfunction is detected, monitoring is deactivated and resumed only when the issue has been solved. In all contingency
 cases, the high-level WiFi monitoring node publishes on the topic \code{/contingency_preemption} with a message that specifies the particular kind of connection problem.\newline
 In summary, the problem of actually detecting the WiFi connectivity on the system in question is completely external to the execution monitoring framework,
 which has no operating system coupling at all. There is a layer of abstraction that separates the two views. The assumption of the high-level monitoring framework is the
