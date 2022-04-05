@@ -1,7 +1,3 @@
-%------------------------------------------------
-%	PACKAGES AND THEMES
-%------------------------------------------------
-
 % this is a 4:3 layout.
 \documentclass{beamer}
 % for 16:9 use this command:
@@ -28,9 +24,6 @@
 \usepackage{pgf,tikz} % drawing
 \usepackage{pifont} % new symbols
 \usepackage{hyperref} % pretty links
-% \usepackage{algorithmicx}
-% \usepackage{algpseudocode}
-% \usepackage[linesnumbered,ruled]{algorithm2e}
 
 % for code keywords within the text
 \usepackage{xcolor}
@@ -40,19 +33,11 @@
 \usepackage{lmodern}
 \usepackage{subcaption}
 \usepackage{textcomp}
-% \usepackage{array}
-% \usepackage{longtable}
-% \usepackage{verbatim}
-%\usepackage{tabularx}
 \captionsetup[figure]{font=footnotesize}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
-% \usepackage{comment}
-% \usepackage{enumitem}
-% \usepackage[binary-units=true]{siunitx}
-% \usepackage{thmtools}
 \usepackage{csquotes}
 \usepackage{tikz}
 \usepackage{float}
@@ -81,20 +66,9 @@
 \setbeamerfont{bibliography entry location}{size=\footnotesize}
 \setbeamerfont{bibliography entry note}{size=\footnotesize}
 
-% \useoutertheme{miniframes} % navigation design
 \useinnertheme{circles} % use non shiny circles (itemize, etc.)
 
-% Main slide colors
-% dunkel, hell, mittel
-% \definecolor{pale}{RGB}{232, 236, 237}
-% \definecolor{prim}{RGB}{53, 109, 120}
-% \definecolor{sec}{RGB}{104, 170, 183}
-% \definecolor{tert}{RGB}{109, 155, 168}
-% \definecolor{quat}{RGB}{9, 59, 68}
-
 \definecolor{pale}{RGB}{255, 255, 255}
-% \definecolor{prim}{RGB}{153, 194, 173}
-% good: \definecolor{prim}{RGB}{27, 33, 42}
 \definecolor{prim}{RGB}{32, 43, 50}
 \definecolor{sec}{RGB}{217, 232, 224}
 \definecolor{tert}{RGB}{0, 82, 41}
@@ -105,10 +79,10 @@
 \setbeamercolor{palette secondary}{bg=sec,fg=pale}
 \setbeamercolor{palette tertiary}{bg=tert,fg=pale}
 \setbeamercolor{palette quaternary}{bg=quat,fg=pale}
-\setbeamercolor{structure}{fg=prim} % itemize, enumerate, etc
+\setbeamercolor{structure}{fg=prim} % itemize, enumerate, etc.
 \setbeamercolor{section in toc}{fg=prim} % TOC sections
 
-% Block colors
+% block colors
 \definecolor{example_color}{RGB}{93, 137, 98}
 \definecolor{alert_color}{RGB}{175, 79, 72}
 
@@ -121,7 +95,6 @@
 \setbeamercolor{block title alerted}{fg=white,bg=alert_color}
 \setbeamercolor{block body alerted}{fg=black,bg=alert_color!10!white}
 
-% Override palette coloring
 \setbeamercolor{subsection in head/foot}{bg=quat,fg=pale}
 
 \setbeamertemplate{frametitle}{%
@@ -138,9 +111,6 @@
 % math-command for bigger norm
 \newcommand\norm[1]{\left\lVert#1\right\rVert}
 
-% use this to include other files
-% in this case style definitions for code
-% alternative: \include{dateiname}
 \input{listings_style.tex}
 
 \lstset{style=latex}
@@ -170,12 +140,12 @@
 
 \begin{document}
 
-\begin{frame}[plain] % plain slides dont have navigation bars etc.
-\titlepage % Print the title page as the first slide
+\begin{frame}[plain] % plain slides don't have navigation bars etc.
+\titlepage
 \end{frame}
 
 \begin{frame}
-\frametitle{Übersicht} % table of contents slide
+\frametitle{Übersicht}
 \tableofcontents
 \end{frame}
 
@@ -286,24 +256,6 @@
   \end{figure}
 \end{frame}
 
-% \begin{frame}
-%   \frametitle{Abstrakte Architektur autonomer Akteure}
-%   \begin{figure}[H]
-%     \centering
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{img/GNT_actor_new.png}
-%         \caption*{\textsc{\textquote{Actor} basierend auf GNT \cite{GNT:2016}}}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{img/MSC_actor_new.png}
-%         \caption*{\textsc{Angewandt auf das betr. Szenario}}
-%     \end{subfigure}
-%   \end{figure}
-% \end{frame}
-
 %------------------------------------------------
 \section{Herausforderungen für Langzeitautonomie}
 %------------------------------------------------
@@ -333,10 +285,6 @@
   \end{itemize}
   \textrightarrow \thinspace $48$ konkret behandelte Problemfälle\newline
   \textrightarrow \thinspace Viele weitere implizit abgedeckt
-  % \begin{figure}[H]
-  %   \raggedleft
-  %   \includegraphics[width=0.3\textwidth]{img/AROX_fall.png}
-  % \end{figure}
 \end{frame}
 
 \begin{frame}
@@ -490,66 +438,6 @@
   \textbf{Kompatibel mit sämtlichen Systemen, die \code{NavSatFix} verwenden!}
 \end{frame}
 
-% \begin{frame}
-%   \frametitle{Exemplarisch: Navigationsfehler}
-%   \textbf{Fall 1}: Es existiert ein Pfad, \code{move\_base\_flex} findet ihn jedoch nicht (direkt)
-%   \begin{figure}[H]
-%     \centering
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{img/nav_fail_wrong_route_0.png}
-%         \caption{\code{move\_base\_flex}\textsc{-Route (rviz)}}
-%         \label{fig:nav_fail_rviz}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{img/nav_fail_wrong_route_1.png}
-%         \caption{\textsc{Zulässige Route (Gazebo)}}
-%         \label{fig:nav_fail_gazebo}
-%     \end{subfigure}
-%   \end{figure}
-%   \begin{itemize}
-%     \item \textbf{\textquote{Sustained Recovery}} - nicht beliebig lange warten
-%     \begin{itemize}
-%       \item Übergänge zählen:\newline \code{GoalStatus.ACTIVE} \textrightarrow \thinspace \code{GoalStatus.ABORTED}
-%       \item \code{GoalStatus.SUCCEEDED} setzt Zähler zurück
-%       \item Position zu Beginn berücksichtigen (\code{/fix}) - Zielannäherung?
-%     \end{itemize}
-%     \item \textbf{Explizite \code{move\_base\_flex} Fehler}
-%   \end{itemize}
-% \end{frame}
-
-% \begin{frame}
-%   \frametitle{Exemplarisch: Navigationsfehler}
-%   \textbf{Fall 2}: Es existiert kein Pfad
-%   \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.3\textwidth]{img/robot_prison.png}
-%     \caption*{\code{/spawn\_robot\_prison}}
-%   \end{figure}
-%   \begin{itemize}
-%     \item Ebenfalls durch Monitoring für \textbf{\textquote{Sustained Recovery}} und \textbf{explizite \code{move\_base\_flex} Fehler} abgedeckt
-%     \item Endet in jedem Fall in \code{CATASTROPHE} - nicht lösbar
-%   \end{itemize}
-% \end{frame}
-
-% \begin{frame}
-%   \frametitle{Exemplarisch: Navigationsfehler}
-%   \textbf{Lösungsversuch für Navigationsprobleme}
-%   \begin{itemize}
-%     \item Unabhängig von der Ursache (\textquote{Sustained Recovery} / \code{move\_base\_flex}-Fehler)
-%     \item Einträge in den globalen und lokalen \textquote{Costmaps} löschen \textrightarrow \thinspace nicht mehr vorhandene Hindernisse entfernen
-%     \item Roboter zu einem von mehreren konfigurierbaren, leicht zugänglichen Recorery-Punkten navigieren (missionsspezifisch)
-%     \begin{itemize}
-%       \item Befreit den Roboter häufig aus \textquote{Deadlock}-Situationen
-%       \item Idee: Problem aus einer anderen Perspektive betrachten
-%       \item Monitoring muss weiterhin stattfinden (vgl. \textquote{Robot Prison})
-%     \end{itemize}
-%   \end{itemize}
-%   \textbf{Kompatibel mit sämtlichen Systemen, die \code{move\_base(\_flex)} verwenden!}
-% \end{frame}
-
 %------------------------------------------------
 \section{Experimente / Evaluation}
 %------------------------------------------------
@@ -694,10 +582,6 @@
   \caption*{\textsc{Erfolgreiche Bewältigung von Szenario $1$}}
   \end{figure}
 \end{frame}
-
-% \begin{frame}
-%   \frametitle{Fallback Solution - Requesting Help of a Human Operator}
-% \end{frame}
 
 \begin{frame}
   \frametitle{Ergebnisse}
