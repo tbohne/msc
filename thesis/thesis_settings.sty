@@ -1,23 +1,23 @@
 \ProvidesPackage{thesis_settings}
 
 \usepackage[toc,page]{appendix}
-\usepackage{units}    % useful for settings units:              \unit[23]{m}
-\usepackage{nicefrac} % for setting fractions esp. within text: \nicefrac{km}{h}
+\usepackage{units} % e.g. \unit[42]{m}
+\usepackage{nicefrac} % e.g. \nicefrac{km}{h}
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
 \usepackage{csquotes}
 \usepackage{gensymb}
 \usepackage{hyperref}
 
-\usepackage{pifont}% http://ctan.org/pkg/pifont
+\usepackage{pifont}
 \newcommand{\xmark}{\ding{55}}
 \newcommand{\cmark}{\ding{51}}
 
 \usepackage{mathtools}
-\usepackage{algorithm, algorithmic}  % for pseudo code (cf. documentation)
+\usepackage{algorithm, algorithmic}
 \renewcommand{\algorithmiccomment}[1]{\qquad{\small // \textit{#1}}}
 
-\newcommand{\specialcell}[2][c]{%
+\newcommand{\specialcell}[2][c]{
   \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
 % colors
@@ -27,7 +27,7 @@
 \definecolor{link-color}{HTML}{1e3799}
 \definecolor{caption-color}{HTML}{000000}
 
-% for code keywords within the text
+% for code keywords within text
 \usepackage{newverbs}
 \usepackage[skins]{tcolorbox}
 \newtcbox{\codebox}[0]{
