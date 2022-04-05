@@ -147,7 +147,7 @@
 % The "extended" or "enhanced" graphics package.
 % http://mirror.ctan.org/macros/latex/required/graphics/grfguide.pdf
 \RequirePackage[\setdraft]{graphicx}
-\graphicspath{{pics/}{base/}}
+\graphicspath{{img/}{base/}}
 
 %\RequirePackage{bbm}
 

@@ -369,7 +369,7 @@ neither extreme case is optimal. The authors believe that to achieve a high leve
 control paradigm.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.285\textwidth]{pics/autonomy_robustness.png}
+    \includegraphics[width=0.285\textwidth]{img/autonomy_robustness.png}
     \caption{\textsc{Maximum Robustness is Achieved Through a Compromise}}
     \label{fig:autonomy_robustness}
 \end{figure}
@@ -806,7 +806,7 @@ ranging from teleoperation at the lower end over shared and traded control up to
 Figure \ref{fig:autonomy_spectrum} summarizes these concepts based on \cite{Hertzberg:2015}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/autonomy_spectrum.png}
+    \includegraphics[width=\textwidth]{img/autonomy_spectrum.png}
     \caption{\textsc{Autonomy Spectrum}}
     \label{fig:autonomy_spectrum}
 \end{figure}
@@ -854,14 +854,14 @@ plan execution exactly where it was preempted. In terms of mapping, it should be
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/prototype_scenario.jpg}
+        \includegraphics[width=\textwidth]{img/prototype_scenario.jpg}
         \caption{\textsc{Prototypical Layout}}
         \label{fig:prototypical_layout}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/example_path.png}
+        \includegraphics[width=\textwidth]{img/example_path.png}
         \caption{\textsc{Example Scan Route}}
         \label{fig:example_scan_route}
     \end{subfigure}
@@ -915,7 +915,7 @@ are simply not explicitly part of the application. In addition to the actual phy
 can be used in a simulation (cf. fig. \ref{fig:prototypical_layout}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/robot_description_smaller.png}
+    \includegraphics[width=\textwidth]{img/robot_description_smaller.png}
     \caption{\textsc{Autonomous Robotic Experimentation Platform (AROX)}}
     \label{fig:arox_system}
 \end{figure}
@@ -1216,7 +1216,7 @@ in figure \ref{fig:average_results}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{pics/questionnaire.png}
+    \includegraphics[width=0.9\textwidth]{img/questionnaire.png}
     \caption{\textsc{Accumulated Results of Questionnaire}}
     \label{fig:questionnaire_results}
 \end{figure}
@@ -1254,7 +1254,7 @@ Thus, it is worth considering the two-dimensional results only in terms of the e
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{pics/questionnaire_2d.png}
+    \includegraphics[width=0.8\textwidth]{img/questionnaire_2d.png}
     \caption{\textsc{$2D$ Results of Questionnaire}}
     \label{fig:questionnaire_results_2d}
 \end{figure}
@@ -1453,7 +1453,7 @@ Afterwards, it returns to the base and recharges its battery. However, acting re
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{pics/plan_example.png}
+    \includegraphics[width=0.5\textwidth]{img/plan_example.png}
     \caption{\textsc{Sample Plan}}
     \label{fig:plan_example}
 \end{figure}
@@ -1469,14 +1469,14 @@ and fig. \ref{fig:MSC_actor} applies this concept to the specific scenario studi
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/GNT_actor_new.png}
+        \includegraphics[width=\textwidth]{img/GNT_actor_new.png}
         \caption{\textsc{Actor based on Ghallab et al. \cite{GNT:2016}}}
         \label{fig:GNT_actor}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/MSC_actor_new.png}
+        \includegraphics[width=\textwidth]{img/MSC_actor_new.png}
         \caption{\textsc{Applied to the Scenario from Sec. \ref{sec:prototype_scenario}}}
         \label{fig:MSC_actor}
     \end{subfigure}
@@ -1503,7 +1503,7 @@ state of plan execution provides context and thus certain expectations. \cite{Kh
 to start sensor monitoring, i.e., to check whether this operation results in a reasonable-looking scan that is successfully saved to disk.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/SMACH_high_level.png}
+    \includegraphics[width=\textwidth]{img/SMACH_high_level.png}
     \caption{\textsc{Architecture of the Hierarchical State Machine (High-Level)}}
     \label{fig:high_level_smach}
 \end{figure}
@@ -1551,7 +1551,7 @@ The other, much more common case is that a problem is detected by the monitoring
 and the problem is solved superordinately. Then \code{OPERATION} is restarted.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{pics/SMACH_low_level.png}
+    \includegraphics[width=0.8\textwidth]{img/SMACH_low_level.png}
     \caption{\textsc{Architecture of the Embedded State Machine (Low-Level)}}
     \label{fig:low_level_smach}
 \end{figure}
@@ -1659,7 +1659,7 @@ cycle, position and operating time. Besides, many aspects that are logged at the
 charging failure resolver is started together with the information describing the problem.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/database_entries.png}
+    \includegraphics[width=\textwidth]{img/database_entries.png}
     \caption{\textsc{Database Entries Shown in} \textit{MongoDB} \textsc{Client}}
     \label{fig:database_entries}
 \end{figure}
@@ -1803,7 +1803,7 @@ accordingly by publishing a suitable value in radians to \code{/container/ramp_p
 range $j \in [0, \frac{\pi}{2}]$ of the container ramp. Accordingly, to fully raise the ramp and thus close the container, a value of $j = 0$ must be published.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{pics/joint_position_container.png}
+    \includegraphics[width=0.75\textwidth]{img/joint_position_container.png}
     \caption{\textsc{Joint Positions of the Entrance Ramp}}
     \label{fig:joint_positions}
 \end{figure}
@@ -1958,14 +1958,14 @@ e.g., that depending on the scenario and sensor configuration, at least $10$\% o
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.65\textwidth]{pics/tilted_AROX.png}
+        \includegraphics[width=0.65\textwidth]{img/tilted_AROX.png}
         \caption{\textsc{Tilted AROX in Simulation}}
         \label{fig:tilted_AROX}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.65\textwidth]{pics/straight_line.png}
+        \includegraphics[width=0.65\textwidth]{img/straight_line.png}
         \caption{\textsc{Feasible Range Values when Facing the Sky}}
         \label{fig:straight_line}
     \end{subfigure}
@@ -2138,7 +2138,7 @@ data is real or simulated, the result is the same.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{pics/GNSS_comm.png}
+    \includegraphics[width=\textwidth]{img/GNSS_comm.png}
     \caption{\textsc{Processing of GNSS Data (\textbf{\textcolor{myblue}{Practice}} / \textbf{\textcolor{myred}{Simulation}})}}
     \label{fig:gnss_communication}
 \end{figure}
@@ -2187,14 +2187,14 @@ in fig. \ref{fig:ICO_DFKI_ENU}, i.e., the DFKI is located $590.7 m$ east and $19
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/ICO_DFKI_map.png}
+        \includegraphics[width=\textwidth]{img/ICO_DFKI_map.png}
         \caption{\textsc{\textit{OpenStreetMap} Section}}
         \label{fig:ICO_DFKI_map}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/ICO_DFKI_ENU.png}
+        \includegraphics[width=\textwidth]{img/ICO_DFKI_ENU.png}
         \caption{\textsc{East-North-Up (ENU) Representation}}
         \label{fig:ICO_DFKI_ENU}
     \end{subfigure}
@@ -2214,14 +2214,14 @@ $\sqrt{101}m$ in the east direction, resulting in a fairly high uncertainty with
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.75\textwidth]{pics/GNSS_cov_low.png}
+        \includegraphics[width=0.75\textwidth]{img/GNSS_cov_low.png}
         \caption{\textsc{Relatively Low Uncertainty}}
         \label{fig:low_uncertainty}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.75\textwidth]{pics/GNSS_cov_high.png}
+        \includegraphics[width=0.75\textwidth]{img/GNSS_cov_high.png}
         \caption{\textsc{High Uncertainty in One Direction}}
         \label{fig:high_uncertainty}
     \end{subfigure}
@@ -2472,14 +2472,14 @@ reach it.
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/nav_fail_wrong_route_0.png}
+        \includegraphics[width=\textwidth]{img/nav_fail_wrong_route_0.png}
         \caption{\textsc{Considered Route (rviz\footnotemark)}}
         \label{fig:nav_fail_rviz}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/nav_fail_wrong_route_1.png}
+        \includegraphics[width=\textwidth]{img/nav_fail_wrong_route_1.png}
         \caption{\textsc{Feasible Route (Gazebo)}}
         \label{fig:nav_fail_gazebo}
     \end{subfigure}
@@ -2575,7 +2575,7 @@ occur. Consequently, when the simulation is launched, it will only be executed w
 based on \code{/move_base_flex/exe_path/status}. The \textquote{robot prison} exemplifies cases that cannot be solved by the robot and that should be detected by monitoring.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{pics/robot_prison.png}
+    \includegraphics[width=0.45\textwidth]{img/robot_prison.png}
     \caption{\textsc{\textquote{Robot Prison} - Static Obstacles that Completely Confine the Robot}}
     \label{fig:robot_prison}
 \end{figure}
@@ -2590,27 +2590,27 @@ able to come up with an alternative. In this manner, the situation that a static
     \centering
     \begin{subfigure}[b]{0.24\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/static_1.png}
+        \includegraphics[width=\textwidth]{img/static_1.png}
         \caption{\textsc{Scenario One}}
         \label{fig:static_1}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.24\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/static_2.png}
+        \includegraphics[width=\textwidth]{img/static_2.png}
         \caption{\textsc{Scenario Two}}
         \label{fig:static_2}
     \end{subfigure}
     \begin{subfigure}[b]{0.24\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/static_3.png}
+        \includegraphics[width=\textwidth]{img/static_3.png}
         \caption{\textsc{Scenario Three}}
         \label{fig:static_3}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.24\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/static_4.png}
+        \includegraphics[width=\textwidth]{img/static_4.png}
         \caption{\textsc{Scenario Four}}
         \label{fig:static_4}
     \end{subfigure}
@@ -2625,27 +2625,27 @@ Nevertheless, if they are, it will be detected by the aforementioned monitoring 
     \centering
     \begin{subfigure}[b]{0.24\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/succ_1.png}
+        \includegraphics[width=\textwidth]{img/succ_1.png}
         \caption{\textsc{}}
         \label{fig:succ_1}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.24\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/succ_2.png}
+        \includegraphics[width=\textwidth]{img/succ_2.png}
         \caption{\textsc{}}
         \label{fig:succ_2}
     \end{subfigure}
     \begin{subfigure}[b]{0.24\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/succ_3.png}
+        \includegraphics[width=\textwidth]{img/succ_3.png}
         \caption{\textsc{}}
         \label{fig:succ_3}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.24\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/succ_4.png}
+        \includegraphics[width=\textwidth]{img/succ_4.png}
         \caption{\textsc{}}
         \label{fig:succ_4}
     \end{subfigure}
@@ -2662,7 +2662,7 @@ When simulating such a situation, the point from the specified set of points far
 but is a fairly good heuristic. As the user is supposed to specify these points in latitude and longitude, the robot's position is taken from the GNSS estimate, i.e., \code{/fix}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.35\textwidth]{pics/hard_to_reach.png}
+    \includegraphics[width=0.35\textwidth]{img/hard_to_reach.png}
     \caption{\textsc{Specified Set of \textquote{Hard-to-Reach} Points in the Prototype Scenario}}
     \label{fig:outlier_points}
 \end{figure}
@@ -3116,7 +3116,7 @@ charging station, which is located in a mobile container on the field site. For 
 and can be used in the \textit{Gazebo} simulation (cf. fig. \ref{fig:container_model}).
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.35\textwidth]{pics/docked.png}
+    \includegraphics[width=0.35\textwidth]{img/docked.png}
     \caption{\textsc{Robot Docked to Charging Station}}
     \label{fig:container_model}
 \end{figure}
@@ -3134,7 +3134,7 @@ patch scenario. Yet, in the container scenario, \code{return_to_base} includes d
 \ref{fig:docking_smach} is executed.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{pics/docking_smach.png}
+    \includegraphics[width=0.8\textwidth]{img/docking_smach.png}
     \caption{\textsc{Docking State Machine}}
     \label{fig:docking_smach}
 \end{figure}
@@ -3148,14 +3148,14 @@ approach is centered around the idea that the container is a relatively simple g
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.55\textwidth]{pics/container_view.png}
+        \includegraphics[width=0.55\textwidth]{img/container_view.png}
         \caption{\textsc{Robot Facing the Container}}
         \label{fig:container_view}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.55\textwidth]{pics/rviz_view.png}
+        \includegraphics[width=0.55\textwidth]{img/rviz_view.png}
         \caption{\textsc{Container Perception Based on Lidar}}
         \label{fig:rviz_view}
     \end{subfigure}
@@ -3192,7 +3192,7 @@ The result of a successful detection is depicted in fig. \ref{fig:detection_succ
 box indicates the center, and the cyan arrow marks the target pose of the robot inside the container.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.34\textwidth]{pics/detection_success.png}
+    \includegraphics[width=0.34\textwidth]{img/detection_success.png}
     \caption{\textsc{Successfully Detected Container Shape}}
     \label{fig:detection_success}
 \end{figure}
@@ -3269,7 +3269,7 @@ during the LTA episodes, which is shown in fig. \ref{fig:mode_times_basic}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.525\textwidth]{pics/mode_times_basic.png}
+    \includegraphics[width=0.525\textwidth]{img/mode_times_basic.png}
     \caption{\textsc{Mode Distribution}}
     \label{fig:mode_times_basic}
 \end{figure}
@@ -3440,14 +3440,14 @@ the performed experiments is depicted in fig. \ref{fig:autonomy_percentage} and 
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/expected_res.png}
+        \includegraphics[width=\textwidth]{img/expected_res.png}
         \caption{\textsc{Expected Response}}
         \label{fig:expected_res}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{pics/autonomy_percentage.png}
+        \includegraphics[width=\textwidth]{img/autonomy_percentage.png}
         \caption{\textsc{Autonomy Percentage}}
         \label{fig:autonomy_percentage}
     \end{subfigure}
@@ -3464,7 +3464,7 @@ This contextualizes the autonomy percentage quite well, and again it can be seen
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{pics/mode_times.png}
+    \includegraphics[width=0.65\textwidth]{img/mode_times.png}
     \caption{\textsc{Mode Distribution}}
     \label{fig:mode_times}
 \end{figure}
@@ -3652,7 +3652,7 @@ proposed monitoring solutions are aimed at completeness, all approaches can be e
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth]{pics/complete_plan.png}
+        \includegraphics[width=0.5\textwidth]{img/complete_plan.png}
         \caption{\textsc{Complete Plan - Corresponds to the Example Route (cf. fig.\ref{fig:example_scan_route})}}
         \label{fig:complete_plan}
     \end{figure}
