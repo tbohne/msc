@@ -3,7 +3,6 @@ import argparse
 from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
 LABELS = 'PM: power_management\nCF: charging_failure\nDW: drastic_weather_change\nCD: certain_dynamics\n' \
          + 'SF: sensor_failure\nPA: perceptual_aliasing_issue\nDM: data_management\nLC: lost_connection\n' \
@@ -38,28 +37,23 @@ class LTAProblem:
         return np.average(self.likelihood_votes)
 
     def compute_dist_to_optimum_3d(self):
-        x_opt = 1
-        y_opt = 1
-        z_opt = 1
+        x_opt = y_opt = z_opt = 1
         x_actual = self.get_impact()
         y_actual = self.get_difficulty()
         z_actual = self.get_likelihood()
         return np.sqrt((x_actual - x_opt) ** 2 + (y_actual - y_opt) ** 2 + (z_actual - z_opt) ** 2)
 
     def compute_dist_to_optimum_2d(self):
-        x_opt = 1
-        y_opt = 1
+        x_opt = y_opt = 1
         x_actual = self.get_impact()
         y_actual = self.get_likelihood()
         return np.sqrt((x_actual - x_opt) ** 2 + (y_actual - y_opt) ** 2)
 
     def __str__(self):
-        return "problem: " + self.name + "\nimpact: " + str(self.get_impact()) + " - (" + str(
-            self.impact_votes) + ")\ndifficulty: " \
-               + str(self.get_difficulty()) + " - (" + str(self.difficulty_votes) + ")\nlikelihood: " + str(
-            self.get_likelihood()) \
-               + " - (" + str(self.likelihood_votes) + ")\ndist. to optimum (3D): " + str(
-            self.compute_dist_to_optimum_3d()) \
+        return "problem: " + self.name + "\nimpact: " + str(self.get_impact()) + " - (" + str(self.impact_votes) \
+               + ")\ndifficulty: " + str(self.get_difficulty()) + " - (" + str(self.difficulty_votes) \
+               + ")\nlikelihood: " + str(self.get_likelihood()) + " - (" + str(self.likelihood_votes) \
+               + ")\ndist. to optimum (3D): " + str(self.compute_dist_to_optimum_3d()) \
                + "\ndist. to optimum (2D): " + str(self.compute_dist_to_optimum_2d()) + "\n"
 
 
@@ -108,15 +102,15 @@ def plot_2d(lta_problems):
     plt.text(1, 1, 'optimum', fontsize=15)
 
     plt.xlabel('impact (1: high, 2: medium, 3: low)', fontsize=15)
-    plt.ylabel('likelihood (1: very likely, 2: occurs, 3: highly unlikely', fontsize=15)
+    plt.ylabel('likelihood (1: very likely, 2: occurs, 3: highly unlikely)', fontsize=15)
     plt.legend(loc='upper right', fontsize=15)
     plt.show()
 
 
 def generate_accumulated_results(directory, dimensions):
-    pathlist = Path(directory).rglob('*.csv')
+    path_list = Path(directory).rglob('*.csv')
     lta_problems = {}
-    for path in pathlist:
+    for path in path_list:
         file = str(path)
         print("#######################################\nprocessing", file)
         with open(file, 'r') as f:
