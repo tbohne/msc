@@ -14,37 +14,28 @@
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
 \usepackage{csquotes}
-
 \usepackage{gensymb}
 \usepackage{hyperref}
 
 \usepackage{pifont}% http://ctan.org/pkg/pifont
-\newcommand{\xmark}{\ding{55}}%
-\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\cmark}{\ding{51}}
 
 \usepackage{mathtools}
-
 \usepackage{algorithm, algorithmic}  % for pseudo code (cf. documentation)
 \renewcommand{\algorithmiccomment}[1]{\qquad{\small // \textit{#1}}}
 
 \newcommand{\specialcell}[2][c]{%
   \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% COLORS
+% colors
 \definecolor{solarized_bg}{HTML}{FDF6E3}
 \definecolor{myred}{rgb}{0.95,0.29,0.18}
 \definecolor{myblue}{rgb}{0.28,0.31,0.71}
 \definecolor{link-color}{HTML}{1e3799}
 \definecolor{caption-color}{HTML}{000000}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % for code keywords within the text
-% \usepackage{xcolor}
-% \definecolor{light-gray}{gray}{0.95}
-% \newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
 \usepackage{newverbs}
 \usepackage[skins]{tcolorbox}
 \newtcbox{\codebox}[0]{
@@ -61,37 +52,12 @@
 }
 \newcommand{\code}{\collectverb{\codebox}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% CHAPTER - STYLE OPTION THREE
-% \usepackage[T1]{fontenc}
-% \usepackage{titlesec, color}
-% \definecolor{gray75}{gray}{0.75}
-% \newcommand{\hsp}{\hspace{20pt}}
-% \titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
-
-% CHAPTER - STYLE OPTION TWO
+% chapter style
 \usepackage{lipsum}
 \usepackage[Lenny]{fncychap}
-
 \ChNameUpperCase
 \ChNumVar{\fontsize{40}{42}\usefont{OT1}{phv}{b}{u}\selectfont}
 \ChTitleVar{\fontsize{35}{37}\usefont{OT1}{phv}{b}{u}\selectfont}
-
-% CHAPTER
-% \usepackage{titlesec}
-% \titleformat{\chapter}[display]
-%     {\sffamily\raggedleft\fontsize{75}{0}\selectfont\bfseries}
-%     {\thechapter}{-0.32em}
-%     {\fontsize{24}{25}\selectfont\raggedright}
-%     [\hrule]
-
-% \titleformat{\section}[block]
-%     {\sffamily\LARGE\bfseries}{\thesection}{1em}{}
-% \titleformat{\subsection}[block]
-%     {\sffamily\Large\bfseries}{\thesubsection}{1em}{}
-% \titleformat{\subsubsection}[block]
-%     {\sffamily\large\bfseries}{\thesubsubsection}{1em}{}
 
 % captions
 \usepackage{subcaption}
@@ -103,13 +69,15 @@
   labelsep=period,
 }
 
-% refine "itemize"
+% itemize
 \usepackage{relsize}
 \usepackage{enumitem}
 \setlist[itemize,1]{
     label={\raisebox{.5mm}{\scriptsize$\blacktriangleright$}}
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -121,14 +89,8 @@
 \email{tbohne@uni-osnabrueck.de}
 \firstSupervisor{Prof. Dr. Joachim Hertzberg}
 \secondSupervisor{Benjamin Kisliuk, M.Sc.}
-%\shorttitle{...}                       % by default = title
-%\dept{...}                             % by default KBS UOS
-%\submitdate{November 2004}             % by default current month & year
-%\signcity{}                            % by default Osnabr�ck
-%signline{Osnabr�ck, 11. Dezember 2004} % by default "signcity, submitdate"
 
 \generatetitle
-
 \cleardoublepage
 
 \chapter*{Abstract}
@@ -158,27 +120,10 @@ drastically improved resilience with respect to the identified challenges.
 
 \end{prefacesection}
 
-% \pagebreak
-
-% \begin{prefacesection}{Notation}
-%     \begin{figure}[H]
-%         \centering
-%         \resizebox{0.5\textwidth}{!}{
-%         \begin{tabular}{| c | c |}
-%             \hline
-%             \textbf{Notation} & \textbf{Semantics} \\ \hline
-%             $A$ & set of actions \\ \hline
-%             $a$ & action \\ \hline
-%             $\pi$ & plan \\ \hline
-%             $a.\pi, \pi.a, \pi.\pi'$ & concatenation of actions and plans \\ \hline
-%         \end{tabular}}
-%     \end{figure}
-% \end{prefacesection}
-
 \cleardoublepage
 \tableofcontents
 
-\startTextChapters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\startTextChapters
 
 \chapter{Introduction}
 
@@ -3659,8 +3604,9 @@ proposed monitoring solutions are aimed at completeness, all approaches can be e
 
 \end{appendices}
 
-\closing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\closing
 
+% for printing
 \newpage\null\thispagestyle{empty}\newpage
 
 \end{document}
