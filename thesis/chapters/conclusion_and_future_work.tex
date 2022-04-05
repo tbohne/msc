@@ -1,0 +1,83 @@
+\chapter{Conclusion and Future Work}
+\label{sec:conclusion_future_work}
+
+\section{Conclusion and Discussion}
+
+Since this work is at least partly integrative in nature, the first important aspect is that the functionality of the overall integrated system has been demonstrated.
+Practically relevant challenges to the long-term autonomy of mobile outdoor robots were identified, classified in terms of their potential impact and implemented in simulation.
+As anticipated in section \ref{sec:challenges_for_lta}, the goal of the work with respect to the identified problems was to shift the selected subset of problems into category
+$(1)$ or $(2)$ based on the classification in fig. \ref{fig:problem_types}, i.e., to enable the robot to solve or at least recognize them in order to communicate them.
+Since monitoring approaches have been proposed for each of these categories (cf. section \ref{sec:sim_and_mon_of_lta_challenges}), this goal can be considered achieved. These
+monitoring approaches are incorporated into a generic monitoring and resolution framework developed as part of this thesis, with an emphasis on a certain degree of universality.
+This is manifested in the fact that as few assumptions about specific systems and scenarios were made as possible. One requirement, though, was that the system is conclusively usable
+in practice in the considered context, which presupposes that not only abstract high-level architectures are defined, but that a compromise is found between the greatest possible
+universality and simultaneous applicability in the scenario under consideration. This results in the fact that the universality ends when leaving the ROS cosmos, i.e., the framework is
+exclusively designed for ROS systems. While certain lines of reasoning and observations in this thesis may apply to non-ROS systems as well, there is at least no practical
+applicability of the developed framework to these systems. Due to the high prevalence of ROS coupled with the requirement to be practically applicable, the restriction to
+compatibility with ROS systems seems reasonable.\newline
+The reliability of the framework has been experimentally endorsed, at least in simulation. In total, there are $48$ problem instances that can be explicitly triggered
+through simulation by publishing on a topic, as presented in section \ref{sec:sim_and_mon_of_lta_challenges}. Beyond that, there are many other problem cases that are explicitly
+covered by the monitoring procedures. However, there are also numerous potential problem conditions that are not explicitly considered by the monitoring nodes, but are nevertheless
+implicitly covered and thus detected. For instance, a situation in which the robot falls over is neither explicitly recognized nor communicated. Yet, at the latest when the expected
+battery consumption no longer matches the actual situation, i.e., the robot has to recharge, a problem is detected and communicated. This also illustrates the fact that the problems
+identified are not strictly separated and independent, but that the transitions are somewhat fluid. The example also demonstrates that all identified problems excluded from detailed
+examination in this work (see section \ref{sec:lta_problems_not_considered}) are covered, at least in the sense that they are detected when they lead to total mission failure due to
+a fully discharged battery. Furthermore, mapping errors are effectively covered in the way that if they cause navigation problems, the costmaps are cleared, which was not the case
+before and which in practice in many cases leads to alleviation. Since the considered system was previously not able to deal with the identified problems at all
+and each of these problems has the potential to make the mission fail, it is evident that the proposed approaches significantly improve the robustness of the system with respect to
+the identified challenges. Given that the purpose of this work was not only to identify and address the problem categories, but also to define an architecture that allows systematic
+handling of such situations, it should be noted that the overall architecture has proven to be suitable for this type of non-nominal plan execution. In particular, due to the parallel
+running monitoring nodes, the tight coupling of \textit{acting} and \textit{monitoring} in general and the modularity that enables extensibility and reconfigurability. Concluding,
+all identified problems are detected with indications of quite high reliability and some of them can even be solved by the robot itself.
+It is crucial to mention that even if an episode fails, as in the two cases of experimental evaluation in section \ref{sec:eval_mon_framework}, catastrophe conditions are always communicated to
+the human operator, which is a huge improvement over the situation without the developed framework, where a total failure would go unnoticed.\newline
+
+\noindent
+Since robotic systems are inherently change-centric, developing reusable software for such systems is a major concern. \cite{Brugali:2009}
+As outlined in the introduction of monitoring techniques in section \ref{sec:sim_and_mon_of_lta_challenges}, the monitoring is in principle applicable to other ROS systems if the
+introduced slight constraints in terms of information provision based on the defined ROS messages and topics are met. In addition, some minor requirements must be fulfilled in order
+to be able to utilize the resolution attempts (cf. sec. \ref{sec:solutions_for_lta_challenges}).
+However, the tight coupling between the deliberation functions of \textit{acting} and \textit{monitoring}, which is not a mere by-product but is intended in this work, results
+in the framework not being usable \textquote{out-of-the-box} for other systems. It should not be considered a weakness, though, as this coupling is necessary for the two functions to be
+mutually beneficial, so \textit{acting} provides context to \textit{monitoring} and \textit{monitoring} is able to directly intervene in \textit{acting} when necessary. Furthermore,
+it should be relatively simple to establish this coupling with the operational models of other systems as well. In order to be able to achieve this without too much effort and also
+quite intuitively, the architecture proposed in this work was built in a modular way. Thus, in order for another robotic system to use the monitoring framework without using the
+operational model used in this thesis, the embedded \code{OPERATION} state machine shown in fig. \ref{fig:high_level_smach} would have to be replaced by the system's own operational
+state machine, which is either also implemented as SMACH or at least wrapped by one. There are some assumptions that such an operational state machine must satisfy. First, it
+must communicate information about the mode of the system via \code{/arox/ongoing_operation} in the form of \code{arox_operational_param.msg} containing
+\code{string operation_mode}, \code{int32 total_tasks}, \code{int32 ongoing_task} and \code{int32 rewards_gained}. Once again, the naming scheme is somewhat
+misleading in terms of universality, but is retained for the moment for the sake of compatibility with the integrated battery watchdog module. The available modes are \code{scanning},
+\code{traversing}, \code{waiting}, \code{docking}, \code{undocking}, \code{charging}, \code{contingency} and \code{catastrophe}. Most of them should be useful in any
+context where the monitoring framework is to be used. Yet, not all of them need to be adopted. Another crucial aspect is that all active goals should be interruptible via a
+message on \code{/interrupt_active_goals}, e.g., by implementing the actions as \code{SimpleActionServer}.
+Eventually, the outcomes must be compatible with the architecture shown in fig. \ref{fig:high_level_smach}, i.e.,
+\code{minor_complication}, \code{critical_complication}, \code{end_of_episode} and \code{preempted}. A further important note with regard to the general applicability of the
+framework is that each monitoring node can easily be removed, i.e., deactivated. Presently, this can be achieved by simply removing the option from the framework's launch file.
+For instance, if a mobile outdoor robot is used without a lidar scanner, the sensor monitoring node can simply be removed. Analogously, custom monitoring nodes can be added to the
+framework by simply adding the nodes to the launch file and supporting the described architecture by publishing to \code{contingency_preemption}, etc. Thus, the idea is that
+context-dependent special solutions can be easily added, removed and replaced by other specific solutions.
+
+\section{Future Work}
+
+Now that the presented framework performs well in simulation, a natural next step is to conduct field tests and demonstrate it on the real AROX platform. Furthermore, the meaningful
+use of the presented \code{data_accumulator} is only possible with actual data from real long-term autonomy experiments. As announced, the idea is to learn from experience, which
+obviously requires data from real-world experiments. While the logging aspect and basic functionality is already part of this work, actually collecting real-world data from
+long-term autonomous missions and then learning from that data is a step for the future. Beyond that, however, further experiments in simulation can be revealing. For instance, the
+$10$ runs in the evaluation section have always been initialized with the same seed, thus also always with the same sequence of simulated problems to have some comparability between runs.
+Of course, there should be more experiments in the future that cover the entire set. In addition, variations in runtime and error frequency should be investigated. Since the focus of
+this thesis is on monitoring and only simple workarounds have been implemented, there is obviously great potential for future work in developing more elaborate solution techniques.
+A fairly simple but often effective approach to dealing with failed components, which Hawes et al. \cite{Hawes:2017} also point out, is to incorporate redundancy
+so that the failed component can be replaced. In general, contextual knowledge could also play a major role in resolution in the future. Even simple contextual recovery behaviors
+could be easily defined and integrated and be of great use in practice. As for the monitoring itself, a systematic configuration of the
+monitoring nodes seems reasonable to find a balance and avoid both false negatives and false positives, e.g., by employing a \textit{Shewhart Chart}. Moreover, the challenges identified, which were not considered
+in detail in this work, should be investigated in the future (cf. sec. \ref{sec:lta_problems_not_considered}). In terms of challenges, in the long run, a representative and
+significant version of the relevance assessment of LTA problems presented in this thesis and beyond could be helpful for future research.
+Another practically useful aspect for future improvements would be a web interface that allows remote access to sensors as well as direct control of the robot. This way, an
+operator could take control for a short time in case of minor problems and would not have to be physically on site. Yet a simple improvement in communication with the operator would
+also be of great benefit. So far it is implemented in pure text form, but it is easy to imagine an improved version as dashboard with graphically processed sensor, weather and status
+information via a web interface. Although it may seem trivial at first glance, such an interface, which provides status information and also error messages in a structured way that
+is pleasant for humans to perceive, would be very valuable. The first step in handling errors is always to make them visible.
+Ultimately, a truly crucial aspect is usability, i.e., the integration and reconfiguration of the developed framework. Throughout the work, it is
+pointed out that great emphasis has been placed on a certain universality and generic solutions. Although most of the implemented approaches are generally applicable to many scenarios due
+to this focus, there is still much room for improving and simplifying the integration and reconfiguration of the monitoring framework. Finally, it should be noted that few of the
+proposed monitoring solutions are aimed at completeness, all approaches can be extended and improved to any depth, this is in the nature of the challenges examined.

@@ -1,0 +1,114 @@
+\chapter{Introduction}
+
+In recent years, progressive automation has increasingly entered the field of agriculture. In particular, long-term autonomous mobile robots offer tremendous potential for
+agricultural applications, as these often entail extended periods of time (seasonal cycles) as well as large areas to cover. Since the beginning of the 21st century, numerous
+robotic applications for agriculture have been developed to increase productivity and improve the accuracy, efficiency and safety of agricultural production processes. \cite{Xue:2010}
+Efficiency improvements in agriculture are not only sensible, but perhaps even necessary. The rapidly growing human population and environmental changes require a significant
+increase in production to meet the rising demand. \cite{Virlet:2016}\cite{KhakPour:2021}\cite{Roure:2018} However, it is not the case that robots can merely improve the efficiency
+in tasks that could have been done by humans. There are examples of tasks that only become possible through the use of robotic systems: \textquote{\textit{A robot's \textquote{eye}
+is far better than a human one, and it can collect a large amount of data that are invisible for us.}} \cite{Ampatzidis:2017} The idea that robots can be used to efficiently monitor
+large areas has numerous real-world applications in precision agriculture. \cite{Bargoti:2015} Autonomous crop monitoring, a classic domain of precision agriculture, has the goal of
+detecting potential problems as soon as possible in order to avoid yield losses while optimizing costs (economic efficiency) and environmental impact. \cite{Dong:2014}
+\cite{Dong:2017} The ultimate goal of precision agriculture is to automatically obtain relevant crop health information to detect and treat biotic and abiotic stresses to prevent
+yield loss without the need for manual sampling, which is too expensive and inefficient. \cite{Carlone:2015}\newline
+On the technological side, long-term autonomous robotic systems in highly dynamic real-world applications are becoming a reality. \cite{Kunze:2018} Nonetheless, achieving robust
+long-term autonomy is particularly challenging because it is impossible to envision all potential situations that the robot may encounter. \cite{Hawes:2017}
+As Ingrand at al. put it: \textquote{\textit{Autonomous robots facing a diversity of environments, a variety of tasks and a range of interactions cannot be
+preprogrammed by foreseeing at the design stage all possible courses of actions they may require.}} \cite{Ingrand:2017}
+Thus, while long-term autonomous robots have enormous potential to increase efficiency and reduce the burden on humans in many areas, they are often not yet reliable
+and safe enough to be used with a clear conscience in a wide variety of real-world environments. \cite{Arvin:2018} Execution monitoring approaches that address failures preventing
+a system's long-term autonomy by providing recovery mechanisms have to be a crucial component of robotic architectures. \cite{Kunze:2018}
+Commonly, autonomous robot operations were often closely supervised by human operators, who intervened whenever the robot reached its limits. \cite{Rosenthal:2011}
+Only recently has a shift begun toward systems equipped with the ability to recognize their own shortcomings and actively request help from human operators, who do not
+necessarily monitor them closely, but only provide assistance when needed. \cite{Rosenthal:2011} According to Pinillos et al. there are two major requirements that robots must meet
+in order to be commercially successful: A reasonable price-performance ratio and a robust task performance. \cite{Pinillos:2016} This thesis is primarily concerned with the latter.
+Almost regardless of the actual service a robot provides, it must be robust in its basic autonomous capabilities such as localization, navigation, perception, etc. Pinillos et al.
+underline another aspect that is a major motivation for this work: \textquote{\textit{Research efforts often focus on robot localization, navigation, planning or face recognition,
+but fail in the integration of different technologies to create useful applications.}} \cite{Pinillos:2016} This is precisely the objective of this thesis - to work towards robust
+integrated systems. Intriguingly, agricultural scenarios represent one of the most challenging domains in the field of autonomous mobile robotics. Although (semi-)autonomous
+planetary exploration rovers such as NASA's \textit{Curiosity} encounter manifold and demanding tasks, the environment is quite predictable and exhibits
+rather low semantic complexity, in contrast to agricultural robots, which face a richer environment populated by humans, etc. \cite{Ingrand:2017}\newline
+
+\noindent
+\textit{Goal}\newline
+
+\noindent
+As the title suggests, the goal of this work is to integrate a prototypical system for long-term autonomous plant observation that is able to address 
+particular challenges for long-term autonomy in such a context through the use of execution monitoring methods. Initially, typical challenges that may stand in the way of a mobile
+robot's long-term autonomy in an agricultural setting will be identified. Afterwards, a subset of these challenges will be studied systematically in order to 
+approach robust solutions. Accordingly, the prolonged objective is to increase the number of situations in which a mobile robot is able to 
+overcome such challenges by itself. However, the mere recognition of problematic situations is already of decisive advantage from a practical perspective,
+as the robot is then able to communicate the problem and request help, e.g., from a human operator, instead of undeliberately aborting its mission.
+In addition, a prerequisite for solving a problem is, of course, recognizing it. Therefore, a major aim of this thesis is to develop execution monitoring
+approaches that enable the robot to detect unexpected problematic situations that require special treatment.
+A very important aspect of working with robots in real-world practical scenarios is the merging of the worlds of abstract AI planning and execution of those plans with
+the real robot, i.e., acting. As Ghallab et al. phrase it \textquote{\textit{Planning and acting require significant deliberation because an intelligent system must coordinate and
+integrate these activities in order to act effectively in the real world}}. \cite{GNT:2016} There is much literature that considers abstract planning, i.e., generating high-level
+task schedules, and also a number of works on integrating planning and acting. Somewhat underrepresented so far is the aspect of monitoring the execution of the generated
+plans, especially in long-term scenarios, which will be the subject of this thesis. In particular, little attention has been paid to a joint consistent integration of both monitoring
+and acting. \cite{Ingrand:2017} This is crucial as plans will not always work out as expected when faced with the dynamic and chaotic nature of reality.\newline
+
+\vfill
+\pagebreak
+
+\noindent
+\textit{Expected Scientific Contribution}\newline
+
+\noindent
+Key challenges that may prevent long-term autonomous mobile robots in a field monitoring context from working properly will be identified, implemented 
+in a simulation and systematically evaluated. A major objective of this work is to address a subset of these challenges based on execution monitoring approaches,
+i.e., to propose methods that are capable of partially resolving or at least detecting such issues in order to enable the robot to communicate them to a human operator.
+If it is possible to show that with the solutions developed in this work, practically relevant problems can be reliably detected, at least communicated, and possibly even solved
+by the robot itself, the system can be considered a relevant step towards the overall goal of robust, long-term autonomous field monitoring robots. In order to provide not only a
+tailored solution for a specific scenario, as few assumptions as possible are made about specific systems, implying that all developed solutions should be generalizable to other
+systems as well. Sensors, for instance, are regarded as black boxes. There will be some assumptions about generic data structures and information required for a concrete solution,
+but the claim is to solve general problems of outdoor robots and abstract from specific sensor models, etc.
+ In summary, this work attempts to reduce the barriers towards long-term autonomy of mobile outdoor robots by demonstrating a fully integrated solution capable of
+addressing some of the typical problems for such systems. For this purpose, an execution monitoring architecture is designed and implemented. Although the work deals specifically with
+an agricultural context, the approaches are developed with the aspiration of a certain universality. A thorough literature search revealed that such a system, which attempts to
+systematically address common problems for long-term autonomous mobile outdoor robots, does not appear to exist yet, making it a meaningful contribution. Already the compilation of
+a list of common problems in such contexts is valuable, as such a compilation and joint consideration of these problems does not yet seem to exist in the literature.\newline
+
+\noindent
+\textit{Approach}\newline
+
+\noindent
+The idea is to start with the basic long-term autonomy setup described in section \ref{sec:prototype_scenario}, provide a list of potential problems that 
+stand in its way, and develop execution monitoring methods to detect a subset of these issues with the aim of increasing the robustness of such a system in a simulation
+and perspectively in practice on the real hardware. Before delving into the details, it is essential to define what is actually meant by the term \textit{robust autonomy} in the
+context of this thesis. Brodskiy et al. sum it up precisely: \textquote{\textit{[...] robust autonomy is mostly considered as ability of the system to react to changes in the
+environment, unexpected situations or special conditions. The phenomena to which the system is supposed to react can be summarised as abnormal events, happenings outside the
+normal workflow. Without special considerations the abnormal events become the cause of the system failure.}}. \cite{Brodskiy:2011}
+In the end, there should be a working system that addresses some of the problems of long-term autonomy
+in scenarios similar to the one described in section \ref{sec:lta_plant_observation}. The nature of the work is going to be integrative and application-oriented. The modules 
+needed to set up the initial prototype are available in principle, but it will be part of this work to integrate and extend them in order to end up with a holistic and robust
+solution. After the basic scenario works in the simulation, it is going to be extended with an evaluation part. A subset of the potential barriers described in section 
+\ref{sec:challenges_for_lta} is going to be implemented and it will be shown that the system no longer works under certain conditions, i.e., that these
+barriers are indeed able to cause failure of long-term autonomous systems. Consequently, a first step is to observe how the system performs without any further 
+treatment of such problematic situations.
+Subsequently, the goal is to develop monitoring methods capable of recognizing these problems such that they can be resolved.
+To give an example, a particular idea could be to block paths on the field in the simulation in a randomized fashion with the intent of reproducibly making things that 
+can go wrong actually go wrong.
+It is obvious that the robot must be enabled to detect such problems, in this case by some kind of obstacle detection.
+Once detected, the problem can be resolved by either incorporating solutions from the literature or finding new solutions.
+Since detection is a necessary prerequisite for overcoming these barriers, the focus will be on detection, i.e., execution monitoring,
+and an initial trivial solution adopted for all of them is to call the human operator who then takes care of the problem.\newline
+As should be clear by now, long-term autonomy, as robotics in general, is an integration problem. Many technologies have to be integrated in order to build a working system, 
+and compared to other disciplines of artificial intelligence, it is not trivial to evaluate the system and conclude, for example, that it has improved the status quo by a 
+certain percentage. Nevertheless, it is crucial to provide results that are meaningful based on scientific standards.
+Since it is beyond the scope of this work to test the developed system for extended periods of time in practice, there is a need for other ways of evaluation.
+This is where the described evaluation approach in the simulation comes into play. In order to demonstrate, test and evaluate the system, there will be a sufficiently meaningful, 
+i.e., realistic, physics simulation that allows an empirical analysis. Ultimately, there should also be a long-term test (e.g. one day) in the field with the real hardware that 
+underlines the relevance of the approaches discussed in this work for practical applications. However, since a mobile robot is a complex system, there are arbitrary 
+many technical barriers that could prevent such a long-term test in the real world. The idea is therefore to be at least able to demonstrate the system in the simulation
+without depending on the success of such a real-world experiment. In addition, a simulation naturally creates an environment that allows reproducible situations and thus permits
+empirical investigation.\newline
+Finally, it is essential to note that the robotics framework used in this thesis is the \textit{Robot Operating System} (ROS) \cite{Quigley:2009}.
+All software developed as part of this work follows ROS paradigms and operates in the ROS ecosystem.\newline
+
+\noindent
+Initially, chapter \ref{sec:lta_mobile_robots} provides a background on long-term autonomous mobile robots, i.e., a literature review, the scenario considered in this thesis,
+the technological basis, as well as the challenges for long-term autonomy in such a context. This is followed by chapter \ref{sec:plan_execution_and_monitoring} on the eponymous
+execution monitoring, which aims to identify and resolve these challenges. Subsequently, chapter \ref{sec:integrated_solutions} describes the integrated solutions that enrich the
+functionality of the system. Eventually, chapter \ref{sec:experiments} covers the experimental evaluation and chapter \ref{sec:conclusion_future_work} concludes the thesis with
+final remarks, discussion and future work.
